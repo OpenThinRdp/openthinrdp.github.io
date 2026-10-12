@@ -25,7 +25,7 @@
   "description": "Free, open source thin client operating system for Windows Remote Desktop (RDP), Remote Desktop Services and Hyper-V VDI, based on Debian 13 and FreeRDP 3 with the UDP transport.",
   "applicationCategory": "OperatingSystem",
   "operatingSystem": "Debian GNU/Linux 13 (amd64, UEFI)",
-  "softwareVersion": "0.1.3",
+  "softwareVersion": "0.1.4",
   "license": "https://www.apache.org/licenses/LICENSE-2.0",
   "isAccessibleForFree": true,
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
@@ -44,7 +44,7 @@
     { "@type": "Question", "name": "Is OpenThinRDP free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It is open source under the Apache 2.0 license, with no licence per device, no management server and no cloud." } },
     { "@type": "Question", "name": "Can I try it without installing anything?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Write the ISO to a USB stick and boot it: the live system starts by itself and never writes to the disk." } },
     { "@type": "Question", "name": "Which remote desktop protocols does it support?", "acceptedAnswer": { "@type": "Answer", "text": "RDP only: an RD Connection Broker with session hosts or a Hyper-V VDI collection, or a single Windows PC or server. Citrix and VMware/Omnissa Horizon are not supported." } },
-    { "@type": "Question", "name": "Does it support RDP over UDP?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It ships FreeRDP built with the UDP transport (MS-RDPEMT/RDPEUDP) that is under review upstream, with automatic fallback to TCP." } },
+    { "@type": "Question", "name": "Does it support RDP over UDP?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It ships FreeRDP built with the UDP transport (MS-RDPEMT/RDPEUDP) that is under review upstream, with automatic fallback to TCP. Measured on a lossy line: 19-21 frames per second with 50% of the packets lost and 9 with 70%, where TCP is down to 0.6 at 20%." } },
     { "@type": "Question", "name": "How are the devices managed?", "acceptedAnswer": { "@type": "Answer", "text": "From a plain SMB shared folder: each device writes its status there and reads central settings, logo and signed updates; a Windows manager edits everything. No agent and no server software." } },
     { "@type": "Question", "name": "Is it used in production?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It runs a fleet of Dell OptiPlex 3000 Thin Clients connected to a Windows 11 VDI on Hyper-V, converted in place from their previous system." } }
   ]
@@ -57,6 +57,7 @@
   <img class="logo" src="img/logo.png" alt="OpenThinRDP logo" width="880" height="310">
   <h1>OpenThinRDP: the open source thin client OS with RDP over UDP</h1>
   <p class="lead">Free thin client OS for Windows Remote Desktop, RDS and Hyper-V VDI that ships FreeRDP with the UDP transport, which upstream FreeRDP does not have yet: as far as we know, no other open source thin client OS offers RDP over UDP. Turn small PCs and old thin clients into kiosks that boot straight into a sign-in screen, with USB done right for VDI, central management from a shared folder and signed updates. No licence per device, no server, no cloud.</p>
+  <p class="lead"><b>20 frames per second with half the packets lost, 9 with 70%</b>, where TCP stalls at 20% (<a href="#udp">the measurements</a>).</p>
   <a class="btn primary" href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download the ISO</a>
   <a class="btn ghost" href="https://github.com/OpenThinRdp/openthinrdp">Source code on GitHub</a>
 </header>
@@ -70,6 +71,17 @@
   <section id="udp">
     <h2>RDP over UDP, on a free thin client</h2>
     <p>Windows can send the remote desktop over UDP (MS-RDPEMT / MS-RDPEUDP): instead of queueing behind lost TCP packets, it adapts frame rate and quality to the line. Windows' own client has done it for years; on Linux, FreeRDP's UDP transport is still a pull request under review (<a href="https://github.com/FreeRDP/FreeRDP/pull/13608">FreeRDP #13608</a>), so thin client systems built on upstream FreeRDP connect over TCP only. OpenThinRDP ships FreeRDP built with that transport, tested on real thin clients against a Windows 11 VDI, with automatic fallback to TCP.</p>
+    <h3>On a bad line: OpenThinRDP over UDP against TCP</h3>
+    <p>It started with a faulty switch port losing 43% of the large packets: over TCP the remote desktop froze. We reproduced that line on a real thin client, then raised the loss on every packet from the virtual machine step by step. Windows 11 VDI behind an RD Connection Broker, full-screen load that changes every pixel, frame rate and loss measured by the server.</p>
+    <div class="tablewrap"><table>
+      <tr><th>Packets lost</th><th>Over TCP</th><th>OpenThinRDP over UDP</th></tr>
+      <tr><td>20%</td><td>0.6 frames per second: the screen barely moves</td><td></td></tr>
+      <tr><td>43% of the large ones (the faulty port)</td><td>0-0.1 fps</td><td><b>16-21 fps</b>, 7 minutes in a row</td></tr>
+      <tr><td>50%</td><td></td><td><b>19-21 fps</b>, as on a clean line</td></tr>
+      <tr><td>70%</td><td></td><td><b>9 fps</b></td></tr>
+      <tr><td>80%</td><td></td><td>4 fps, then the tunnel gives up</td></tr>
+    </table></div>
+    <p>Getting there took a fix of ours to FreeRDP's UDP transport, proposed upstream in <a href="https://github.com/FreeRDP/FreeRDP/pull/13608">#13608</a> and shipped in OpenThinRDP 0.1.4. Every step and the method: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/udp.md#on-a-lossy-line">docs/udp.md</a>.</p>
     <div class="grid">
       <div class="card"><h3>10 hours of aggressive soak tests</h3><p>Runs of 2, 5 and 3 hours on a real thin client: VM CPU at 100 %, 2 % and 10 % packet loss, 15 Mbit/s cap, 40 ms jitter, network cut for 20 s, client killed. UDP was never worse than TCP; the last 3-hour run, on the current build, was alive 178 of 178 minutes and never left UDP (<a href="https://github.com/FreeRDP/FreeRDP/pull/13608#issuecomment-6098984282">5-hour run</a>, <a href="https://github.com/FreeRDP/FreeRDP/pull/13608#issuecomment-6110587552">3-hour run</a>).</p></div>
       <div class="card"><h3>Back on UDP after a cut</h3><p>After a 20 second network cut the session comes back by itself, on UDP again, in about 12 seconds.</p></div>
@@ -84,7 +96,7 @@
       <div class="card"><h3>RDS, VDI or a single PC</h3><p>Through an RD Connection Broker to session hosts or a Hyper-V VDI collection (load balance info, fallback brokers), or straight to any Windows PC with Remote Desktop on.</p></div>
       <div class="card"><h3>USB done right for VDI</h3><p>Webcams and headsets work in meetings: camera through the RDP camera channel, microphone through the RDP audio channel, so Teams and Zoom in the session see both. Signature keys, tachograph keys and other special devices go to Windows as whole USB devices, also when plugged in during the session. Smart card readers through the smart card channel, touch screens as real touch.</p></div>
       <div class="card"><h3>Managed from a shared folder</h3><p>No agent and no management server: devices write their status to an SMB share and read central settings, logo, background and updates from it. A Windows manager (English and Italian, no install) edits it all.</p></div>
-      <div class="card"><h3>Signed updates</h3><p>From GitHub releases or from your folder when you decide; never during a session. Debian security updates install by themselves; FreeRDP updates only with tested releases.</p></div>
+      <div class="card"><h3>Signed updates</h3><p>From GitHub releases or from your folder when you decide: installed in the background, applied as soon as the session is over. Debian security updates install by themselves; FreeRDP updates only with tested releases.</p></div>
       <div class="card"><h3>Locked down kiosk</h3><p>Boots in seconds into the sign-in screen: no desktop, no menus, no text consoles. Settings behind a PIN, diagnostics for the help desk, power schedule and Wake-on-LAN.</p></div>
     </div>
   </section>
@@ -112,7 +124,7 @@
 
   <section class="shots" aria-label="More screenshots">
     <figure><img src="img/end-of-session.png" alt="End of session screen with countdown" width="1366" height="768" loading="lazy"><figcaption>End of session with a countdown</figcaption></figure>
-    <figure><img src="img/update.png" alt="Software update in progress" width="1366" height="768" loading="lazy"><figcaption>Software update with progress, never during a session</figcaption></figure>
+    <figure><img src="img/update.png" alt="Software update in progress" width="1366" height="768" loading="lazy"><figcaption>Software update with progress</figcaption></figure>
     <figure><img src="img/manager-branding.png" alt="Manager dialog to set the logo and background of the devices" width="700" height="614" loading="lazy"><figcaption>Your logo and background, for every device or one</figcaption></figure>
   </section>
 
@@ -121,7 +133,7 @@
     <details><summary>Is it really free?</summary><p>Yes: Apache 2.0, no licence per device, no management server, no cloud account.</p></details>
     <details><summary>Which hardware does it run on?</summary><p>x86-64 PCs and thin clients with UEFI. The reference device is the Dell OptiPlex 3000 Thin Client; other models (HP t-series, Wyse, Fujitsu, small office PCs) should work and reports are welcome. ARM devices are not supported yet.</p></details>
     <details><summary>Does it support Citrix or VMware Horizon?</summary><p>No, RDP only: Microsoft Remote Desktop Services (RD Connection Broker, session hosts), Hyper-V VDI collections, or a single Windows PC or server.</p></details>
-    <details><summary>How does RDP over UDP work here?</summary><p>The image ships FreeRDP built from the pull request that adds the UDP transport (FreeRDP #13608) plus USB fixes merged upstream. With <code>TRANSPORT=auto</code> it uses UDP and falls back to TCP when UDP is blocked.</p></details>
+    <details><summary>How does RDP over UDP work here?</summary><p>The image ships FreeRDP built from the pull request that adds the UDP transport (FreeRDP #13608) plus a fix of ours that keeps it going on lossy lines (19-21 fps with 50% of the packets lost). With <code>TRANSPORT=auto</code> it uses UDP and falls back to TCP when UDP is blocked.</p></details>
     <details><summary>Can I put my company logo on it?</summary><p>Yes: from the manager, for every device or for one, or built into your own image.</p></details>
     <details><summary>What comes next?</summary><p>VPN (WireGuard, OpenVPN), RD Gateway, 802.1X, network installation (PXE), more tested hardware and languages. Tell us what you need in the <a href="https://github.com/OpenThinRdp/openthinrdp/discussions">discussions</a>.</p></details>
   </section>

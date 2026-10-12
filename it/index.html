@@ -3,52 +3,146 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OpenThinRDP – sistema operativo per thin client gratuito e open source per Desktop remoto e VDI</title>
-<meta name="description" content="OpenThinRDP è un sistema operativo per thin client gratuito e open source per Desktop remoto Windows (RDP), RDS e VDI su Hyper-V: Debian 13 + FreeRDP con UDP, accesso kiosk, USB, gestione da una cartella condivisa, aggiornamenti firmati. Un'alternativa a IGEL OS e Dell ThinOS.">
+<title>OpenThinRDP – sistema operativo per thin client open source con RDP su UDP per RDS e VDI</title>
+<meta name="description" content="OpenThinRDP è un sistema operativo per thin client gratuito e open source con RDP su UDP per Desktop remoto Windows, RDS e VDI su Hyper-V: Debian 13 + FreeRDP con il trasporto UDP, accesso kiosk, USB per la VDI, gestione da una cartella condivisa, aggiornamenti firmati. Un'alternativa a IGEL OS e Dell ThinOS.">
 <link rel="canonical" href="https://openthinrdp.github.io/it/">
 <link rel="alternate" hreflang="en" href="https://openthinrdp.github.io/">
 <link rel="alternate" hreflang="it" href="https://openthinrdp.github.io/it/">
 <link rel="icon" href="../img/icon.png">
-<meta property="og:title" content="OpenThinRDP – thin client gratuito e open source per Desktop remoto e VDI">
-<meta property="og:description" content="Trasforma PC e vecchi thin client in postazioni Desktop remoto: FreeRDP con UDP, USB per la VDI, gestione da una cartella condivisa, aggiornamenti firmati. Gratuito, Apache 2.0.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="OpenThinRDP – il sistema operativo per thin client open source con RDP su UDP">
+<meta property="og:description" content="Trasforma PC e vecchi thin client in postazioni Desktop remoto Windows: FreeRDP con UDP, USB per la VDI, gestione da una cartella condivisa, aggiornamenti firmati. Gratuito, Apache 2.0.">
+<meta property="og:url" content="https://openthinrdp.github.io/it/">
 <meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="../style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "OpenThinRDP",
+  "alternateName": "Open Thin RDP",
+  "inLanguage": "it",
+  "description": "Sistema operativo per thin client gratuito e open source per Desktop remoto Windows (RDP), Remote Desktop Services e VDI su Hyper-V, basato su Debian 13 e FreeRDP 3 con il trasporto UDP.",
+  "applicationCategory": "OperatingSystem",
+  "operatingSystem": "Debian GNU/Linux 13 (amd64, UEFI)",
+  "softwareVersion": "0.1.4",
+  "license": "https://www.apache.org/licenses/LICENSE-2.0",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+  "url": "https://openthinrdp.github.io/it/",
+  "downloadUrl": "https://github.com/OpenThinRdp/openthinrdp/releases/latest",
+  "codeRepository": "https://github.com/OpenThinRdp/openthinrdp",
+  "screenshot": "https://openthinrdp.github.io/img/sign-in.png",
+  "keywords": "thin client, sistema operativo thin client, thin client open source, thin client RDP, Desktop remoto, Remote Desktop Services, VDI, Hyper-V, FreeRDP, UDP, kiosk, alternativa a IGEL, alternativa a ThinOS"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "inLanguage": "it",
+  "mainEntity": [
+    { "@type": "Question", "name": "OpenThinRDP è gratuito?", "acceptedAnswer": { "@type": "Answer", "text": "Sì. È open source con licenza Apache 2.0: nessuna licenza per postazione, nessun server di gestione, nessun cloud." } },
+    { "@type": "Question", "name": "Si può provare senza installare niente?", "acceptedAnswer": { "@type": "Answer", "text": "Sì. Si scrive la ISO su una chiavetta USB e si avvia il PC da lì: il sistema live parte da solo e non scrive mai sul disco." } },
+    { "@type": "Question", "name": "Quali protocolli di desktop remoto supporta?", "acceptedAnswer": { "@type": "Answer", "text": "Solo RDP: un RD Connection Broker con session host o una raccolta VDI su Hyper-V, oppure un singolo PC o server Windows. Citrix e VMware/Omnissa Horizon non sono supportati." } },
+    { "@type": "Question", "name": "Supporta RDP su UDP?", "acceptedAnswer": { "@type": "Answer", "text": "Sì. Contiene FreeRDP compilato con il trasporto UDP (MS-RDPEMT/RDPEUDP) ancora in revisione nella versione ufficiale, con ritorno automatico al TCP. Misurato su una linea con perdite: 19-21 fotogrammi al secondo con il 50% dei pacchetti persi e 9 con il 70%, dove il TCP scende a 0,6 già al 20%." } },
+    { "@type": "Question", "name": "Come si gestiscono le postazioni?", "acceptedAnswer": { "@type": "Answer", "text": "Da una normale cartella condivisa SMB: ogni postazione ci scrive il suo stato e ne legge impostazioni centrali, logo e aggiornamenti firmati; un gestore Windows modifica tutto. Nessun agente e nessun software server." } },
+    { "@type": "Question", "name": "È usato in produzione?", "acceptedAnswer": { "@type": "Answer", "text": "Sì. Fa girare un parco di thin client Dell OptiPlex 3000 collegati a una VDI Windows 11 su Hyper-V, convertiti sul posto dal sistema che avevano prima." } }
+  ]
+}
+</script>
 </head>
 <body>
 <header class="hero">
-  <nav><a href="#funzioni">Funzioni</a><a href="../compare.html">Confronto</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="../">English</a></nav>
+  <nav><a href="#funzioni">Funzioni</a><a href="../compare.html">Confronto</a><a href="#domande">Domande</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="../">English</a></nav>
   <img class="logo" src="../img/logo.png" alt="Logo di OpenThinRDP" width="880" height="310">
-  <h1>OpenThinRDP: sistema operativo per thin client gratuito e open source per Desktop remoto e VDI</h1>
-  <p class="lead">Trasforma piccoli PC e vecchi thin client in postazioni che si accendono direttamente sulla schermata di accesso e si collegano a Windows in RDP, con il trasporto UDP, l'USB pensato per la VDI, la gestione da una cartella condivisa e gli aggiornamenti firmati. Nessuna licenza per postazione, nessun server, nessun cloud.</p>
+  <h1>OpenThinRDP: il sistema operativo per thin client open source con RDP su UDP</h1>
+  <p class="lead">Sistema operativo per thin client gratuito per Desktop remoto Windows, RDS e VDI su Hyper-V, con FreeRDP compilato con il trasporto UDP che la versione ufficiale di FreeRDP non ha ancora: per quanto ne sappiamo, nessun altro sistema per thin client open source offre RDP su UDP. Trasforma piccoli PC e vecchi thin client in postazioni che si accendono direttamente sulla schermata di accesso, con l'USB pensato per la VDI, la gestione centrale da una cartella condivisa e gli aggiornamenti firmati. Nessuna licenza per postazione, nessun server, nessun cloud.</p>
+  <p class="lead"><b>20 fotogrammi al secondo con metà dei pacchetti persi, 9 con il 70%</b>, dove il TCP si ferma già al 20% (<a href="#udp">le misure</a>).</p>
   <a class="btn primary" href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Scarica la ISO</a>
   <a class="btn ghost" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/README.it.md">Documentazione in italiano</a>
 </header>
 <main>
-  <section class="shots">
-    <figure><img src="../img/sign-in.png" alt="Schermata di accesso di OpenThinRDP" width="1366" height="768" loading="lazy"><figcaption>La schermata di accesso</figcaption></figure>
-    <figure><img src="../img/connecting.png" alt="Avvio del desktop con barra di avanzamento" width="1366" height="768" loading="lazy"><figcaption>Avvio del desktop con i passi reali</figcaption></figure>
-    <figure><img src="../img/manager-devices.png" alt="Gestore Windows di OpenThinRDP con le postazioni" width="1280" height="820" loading="lazy"><figcaption>Il gestore Windows, in italiano</figcaption></figure>
+  <section class="shots" aria-label="Schermate">
+    <figure><img src="../img/sign-in.png" alt="Schermata di accesso di OpenThinRDP con orologio, impostazioni e menu di accensione" width="1366" height="768" loading="lazy"><figcaption>La schermata di accesso che gli utenti vedono ogni giorno</figcaption></figure>
+    <figure><img src="../img/connecting.png" alt="Avvio del desktop con barra di avanzamento" width="1366" height="768" loading="lazy"><figcaption>Avvio del desktop: broker, reindirizzamento, desktop</figcaption></figure>
+    <figure><img src="../img/manager-devices.png" alt="Gestore Windows di OpenThinRDP con le postazioni del parco" width="1280" height="820" loading="lazy"><figcaption>Il gestore Windows: ogni postazione, il suo stato e le sue impostazioni</figcaption></figure>
   </section>
+
+  <section id="udp">
+    <h2>RDP su UDP, su un thin client gratuito</h2>
+    <p>Windows può inviare il desktop remoto in UDP (MS-RDPEMT / MS-RDPEUDP): invece di mettersi in coda dietro i pacchetti TCP persi, adatta fotogrammi e qualità alla linea. Il client di Windows lo fa da anni; su Linux il trasporto UDP di FreeRDP è ancora una pull request in revisione (<a href="https://github.com/FreeRDP/FreeRDP/pull/13608">FreeRDP #13608</a>), quindi i sistemi per thin client basati sul FreeRDP ufficiale si collegano solo in TCP. OpenThinRDP contiene FreeRDP compilato con quel trasporto, provato su thin client veri con una VDI Windows 11, con ritorno automatico al TCP.</p>
+    <h3>Su una linea pessima: OpenThinRDP in UDP contro il TCP</h3>
+    <p>Tutto è partito da una porta di switch guasta che perdeva il 43% dei pacchetti grandi: in TCP il desktop remoto si bloccava. Abbiamo riprodotto quella linea su un thin client vero e poi alzato la perdita su tutti i pacchetti della macchina virtuale un gradino alla volta. VDI Windows 11 dietro un RD Connection Broker, carico a schermo intero che cambia ogni pixel, fotogrammi e perdita misurati dal server.</p>
+    <div class="tablewrap"><table>
+      <tr><th>Pacchetti persi</th><th>In TCP</th><th>OpenThinRDP in UDP</th></tr>
+      <tr><td>20%</td><td>0,6 fotogrammi al secondo: lo schermo quasi non si muove</td><td></td></tr>
+      <tr><td>43% di quelli grandi (la porta guasta)</td><td>0-0,1 fps</td><td><b>16-21 fps</b>, 7 minuti di fila</td></tr>
+      <tr><td>50%</td><td></td><td><b>19-21 fps</b>, come su una linea pulita</td></tr>
+      <tr><td>70%</td><td></td><td><b>9 fps</b></td></tr>
+      <tr><td>80%</td><td></td><td>4 fps, poi il tunnel si arrende</td></tr>
+    </table></div>
+    <p>Per arrivarci abbiamo corretto un difetto nel trasporto UDP di FreeRDP, proposto in <a href="https://github.com/FreeRDP/FreeRDP/pull/13608">#13608</a> e già distribuito in OpenThinRDP 0.1.4. Tutti i gradini e il metodo: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/udp.md#on-a-lossy-line">docs/udp.md</a>.</p>
+    <div class="grid">
+      <div class="card"><h3>10 ore di prove aggressive</h3><p>Prove di 2, 5 e 3 ore su un thin client vero: CPU della VM al 100%, perdita di pacchetti del 2% e del 10%, banda limitata a 15 Mbit/s, 40 ms di jitter, rete staccata per 20 s, client ucciso. L'UDP non è mai andato peggio del TCP; l'ultima prova di 3 ore, sulla build attuale, è rimasta viva 178 minuti su 178 senza mai lasciare l'UDP (<a href="https://github.com/FreeRDP/FreeRDP/pull/13608#issuecomment-6098984282">prova di 5 ore</a>, <a href="https://github.com/FreeRDP/FreeRDP/pull/13608#issuecomment-6110587552">prova di 3 ore</a>).</p></div>
+      <div class="card"><h3>Di nuovo in UDP dopo un'interruzione</h3><p>Dopo 20 secondi di rete staccata la sessione torna da sola, di nuovo in UDP, in circa 12 secondi.</p></div>
+      <div class="card"><h3>Lo scegliete per ogni postazione</h3><p><code>TRANSPORT=auto</code> (UDP, TCP quando l'UDP è bloccato), <code>udp</code> (solo UDP) o <code>tcp</code>, dalla postazione o centralmente per tutto il parco.</p></div>
+    </div>
+  </section>
+
   <section id="funzioni">
     <h2>Cosa fa</h2>
     <div class="grid">
-      <div class="card"><h3>Desktop remoto in UDP</h3><p>FreeRDP 3 con il trasporto UDP (in revisione in FreeRDP): più fluido con server carichi, Wi-Fi con perdite e VPN, e ritorno automatico al TCP quando serve.</p></div>
-      <div class="card"><h3>RDS, VDI o un solo PC</h3><p>Tramite il broker RDS verso host di sessione o raccolte VDI su Hyper-V, oppure direttamente a un PC Windows con Desktop remoto attivo.</p></div>
-      <div class="card"><h3>USB per la VDI</h3><p>Webcam e cuffie funzionano in riunione: telecamera dal canale telecamera di RDP, microfono dal canale audio, così Teams e Zoom nella sessione li vedono entrambi. Chiavette di firma, chiavi tachigrafo e dispositivi particolari passano a Windows interi, anche collegati a sessione aperta. Lettori di smart card e touch screen funzionano.</p></div>
-      <div class="card"><h3>Gestione da una cartella condivisa</h3><p>Senza agenti né server: ogni postazione scrive il suo stato in una cartella SMB e ne legge configurazione, logo, sfondo e aggiornamenti. Un gestore Windows modifica tutto.</p></div>
-      <div class="card"><h3>Aggiornamenti firmati</h3><p>Da GitHub o dalla vostra cartella quando decidete voi, mai durante una sessione. Gli aggiornamenti di sicurezza Debian si installano da soli.</p></div>
-      <div class="card"><h3>Postazione blindata</h3><p>Niente desktop, menu o console: solo la schermata di accesso. Configurazione con PIN, diagnosi per l'assistenza, accensione e spegnimento a orario.</p></div>
+      <div class="card"><h3>RDP su UDP</h3><p>FreeRDP 3 compilato con il trasporto UDP (MS-RDPEMT / RDPEUDP), ancora in revisione nella versione ufficiale: sessioni più fluide con server carichi, Wi-Fi con perdite e VPN. Ritorno automatico al TCP, oppure l'uno o l'altro imposto per postazione.</p></div>
+      <div class="card"><h3>RDS, VDI o un singolo PC</h3><p>Tramite un RD Connection Broker verso session host o una raccolta VDI su Hyper-V (load balance info, broker di riserva), oppure direttamente verso qualsiasi PC Windows con il Desktop remoto attivo.</p></div>
+      <div class="card"><h3>USB pensato per la VDI</h3><p>Webcam e cuffie funzionano in riunione: telecamera dal canale telecamera di RDP, microfono dal canale audio, così Teams e Zoom nella sessione li vedono entrambi. Chiavette di firma, chiavi tachigrafo e altri dispositivi particolari passano a Windows interi, anche collegati a sessione aperta. Lettori di smart card dal canale smart card, touch screen come veri touch.</p></div>
+      <div class="card"><h3>Gestito da una cartella condivisa</h3><p>Nessun agente e nessun server di gestione: le postazioni scrivono il loro stato in una cartella SMB e ne leggono impostazioni centrali, logo, sfondo e aggiornamenti. Un gestore Windows (italiano e inglese, senza installazione) modifica tutto.</p></div>
+      <div class="card"><h3>Aggiornamenti firmati</h3><p>Dalle release di GitHub o dalla vostra cartella, quando lo decidete voi: installati in background e applicati appena finisce la sessione. Gli aggiornamenti di sicurezza Debian si installano da soli; quelli di FreeRDP solo con release provate.</p></div>
+      <div class="card"><h3>Postazione kiosk blindata</h3><p>Si accende in pochi secondi sulla schermata di accesso: niente desktop, niente menu, niente console di testo. Impostazioni dietro un PIN, diagnostica per l'assistenza, accensione e spegnimento a orario e Wake-on-LAN.</p></div>
     </div>
   </section>
-  <section>
-    <h2>In produzione</h2>
-    <p class="note">OpenThinRDP fa girare i thin client dell'azienda da cui nasce: Dell OptiPlex 3000 Thin Client collegati a una VDI Windows 11 su Hyper-V dietro un broker RDS, convertiti sul posto dal sistema precedente e aggiornati con pacchetti firmati dalla cartella di gestione.</p>
-  </section>
+
   <section>
     <h2>Provarlo in cinque minuti</h2>
-    <div class="card"><p>Scaricate la ISO, scrivetela su una chiavetta e avviate il PC: il sistema live parte da solo e non scrive sul disco. Impostate il broker (o il nome di un PC Windows) e accedete. Se vi piace, riavviate e scegliete Install.</p></div>
+    <div class="card">
+      <p>1. <a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Scaricate la ISO</a> e scrivetela su una chiavetta USB (Rufus in modalità DD, balenaEtcher o <code>dd</code>).<br>
+      2. Avviate il PC dalla chiavetta: il sistema live parte da solo dopo 10 secondi e non scrive mai sul disco.<br>
+      3. Impostate il vostro broker (o il nome di un PC Windows) e accedete.<br>
+      4. Vi piace? Riavviate e scegliete Installa: circa tre minuti, nessuna domanda. Cancella il primo disco interno.</p>
+    </div>
+    <p>Serve un PC o thin client x86 a 64 bit con UEFI (Secure Boot funziona), 2 GB di RAM e 8 GB di disco.</p>
+  </section>
+
+  <section>
+    <h2>In produzione</h2>
+    <p class="note">OpenThinRDP fa girare il parco di thin client dell'azienda da cui è nato: thin client Dell OptiPlex 3000 collegati a una VDI Windows 11 su Hyper-V dietro un RD Connection Broker. Le postazioni sono state convertite sul posto dal sistema che avevano prima e ricevono ogni release come pacchetto firmato dalla loro cartella di gestione. Le segnalazioni da altro hardware sono benvenute nelle <a href="https://github.com/OpenThinRdp/openthinrdp/discussions">discussioni</a>.</p>
+  </section>
+
+  <section>
+    <h2>Il confronto</h2>
+    <p>OpenThinRDP è pensato per le reti basate su Desktop remoto Windows che vogliono un client gratuito, aperto e semplice da gestire. Se vi servono Citrix o Horizon, i sistemi commerciali sono la scelta giusta. <a href="../compare.html">Confronto dettagliato con IGEL OS, Dell ThinOS, Stratodesk NoTouch, ThinStation e openthinclient</a> (in inglese).</p>
+  </section>
+
+  <section class="shots" aria-label="Altre schermate">
+    <figure><img src="../img/end-of-session.png" alt="Schermata di fine sessione con conto alla rovescia" width="1366" height="768" loading="lazy"><figcaption>Fine sessione con conto alla rovescia</figcaption></figure>
+    <figure><img src="../img/update.png" alt="Aggiornamento software in corso" width="1366" height="768" loading="lazy"><figcaption>Aggiornamento software con avanzamento</figcaption></figure>
+    <figure><img src="../img/manager-branding.png" alt="Finestra del gestore per impostare logo e sfondo delle postazioni" width="700" height="614" loading="lazy"><figcaption>Il vostro logo e il vostro sfondo, per tutte le postazioni o per una</figcaption></figure>
+  </section>
+
+  <section id="domande">
+    <h2>Domande</h2>
+    <details><summary>È davvero gratuito?</summary><p>Sì: Apache 2.0, nessuna licenza per postazione, nessun server di gestione, nessun account cloud.</p></details>
+    <details><summary>Su quale hardware funziona?</summary><p>PC e thin client x86-64 con UEFI. Il dispositivo di riferimento è il thin client Dell OptiPlex 3000; altri modelli (HP serie t, Wyse, Fujitsu, piccoli PC da ufficio) dovrebbero funzionare e le segnalazioni sono benvenute. I dispositivi ARM non sono ancora supportati.</p></details>
+    <details><summary>Supporta Citrix o VMware Horizon?</summary><p>No, solo RDP: Microsoft Remote Desktop Services (RD Connection Broker, session host), raccolte VDI su Hyper-V, oppure un singolo PC o server Windows.</p></details>
+    <details><summary>Come funziona qui l'RDP su UDP?</summary><p>L'immagine contiene FreeRDP compilato dalla pull request che aggiunge il trasporto UDP (FreeRDP #13608) più una nostra correzione che lo tiene in piedi sulle linee con perdite (19-21 fps con il 50% dei pacchetti persi). Con <code>TRANSPORT=auto</code> usa l'UDP e torna al TCP quando l'UDP è bloccato.</p></details>
+    <details><summary>Posso mettere il logo della mia azienda?</summary><p>Sì: dal gestore, per tutte le postazioni o per una, oppure dentro la vostra immagine.</p></details>
+    <details><summary>Cosa viene dopo?</summary><p>VPN (WireGuard, OpenVPN), RD Gateway, 802.1X, installazione da rete (PXE), più hardware provato e più lingue. Diteci cosa vi serve nelle <a href="https://github.com/OpenThinRdp/openthinrdp/discussions">discussioni</a>.</p></details>
   </section>
 </main>
-<footer><p>OpenThinRDP · Apache License 2.0 · <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a> · <a href="../compare.html">Confronto con IGEL, ThinOS, Stratodesk, ThinStation</a> · <a href="../">English</a></p></footer>
+<footer>
+  <p>OpenThinRDP · Apache License 2.0 · <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a> · <a href="https://github.com/OpenThinRdp/openthinrdp/releases">Release</a> · <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/CHANGELOG.md">Novità</a> · <a href="../compare.html">Confronto</a> · <a href="../">English</a></p>
+  <p>Windows e Desktop remoto sono marchi di Microsoft. Gli altri nomi di prodotto sono marchi dei rispettivi proprietari; questo progetto non è affiliato con loro.</p>
+</footer>
 </body>
 </html>

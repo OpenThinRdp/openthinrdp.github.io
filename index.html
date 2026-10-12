@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OpenThinRDP – open source thin client OS with RDP over UDP for RDS and VDI</title>
 <meta name="description" content="OpenThinRDP is a free, open source thin client operating system with RDP over UDP for Windows Remote Desktop, RDS and Hyper-V VDI: Debian 13 + FreeRDP with the UDP transport, kiosk sign-in, USB redirection, management from a shared folder, signed updates. An alternative to IGEL OS and Dell ThinOS.">
-<link rel="canonical" href="https://ceschi-ops.github.io/openthinrdp/">
-<link rel="alternate" hreflang="en" href="https://ceschi-ops.github.io/openthinrdp/">
-<link rel="alternate" hreflang="it" href="https://ceschi-ops.github.io/openthinrdp/it/">
+<link rel="canonical" href="https://openthinrdp.github.io/">
+<link rel="alternate" hreflang="en" href="https://openthinrdp.github.io/">
+<link rel="alternate" hreflang="it" href="https://openthinrdp.github.io/it/">
 <link rel="icon" href="img/icon.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="OpenThinRDP – the open source thin client OS with RDP over UDP">
 <meta property="og:description" content="Turn PCs and old thin clients into Windows Remote Desktop kiosks: FreeRDP with UDP, USB for VDI, managed from a shared folder, signed updates. Free, Apache 2.0.">
-<meta property="og:url" content="https://ceschi-ops.github.io/openthinrdp/">
-<meta property="og:image" content="https://ceschi-ops.github.io/openthinrdp/img/social.png">
+<meta property="og:url" content="https://openthinrdp.github.io/">
+<meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="style.css">
 <script type="application/ld+json">
@@ -29,10 +29,10 @@
   "license": "https://www.apache.org/licenses/LICENSE-2.0",
   "isAccessibleForFree": true,
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
-  "url": "https://ceschi-ops.github.io/openthinrdp/",
-  "downloadUrl": "https://github.com/Ceschi-ops/openthinrdp/releases/latest",
-  "codeRepository": "https://github.com/Ceschi-ops/openthinrdp",
-  "screenshot": "https://ceschi-ops.github.io/openthinrdp/img/sign-in.png",
+  "url": "https://openthinrdp.github.io/",
+  "downloadUrl": "https://github.com/OpenThinRdp/openthinrdp/releases/latest",
+  "codeRepository": "https://github.com/OpenThinRdp/openthinrdp",
+  "screenshot": "https://openthinrdp.github.io/img/sign-in.png",
   "keywords": "thin client OS, open source thin client, RDP thin client, Remote Desktop Services, VDI, Hyper-V, FreeRDP, UDP, kiosk, IGEL alternative, ThinOS alternative"
 }
 </script>
@@ -53,12 +53,12 @@
 </head>
 <body>
 <header class="hero">
-  <nav><a href="#features">Features</a><a href="compare.html">Compare</a><a href="#faq">FAQ</a><a href="https://github.com/Ceschi-ops/openthinrdp">GitHub</a><a href="it/">Italiano</a></nav>
+  <nav><a href="#features">Features</a><a href="compare.html">Compare</a><a href="#faq">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="it/">Italiano</a></nav>
   <img class="logo" src="img/logo.png" alt="OpenThinRDP logo" width="880" height="310">
   <h1>OpenThinRDP: the open source thin client OS with RDP over UDP</h1>
   <p class="lead">Free thin client OS for Windows Remote Desktop, RDS and Hyper-V VDI that ships FreeRDP with the UDP transport, which upstream FreeRDP does not have yet: as far as we know, no other open source thin client OS offers RDP over UDP. Turn small PCs and old thin clients into kiosks that boot straight into a sign-in screen, with USB done right for VDI, central management from a shared folder and signed updates. No licence per device, no server, no cloud.</p>
-  <a class="btn primary" href="https://github.com/Ceschi-ops/openthinrdp/releases/latest">Download the ISO</a>
-  <a class="btn ghost" href="https://github.com/Ceschi-ops/openthinrdp">Source code on GitHub</a>
+  <a class="btn primary" href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download the ISO</a>
+  <a class="btn ghost" href="https://github.com/OpenThinRdp/openthinrdp">Source code on GitHub</a>
 </header>
 <main>
   <section class="shots" aria-label="Screenshots">
@@ -82,7 +82,7 @@
     <div class="grid">
       <div class="card"><h3>RDP over UDP</h3><p>FreeRDP 3 built with the UDP transport (MS-RDPEMT / RDPEUDP), still under review upstream: smoother sessions on busy servers, lossy Wi-Fi and VPNs. Automatic fallback to TCP, or force either one per device.</p></div>
       <div class="card"><h3>RDS, VDI or a single PC</h3><p>Through an RD Connection Broker to session hosts or a Hyper-V VDI collection (load balance info, fallback brokers), or straight to any Windows PC with Remote Desktop on.</p></div>
-      <div class="card"><h3>USB done right for VDI</h3><p>Webcams with their microphone, signature keys, tachograph keys and other special devices go to Windows as whole USB devices, also when plugged in during the session. Smart card readers through the smart card channel, touch screens as real touch.</p></div>
+      <div class="card"><h3>USB done right for VDI</h3><p>Webcams and headsets work in meetings: camera through the RDP camera channel, microphone through the RDP audio channel, so Teams and Zoom in the session see both. Signature keys, tachograph keys and other special devices go to Windows as whole USB devices, also when plugged in during the session. Smart card readers through the smart card channel, touch screens as real touch.</p></div>
       <div class="card"><h3>Managed from a shared folder</h3><p>No agent and no management server: devices write their status to an SMB share and read central settings, logo, background and updates from it. A Windows manager (English and Italian, no install) edits it all.</p></div>
       <div class="card"><h3>Signed updates</h3><p>From GitHub releases or from your folder when you decide; never during a session. Debian security updates install by themselves; FreeRDP updates only with tested releases.</p></div>
       <div class="card"><h3>Locked down kiosk</h3><p>Boots in seconds into the sign-in screen: no desktop, no menus, no text consoles. Settings behind a PIN, diagnostics for the help desk, power schedule and Wake-on-LAN.</p></div>
@@ -92,7 +92,7 @@
   <section>
     <h2>Try it in five minutes</h2>
     <div class="card">
-      <p>1. <a href="https://github.com/Ceschi-ops/openthinrdp/releases/latest">Download the ISO</a> and write it to a USB stick (Rufus in DD mode, balenaEtcher or <code>dd</code>).<br>
+      <p>1. <a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download the ISO</a> and write it to a USB stick (Rufus in DD mode, balenaEtcher or <code>dd</code>).<br>
       2. Boot the PC from the stick: the live system starts by itself after 10 seconds and never writes to the disk.<br>
       3. Set your broker (or the name of a Windows PC) and sign in.<br>
       4. Like it? Restart and choose Install: about three minutes, no questions. It erases the first internal disk.</p>
@@ -102,7 +102,7 @@
 
   <section>
     <h2>In production</h2>
-    <p class="note">OpenThinRDP runs the thin client fleet of the company it comes from: Dell OptiPlex 3000 Thin Clients connected to a Windows 11 VDI on Hyper-V behind an RD Connection Broker. The devices were converted in place from their previous system and get every release as a signed package from their management folder. Reports from other hardware are very welcome in the <a href="https://github.com/Ceschi-ops/openthinrdp/discussions">discussions</a>.</p>
+    <p class="note">OpenThinRDP runs the thin client fleet of the company it comes from: Dell OptiPlex 3000 Thin Clients connected to a Windows 11 VDI on Hyper-V behind an RD Connection Broker. The devices were converted in place from their previous system and get every release as a signed package from their management folder. Reports from other hardware are very welcome in the <a href="https://github.com/OpenThinRdp/openthinrdp/discussions">discussions</a>.</p>
   </section>
 
   <section>
@@ -123,11 +123,11 @@
     <details><summary>Does it support Citrix or VMware Horizon?</summary><p>No, RDP only: Microsoft Remote Desktop Services (RD Connection Broker, session hosts), Hyper-V VDI collections, or a single Windows PC or server.</p></details>
     <details><summary>How does RDP over UDP work here?</summary><p>The image ships FreeRDP built from the pull request that adds the UDP transport (FreeRDP #13608) plus USB fixes merged upstream. With <code>TRANSPORT=auto</code> it uses UDP and falls back to TCP when UDP is blocked.</p></details>
     <details><summary>Can I put my company logo on it?</summary><p>Yes: from the manager, for every device or for one, or built into your own image.</p></details>
-    <details><summary>What comes next?</summary><p>VPN (WireGuard, OpenVPN), RD Gateway, 802.1X, network installation (PXE), more tested hardware and languages. Tell us what you need in the <a href="https://github.com/Ceschi-ops/openthinrdp/discussions">discussions</a>.</p></details>
+    <details><summary>What comes next?</summary><p>VPN (WireGuard, OpenVPN), RD Gateway, 802.1X, network installation (PXE), more tested hardware and languages. Tell us what you need in the <a href="https://github.com/OpenThinRdp/openthinrdp/discussions">discussions</a>.</p></details>
   </section>
 </main>
 <footer>
-  <p>OpenThinRDP · Apache License 2.0 · <a href="https://github.com/Ceschi-ops/openthinrdp">GitHub</a> · <a href="https://github.com/Ceschi-ops/openthinrdp/releases">Releases</a> · <a href="https://github.com/Ceschi-ops/openthinrdp/blob/main/CHANGELOG.md">Changelog</a> · <a href="compare.html">Compare</a> · <a href="it/">Italiano</a></p>
+  <p>OpenThinRDP · Apache License 2.0 · <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a> · <a href="https://github.com/OpenThinRdp/openthinrdp/releases">Releases</a> · <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/CHANGELOG.md">Changelog</a> · <a href="compare.html">Compare</a> · <a href="it/">Italiano</a></p>
   <p>Windows and Remote Desktop are trademarks of Microsoft. Other product names are trademarks of their owners; this project is not affiliated with them.</p>
 </footer>
 </body>

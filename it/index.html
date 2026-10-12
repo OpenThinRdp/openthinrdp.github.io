@@ -26,7 +26,7 @@
   "description": "Sistema operativo per thin client gratuito e open source per Desktop remoto Windows (RDP), Remote Desktop Services e VDI su Hyper-V, basato su Debian 13 e FreeRDP 3 con il trasporto UDP.",
   "applicationCategory": "OperatingSystem",
   "operatingSystem": "Debian GNU/Linux 13 (amd64, UEFI)",
-  "softwareVersion": "0.1.4",
+  "softwareVersion": "0.1.5",
   "license": "https://www.apache.org/licenses/LICENSE-2.0",
   "isAccessibleForFree": true,
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
@@ -46,7 +46,7 @@
     { "@type": "Question", "name": "OpenThinRDP è gratuito?", "acceptedAnswer": { "@type": "Answer", "text": "Sì. È open source con licenza Apache 2.0: nessuna licenza per postazione, nessun server di gestione, nessun cloud." } },
     { "@type": "Question", "name": "Si può provare senza installare niente?", "acceptedAnswer": { "@type": "Answer", "text": "Sì. Si scrive la ISO su una chiavetta USB e si avvia il PC da lì: il sistema live parte da solo e non scrive mai sul disco." } },
     { "@type": "Question", "name": "Quali protocolli di desktop remoto supporta?", "acceptedAnswer": { "@type": "Answer", "text": "Solo RDP: un RD Connection Broker con session host o una raccolta VDI su Hyper-V, oppure un singolo PC o server Windows. Citrix e VMware/Omnissa Horizon non sono supportati." } },
-    { "@type": "Question", "name": "Supporta RDP su UDP?", "acceptedAnswer": { "@type": "Answer", "text": "Sì. Contiene FreeRDP compilato con il trasporto UDP (MS-RDPEMT/RDPEUDP) ancora in revisione nella versione ufficiale, con ritorno automatico al TCP. Misurato su una linea con perdite: 19-21 fotogrammi al secondo con il 50% dei pacchetti persi e 9 con il 70%, dove il TCP scende a 0,6 già al 20%." } },
+    { "@type": "Question", "name": "Supporta RDP su UDP?", "acceptedAnswer": { "@type": "Answer", "text": "Sì. Contiene FreeRDP compilato con il trasporto UDP (MS-RDPEMT/RDPEUDP) ancora in revisione nella versione ufficiale, con ritorno automatico al TCP. Misurato su una linea con perdite: 19-21 fotogrammi al secondo con il 50% dei pacchetti persi e 18-19 con il 70%, dove il TCP scende a 0,6 già al 20%." } },
     { "@type": "Question", "name": "Come si gestiscono le postazioni?", "acceptedAnswer": { "@type": "Answer", "text": "Da una normale cartella condivisa SMB: ogni postazione ci scrive il suo stato e ne legge impostazioni centrali, logo e aggiornamenti firmati; un gestore Windows modifica tutto. Nessun agente e nessun software server." } },
     { "@type": "Question", "name": "È usato in produzione?", "acceptedAnswer": { "@type": "Answer", "text": "Sì. Fa girare un parco di thin client Dell OptiPlex 3000 collegati a una VDI Windows 11 su Hyper-V, convertiti sul posto dal sistema che avevano prima." } }
   ]
@@ -59,7 +59,7 @@
   <img class="logo" src="../img/logo.png" alt="Logo di OpenThinRDP" width="880" height="310">
   <h1>OpenThinRDP: il sistema operativo per thin client open source con RDP su UDP</h1>
   <p class="lead">Sistema operativo per thin client gratuito per Desktop remoto Windows, RDS e VDI su Hyper-V, con FreeRDP compilato con il trasporto UDP che la versione ufficiale di FreeRDP non ha ancora: per quanto ne sappiamo, nessun altro sistema per thin client open source offre RDP su UDP. Trasforma piccoli PC e vecchi thin client in postazioni che si accendono direttamente sulla schermata di accesso, con l'USB pensato per la VDI, la gestione centrale da una cartella condivisa e gli aggiornamenti firmati. Nessuna licenza per postazione, nessun server, nessun cloud.</p>
-  <p class="lead"><b>20 fotogrammi al secondo con metà dei pacchetti persi, 9 con il 70%</b>, dove il TCP si ferma già al 20% (<a href="#udp">le misure</a>).</p>
+  <p class="lead"><b>20 fotogrammi al secondo con metà dei pacchetti persi, 18 con il 70%</b>, dove il TCP si ferma già al 20% (<a href="#udp">le misure</a>).</p>
   <a class="btn primary" href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Scarica la ISO</a>
   <a class="btn ghost" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/README.it.md">Documentazione in italiano</a>
 </header>
@@ -77,13 +77,14 @@
     <p>Tutto è partito da una porta di switch guasta che perdeva il 43% dei pacchetti grandi: in TCP il desktop remoto si bloccava. Abbiamo riprodotto quella linea su un thin client vero e poi alzato la perdita su tutti i pacchetti della macchina virtuale un gradino alla volta. VDI Windows 11 dietro un RD Connection Broker, carico a schermo intero che cambia ogni pixel, fotogrammi e perdita misurati dal server.</p>
     <div class="tablewrap"><table>
       <tr><th>Pacchetti persi</th><th>In TCP</th><th>OpenThinRDP in UDP</th></tr>
-      <tr><td>20%</td><td>0,6 fotogrammi al secondo: lo schermo quasi non si muove</td><td></td></tr>
-      <tr><td>43% di quelli grandi (la porta guasta)</td><td>0-0,1 fps</td><td><b>16-21 fps</b>, 7 minuti di fila</td></tr>
-      <tr><td>50%</td><td></td><td><b>19-21 fps</b>, come su una linea pulita</td></tr>
-      <tr><td>70%</td><td></td><td><b>9 fps</b></td></tr>
-      <tr><td>80%</td><td></td><td>4 fps, poi il tunnel si arrende</td></tr>
+      <tr><td>20%</td><td>0,6 fotogrammi al secondo: lo schermo quasi non si muove</td><td>non misurato (19-21 fps al 50%)</td></tr>
+      <tr><td>43% di quelli grandi* (la porta guasta)</td><td>0-0,1 fps</td><td><b>16-21 fps</b>, 7 minuti di fila</td></tr>
+      <tr><td>50%</td><td>non misurato (0,2 fps già al 30%)</td><td><b>19-21 fps</b>, come su una linea pulita</td></tr>
+      <tr><td>70%</td><td>non misurato</td><td><b>18-19 fps</b>**</td></tr>
+      <tr><td>80%</td><td>non misurato</td><td>4 fps, poi il tunnel si arrende</td></tr>
     </table></div>
-    <p>Per arrivarci abbiamo corretto un difetto nel trasporto UDP di FreeRDP, proposto in <a href="https://github.com/FreeRDP/FreeRDP/pull/13608">#13608</a> e già distribuito in OpenThinRDP 0.1.4. Tutti i gradini e il metodo: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/udp.md#on-a-lossy-line">docs/udp.md</a>.</p>
+    <p class="note">* Le altre righe perdono quella quota di tutti i pacchetti della macchina virtuale; questa il 43% dei pacchetti grandi e il 5% dei piccoli, come sulla porta guasta. ** Al 70% la connessione TCP che RDP tiene accanto al tunnel UDP può chiudere la sessione dopo 20 s senza conferme. Un solo ambiente (Dell OptiPlex 3000 Thin Client, VDI Windows 11 su Hyper-V), perdita simulata con netem: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/tests/udp-bench/README.md">metodo e script</a> per avere i vostri numeri.</p>
+    <p>Per arrivarci è servita una correzione al trasporto UDP di FreeRDP, che abbiamo trovato e segnalato in <a href="https://github.com/FreeRDP/FreeRDP/pull/13608">#13608</a> e che ora ne fa parte. Tutti i gradini: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/udp.md#on-a-lossy-line">docs/udp.md</a>. Cosa è in produzione e cosa è solo provato: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/status.md">stato del progetto</a> (in inglese).</p>
     <div class="grid">
       <div class="card"><h3>10 ore di prove aggressive</h3><p>Prove di 2, 5 e 3 ore su un thin client vero: CPU della VM al 100%, perdita di pacchetti del 2% e del 10%, banda limitata a 15 Mbit/s, 40 ms di jitter, rete staccata per 20 s, client ucciso. L'UDP non è mai andato peggio del TCP; l'ultima prova di 3 ore, sulla build attuale, è rimasta viva 178 minuti su 178 senza mai lasciare l'UDP (<a href="https://github.com/FreeRDP/FreeRDP/pull/13608#issuecomment-6098984282">prova di 5 ore</a>, <a href="https://github.com/FreeRDP/FreeRDP/pull/13608#issuecomment-6110587552">prova di 3 ore</a>).</p></div>
       <div class="card"><h3>Di nuovo in UDP dopo un'interruzione</h3><p>Dopo 20 secondi di rete staccata la sessione torna da sola, di nuovo in UDP, in circa 12 secondi.</p></div>
@@ -109,14 +110,14 @@
       <p>1. <a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Scaricate la ISO</a> e scrivetela su una chiavetta USB (Rufus in modalità DD, balenaEtcher o <code>dd</code>).<br>
       2. Avviate il PC dalla chiavetta: il sistema live parte da solo dopo 10 secondi e non scrive mai sul disco.<br>
       3. Impostate il vostro broker (o il nome di un PC Windows) e accedete.<br>
-      4. Vi piace? Riavviate e scegliete Installa: circa tre minuti, nessuna domanda. Cancella il primo disco interno.</p>
+      4. Vi piace? Riavviate e scegliete Installa: mostra il disco interno che sta per cancellare e chiede conferma prima di scrivere qualsiasi cosa, poi circa tre minuti. Mai un disco USB. Per le installazioni in serie, Unattended install salta la domanda.</p>
     </div>
     <p>Serve un PC o thin client x86 a 64 bit con UEFI (Secure Boot funziona), 2 GB di RAM e 8 GB di disco.</p>
   </section>
 
   <section>
     <h2>In produzione</h2>
-    <p class="note">OpenThinRDP fa girare il parco di thin client dell'azienda da cui è nato: thin client Dell OptiPlex 3000 collegati a una VDI Windows 11 su Hyper-V dietro un RD Connection Broker. Le postazioni sono state convertite sul posto dal sistema che avevano prima e ricevono ogni release come pacchetto firmato dalla loro cartella di gestione. Le segnalazioni da altro hardware sono benvenute nelle <a href="https://github.com/OpenThinRdp/openthinrdp/discussions">discussioni</a>.</p>
+    <p class="note">OpenThinRDP fa girare ogni giorno tutti i thin client dell'azienda da cui è nato: 14 Dell OptiPlex 3000 Thin Client in ufficio, alle casse, in laboratorio e alle pese, con una VDI Windows 11 su Hyper-V dietro due RD Connection Broker. Le postazioni sono state convertite sul posto dal sistema che avevano prima e ricevono ogni versione come pacchetto firmato dalla loro cartella di gestione, installato durante le sessioni e applicato quando la sessione finisce. Gli aggiornamenti di sicurezza di FreeRDP arrivano in OpenThinRDP entro 7 giorni (la 3.32.2: in quattro ore). Cosa è in produzione, cosa è solo provato e cosa non c'è ancora: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/status.md">stato del progetto</a> (in inglese). Le segnalazioni da altro hardware sono benvenute nelle <a href="https://github.com/OpenThinRdp/openthinrdp/discussions">discussioni</a>.</p>
   </section>
 
   <section>

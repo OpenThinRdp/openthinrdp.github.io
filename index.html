@@ -25,7 +25,7 @@
   "description": "Free, open source thin client operating system for Windows Remote Desktop (RDP), Remote Desktop Services and Hyper-V VDI, based on Debian 13 and FreeRDP 3 with the UDP transport.",
   "applicationCategory": "OperatingSystem",
   "operatingSystem": "Debian GNU/Linux 13 (amd64, UEFI)",
-  "softwareVersion": "0.1.4",
+  "softwareVersion": "0.1.5",
   "license": "https://www.apache.org/licenses/LICENSE-2.0",
   "isAccessibleForFree": true,
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
@@ -44,7 +44,7 @@
     { "@type": "Question", "name": "Is OpenThinRDP free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It is open source under the Apache 2.0 license, with no licence per device, no management server and no cloud." } },
     { "@type": "Question", "name": "Can I try it without installing anything?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Write the ISO to a USB stick and boot it: the live system starts by itself and never writes to the disk." } },
     { "@type": "Question", "name": "Which remote desktop protocols does it support?", "acceptedAnswer": { "@type": "Answer", "text": "RDP only: an RD Connection Broker with session hosts or a Hyper-V VDI collection, or a single Windows PC or server. Citrix and VMware/Omnissa Horizon are not supported." } },
-    { "@type": "Question", "name": "Does it support RDP over UDP?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It ships FreeRDP built with the UDP transport (MS-RDPEMT/RDPEUDP) that is under review upstream, with automatic fallback to TCP. Measured on a lossy line: 19-21 frames per second with 50% of the packets lost and 9 with 70%, where TCP is down to 0.6 at 20%." } },
+    { "@type": "Question", "name": "Does it support RDP over UDP?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It ships FreeRDP built with the UDP transport (MS-RDPEMT/RDPEUDP) that is under review upstream, with automatic fallback to TCP. Measured on a lossy line: 19-21 frames per second with 50% of the packets lost and 18-19 with 70%, where TCP is down to 0.6 at 20%." } },
     { "@type": "Question", "name": "How are the devices managed?", "acceptedAnswer": { "@type": "Answer", "text": "From a plain SMB shared folder: each device writes its status there and reads central settings, logo and signed updates; a Windows manager edits everything. No agent and no server software." } },
     { "@type": "Question", "name": "Is it used in production?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It runs a fleet of Dell OptiPlex 3000 Thin Clients connected to a Windows 11 VDI on Hyper-V, converted in place from their previous system." } }
   ]
@@ -57,7 +57,7 @@
   <img class="logo" src="img/logo.png" alt="OpenThinRDP logo" width="880" height="310">
   <h1>OpenThinRDP: the open source thin client OS with RDP over UDP</h1>
   <p class="lead">Free thin client OS for Windows Remote Desktop, RDS and Hyper-V VDI that ships FreeRDP with the UDP transport, which upstream FreeRDP does not have yet: as far as we know, no other open source thin client OS offers RDP over UDP. Turn small PCs and old thin clients into kiosks that boot straight into a sign-in screen, with USB done right for VDI, central management from a shared folder and signed updates. No licence per device, no server, no cloud.</p>
-  <p class="lead"><b>20 frames per second with half the packets lost, 9 with 70%</b>, where TCP stalls at 20% (<a href="#udp">the measurements</a>).</p>
+  <p class="lead"><b>20 frames per second with half the packets lost, 18 with 70%</b>, where TCP stalls at 20% (<a href="#udp">the measurements</a>).</p>
   <a class="btn primary" href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download the ISO</a>
   <a class="btn ghost" href="https://github.com/OpenThinRdp/openthinrdp">Source code on GitHub</a>
 </header>
@@ -75,13 +75,14 @@
     <p>It started with a faulty switch port losing 43% of the large packets: over TCP the remote desktop froze. We reproduced that line on a real thin client, then raised the loss on every packet from the virtual machine step by step. Windows 11 VDI behind an RD Connection Broker, full-screen load that changes every pixel, frame rate and loss measured by the server.</p>
     <div class="tablewrap"><table>
       <tr><th>Packets lost</th><th>Over TCP</th><th>OpenThinRDP over UDP</th></tr>
-      <tr><td>20%</td><td>0.6 frames per second: the screen barely moves</td><td></td></tr>
-      <tr><td>43% of the large ones (the faulty port)</td><td>0-0.1 fps</td><td><b>16-21 fps</b>, 7 minutes in a row</td></tr>
-      <tr><td>50%</td><td></td><td><b>19-21 fps</b>, as on a clean line</td></tr>
-      <tr><td>70%</td><td></td><td><b>9 fps</b></td></tr>
-      <tr><td>80%</td><td></td><td>4 fps, then the tunnel gives up</td></tr>
+      <tr><td>20%</td><td>0.6 frames per second: the screen barely moves</td><td>not measured (19-21 fps at 50%)</td></tr>
+      <tr><td>43% of the large packets* (the faulty port)</td><td>0-0.1 fps</td><td><b>16-21 fps</b>, 7 minutes in a row</td></tr>
+      <tr><td>50%</td><td>not measured (0.2 fps already at 30%)</td><td><b>19-21 fps</b>, as on a clean line</td></tr>
+      <tr><td>70%</td><td>not measured</td><td><b>18-19 fps</b>**</td></tr>
+      <tr><td>80%</td><td>not measured</td><td>4 fps, then the tunnel gives up</td></tr>
     </table></div>
-    <p>Getting there took a fix of ours to FreeRDP's UDP transport, proposed upstream in <a href="https://github.com/FreeRDP/FreeRDP/pull/13608">#13608</a> and shipped in OpenThinRDP 0.1.4. Every step and the method: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/udp.md#on-a-lossy-line">docs/udp.md</a>.</p>
+    <p class="note">* The other rows lose that share of every packet from the virtual machine; this one 43% of the large packets and 5% of the small ones, as on the faulty port. ** At 70% the TCP connection RDP keeps beside the UDP tunnel may end the session after 20 s without an acknowledgement. One environment (Dell OptiPlex 3000 Thin Client, Windows 11 VDI on Hyper-V), loss emulated with netem: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/tests/udp-bench/README.md">the method and the scripts</a>, to get your own numbers.</p>
+    <p>Getting there took a fix to FreeRDP's UDP transport, which we found and reported in <a href="https://github.com/FreeRDP/FreeRDP/pull/13608">#13608</a> and which is now part of it. Every step: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/udp.md#on-a-lossy-line">docs/udp.md</a>. What is in production and what is only tested: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/status.md">status</a>.</p>
     <div class="grid">
       <div class="card"><h3>10 hours of aggressive soak tests</h3><p>Runs of 2, 5 and 3 hours on a real thin client: VM CPU at 100 %, 2 % and 10 % packet loss, 15 Mbit/s cap, 40 ms jitter, network cut for 20 s, client killed. UDP was never worse than TCP; the last 3-hour run, on the current build, was alive 178 of 178 minutes and never left UDP (<a href="https://github.com/FreeRDP/FreeRDP/pull/13608#issuecomment-6098984282">5-hour run</a>, <a href="https://github.com/FreeRDP/FreeRDP/pull/13608#issuecomment-6110587552">3-hour run</a>).</p></div>
       <div class="card"><h3>Back on UDP after a cut</h3><p>After a 20 second network cut the session comes back by itself, on UDP again, in about 12 seconds.</p></div>
@@ -107,14 +108,14 @@
       <p>1. <a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download the ISO</a> and write it to a USB stick (Rufus in DD mode, balenaEtcher or <code>dd</code>).<br>
       2. Boot the PC from the stick: the live system starts by itself after 10 seconds and never writes to the disk.<br>
       3. Set your broker (or the name of a Windows PC) and sign in.<br>
-      4. Like it? Restart and choose Install: about three minutes, no questions. It erases the first internal disk.</p>
+      4. Like it? Restart and choose Install: it shows the internal disk it is going to erase and asks before writing anything, then about three minutes. Never a USB disk. For rollouts, Unattended install skips the question.</p>
     </div>
     <p>Needs a 64-bit x86 PC or thin client with UEFI (Secure Boot works), 2 GB of RAM and 8 GB of disk.</p>
   </section>
 
   <section>
     <h2>In production</h2>
-    <p class="note">OpenThinRDP runs the thin client fleet of the company it comes from: Dell OptiPlex 3000 Thin Clients connected to a Windows 11 VDI on Hyper-V behind an RD Connection Broker. The devices were converted in place from their previous system and get every release as a signed package from their management folder. Reports from other hardware are very welcome in the <a href="https://github.com/OpenThinRdp/openthinrdp/discussions">discussions</a>.</p>
+    <p class="note">OpenThinRDP runs the whole thin client fleet of the company it comes from, every day: 14 Dell OptiPlex 3000 Thin Clients at desks, tills, a laboratory and weighing stations, on a Windows 11 VDI on Hyper-V behind two RD Connection Brokers. The devices were converted in place from their previous system and take every release as a signed package from their management folder, installed during sessions and applied when the session is over. FreeRDP security releases reach OpenThinRDP within 7 days (3.32.2: four hours). What is in production, what is only tested and what does not exist yet: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/status.md">status</a>. Reports from other hardware are very welcome in the <a href="https://github.com/OpenThinRdp/openthinrdp/discussions">discussions</a>.</p>
   </section>
 
   <section>

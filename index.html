@@ -23,7 +23,7 @@
   "description": "Free, open source thin client operating system for Windows Remote Desktop (RDP), Remote Desktop Services and Hyper-V VDI, based on Debian 13 and FreeRDP 3 with the UDP transport.",
   "applicationCategory": "OperatingSystem",
   "operatingSystem": "Debian GNU/Linux 13 (amd64, UEFI)",
-  "softwareVersion": "0.1.5",
+  "softwareVersion": "0.1.6",
   "license": "https://www.apache.org/licenses/LICENSE-2.0",
   "isAccessibleForFree": true,
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
@@ -44,7 +44,7 @@
     { "@type": "Question", "name": "Which remote desktop protocols does it support?", "acceptedAnswer": { "@type": "Answer", "text": "RDP only: an RD Connection Broker with session hosts or a Hyper-V VDI collection, or a single Windows PC or server. Citrix and VMware/Omnissa Horizon are not supported." } },
     { "@type": "Question", "name": "Does it support RDP over UDP?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It ships FreeRDP built with the UDP transport (MS-RDPEMT/RDPEUDP) that is under review upstream, with automatic fallback to TCP. Measured on a lossy line: 19-21 frames per second with 50% of the packets lost and 18-19 with 70%, where TCP is down to 0.6 at 20%." } },
     { "@type": "Question", "name": "How are the devices managed?", "acceptedAnswer": { "@type": "Answer", "text": "From a plain SMB shared folder: each device writes its status there and reads central settings, logo and signed updates; a Windows manager edits everything. No agent and no server software." } },
-    { "@type": "Question", "name": "Is it used in production?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It runs a fleet of Dell OptiPlex 3000 Thin Clients connected to a Windows 11 VDI on Hyper-V, converted in place from their previous system." } }
+    { "@type": "Question", "name": "Is it used in production?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It runs a fleet of 14 Dell OptiPlex 3000 Thin Clients connected to a Windows 11 VDI on Hyper-V, converted in place from their previous system, one of them on Wi-Fi as a web kiosk wall screen. They update themselves from the GitHub releases." } }
   ]
 }
 </script>
@@ -113,7 +113,7 @@
 
   <section>
     <h2>In production</h2>
-    <p class="note">OpenThinRDP runs the whole thin client fleet of the company it comes from, every day: 14 Dell OptiPlex 3000 Thin Clients at desks, tills, a laboratory and weighing stations, on a Windows 11 VDI on Hyper-V behind two RD Connection Brokers. The devices were converted in place from their previous system and take every release as a signed package from their management folder, installed during sessions and applied when the session is over. FreeRDP security releases reach OpenThinRDP within 7 days (3.32.2: four hours). What is in production, what is only tested and what does not exist yet: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/status.md">status</a>. Reports from other hardware are very welcome in the <a href="https://github.com/OpenThinRdp/openthinrdp/discussions">discussions</a>.</p>
+    <p class="note">OpenThinRDP runs the whole thin client fleet of the company it comes from, every day: 14 Dell OptiPlex 3000 Thin Clients at desks, tills, a laboratory, weighing stations and a wall screen on Wi-Fi, on a Windows 11 VDI on Hyper-V behind two RD Connection Brokers, signing in with Kerberos and NTLM as fallback. The devices were converted in place from their previous system and take every release straight from the GitHub releases, signed, installed during sessions and applied when the session is over: a release published here is their update. FreeRDP security releases reach OpenThinRDP within 7 days (3.32.2: four hours). What is in production, what is only tested and what does not exist yet: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/status.md">status</a>. Reports from other hardware are very welcome in the <a href="https://github.com/OpenThinRdp/openthinrdp/discussions">discussions</a>.</p>
   </section>
 
   <section>

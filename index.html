@@ -17,14 +17,14 @@
 <link rel="stylesheet" href="style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.1.7","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.1.9","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
 </head>
 <body>
 <header class="bar"><a class="home" href="https://github.com/OpenThinRdp/openthinrdp"><img src="img/icon.png" alt="" width="28" height="28"> OpenThinRDP</a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.1.7</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/tree/main/docs">Documentation</a></nav></header>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.1.9</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/tree/main/docs">Documentation</a></nav></header>
 <main class="markdown-body">
 <p align="center" dir="auto"><a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/logo.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/logo.png" alt="OpenThinRDP" width="480" style="max-width: 100%;"></a></p>
 <p align="center" dir="auto"><b>The open source thin client OS with RDP over UDP<br>
@@ -121,7 +121,9 @@ PCs without UEFI.</p>
 to a USB stick with any raw image writer (Rufus in DD mode, balenaEtcher, <code class="notranslate">dd</code>).</li>
 <li>Boot the PC from the stick. The menu starts the <strong>live system</strong> by itself after 10 seconds: it runs from the<br>
 stick and <strong>never writes to the disk</strong>.</li>
-<li>The settings dialog opens: set the broker (or the name of a Windows PC) and the domain, save, sign in.</li>
+<li>With a network, when GitHub has a newer version than the ISO it asks whether to download it or to use the<br>
+ISO's (no answer in 30 seconds: the newer one), so the ISO does not need downloading again for every release.<br>
+Then the settings dialog opens: set the broker (or the name of a Windows PC) and the domain, save, sign in.</li>
 <li>Like it? Restart and choose <strong>Install</strong>: it shows the disk it is going to erase and asks before writing<br>
 anything (answer <em>Yes</em> to go on), then about three minutes. It installs on the <strong>first internal disk</strong>, never<br>
 a USB disk (not even the installation stick). For rollouts, <em>Unattended install</em> skips the question.</li>

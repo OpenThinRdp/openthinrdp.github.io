@@ -45,6 +45,12 @@ to Windows: through an RD Connection Broker to the user's desktop or VM, or stra
 Windows PC with Remote Desktop turned on. They are managed from a shared folder with a small Windows manager: status<br>
 of every device, central settings, logo, signed updates, and the screen of any device in your browser. No agent,<br>
 no management server, no cloud, no licence per device.</p>
+<blockquote>
+<p dir="auto"><strong>Not openthinclient.</strong> OpenThinRDP is a new, independent project, not affiliated with openthinclient: the names<br>
+sound alike, nothing else is shared. openthinclient is an older project whose devices boot over the network (PXE)<br>
+from its management server; OpenThinRDP is installed on each device or runs live from a USB stick, needs no server<br>
+and is built around RDP with FreeRDP's UDP transport.</p>
+</blockquote>
 <p dir="auto">It grew out of a real migration away from a commercial thin client OS, on a fleet of Dell OptiPlex 3000 Thin<br>
 Clients connected to a Windows 11 VDI on Hyper-V, where the system it comes from runs every day.</p>
 <blockquote>
@@ -190,7 +196,8 @@ through the RDP camera channel and the microphone through the RDP audio channel,
 in the session see both (a microphone passed as a USB device stays outside the remote session). Keyboards, mice,<br>
 touch screens, hubs and network adapters stay local; smart card readers go through the smart card channel.<br>
 Touch screens work as touch in Windows. With <code class="notranslate">USB_MODE=disks</code> USB sticks stay on the thin client and appear in<br>
-Windows as drives.</li>
+Windows as drives; with <code class="notranslate">USB_MODE=auto</code> the thin client decides device by device: a stick as a drive, a device<br>
+with storage and something else (an instrument, a key with its own driver) whole.</li>
 <li><strong>Managed from a shared folder (SMB) with a Windows manager</strong>, no server: the whole fleet in one window, settings<br>
 for all devices or one, and the <strong>remote screen</strong> of any device (<a href="#the-manager-the-whole-fleet-from-one-window">the manager</a>).</li>
 <li><strong>Signed updates</strong> that never interrupt a session: from GitHub releases (checked every 3 hours, installed in<br>
@@ -222,10 +229,13 @@ on the shared folder the devices report to. No server, no agent, no database: wh
 <a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/remote-screen.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/remote-screen.png" alt="Remote screen of a device in the browser, with the notice on the device" width="49%" style="max-width: 100%;"></a>
 </p>
 <ul dir="auto">
-<li><strong>Every device at a glance</strong>: state (a problem in colour), software and FreeRDP version, address, user and session,<br>
-UDP or TCP in use, Wi-Fi signal, last report, the device's own status and event log.</li>
-<li><strong>Settings for all devices or one</strong>: the common settings, and exceptions for a single device, checked before they<br>
-are saved (a device rejects a whole configuration with a wrong value, the manager stops it first).</li>
+<li><strong>Every device at a glance</strong>: a list with the state of each device as a coloured dot, who is signed in, the<br>
+version and the last report, with a search box; the selected device shows its address, a readable summary<br>
+(network, software, FreeRDP, UDP or TCP in use, Wi-Fi, secrets) and its event log.</li>
+<li><strong>Settings for all devices or one</strong>: for each setting, the value in use on the device, where it comes from (the<br>
+device itself, the common settings or an exception for that device) and, in orange, a new value still on its way;<br>
+the help of the selected setting in full under the list. Checked before saving (a device rejects a whole<br>
+configuration with a wrong value, the manager stops it first).</li>
 <li><strong>Remote screen</strong>: one click shows the screen of a device in your browser and lets you use it, to help a user<br>
 ("what does it say?") or to sign in once to a dashboard on a hall screen. It goes through SSH only, with the<br>
 administrators' key and a one-time password: nothing new listens on the network, and nothing is installed on your<br>
@@ -234,7 +244,8 @@ lasts and records it in its events; it ends when you close the window, or by its
 <code class="notranslate">REMOTE_SCREEN=off</code> turns it off (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#remote-screen">details</a>).</li>
 <li><strong>Problems across the fleet</strong>: the event logs of every device read together and grouped, so "six devices could not<br>
 reach the broker this morning" is one line instead of six logs.</li>
-<li><strong>Logo and background picture</strong>, for all devices or one; <strong>SSH keys</strong> of the administrators; <strong>releases</strong> from<br>
+<li><strong>Logo and background picture</strong>, for all devices or one; <strong>SSH keys</strong> of the administrators (one button adds the<br>
+key of the PC you are on, creating it if needed); <strong>releases</strong> from<br>
 GitHub copied into the folder for devices that update from it; a <strong>permissions check</strong> of the folder.</li>
 </ul>
 <p dir="auto">Every change is written to a change log in the folder. Guide: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md">docs/management.md</a>.</p>

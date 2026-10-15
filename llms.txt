@@ -2,6 +2,8 @@
 
 > Free, open source thin client operating system for Microsoft Remote Desktop (RDP, Remote Desktop Services and Hyper-V VDI): Debian 13 with FreeRDP 3 and the RDP UDP transport, kiosk sign-in, USB and camera redirection, central management from a shared folder, signed updates from GitHub releases. Apache 2.0. RDP only; x86-64 with UEFI.
 
+OpenThinRDP is a new, independent project and is not affiliated with openthinclient: the names sound alike, nothing else is shared. openthinclient is an older project whose devices boot over the network (PXE) from its management server; OpenThinRDP is installed on each device or runs live from a USB stick, needs no server and is built around RDP with FreeRDP's UDP transport.
+
 The website is the project README. Everything else, with current versions and measurements, is on GitHub:
 
 ## Docs

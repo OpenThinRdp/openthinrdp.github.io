@@ -5,6 +5,8 @@
 # Run it after every release (or change of those documents), then commit and push this folder.
 #   powershell -ExecutionPolicy Bypass -File build-from-readme.ps1
 $ErrorActionPreference = 'Stop'
+# the output of gh is UTF-8: read with the console code page (850, 437...) every accented letter, dash, x and arrow came out garbled
+[Console]::OutputEncoding = [Text.Encoding]::UTF8
 $gh = 'C:\Program Files\GitHub CLI\gh.exe'
 $repo = 'OpenThinRdp/openthinrdp'; $blob = "https://github.com/$repo/blob/main"; $raw = "https://raw.githubusercontent.com/$repo/main"
 $site = 'https://openthinrdp.github.io/'

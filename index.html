@@ -17,23 +17,23 @@
 <link rel="stylesheet" href="style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.1.12","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.0","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
 </head>
 <body>
 <header class="bar"><a class="home" href="https://github.com/OpenThinRdp/openthinrdp"><img src="img/icon.png" alt="" width="28" height="28"> OpenThinRDP</a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.1.12</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/tree/main/docs">Documentation</a></nav></header>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.0</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/tree/main/docs">Documentation</a></nav></header>
 <main class="markdown-body">
 <p align="center" dir="auto"><a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/logo.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/logo.png" alt="OpenThinRDP" width="480" style="max-width: 100%;"></a></p>
 <p align="center" dir="auto"><b>The open source thin client OS with RDP over UDP<br>
 for Windows Remote Desktop, RDS and VDI: FreeRDP with the UDP transport that upstream does not ship yet.</b></p>
 <p align="center" dir="auto">
-<a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest"><b>⬇ Download the ISO (latest release)</b></a>
- ·  <a href="#try-it-in-five-minutes">Try it live, nothing installed</a>
- ·  <a href="https://openthinrdp.github.io/" rel="nofollow">Website</a>
- ·  <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/README.it.md">Italiano</a>
+<a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest"><b>├ö┬╝├º Download the ISO (latest release)</b></a>
+┬áÔö¼├Ç┬á <a href="#try-it-in-five-minutes">Try it live, nothing installed</a>
+┬áÔö¼├Ç┬á <a href="https://openthinrdp.github.io/" rel="nofollow">Website</a>
+┬áÔö¼├Ç┬á <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/README.it.md">Italiano</a>
 </p>
 <p align="center" dir="auto">
 <a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/boot.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/boot.png" alt="Boot menu: try it live or install" width="32%" style="max-width: 100%;"></a>
@@ -42,9 +42,10 @@ for Windows Remote Desktop, RDS and VDI: FreeRDP with the UDP transport that ups
 </p>
 <p dir="auto">OpenThinRDP turns small PCs and old thin clients into kiosks that boot straight into a sign-in form and connect<br>
 to Windows: through an RD Connection Broker to the user's desktop or VM, or straight to a session host or to any<br>
-Windows PC with Remote Desktop turned on. They are managed from a shared folder with a small Windows manager: status<br>
-of every device, central settings, logo, signed updates, and the screen of any device in your browser. No agent,<br>
-no management server, no cloud, no licence per device.</p>
+Windows PC with Remote Desktop turned on, <strong>on premises or in the cloud</strong> (Azure, AWS, any provider). They are<br>
+managed from a shared folder with a small Windows manager: status of every device, central settings, logo, signed<br>
+updates, and the screen of any device in your browser. No agent, no management server, no cloud service to depend<br>
+on, no licence per device.</p>
 <blockquote>
 <p dir="auto"><strong>Not openthinclient.</strong> OpenThinRDP is a new, independent project, not affiliated with openthinclient: the names<br>
 sound alike, nothing else is shared. openthinclient is an older project whose devices boot over the network (PXE)<br>
@@ -57,8 +58,9 @@ Clients connected to a Windows 11 VDI on Hyper-V, where the system it comes from
 <p dir="auto"><strong>Status: in production every day.</strong> It runs the whole thin client fleet of the company it comes from: 14 Dell<br>
 OptiPlex 3000 Thin Clients at desks, tills, a laboratory, weighing stations and a wall screen on Wi-Fi, on a<br>
 Windows 11 VDI on Hyper-V behind two RD Connection Brokers, signing in with Kerberos and NTLM as fallback. The<br>
-devices were converted in place from the system they ran before and take every release straight from the GitHub<br>
-releases, signed, installed during sessions and applied when the session is over. FreeRDP security releases reach OpenThinRDP <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/SECURITY.md#freerdp-security-fixes">within 7 days</a><br>
+devices were converted in place from the system they ran before and take every release through their management<br>
+folder (the manager checks each GitHub release and signs it again with the key of the site), installed during<br>
+sessions and applied when the session is over. FreeRDP security releases reach OpenThinRDP <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/SECURITY.md#freerdp-security-fixes">within 7 days</a><br>
 (3.32.2: four hours). The ISO is tested in QEMU/KVM with Secure Boot at every release and the system tests run on<br>
 every commit (<a href="https://github.com/OpenThinRdp/openthinrdp/actions/workflows/tests.yml">CI</a>). What is in production,<br>
 what is only tested and what does not exist yet:<br>
@@ -115,7 +117,13 @@ numbers: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/udp.
 <ul dir="auto">
 <li>You publish desktops with <strong>Windows Remote Desktop Services</strong>: RD Connection Broker with session hosts or a<br>
 Hyper-V VDI collection. Or there is no broker at all: each device connects to one Windows PC or server (set<br>
-its name instead of the broker), e.g. a reception desk that works on the PC in the office.</li>
+its name instead of the broker), e.g. a reception desk that works on the PC in the office. Devices outside the<br>
+office go through the <strong>RD Gateway</strong> over HTTPS (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md#rd-gateway"><code class="notranslate">RDP_GATEWAY</code></a>) or their own<br>
+<strong>VPN</strong>, WireGuard or OpenVPN (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md#vpn"><code class="notranslate">VPN</code></a>).</li>
+<li>Your desktops are <strong>in the cloud</strong>: an RDS deployment or Windows virtual machines in Azure, AWS, Google Cloud<br>
+or with any provider, reached through the RD Gateway or a VPN, with UDP through a VPN<br>
+(<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md#desktops-in-the-cloud">details</a>). Azure Virtual Desktop and Windows 365 are not supported<br>
+yet (they need a Microsoft Entra ID sign-in).</li>
 <li>You have <strong>x86-64 PCs or thin clients with UEFI</strong> (Secure Boot works) and want to keep them useful without a<br>
 licence per device.</li>
 <li>You want to <strong>try RDP over UDP</strong> on real clients, or help bring it into FreeRDP.</li>
@@ -156,7 +164,7 @@ PCs without UEFI.</p>
 </tr>
 <tr>
 <td>Windows side</td>
-<td>an RD Connection Broker (RDS session hosts or a Hyper-V VDI collection), or any Windows PC or server that accepts Remote Desktop (Pro, Enterprise, Server)</td>
+<td>an RD Connection Broker (RDS session hosts or a Hyper-V VDI collection), or any Windows PC or server that accepts Remote Desktop (Pro, Enterprise, Server), on premises or in any cloud</td>
 </tr>
 </tbody>
 </table></markdown-accessiblity-table>
@@ -202,11 +210,13 @@ with storage and something else (an instrument, a key with its own driver) whole
 for all devices or one, and the <strong>remote screen</strong> of any device (<a href="#the-manager-the-whole-fleet-from-one-window">the manager</a>).</li>
 <li><strong>Signed updates</strong> that never interrupt a session: from GitHub releases (checked every 3 hours, installed in<br>
 the background, applied when the session is over), or from your folder when you decide.<br>
+<strong>Try a version on a few devices first</strong>, and <strong>go back</strong> to an earlier one when something breaks<br>
+(<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md#management"><code class="notranslate">UPDATE_TO</code></a>): FreeRDP goes back with it.<br>
 Debian security updates install by themselves.</li>
 <li><strong>Settings dialog on the device</strong> (optionally behind a PIN): broker or PC, network (DHCP, static, Wi-Fi),<br>
 management folder and its account, USB mode, web button, power schedule, language. A new device names itself<br>
 from its network card (<code class="notranslate">thinclient-1a2b3c</code>).</li>
-<li><strong>Diagnostics for the help desk</strong>, no PIN needed (the ℹ button): network, can each broker or PC be reached,<br>
+<li><strong>Diagnostics for the help desk</strong>, no PIN needed (the ├ö├ñÔòú button): network, can each broker or PC be reached,<br>
 time, management folder, last events. Read only.</li>
 <li><strong>Locked down</strong>: no desktop, no menus, no text consoles (Ctrl+Alt+F1..F12 do nothing), no password-less<br>
 account.</li>
@@ -238,16 +248,28 @@ the help of the selected setting in full under the list. Checked before saving (
 configuration with a wrong value, the manager stops it first).</li>
 <li><strong>Remote screen</strong>: one click shows the screen of a device in your browser and lets you use it, to help a user<br>
 ("what does it say?") or to sign in once to a dashboard on a hall screen. It goes through SSH only, with the<br>
-administrators' key and a one-time password: nothing new listens on the network, and nothing is installed on your<br>
+key of the manager and a one-time password: nothing new listens on the network, and nothing is installed on your<br>
 PC (the <code class="notranslate">ssh.exe</code> that comes with Windows and your browser). The device shows <em>Remote assistance active</em> while it<br>
 lasts and records it in its events; it ends when you close the window, or by itself after 2 hours, and<br>
 <code class="notranslate">REMOTE_SCREEN=off</code> turns it off (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#remote-screen">details</a>).</li>
 <li><strong>Problems across the fleet</strong>: the event logs of every device read together and grouped, so "six devices could not<br>
 reach the broker this morning" is one line instead of six logs.</li>
-<li><strong>Logo and background picture</strong>, for all devices or one; <strong>SSH keys</strong> of the administrators (one button adds the<br>
-key of the PC you are on, creating it if needed); <strong>releases</strong> from<br>
+<li><strong>A vault with an access code</strong> for the two keys that rule the fleet: the SSH key that opens the screens and the<br>
+key that signs the update packages. Every administrator of the manager opens it with the same code; without it<br>
+no screen opens and nothing is signed. Update packages are signed in the manager, so the signing key never sits<br>
+on a build machine (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#vault">details</a>). With <code class="notranslate">UPDATE_KEY=site</code> your devices accept only the key<br>
+of your site: the manager checks each GitHub release and signs it again with that key<br>
+(<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#a-fleet-on-its-own-key">details</a>).</li>
+<li><strong>Logo and background picture</strong>, for all devices or one; <strong>SSH keys</strong> of the administrators; <strong>releases</strong> from<br>
 GitHub copied into the folder for devices that update from it; a <strong>permissions check</strong> of the folder.</li>
+<li><strong>Fits any screen</strong>, from a 27" monitor down to a laptop with display scaling: every column stays in view, rows<br>
+of buttons wrap, the top bar keeps only its icons when the room is short. <code class="notranslate">build-launcher.ps1</code> makes an <code class="notranslate">.exe</code><br>
+with the OpenThinRDP icon to pin to the taskbar, which starts the manager without a console window<br>
+(<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#central-settings">details</a>).</li>
 </ul>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-vault.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-vault.png" alt="Vault page of the manager: the access code, the SSH key of the manager, the key that signs the updates" width="70%" style="max-width: 100%;"></a>
+</p>
 <p dir="auto">Every change is written to a change log in the folder. Guide: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md">docs/management.md</a>.</p>
 <h2 dir="auto">Screens that only show a web page</h2>
 <p dir="auto">The same image runs the screens that never need a Windows desktop: a TV in the hall, a dashboard in the<br>
@@ -363,8 +385,6 @@ their owners; the comparison reflects public information and our understanding, 
 <p dir="auto">Ideas we would like to build, roughly in this order. Tell us in an issue which ones you need, or send a pull<br>
 request:</p>
 <ul dir="auto">
-<li><strong>VPN</strong>: WireGuard and OpenVPN, so a device at home or in a branch office reaches the broker on its own.</li>
-<li><strong>RD Gateway</strong>: Remote Desktop over HTTPS from outside the network, without a VPN.</li>
 <li><strong>Wi-Fi with 802.1X</strong> (WPA-Enterprise) and wired 802.1X.</li>
 <li><strong>Network installation (PXE)</strong> for many devices at once.</li>
 <li><strong>More tested hardware</strong> and more languages (one file each).</li>

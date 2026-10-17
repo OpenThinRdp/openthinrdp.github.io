@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenThinRDP manager â€“ the whole thin client fleet from one window</title>
+<meta name="description" content="The OpenThinRDP manager for Windows: every thin client at a glance, central settings, a new version on pilot devices first, going back to an earlier version for the whole fleet, remote screen, signed updates.">
+<link rel="canonical" href="https://openthinrdp.github.io/manager.html">
+<link rel="icon" href="img/icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="OpenThinRDP manager â€“ the whole thin client fleet from one window">
+<meta property="og:description" content="The OpenThinRDP manager for Windows: every thin client at a glance, central settings, a new version on pilot devices first, going back to an earlier version for the whole fleet, remote screen, signed updates.">
+<meta property="og:url" content="https://openthinrdp.github.io/manager.html">
+<meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.0","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
+ "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
+</script>
+</head>
+<body>
+<header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="img/icon.png" alt="" width="28" height="28"> OpenThinRDP</a>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.0</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/tree/main/docs">Documentation</a></nav></header>
+<main class="markdown-body">
+<h1 id="the-openthinrdp-manager" dir="auto">The OpenThinRDP manager</h1>
+<p dir="auto">The manager is the one place where you run a fleet of OpenThinRDP devices: one PowerShell script for Windows 10/11,<br>
+in English and Italian, with nothing to install. It works on the shared folder the devices report to: no server,<br>
+no agent, no database. What you see is the files in that folder, and everything you change is a file in that<br>
+folder too, with a backup and a line in the change log.</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-devices.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-devices.png" alt="Devices page: every device with its state, user, version and last report; the selected device with its settings" width="100%" style="max-width: 100%;"></a>
+</p>
+<ul dir="auto">
+<li><a href="#what-you-need">What you need</a></li>
+<li><a href="#devices-the-whole-fleet-at-a-glance">Devices: the whole fleet at a glance</a></li>
+<li><a href="#settings-for-all-devices-or-one">Settings for all devices or one</a></li>
+<li><a href="#updates-a-few-devices-first-then-all-and-back-when-something-breaks">Updates: a few devices first, then all, and back when something breaks</a></li>
+<li><a href="#remote-screen">Remote screen</a></li>
+<li><a href="#problems-across-the-fleet">Problems across the fleet</a></li>
+<li><a href="#vault-keys-and-the-site-key">Vault, keys and the site key</a></li>
+<li><a href="#logo-background-ssh-keys-permissions">Logo, background, SSH keys, permissions</a></li>
+<li><a href="#the-manager-updates-itself">The manager updates itself</a></li>
+<li><a href="#starting-it-and-the-command-line">Starting it, and the command line</a></li>
+</ul>
+<h2 id="what-you-need" dir="auto">What you need</h2>
+<ul dir="auto">
+<li>A <strong>shared folder</strong> (SMB) that the devices can read and write their status to: <code class="notranslate">\\fileserver\thinclients</code>. How<br>
+to create it, its account and its permissions: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#account">management.md</a>.</li>
+<li>A <strong>Windows 10 or 11 PC</strong> of an administrator, with PowerShell 5.1 (it is part of Windows). For the remote screen,<br>
+also the OpenSSH client of Windows (<code class="notranslate">ssh.exe</code>, usually there) and a browser.</li>
+<li><strong>The manager itself</strong>: <code class="notranslate">openthinrdp-manager-&lt;version&gt;.zip</code> from the <a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">latest release</a>,<br>
+unpacked into a folder only the administrators can write (a share works, so that everybody starts the same copy).<br>
+From then on it <a href="#the-manager-updates-itself">updates itself</a>.</li>
+<li>The devices set to that folder: <code class="notranslate">MGMT_SHARE</code> in their settings dialog, or in the image you build.</li>
+</ul>
+<p dir="auto">Start <code class="notranslate">OpenThinRDP-Manager.vbs</code> (no console window) or <code class="notranslate">OpenThinRDP-Manager.cmd -Folder \\fileserver\thinclients</code>.</p>
+<h2 id="devices-the-whole-fleet-at-a-glance" dir="auto">Devices: the whole fleet at a glance</h2>
+<p dir="auto">The <strong>Devices</strong> page lists every device that reports to the folder, with a coloured dot for its state, the user<br>
+signed in, the version it runs and its last report; the search box finds a device by name, address or user. Devices<br>
+report every 5 minutes and at boot, and the list refreshes itself every minute. A device that stopped reporting,<br>
+rejected the central settings or has a failed service stands out in its colour.</p>
+<p dir="auto">Select a device and its header shows its address, version, last report and user, with its actions: <strong>Remote<br>
+screen</strong>, <strong>Logo and background...</strong>, <strong>Software version...</strong>. Under it:</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>Tab</th>
+<th>What it shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Settings</td>
+<td>every setting: the value in use on the device, where it comes from, and the value you set for it</td>
+</tr>
+<tr>
+<td>Summary</td>
+<td>a readable report: session, transport in use (UDP or TCP), network and Wi-Fi, software and FreeRDP, the version it installs, security updates, management, secrets, uptime</td>
+</tr>
+<tr>
+<td>Events</td>
+<td>the event log of the device: sessions, drops with their cause, updates, settings applied or rejected</td>
+</tr>
+<tr>
+<td>Full report</td>
+<td>the status file as the device wrote it</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-pilot.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-pilot.png" alt="A pilot device: the list marks it (pilot), its summary says it installs the newest version" width="100%" style="max-width: 100%;"></a>
+</p>
+<h2 id="settings-for-all-devices-or-one" dir="auto">Settings for all devices or one</h2>
+<p dir="auto"><strong>Common settings</strong> are for every device (<code class="notranslate">config\common.conf</code>); in a device's <strong>Settings</strong> tab, tick <em>Exception</em><br>
+to give that device a value of its own (<code class="notranslate">config\&lt;hostname&gt;.conf</code>), which wins over the common one. Every row shows:</p>
+<ul dir="auto">
+<li>the value <strong>in use on the device</strong> (from its last report);</li>
+<li><strong>where it comes from</strong>: the device itself, the common settings, or an exception for this device;</li>
+<li>in orange, <em><strong>on its way</strong></em>: a value you saved that the device has not applied yet. It reads the folder every 5<br>
+minutes; when it stays orange, the device has refused the settings (its state says so).</li>
+</ul>
+<p dir="auto">The help of the selected setting is in full under the list. Before saving, the manager checks every value with the<br>
+same rules as the devices (a device refuses a whole configuration with one wrong value), and before saving the<br>
+common settings it lists the devices that would refuse them. Every save keeps a copy of the file in<br>
+<code class="notranslate">config\backup\</code> and adds a line to <code class="notranslate">config\changes.log</code>.</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-common.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-common.png" alt="Common settings: every setting with its value and the help of the selected one" width="100%" style="max-width: 100%;"></a>
+</p>
+<p dir="auto">All the settings: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md">configuration.md</a>.</p>
+<h2 id="updates-a-few-devices-first-then-all-and-back-when-something-breaks" dir="auto">Updates: a few devices first, then all, and back when something breaks</h2>
+<p dir="auto">The <strong>Updates</strong> page shows the newest version in the folder, the version all devices are on, the pilot devices,<br>
+the devices kept on a version of their own, the versions you can choose, and what the devices run now.</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-updates.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-updates.png" alt="Updates page: newest published version, all devices on 0.2.0, one pilot device on the newest, the versions that can be chosen" width="100%" style="max-width: 100%;"></a>
+</p>
+<p dir="auto">Everything here is one setting, <code class="notranslate">UPDATE_TO</code>, written for you in the right file:</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th><code class="notranslate">UPDATE_TO</code></th>
+<th>where</th>
+<th>means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">latest</code></td>
+<td><code class="notranslate">common.conf</code></td>
+<td>every device takes each new version as soon as it is in the folder (the default)</td>
+</tr>
+<tr>
+<td>a version, e.g. <code class="notranslate">0.2.0</code></td>
+<td><code class="notranslate">common.conf</code></td>
+<td>every device stays on that version, or <strong>goes back</strong> to it</td>
+</tr>
+<tr>
+<td><code class="notranslate">latest</code></td>
+<td><code class="notranslate">&lt;hostname&gt;.conf</code></td>
+<td>a <strong>pilot device</strong>: it takes the newest version even while the others stay</td>
+</tr>
+<tr>
+<td>a version</td>
+<td><code class="notranslate">&lt;hostname&gt;.conf</code></td>
+<td>that device stays on, or goes back to, its own version</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">A device installs a version also when it is <strong>older</strong> than its own, FreeRDP included, and installs nothing newer<br>
+until the setting changes. As always, an update never interrupts a session: it is installed in the background and<br>
+applied when the session is over.</p>
+<h3 id="try-a-new-version-on-a-few-devices" dir="auto">Try a new version on a few devices</h3>
+<ol dir="auto">
+<li><strong>Choose the pilots.</strong> In the header of a device, <strong>Software version...</strong> &gt; <em>pilot device</em>. Pick devices that<br>
+look like the rest of the fleet (the same model, the same kind of user), and users who will tell you when<br>
+something is odd. The list marks them <em>(pilot)</em>.</li>
+<li><strong>Bring the new version in for the pilots only.</strong> <strong>Release from GitHub...</strong> (top bar or Updates page) downloads<br>
+the latest release, checks its project signature and hash, and asks: <em>all devices</em> or <em><strong>pilot devices only</strong></em>.<br>
+With pilot only, all the other devices are first kept on the version they have (<code class="notranslate">UPDATE_TO=&lt;that version&gt;</code> in<br>
+<code class="notranslate">common.conf</code>), and only then the new version goes into the folder.</li>
+<li><strong>Watch the pilots</strong> for a few days: their <strong>Summary</strong> and <strong>Events</strong>, and the <strong>Problems</strong> page.</li>
+</ol>
+<h3 id="release-it-to-the-whole-fleet" dir="auto">Release it to the whole fleet</h3>
+<p dir="auto">When the pilots are fine: <strong>Updates &gt; Release to all devices</strong>. <code class="notranslate">common.conf</code> goes back to <code class="notranslate">UPDATE_TO=latest</code><br>
+and every device takes the new version within 5 minutes, each one when its session is over.</p>
+<h3 id="something-broke-go-back" dir="auto">Something broke: go back</h3>
+<ul dir="auto">
+<li><strong>The whole fleet:</strong> <strong>Updates &gt; Version for all devices...</strong>, choose the version that worked (newest first, from<br>
+<code class="notranslate">updates\versions\</code>). Every device goes back to it, FreeRDP included, and stays there.</li>
+<li><strong>One device:</strong> <strong>Software version...</strong> in its header &gt; <em>its own version</em>.</li>
+<li><strong>A version that is no longer in the folder:</strong> <strong>Version from GitHub...</strong> fetches it (the release <code class="notranslate">v&lt;version&gt;</code>,<br>
+with the same checks) into the folder, without changing what the others get.</li>
+</ul>
+<p dir="auto">When the fix is out, <strong>Release from GitHub...</strong> again, pilots first, and <strong>Release to all devices</strong>.</p>
+<p dir="auto"><strong>Good to know</strong></p>
+<ul dir="auto">
+<li>Devices go back only to <strong>0.2.0 or later</strong>: older versions do not know <code class="notranslate">UPDATE_TO</code>.</li>
+<li>Devices that still run a version <strong>before 0.2.0</strong> ignore <code class="notranslate">UPDATE_TO</code> and take the newest version in the folder.<br>
+The manager names them before a pilot-only release: the first time, release 0.2.0 to all devices, or update those<br>
+devices first.</li>
+<li>With <code class="notranslate">UPDATE_FROM=github</code> (no management folder for updates) the same setting works: the devices fetch the release<br>
+<code class="notranslate">v&lt;version&gt;</code> from GitHub.</li>
+<li>Every published version keeps its signed index in <code class="notranslate">updates\versions\</code>; the newest 3 packages stay in the folder,<br>
+plus every version a device is kept on. Details: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#pilot-devices-and-going-back">management.md</a>.</li>
+</ul>
+<h2 id="remote-screen" dir="auto">Remote screen</h2>
+<p dir="auto"><strong>Remote screen</strong>, in the header of a device, shows its screen in your browser and lets you use it: to see what a<br>
+user sees, or to sign in once to a web page on a screen with no keyboard.</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/remote-screen.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/remote-screen.png" alt="The screen of a device in the browser, with the notice the device shows" width="80%" style="max-width: 100%;"></a>
+</p>
+<p dir="auto">It goes <strong>through SSH only</strong>, with the key of the manager's vault and a one-time password: nothing new listens on<br>
+the network, and nothing is installed on your PC. The device shows <em>Remote assistance active</em> while it lasts and<br>
+records it in its events; it ends when you close the small window, or by itself after 2 hours. <code class="notranslate">REMOTE_SCREEN=off</code><br>
+turns it off. How it works: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#remote-screen">management.md</a>.</p>
+<h2 id="problems-across-the-fleet" dir="auto">Problems across the fleet</h2>
+<p dir="auto">The <strong>Problems</strong> page reads the event logs of every device together, for today, 24 hours, 7 or 30 days, and groups<br>
+what went wrong: failed sign-ins (by broker), desktops that did not start, sessions dropped (by cause), sessions<br>
+taken over, UDP blocked, failed updates, rejected settings. Each line says how many times, on which devices, for<br>
+which users, first and last time. A line is orange when 3 or more devices had the same problem: that points at a<br>
+server or the network, not at a device. "Six devices could not reach the broker this morning" is one line instead<br>
+of six logs.</p>
+<h2 id="vault-keys-and-the-site-key" dir="auto">Vault, keys and the site key</h2>
+<p dir="auto">Two keys rule the fleet: the SSH key that opens the screen of any device, and the key that signs the update packages<br>
+every device installs. The manager keeps both in <code class="notranslate">vault.otr</code>, next to it, encrypted with an <strong>access code</strong> that only<br>
+the administrators know. Every administrator who starts the same copy opens it with the same code; without the code<br>
+the settings can still be edited, but no screen opens and nothing is signed.</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-vault.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-vault.png" alt="Vault page: the access code, the SSH key of the manager, the key that signs the updates" width="80%" style="max-width: 100%;"></a>
+</p>
+<p dir="auto"><strong>A fleet on its own key.</strong> With <code class="notranslate">UPDATE_KEY=site</code> your devices accept only updates signed by the key of your site,<br>
+which exists only in your vault. The manager checks each GitHub release (project signature and hash) and signs it<br>
+again with your key: a stolen project key installs nothing on your fleet. Set it up step by step:<br>
+<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#a-fleet-on-its-own-key">management.md</a>.</p>
+<h2 id="logo-background-ssh-keys-permissions" dir="auto">Logo, background, SSH keys, permissions</h2>
+<ul dir="auto">
+<li><strong>Logo and background...</strong> (common settings, or a device): any picture, scaled and saved as PNG, for every device<br>
+or one.</li>
+<li><strong>SSH keys</strong>: the keys of the administrators, sent to every device (<code class="notranslate">SSH=on</code>); <strong>Add the key of the manager</strong> puts<br>
+the vault's key there for the remote screen.</li>
+<li><strong>Check permissions</strong> tells you what the account of the devices can do in the folder: it needs to write only its<br>
+status, never the settings or the updates.</li>
+<li>The window fits any screen, from a 27" monitor to a laptop with display scaling (down to 860Ôö£├╣560).</li>
+</ul>
+<h2 id="the-manager-updates-itself" dir="auto">The manager updates itself</h2>
+<p dir="auto">Every release carries the manager of the same version, under the same signature as the update package. At start,<br>
+in the background, the manager checks the latest release; when there is a newer manager, the top bar shows<br>
+<em><strong>Manager X available</strong></em>. <strong>Update the manager</strong> downloads it, checks signature and hash, keeps the files it<br>
+replaces in <code class="notranslate">previous\</code>, and starts again. Your <code class="notranslate">vault.otr</code>, the launcher and anything that is not part of the<br>
+manager stay as they are; if anything fails, the previous files come back.</p>
+<p dir="auto">Update the copy the administrators start (on a share, from a PC that can write there): everybody who starts it gets<br>
+the new version. The <strong>Updates</strong> page shows the manager's version and has <strong>Check again</strong>. Details:<br>
+<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#the-manager-updates-itself">management.md</a>.</p>
+<h2 id="starting-it-and-the-command-line" dir="auto">Starting it, and the command line</h2>
+<ul dir="auto">
+<li><code class="notranslate">OpenThinRDP-Manager.vbs</code> starts it without a console window; <code class="notranslate">build-launcher.ps1</code> makes an <code class="notranslate">.exe</code> with the<br>
+OpenThinRDP icon to pin to the taskbar, and with <code class="notranslate">-Install</code> a shortcut on each PC that starts the copy on the share<br>
+(<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#central-settings">details</a>).</li>
+<li><code class="notranslate">OpenThinRDP-Manager.cmd -Folder \\fileserver\thinclients -Language en|it</code>: the folder and the language (by default<br>
+the Windows display language).</li>
+<li><code class="notranslate">OpenThinRDP-Manager.cmd -Sign &lt;folder&gt;\LATEST.txt</code>: signs an update package you built with <code class="notranslate">make-update.sh</code>, with<br>
+the key in the vault (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#signed-updates">Signed updates</a>).</li>
+<li><code class="notranslate">OpenThinRDP-Manager.cmd -UpdateManager</code>: updates the manager without a window (exit code 0 = updated, 1 = error,<br>
+2 = nothing to do).</li>
+</ul>
+<p dir="auto">What is in the folder, file by file, and how the devices use it: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md">management.md</a>.</p>
+</main>
+<footer class="bar small">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/manager.md">docs/manager.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>.</footer>
+</body>
+</html>

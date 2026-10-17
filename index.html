@@ -8,7 +8,7 @@
 <link rel="canonical" href="https://openthinrdp.github.io/">
 <link rel="icon" href="img/icon.png">
 <meta property="og:type" content="website">
-<meta property="og:title" content="OpenThinRDP â€“ open source thin client OS for RDS and VDI">
+<meta property="og:title" content="OpenThinRDP â€“ open source thin client OS with RDP over UDP for RDS and VDI">
 <meta property="og:description" content="OpenThinRDP: open source thin client operating system for Microsoft Remote Desktop (RDS and VDI), Debian 13 with FreeRDP and the RDP UDP transport. Free, signed updates, central management.">
 <meta property="og:url" content="https://openthinrdp.github.io/">
 <meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
@@ -23,8 +23,8 @@
 </script>
 </head>
 <body>
-<header class="bar"><a class="home" href="https://github.com/OpenThinRdp/openthinrdp"><img src="img/icon.png" alt="" width="28" height="28"> OpenThinRDP</a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.0</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/tree/main/docs">Documentation</a></nav></header>
+<header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="img/icon.png" alt="" width="28" height="28"> OpenThinRDP</a>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.0</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/tree/main/docs">Documentation</a></nav></header>
 <main class="markdown-body">
 <p align="center" dir="auto"><a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/logo.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/logo.png" alt="OpenThinRDP" width="480" style="max-width: 100%;"></a></p>
 <p align="center" dir="auto"><b>The open source thin client OS with RDP over UDP<br>
@@ -66,7 +66,7 @@ every commit (<a href="https://github.com/OpenThinRdp/openthinrdp/actions/workfl
 what is only tested and what does not exist yet:<br>
 <strong><a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/status.md">docs/status.md</a></strong>. Try it live, then on one device, before rolling it out.</p>
 </blockquote>
-<h2 dir="auto">RDP over UDP that keeps going on a bad line</h2>
+<h2 id="rdp-over-udp-that-keeps-going-on-a-bad-line" dir="auto">RDP over UDP that keeps going on a bad line</h2>
 <p dir="auto">It started with a faulty switch port losing 43% of the large packets: over TCP the remote desktop froze. We<br>
 reproduced that line, then raised the loss on every packet from the virtual machine step by step (Windows 11 VDI,<br>
 full-screen load changing every pixel, frame rate measured by the server):</p>
@@ -113,7 +113,7 @@ netem: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/tests/udp-b
 <p dir="auto">Getting there took a fix to FreeRDP's UDP transport, which we found and reported in<br>
 <a href="https://github.com/FreeRDP/FreeRDP/pull/13608" data-hovercard-type="pull_request" data-hovercard-url="/FreeRDP/FreeRDP/pull/13608/hovercard">#13608</a>, and which is now part of it. Every step and the TCP<br>
 numbers: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/udp.md#on-a-lossy-line">docs/udp.md</a>.</p>
-<h2 dir="auto">Who it is for</h2>
+<h2 id="who-it-is-for" dir="auto">Who it is for</h2>
 <ul dir="auto">
 <li>You publish desktops with <strong>Windows Remote Desktop Services</strong>: RD Connection Broker with session hosts or a<br>
 Hyper-V VDI collection. Or there is no broker at all: each device connects to one Windows PC or server (set<br>
@@ -133,7 +133,7 @@ covers the whole fleet.</li>
 </ul>
 <p dir="auto">Not for you (yet): Citrix, VMware/Omnissa Horizon and other protocols (OpenThinRDP does RDP only), ARM devices,<br>
 PCs without UEFI.</p>
-<h2 dir="auto">Requirements</h2>
+<h2 id="requirements" dir="auto">Requirements</h2>
 <markdown-accessiblity-table><table role="table">
 <thead>
 <tr>
@@ -169,7 +169,7 @@ PCs without UEFI.</p>
 </tbody>
 </table></markdown-accessiblity-table>
 <p dir="auto">Tested hardware and firmware settings: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/hardware.md">docs/hardware.md</a>.</p>
-<h2 dir="auto">Try it in five minutes</h2>
+<h2 id="try-it-in-five-minutes" dir="auto">Try it in five minutes</h2>
 <ol dir="auto">
 <li><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download <code class="notranslate">openthinrdp-&lt;version&gt;.iso</code></a> and write it<br>
 to a USB stick with any raw image writer (Rufus in DD mode, balenaEtcher, <code class="notranslate">dd</code>).</li>
@@ -183,7 +183,7 @@ anything (answer <em>Yes</em> to go on), then about three minutes. It installs o
 a USB disk (not even the installation stick). For rollouts, <em>Unattended install</em> skips the question.</li>
 </ol>
 <p dir="auto">What the device needs: <a href="#requirements">Requirements</a>.</p>
-<h2 dir="auto">What it does</h2>
+<h2 id="what-it-does" dir="auto">What it does</h2>
 <ul dir="auto">
 <li><strong>Remote desktop over UDP.</strong> Windows sends the graphics (and USB, sound and camera) over UDP and adapts frame rate and quality to the line<br>
 instead of queueing: smoother on busy servers, lossy Wi-Fi and VPNs. The image ships FreeRDP built with the UDP<br>
@@ -231,47 +231,27 @@ account.</li>
 <a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/end-of-session.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/end-of-session.png" alt="End of session with a countdown" width="32%" style="max-width: 100%;"></a>
 <a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/update.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/update.png" alt="Software update in progress" width="32%" style="max-width: 100%;"></a>
 </p>
-<h2 dir="auto">The manager: the whole fleet from one window</h2>
+<h2 id="the-manager-the-whole-fleet-from-one-window" dir="auto">The manager: the whole fleet from one window</h2>
 <p dir="auto"><code class="notranslate">OpenThinRDP-Manager</code> is one PowerShell script for Windows 10/11 (English and Italian, nothing to install) that works<br>
 on the shared folder the devices report to. No server, no agent, no database: what you see is the files in the folder.</p>
 <p align="center" dir="auto">
-<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-devices.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-devices.png" alt="Manager: every device, its settings and the Remote screen button" width="49%" style="max-width: 100%;"></a>
-<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/remote-screen.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/remote-screen.png" alt="Remote screen of a device in the browser, with the notice on the device" width="49%" style="max-width: 100%;"></a>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-devices.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-devices.png" alt="Manager: every device, its state, user and version, and its settings" width="49%" style="max-width: 100%;"></a>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-updates.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-updates.png" alt="Manager, Updates page: all devices on one version, a pilot device on the newest" width="49%" style="max-width: 100%;"></a>
 </p>
 <ul dir="auto">
-<li><strong>Every device at a glance</strong>: a list with the state of each device as a coloured dot, who is signed in, the<br>
-version and the last report, with a search box; the selected device shows its address, a readable summary<br>
-(network, software, FreeRDP, UDP or TCP in use, Wi-Fi, secrets) and its event log.</li>
-<li><strong>Settings for all devices or one</strong>: for each setting, the value in use on the device, where it comes from (the<br>
-device itself, the common settings or an exception for that device) and, in orange, a new value still on its way;<br>
-the help of the selected setting in full under the list. Checked before saving (a device rejects a whole<br>
-configuration with a wrong value, the manager stops it first).</li>
-<li><strong>Remote screen</strong>: one click shows the screen of a device in your browser and lets you use it, to help a user<br>
-("what does it say?") or to sign in once to a dashboard on a hall screen. It goes through SSH only, with the<br>
-key of the manager and a one-time password: nothing new listens on the network, and nothing is installed on your<br>
-PC (the <code class="notranslate">ssh.exe</code> that comes with Windows and your browser). The device shows <em>Remote assistance active</em> while it<br>
-lasts and records it in its events; it ends when you close the window, or by itself after 2 hours, and<br>
-<code class="notranslate">REMOTE_SCREEN=off</code> turns it off (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#remote-screen">details</a>).</li>
-<li><strong>Problems across the fleet</strong>: the event logs of every device read together and grouped, so "six devices could not<br>
-reach the broker this morning" is one line instead of six logs.</li>
-<li><strong>A vault with an access code</strong> for the two keys that rule the fleet: the SSH key that opens the screens and the<br>
-key that signs the update packages. Every administrator of the manager opens it with the same code; without it<br>
-no screen opens and nothing is signed. Update packages are signed in the manager, so the signing key never sits<br>
-on a build machine (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#vault">details</a>). With <code class="notranslate">UPDATE_KEY=site</code> your devices accept only the key<br>
-of your site: the manager checks each GitHub release and signs it again with that key<br>
-(<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#a-fleet-on-its-own-key">details</a>).</li>
-<li><strong>Logo and background picture</strong>, for all devices or one; <strong>SSH keys</strong> of the administrators; <strong>releases</strong> from<br>
-GitHub copied into the folder for devices that update from it; a <strong>permissions check</strong> of the folder.</li>
-<li><strong>Fits any screen</strong>, from a 27" monitor down to a laptop with display scaling: every column stays in view, rows<br>
-of buttons wrap, the top bar keeps only its icons when the room is short. <code class="notranslate">build-launcher.ps1</code> makes an <code class="notranslate">.exe</code><br>
-with the OpenThinRDP icon to pin to the taskbar, which starts the manager without a console window<br>
-(<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#central-settings">details</a>).</li>
+<li><strong>Every device at a glance</strong>: state, user, version, last report, a readable summary and the event log of each.</li>
+<li><strong>Settings for all devices or one</strong>, checked before saving, with the value in use on each device and what is<br>
+still on its way.</li>
+<li><strong>A new version on a few devices first, then on all</strong>: <em>Release from GitHub</em> asks <em>pilot devices only</em> or <em>all<br>
+devices</em>; the others stay where they are until <em>Release to all devices</em>.</li>
+<li><strong>Back to an earlier version when something breaks</strong>, for the whole fleet or one device, FreeRDP included: one<br>
+click on the Updates page.</li>
+<li><strong>Remote screen</strong> of any device in your browser, over SSH only, with a notice on the device.</li>
+<li><strong>Problems across the fleet</strong> grouped from every event log; a <strong>vault</strong> for the SSH key and the signing key; your<br>
+fleet on <strong>its own signing key</strong>; logo and background; and the manager <strong>updates itself</strong> from the signed releases.</li>
 </ul>
-<p align="center" dir="auto">
-<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-vault.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-vault.png" alt="Vault page of the manager: the access code, the SSH key of the manager, the key that signs the updates" width="70%" style="max-width: 100%;"></a>
-</p>
-<p dir="auto">Every change is written to a change log in the folder. Guide: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md">docs/management.md</a>.</p>
-<h2 dir="auto">Screens that only show a web page</h2>
+<p dir="auto"><strong>Everything it does, page by page, with the steps for a pilot group and for going back: <a href="https://openthinrdp.github.io/manager.html">docs/manager.md</a>.</strong></p>
+<h2 id="screens-that-only-show-a-web-page" dir="auto">Screens that only show a web page</h2>
 <p dir="auto">The same image runs the screens that never need a Windows desktop: a TV in the hall, a dashboard in the<br>
 office, an info point, a board in production. With <code class="notranslate">WEB_BUTTON=kiosk</code> and <code class="notranslate">KIOSK_URL</code>:</p>
 <ul dir="auto">
@@ -289,7 +269,7 @@ on cable or Wi-Fi; status and events of every screen are in the management folde
 Ctrl+Shift+W closes the page. The settings can be locked with a PIN.</li>
 </ul>
 <p dir="auto">Settings: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md#web-button-and-kiosk-page">docs/configuration.md</a>.</p>
-<h2 dir="auto">Why it is built this way</h2>
+<h2 id="why-it-is-built-this-way" dir="auto">Why it is built this way</h2>
 <p dir="auto"><strong>Why FreeRDP is not updated automatically.</strong> Debian security updates install by themselves, but FreeRDP is<br>
 excluded. First, the image ships its own FreeRDP build with UDP, which Debian's packages would replace with a<br>
 version without it. Second, the remote desktop client is the part users depend on: a new FreeRDP version can<br>
@@ -306,7 +286,7 @@ install, patch or license on the server side, and the settings are plain text fi
 up.</p>
 <p dir="auto"><strong>Why Debian.</strong> Stable, security updates for years, every driver and firmware package, and a kiosk on top of it<br>
 that you can read: the whole client side is a few shell scripts in <code class="notranslate">rootfs/opt/openthinrdp</code>.</p>
-<h2 dir="auto">How it compares</h2>
+<h2 id="how-it-compares" dir="auto">How it compares</h2>
 <markdown-accessiblity-table><table role="table">
 <thead>
 <tr>
@@ -381,7 +361,7 @@ that you can read: the whole client side is a few shell scripts in <code class="
 choice. OpenThinRDP is for networks built on Windows Remote Desktop that want a free, open client that is simple<br>
 to manage, and for anyone who wants to put FreeRDP's UDP transport to work. Product names are trademarks of<br>
 their owners; the comparison reflects public information and our understanding, corrections are welcome.</p>
-<h2 dir="auto">What comes next</h2>
+<h2 id="what-comes-next" dir="auto">What comes next</h2>
 <p dir="auto">Ideas we would like to build, roughly in this order. Tell us in an issue which ones you need, or send a pull<br>
 request:</p>
 <ul dir="auto">
@@ -389,24 +369,25 @@ request:</p>
 <li><strong>Network installation (PXE)</strong> for many devices at once.</li>
 <li><strong>More tested hardware</strong> and more languages (one file each).</li>
 </ul>
-<h2 dir="auto">Build your own image</h2>
+<h2 id="build-your-own-image" dir="auto">Build your own image</h2>
 <p dir="auto">Your logo, your broker, your settings and keys built in (Linux with Docker or Podman):</p>
 <pre class="notranslate"><code class="notranslate">cp -r image/site.example image/site      # then edit image/site/site.conf and build.conf, add your logo
 image/build.sh
 </code></pre>
 <p dir="auto">The result is <code class="notranslate">out/openthinrdp-&lt;version&gt;.iso</code>. See <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/building.md">docs/building.md</a>.</p>
-<h2 dir="auto">Documentation</h2>
+<h2 id="documentation" dir="auto">Documentation</h2>
 <ul dir="auto">
 <li><a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/CHANGELOG.md">CHANGELOG.md</a>: what changed in each release.</li>
 <li><a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/status.md">docs/status.md</a>: what is in production, what is only tested, what does not exist yet.</li>
 <li><a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md">docs/configuration.md</a>: every setting.</li>
+<li><a href="https://openthinrdp.github.io/manager.html">docs/manager.md</a>: the Windows manager, page by page: devices, settings, pilot devices and going back.</li>
 <li><a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md">docs/management.md</a>: the management folder, central settings, SSH keys, signed updates.</li>
 <li><a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/building.md">docs/building.md</a>: building and customizing the image.</li>
 <li><a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/security.md">docs/security.md</a>: security model and known limits.</li>
 <li><a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/hardware.md">docs/hardware.md</a>: tested hardware and firmware settings.</li>
 <li><a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/udp.md">docs/udp.md</a>: the UDP transport and the FreeRDP the image ships.</li>
 </ul>
-<h2 dir="auto">Layout</h2>
+<h2 id="layout" dir="auto">Layout</h2>
 <markdown-accessiblity-table><table role="table">
 <thead>
 <tr>
@@ -437,12 +418,12 @@ image/build.sh
 </tr>
 </tbody>
 </table></markdown-accessiblity-table>
-<h2 dir="auto">Contributing</h2>
+<h2 id="contributing" dir="auto">Contributing</h2>
 <p dir="auto">Issues and pull requests are welcome. Please describe the hardware and the Windows side (broker, session<br>
 host version) for anything related to connections or devices. See <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a> and the<br>
 <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/CODE_OF_CONDUCT.md">code of conduct</a>.</p>
 <p dir="auto">Security problems: please report them privately, see <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/SECURITY.md">SECURITY.md</a>.</p>
-<h2 dir="auto">License</h2>
+<h2 id="license" dir="auto">License</h2>
 <p dir="auto">Apache License 2.0, see <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE">LICENSE</a>. OpenThinRDP uses FreeRDP (Apache 2.0), the noVNC viewer for the remote<br>
 screen (included unmodified, MPL 2.0 and BSD, <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/rootfs/opt/openthinrdp/novnc">rootfs/opt/openthinrdp/novnc</a>) and Debian packages under<br>
 their own licenses. Windows and Remote Desktop are trademarks of Microsoft; this project is not affiliated with<br>

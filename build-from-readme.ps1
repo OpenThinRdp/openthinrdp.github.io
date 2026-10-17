@@ -81,9 +81,9 @@ $body
   "${out}: $doc of $repo, release $ver, $([math]::Round($html.Length/1KB)) KB"
 }
 
-Build-Page 'README.md' 'index.html' 'OpenThinRDP – open source thin client OS with RDP over UDP for RDS and VDI' `
+Build-Page 'README.md' 'index.html' 'OpenThinRDP &#8211; open source thin client OS with RDP over UDP for RDS and VDI' `
   'OpenThinRDP: open source thin client operating system for Microsoft Remote Desktop (RDS and VDI), Debian 13 with FreeRDP and the RDP UDP transport. Free, signed updates, central management.' `
   "This page is the project README as published on <a href=`"https://github.com/$repo`">GitHub</a>, where the documentation, the releases and the discussions are."
-Build-Page 'docs/manager.md' 'manager.html' 'OpenThinRDP manager – the whole thin client fleet from one window' `
+Build-Page 'docs/manager.md' 'manager.html' 'OpenThinRDP manager &#8211; the whole thin client fleet from one window' `
   'The OpenThinRDP manager for Windows: every thin client at a glance, central settings, a new version on pilot devices first, going back to an earlier version for the whole fleet, remote screen, signed updates.' `
   "This page is <a href=`"$blob/docs/manager.md`">docs/manager.md</a> as published on <a href=`"https://github.com/$repo`">GitHub</a>."

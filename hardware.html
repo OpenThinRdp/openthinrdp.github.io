@@ -130,11 +130,12 @@ tested them: if you try one, a line in the <a href="https://github.com/OpenThinR
 bigger module.</p>
 <h2 id="not-supported" dir="auto">Not supported</h2>
 <ul dir="auto">
-<li><strong>ARM</strong> (Raspberry Pi and ARM thin clients): in preparation, the Raspberry Pi 4 first.</li>
+<li><strong>ARM</strong> other than the Raspberry Pi 4 (the Raspberry Pi 5, ARM thin clients): not supported yet.</li>
 <li><strong>32-bit only</strong> CPUs (older Atom and VIA models): Debian 13 no longer runs on them.</li>
 </ul>
-<p dir="auto"><strong>Raspberry Pi 4</strong> (arm64): an SD card image built by <code class="notranslate">image/build-rpi.sh</code>, tested in emulation only so far. What is<br>
-different from a PC and what to check on the first board: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/arm.md">arm.md</a>.</p>
+<p dir="auto"><strong>Raspberry Pi 4</strong> (arm64), experimental: an SD card image built by <code class="notranslate">image/build-rpi.sh</code><br>
+(<a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/rpi-test-1">pre-release</a>), tested only in QEMU arm64<br>
+emulation, not yet on a real board. What is different from a PC and what to check on the first board: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/arm.md">arm.md</a>.</p>
 <h2 id="firmware-settings-dell" dir="auto">Firmware settings (Dell)</h2>
 <ul dir="auto">
 <li><strong>Wake-on-LAN</strong>: enable "Wake on LAN" and <strong>disable "Deep Sleep Control"</strong>. With deep sleep in S4/S5 the<br>

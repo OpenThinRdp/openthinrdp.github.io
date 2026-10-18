@@ -137,8 +137,10 @@ per device.</li>
 system, no sign-in, the page chosen centrally (<a href="#screens-that-only-show-a-web-page">see below</a>), so one image<br>
 covers the whole fleet.</li>
 </ul>
-<p dir="auto">Not for you (yet): Citrix, VMware/Omnissa Horizon and other protocols (OpenThinRDP does RDP only), ARM devices<br>
-(the Raspberry Pi 4 is <a href="https://github.com/OpenThinRdp/openthinrdp/issues/61" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/61/hovercard">in preparation</a>), 32-bit only PCs.</p>
+<p dir="auto">Not for you (yet): Citrix, VMware/Omnissa Horizon and other protocols (OpenThinRDP does RDP only), 32-bit only<br>
+PCs. ARM is experimental: an SD card image for the Raspberry Pi 4<br>
+(<a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/rpi-test-1">pre-release</a>), tested in QEMU emulation only,<br>
+not yet on a real board (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/arm.md">what to check</a>); the Pi 5 is not supported yet.</p>
 <h2 id="requirements" dir="auto">Requirements</h2>
 <markdown-accessiblity-table><table role="table">
 <thead>
@@ -327,7 +329,7 @@ that you can read: the whole client side is a few shell scripts in <code class="
 </tr>
 <tr>
 <td>Runs on</td>
-<td>x86-64 PCs and thin clients, UEFI or BIOS</td>
+<td>x86-64 PCs and thin clients, UEFI or BIOS; Raspberry Pi 4 (experimental)</td>
 <td>Dell thin clients</td>
 <td>many x86-64 devices</td>
 <td>x86-64 PCs, Raspberry Pi</td>

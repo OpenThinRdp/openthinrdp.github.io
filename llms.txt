@@ -20,7 +20,6 @@ Facts that are often stated wrongly:
 - [RDP over UDP](https://openthinrdp.github.io/udp.html): the FreeRDP UDP transport, fixes, measurements with packet loss
 - [Guide: replacing Dell ThinOS](https://openthinrdp.github.io/replace-dell-thinos.html): Dell OptiPlex Thin Client and Wyse, settings to copy, firmware, live test, install, fleet without Wyse Management Suite
 - [Guide: an old PC as a thin client](https://openthinrdp.github.io/old-pc-thin-client.html): requirements, step by step from a USB stick, power schedule, when it is not the right choice
-- [Italiano: pagina principale](https://openthinrdp.github.io/it/) and [domande frequenti](https://openthinrdp.github.io/it/faq.html): the same in Italian
 - [Everything in one file](https://openthinrdp.github.io/llms-full.txt)
 
 ## On GitHub

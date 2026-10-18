@@ -1,7 +1,7 @@
 # Builds https://openthinrdp.github.io/ from the documents published on GitHub, so the site is never a second copy
 # of the documentation: the text rendered by GitHub itself, links pointing to the pages of the site or to GitHub.
-# The pages are listed in $site_pages below (English and Italian, linked to each other with hreflang); then
-# llms-full.txt (the main documents whole, for AI assistants) and sitemap.xml.
+# The pages are listed in $site_pages below. English only (decided 13/10): it/ and it/faq.html only redirect, because a
+# translation lags behind and says wrong things. Then llms-full.txt (the main documents whole, for AI assistants) and sitemap.xml.
 # Run it after every release (or change of those documents), then commit and push this folder.
 #   powershell -ExecutionPolicy Bypass -File build-from-readme.ps1
 $ErrorActionPreference = 'Stop'
@@ -19,21 +19,15 @@ $dash = '&#8211;'   # PowerShell 5.1 reads this file as ANSI: no non-ASCII chara
 # Doc = file of the repository; Url = its address on the site ('' = home, a folder ends with /); Alt = the same page in
 # the other language; Faq = FAQPage structured data from its "### question" sections
 $site_pages = @(
-  @{ Doc = 'README.md'; Url = ''; Lang = 'en'; Alt = 'it/'
+  @{ Doc = 'README.md'; Url = ''; Lang = 'en'
      Title = "OpenThinRDP $dash open source thin client OS with RDP over UDP for RDS and VDI"
      Desc = 'OpenThinRDP: free, open source thin client operating system for Microsoft Remote Desktop (RDS and VDI), on premises or in the cloud. Debian 13 with FreeRDP and the RDP UDP transport, a kiosk sign-in, central management from a shared folder, signed updates with pilot devices and rollback.' }
-  @{ Doc = 'README.it.md'; Url = 'it/'; Lang = 'it'; Alt = ''
-     Title = "OpenThinRDP $dash sistema operativo open source per thin client, RDP su UDP per RDS e VDI"
-     Desc = 'OpenThinRDP: sistema operativo gratuito e open source per thin client e vecchi PC che si collegano a Desktop remoto Windows (RDS e VDI), in sede o nel cloud. Debian 13 con FreeRDP e il trasporto UDP, accesso in kiosk, gestione centrale da una cartella condivisa, aggiornamenti firmati con postazioni pilota e ritorno indietro.' }
   @{ Doc = 'docs/manager.md'; Url = 'manager.html'; Lang = 'en'
      Title = "OpenThinRDP manager $dash the whole thin client fleet from one window"
      Desc = 'The OpenThinRDP manager for Windows: every thin client at a glance, central settings, a new version on pilot devices first, going back to an earlier version for the whole fleet, remote screen, signed updates. No server.' }
-  @{ Doc = 'docs/faq.md'; Url = 'faq.html'; Lang = 'en'; Alt = 'it/faq.html'; Faq = $true
+  @{ Doc = 'docs/faq.md'; Url = 'faq.html'; Lang = 'en'; Faq = $true
      Title = "OpenThinRDP FAQ $dash hardware, drivers, RDP over UDP, Azure, PXE, 802.1X"
      Desc = 'Questions and answers about OpenThinRDP, the free thin client OS for Microsoft Remote Desktop: which hardware, drivers, RDP over UDP, RDS and VDI, Azure Virtual Desktop, management without a server, updates and rollback, PXE, 802.1X.' }
-  @{ Doc = 'docs/faq.it.md'; Url = 'it/faq.html'; Lang = 'it'; Alt = 'faq.html'; Faq = $true
-     Title = "OpenThinRDP domande frequenti $dash hardware, driver, RDP su UDP, Azure, PXE, 802.1X"
-     Desc = 'Domande e risposte su OpenThinRDP, il sistema operativo gratuito per thin client con Desktop remoto Windows: quale hardware, driver, RDP su UDP, RDS e VDI, Azure Virtual Desktop, gestione senza server, aggiornamenti e ritorno indietro, PXE, 802.1X.' }
   @{ Doc = 'docs/alternatives.md'; Url = 'alternatives.html'; Lang = 'en'
      Title = 'OpenThinRDP compared with Linux Mint + Remmina, IGEL OS, Dell ThinOS, Stratodesk, ThinStation'
      Desc = 'A free alternative to IGEL OS, Dell ThinOS, Stratodesk NoTouch, ThinStation and openthinclient for Windows Remote Desktop, and why not just Linux Mint with Remmina: RDP over UDP, a locked kiosk, central management, signed updates with rollback.' }

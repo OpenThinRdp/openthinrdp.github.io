@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenThinRDP hardware &#8211; drivers, requirements, thin clients that run it</title>
+<meta name="description" content="Hardware for OpenThinRDP: any 64-bit x86 PC or thin client, UEFI or legacy BIOS, with the complete Debian 13 kernel and firmware. Tested devices, used thin clients that meet the requirements (Dell Wyse, HP t-series, Fujitsu Futro), firmware settings.">
+<link rel="canonical" href="https://openthinrdp.github.io/hardware.html">
+<link rel="icon" href="img/icon.png">
+<link rel="alternate" type="text/plain" href="https://openthinrdp.github.io/llms-full.txt" title="The documentation in one text file">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenThinRDP">
+<meta property="og:title" content="OpenThinRDP hardware &#8211; drivers, requirements, thin clients that run it">
+<meta property="og:description" content="Hardware for OpenThinRDP: any 64-bit x86 PC or thin client, UEFI or legacy BIOS, with the complete Debian 13 kernel and firmware. Tested devices, used thin clients that meet the requirements (Dell Wyse, HP t-series, Fujitsu Futro), firmware settings.">
+<meta property="og:url" content="https://openthinrdp.github.io/hardware.html">
+<meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.1","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
+ "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
+</script>
+
+</head>
+<body>
+<header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="img/icon.png" alt="" width="28" height="28"> OpenThinRDP</a>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.1</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<main class="markdown-body">
+<h1 id="hardware" dir="auto">Hardware</h1>
+<h2 id="drivers-all-of-debians" dir="auto">Drivers: all of Debian's</h2>
+<p dir="auto">OpenThinRDP is light because it runs no desktop, not because drivers were left out. The downloadable ISO carries<br>
+the <strong>complete Debian 13 kernel (Linux 6.12) with every driver module, and every firmware package Debian has</strong><br>
+(<code class="notranslate">firmware-linux-nonfree</code>, <code class="notranslate">firmware-realtek</code>, <code class="notranslate">firmware-iwlwifi</code>, <code class="notranslate">firmware-atheros</code>, <code class="notranslate">firmware-brcm80211</code>,<br>
+<code class="notranslate">firmware-mediatek</code>, <code class="notranslate">firmware-amd-graphics</code>, <code class="notranslate">firmware-intel-graphics</code>, <code class="notranslate">firmware-sof-signed</code> and the others: the<br>
+<code class="notranslate">FIRMWARE=all</code> build of <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/building.md">building.md</a>). A network card, Wi-Fi adapter or graphics chip that works with<br>
+Debian 13, or with the Ubuntu and Linux Mint releases of the same period, works the same here. Only an image you<br>
+build yourself with <code class="notranslate">FIRMWARE=thinclient</code> keeps just the usual thin client firmware, to save about 600 MB.</p>
+<p dir="auto">The quickest way to know: start the ISO <strong>live</strong> from a USB stick. Nothing is written to the disk, and the<br>
+diagnostics (ℹ on the sign-in screen) show the network card, the address and whether the brokers answer.</p>
+<h2 id="requirements" dir="auto">Requirements</h2>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU</td>
+<td>64-bit x86 (x86-64): Intel, AMD, VIA. 32-bit only CPUs cannot run Debian 13</td>
+</tr>
+<tr>
+<td>Firmware</td>
+<td>UEFI, with or without Secure Boot, or a legacy BIOS</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>2 GB</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>8 GB to install; none to run it live from a USB stick</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h2 id="tested" dir="auto">Tested</h2>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>Device</th>
+<th>Firmware</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dell OptiPlex 3000 Thin Client (Intel Pentium Silver/Celeron, eMMC, Realtek NIC, Intel Wi-Fi)</td>
+<td>UEFI, Secure Boot</td>
+<td>the production fleet: 14 devices, boot to sign-in form in about 6 s after the firmware</td>
+</tr>
+<tr>
+<td>QEMU/KVM virtual machine (OVMF)</td>
+<td>UEFI, Secure Boot</td>
+<td>every release: live system, automatic and confirmed installation, first update</td>
+</tr>
+<tr>
+<td>QEMU/KVM virtual machine (SeaBIOS)</td>
+<td>legacy BIOS</td>
+<td>live system and installation</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h2 id="should-work-models-that-meet-the-requirements" dir="auto">Should work: models that meet the requirements</h2>
+<p dir="auto">These are common used thin clients with a 64-bit CPU, 2 GB of RAM or more and 8 GB of storage or more. We have not<br>
+tested them: if you try one, a line in the <a href="https://github.com/OpenThinRdp/openthinrdp/discussions/3" data-hovercard-type="discussion" data-hovercard-url="/OpenThinRdp/openthinrdp/discussions/3/hovercard">discussions</a><br>
+(model, what works and what does not) moves it to the table above.</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>Family</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dell Wyse</td>
+<td>3040, 5060, 5070, 5470</td>
+</tr>
+<tr>
+<td>HP</td>
+<td>t520, t620, t630, t640, t540</td>
+</tr>
+<tr>
+<td>Fujitsu Futro</td>
+<td>S740, S940, S920</td>
+</tr>
+<tr>
+<td>Lenovo, IGEL and others</td>
+<td>ThinCentre M625q, IGEL UD3 (x86-64 models), any office mini PC</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">Some of them ship with less storage than 8 GB in their smallest version: run them live from a USB stick or put in a<br>
+bigger module.</p>
+<h2 id="not-supported" dir="auto">Not supported</h2>
+<ul dir="auto">
+<li><strong>ARM</strong> (Raspberry Pi and ARM thin clients): in preparation, the Raspberry Pi 4 first.</li>
+<li><strong>32-bit only</strong> CPUs (older Atom and VIA models): Debian 13 no longer runs on them.</li>
+</ul>
+<h2 id="firmware-settings-dell" dir="auto">Firmware settings (Dell)</h2>
+<ul dir="auto">
+<li><strong>Wake-on-LAN</strong>: enable "Wake on LAN" and <strong>disable "Deep Sleep Control"</strong>. With deep sleep in S4/S5 the<br>
+network card is off and the magic packet never arrives. The same setting blocks the RTC alarm used by<br>
+<code class="notranslate">POWER_ON_TIME</code>.</li>
+<li><strong>USB boot</strong> must be enabled to install from a stick (Integrated Devices).</li>
+<li>On Linux the settings can be changed without entering the setup screen, through <code class="notranslate">dell-wmi-sysman</code><br>
+(<code class="notranslate">/sys/class/firmware-attributes/dell-wmi-sysman/</code>), with the BIOS admin password if one is set.</li>
+</ul>
+<h2 id="monitors" dir="auto">Monitors</h2>
+<ul dir="auto">
+<li>A monitor switched on after the thin client (or a slow HDMI/DisplayPort link) leaves X without an output:<br>
+the kiosk checks every 2 s and enables it.</li>
+<li>Monitors with a built-in USB hub may expose a "Hub Controller" device: it is kept local.</li>
+<li>Touch monitors stay local and their touches go to Windows as real touch input (<code class="notranslate">+multitouch</code>).</li>
+</ul>
+<h2 id="usb-devices-seen-in-the-field" dir="auto">USB devices seen in the field</h2>
+<ul dir="auto">
+<li>Webcams with microphone (UVC + audio): camera through the RDP camera channel, microphone through the RDP audio<br>
+channel (tested with an eMeet Nova and an HD Web Camera 05a3:9331 against Windows 11 and Zoom).</li>
+<li>Signature keys with smart card reader + storage: the reader goes through the smart card channel, the<br>
+storage as a whole device.</li>
+<li>Composite devices that restart in another mode once they see a PC (e.g. tachograph download keys): passed<br>
+with <code class="notranslate">/usb:auto</code>, so they are passed again after re-enumeration. Devices plugged in during the session are<br>
+passed only with a FreeRDP that has the <code class="notranslate">filter:</code> option of the USB channel (merged upstream after 3.32.1);<br>
+with older versions plug them in before signing in, or list them in <code class="notranslate">USB_REDIRECT</code>.</li>
+<li>USB network adapters are never passed (the device would lose its own network).</li>
+</ul>
+</main>
+<footer class="bar small">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/hardware.md">docs/hardware.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</footer>
+</body>
+</html>

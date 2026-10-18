@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RDP over UDP on Linux &#8211; the FreeRDP UDP transport in OpenThinRDP</title>
+<meta name="description" content="RDP over UDP on Linux with FreeRDP: the UDP transport (MS-RDPEUDP, pull request 13608) built and shipped by OpenThinRDP, what travels over UDP, the fixes we found and the measurements with packet loss against TCP.">
+<link rel="canonical" href="https://openthinrdp.github.io/udp.html">
+<link rel="icon" href="img/icon.png">
+<link rel="alternate" type="text/plain" href="https://openthinrdp.github.io/llms-full.txt" title="The documentation in one text file">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenThinRDP">
+<meta property="og:title" content="RDP over UDP on Linux &#8211; the FreeRDP UDP transport in OpenThinRDP">
+<meta property="og:description" content="RDP over UDP on Linux with FreeRDP: the UDP transport (MS-RDPEUDP, pull request 13608) built and shipped by OpenThinRDP, what travels over UDP, the fixes we found and the measurements with packet loss against TCP.">
+<meta property="og:url" content="https://openthinrdp.github.io/udp.html">
+<meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.1","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
+ "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
+</script>
+
+</head>
+<body>
+<header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="img/icon.png" alt="" width="28" height="28"> OpenThinRDP</a>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.1</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<main class="markdown-body">
+<h1 id="udp-transport" dir="auto">UDP transport</h1>
+<p dir="auto">Windows sends Remote Desktop graphics over UDP when the client supports MS-RDPEMT/RDPEUDP. Over TCP a busy<br>
+server or a lossy line makes the screen fall behind: every lost packet holds up everything after it. Over UDP<br>
+the server measures the line and lowers frame rate and quality instead, so the session stays responsive.</p>
+<p dir="auto">FreeRDP does not ship UDP support yet: it is under review upstream<br>
+(<a href="https://github.com/FreeRDP/FreeRDP/pull/13608" data-hovercard-type="pull_request" data-hovercard-url="/FreeRDP/FreeRDP/pull/13608/hovercard">FreeRDP pull request #13608</a>). OpenThinRDP ships FreeRDP<br>
+built with it, so it works out of the box.</p>
+<h2 id="what-travels-over-udp" dir="auto">What travels over UDP</h2>
+<p dir="auto">With the UDP transport Windows moves the dynamic virtual channels onto the reliable UDP tunnel (with Soft-Sync):<br>
+graphics, USB redirection, audio, camera, input and the other dynamic channels. The static channels stay on the<br>
+TCP connection: clipboard, drive redirection (smart cards and serial ports included) and printing. The TCP<br>
+connection also carries sign-in and licensing and is always needed, also with <code class="notranslate">TRANSPORT=udp</code>: if it drops, the<br>
+session drops.</p>
+<p dir="auto">A USB stick passed whole over the UDP tunnel moved 1 GiB each way and 4000 small files each way, all with the<br>
+same SHA-256 at both ends.</p>
+<h2 id="modes" dir="auto">Modes</h2>
+<p dir="auto"><code class="notranslate">TRANSPORT</code>, per device or for all of them (settings dialog, central settings, manager):</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>Value</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">auto</code> (default)</td>
+<td>UDP. When UDP is blocked, or fails during the session, FreeRDP goes on over TCP; the next connection tries UDP again</td>
+</tr>
+<tr>
+<td><code class="notranslate">udp</code></td>
+<td>UDP only. A connection that runs without UDP for 30 s is closed and opened again; after 3 in a row the device shows "UDP not available". For networks where UDP is known to work, and for testing</td>
+</tr>
+<tr>
+<td><code class="notranslate">tcp</code></td>
+<td>TCP only</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">The kiosk runs FreeRDP with <code class="notranslate">/network:auto</code> for <code class="notranslate">auto</code> and <code class="notranslate">udp</code>, and with <code class="notranslate">-multitransport</code> for <code class="notranslate">tcp</code>. It does<br>
+not use <code class="notranslate">/auto-reconnect</code>: when FreeRDP's own reconnection fails it exits with the same code as an<br>
+administrator disconnect, and the device would stop. The kiosk reopens the session itself instead.</p>
+<p dir="auto">The <code class="notranslate">status\&lt;hostname&gt;.txt</code> line <code class="notranslate">TRANSPORT=auto (in use: udp)</code> shows what the session really uses.</p>
+<h2 id="server-side" dir="auto">Server side</h2>
+<p dir="auto">Nothing to install. UDP must be allowed:</p>
+<ul dir="auto">
+<li>Group Policy *Computer Configuration &gt; Administrative Templates &gt; Windows Components &gt; Remote Desktop Services
+<blockquote>
+<p dir="auto">Remote Desktop Session Host &gt; Connections &gt; Select RDP transport protocols*: not configured, or "Use both<br>
+UDP and TCP".</p>
+</blockquote>
+</li>
+<li>UDP port 3389 open on the session hosts (Windows opens it by default) and on any firewall in between. The<br>
+broker does not need it: it only redirects.</li>
+</ul>
+<h2 id="on-a-lossy-line" dir="auto">On a lossy line</h2>
+<p dir="auto">It started with a switch port with a faulty transceiver, losing <strong>43% of the large packets</strong> (5% of the small<br>
+ones). We reproduced it with netem on the thin client, on the traffic from the virtual machine only, then raised<br>
+the loss on every packet step by step until the session gave up. Windows 11 VDI behind the broker, full-screen<br>
+load that changes every pixel at 30 frames per second; frame rate and loss as reported by the server; 90-120 s per<br>
+step.</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>packets lost</th>
+<th>OpenThinRDP over UDP</th>
+<th>TCP, same line and load</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0%</td>
+<td>15-21 fps</td>
+<td>not measured</td>
+</tr>
+<tr>
+<td>5%</td>
+<td>not measured</td>
+<td>7-12 fps</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>not measured</td>
+<td>6 fps</td>
+</tr>
+<tr>
+<td>20%</td>
+<td>not measured</td>
+<td><strong>0.6 fps</strong>, the screen barely moves</td>
+</tr>
+<tr>
+<td>30%</td>
+<td>not measured</td>
+<td>0.2 fps, 26 frames a second dropped by the server</td>
+</tr>
+<tr>
+<td>43% of the large packets only* (the faulty port)</td>
+<td><strong>16-21 fps</strong>, 7 minutes in a row</td>
+<td>0-0.1 fps</td>
+</tr>
+<tr>
+<td>50%</td>
+<td><strong>19-21 fps</strong></td>
+<td>not measured (already at 0.2 fps with 30%)</td>
+</tr>
+<tr>
+<td>60%</td>
+<td>14-21 fps</td>
+<td>not measured</td>
+</tr>
+<tr>
+<td><strong>70%</strong></td>
+<td><strong>18-19 fps</strong>**</td>
+<td>not measured</td>
+</tr>
+<tr>
+<td>80%</td>
+<td>4 fps, then the tunnel gives up after 18 s</td>
+<td>not measured</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">* Every other row loses that share of all the packets from the virtual machine; this one, as on the faulty port,<br>
+43% of the large packets and 5% of the small ones.<br>
+** With the FreeRDP of OpenThinRDP 0.1.5 (no 1 s freeze at every wrap of the channel sequence; 9-13 fps<br>
+before). At 70% the first thing to give up is the TCP connection that RDP keeps beside the UDP tunnel: after<br>
+20 s without an acknowledgement (<code class="notranslate">/timeout</code>, set by the kiosk) it ends the session, which happened once after<br>
+100 s and not in another run of 150 s.</p>
+<p dir="auto">On UDP no frame was dropped by the server for network reasons up to 70%. A session opened when the line is<br>
+already bad is set up over UDP too (14-19 fps at 43%).</p>
+<p dir="auto"><strong>Limits of these numbers:</strong> one environment (Dell OptiPlex 3000 Thin Client, Windows 11 VDI on Hyper-V behind an<br>
+RD Connection Broker), one kind of load, loss emulated with netem on the client. The method and the scripts are<br>
+in <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/tests/udp-bench/README.md">tests/udp-bench</a>: numbers from other networks and servers are very welcome.</p>
+<p dir="auto">Over TCP every lost packet holds up everything behind it until it is resent; over UDP the lost packets are resent<br>
+while the rest of the stream goes on. Getting there took a fix to the UDP transport: after the channel sequence<br>
+wrapped, an unsigned difference went below zero, the client believed the stream had been stuck for ages and<br>
+ended the connection within 1-25 seconds of the loss starting. We reported it with a fix in the pull request; its<br>
+author fixed the root cause there (the client now skips channel sequence 0 like Windows does).</p>
+<h2 id="the-freerdp-in-the-image" dir="auto">The FreeRDP in the image</h2>
+<p dir="auto"><code class="notranslate">image/freerdp/freerdp.conf</code> names the exact source: commit <code class="notranslate">dda5414</code> on branch<br>
+<a href="https://github.com/Ceschi-ops/FreeRDP/tree/openthinrdp-udp-3.32.2-pr58"><code class="notranslate">openthinrdp-udp-3.32.2-pr58</code></a> of a<br>
+FreeRDP fork, which is the <strong>FreeRDP 3.32.2</strong> release (the security release of 2026-10-12) with the 58 commits of pull<br>
+request #13608, the UDP transport, at its head <code class="notranslate">f54ad1d36</code>, applied unchanged. Several of those commits came from our<br>
+tests: no false "stream is stuck" on lossy lines (see above), ten SYN attempts instead of four (SYN and SYN+ACK are<br>
+padded to the MTU, the first packets a bad line loses), run-length ACK vectors, reconnecting through the broker after<br>
+its one-time token, and UDP declined only when the connection really goes through an RD Gateway.</p>
+<p dir="auto">On top, nine commits of FreeRDP master that came after 3.32.2:</p>
+<ul dir="auto">
+<li>The header of bandwidth measure payloads is counted, as mstsc does. With <code class="notranslate">/network:auto</code>, which the kiosk passes<br>
+with UDP, Windows otherwise reported a bandwidth of 0 and started every session <strong>5 seconds late</strong>: from the<br>
+broker's redirect to the desktop took 5.1 s, now 0.13–0.18 s.</li>
+<li><code class="notranslate">/network</code> is applied before the other options (ours, <a href="https://github.com/FreeRDP/FreeRDP/pull/13748" data-hovercard-type="pull_request" data-hovercard-url="/FreeRDP/FreeRDP/pull/13748/hovercard">#13748</a>).<br>
+Without it <code class="notranslate">/network:auto</code> turned on the H.264 codecs that <code class="notranslate">RDP_GFX</code> turns off, and the server encoded the whole<br>
+desktop with AVC444 (0.1.12).</li>
+<li>The microphone keeps capturing when the server changes only the bit rate (ours,<br>
+<a href="https://github.com/FreeRDP/FreeRDP/pull/13751" data-hovercard-type="pull_request" data-hovercard-url="/FreeRDP/FreeRDP/pull/13751/hovercard">#13751</a>). Windows 11 switches between AAC entries several times a<br>
+second, and every switch closed and reopened the capture: the other end of a call heard gaps.</li>
+<li>RD Gateway: a possible out-of-bounds read, RDG packet handling, a partly read header (five commits).</li>
+<li>USB: a failed kernel driver detach no longer stops the redirection (two commits).</li>
+</ul>
+<p dir="auto">FreeRDP 3.32.2 already contains the USB fixes found while building OpenThinRDP: #13674 (deadlock between USB hotplug<br>
+and the closing of the USB channel) and #13679 (from our #13677: no hang on disconnect with a USB transfer pending),<br>
+plus #13618 (no real USB device reset). When the UDP transport reaches a FreeRDP release, the image goes back to<br>
+Debian's packages.</p>
+<p dir="auto">The packages are built by <code class="notranslate">image/freerdp/build-debs.sh</code> (Debian's trixie-backports packaging, with<br>
+<code class="notranslate">-DWITH_RDPEUDP=ON</code>). The image build downloads the prebuilt ones from the release named in <code class="notranslate">freerdp.conf</code><br>
+and checks them against <code class="notranslate">image/freerdp/SHA256SUMS</code>, or builds them when that file is missing. To use Debian's<br>
+FreeRDP instead (TCP only), set <code class="notranslate">FREERDP_FROM=backports</code> in <code class="notranslate">build.conf</code>.</p>
+<h2 id="reporting" dir="auto">Reporting</h2>
+<p dir="auto">Problems with UDP itself (a session that freezes, drops, falls back to TCP) are worth reporting upstream,<br>
+in the pull request thread, with:</p>
+<ul dir="auto">
+<li>the FreeRDP log of the session (<code class="notranslate">/tmp/kiosk.log</code> on the device; for a session that dropped,<br>
+<code class="notranslate">/tmp/kiosk.log.prev</code>) and the events (<code class="notranslate">status\&lt;hostname&gt;-events.log</code> in the management folder: the DROPPED<br>
+event ends with FreeRDP's last error);</li>
+<li>what the network was doing (Wi-Fi, VPN, loss), and the Windows version of the session host.</li>
+</ul>
+<p dir="auto">Problems with the kiosk or the image: issues in this repository.</p>
+</main>
+<footer class="bar small">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/udp.md">docs/udp.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</footer>
+</body>
+</html>

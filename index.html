@@ -4,12 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OpenThinRDP &#8211; open source thin client OS with RDP over UDP for RDS and VDI</title>
-<meta name="description" content="OpenThinRDP: open source thin client operating system for Microsoft Remote Desktop (RDS and VDI), Debian 13 with FreeRDP and the RDP UDP transport. Free, signed updates, central management.">
+<meta name="description" content="OpenThinRDP: free, open source thin client operating system for Microsoft Remote Desktop (RDS and VDI), on premises or in the cloud. Debian 13 with FreeRDP and the RDP UDP transport, a kiosk sign-in, central management from a shared folder, signed updates with pilot devices and rollback.">
 <link rel="canonical" href="https://openthinrdp.github.io/">
 <link rel="icon" href="img/icon.png">
+<link rel="alternate" type="text/plain" href="https://openthinrdp.github.io/llms-full.txt" title="The documentation in one text file">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenThinRDP">
 <meta property="og:title" content="OpenThinRDP &#8211; open source thin client OS with RDP over UDP for RDS and VDI">
-<meta property="og:description" content="OpenThinRDP: open source thin client operating system for Microsoft Remote Desktop (RDS and VDI), Debian 13 with FreeRDP and the RDP UDP transport. Free, signed updates, central management.">
+<meta property="og:description" content="OpenThinRDP: free, open source thin client operating system for Microsoft Remote Desktop (RDS and VDI), on premises or in the cloud. Debian 13 with FreeRDP and the RDP UDP transport, a kiosk sign-in, central management from a shared folder, signed updates with pilot devices and rollback.">
 <meta property="og:url" content="https://openthinrdp.github.io/">
 <meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -17,14 +19,15 @@
 <link rel="stylesheet" href="style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.0","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.1","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
+
 </head>
 <body>
 <header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="img/icon.png" alt="" width="28" height="28"> OpenThinRDP</a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.0</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/tree/main/docs">Documentation</a></nav></header>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.1</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
 <main class="markdown-body">
 <p align="center" dir="auto"><a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/logo.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/logo.png" alt="OpenThinRDP" width="480" style="max-width: 100%;"></a></p>
 <p align="center" dir="auto"><b>The open source thin client OS with RDP over UDP<br>
@@ -112,7 +115,7 @@ acknowledgement. One environment (Dell OptiPlex 3000 Thin Client, Windows 11 VDI
 netem: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/tests/udp-bench/README.md">the method and the scripts</a>, to get your own numbers.</p>
 <p dir="auto">Getting there took a fix to FreeRDP's UDP transport, which we found and reported in<br>
 <a href="https://github.com/FreeRDP/FreeRDP/pull/13608" data-hovercard-type="pull_request" data-hovercard-url="/FreeRDP/FreeRDP/pull/13608/hovercard">#13608</a>, and which is now part of it. Every step and the TCP<br>
-numbers: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/udp.md#on-a-lossy-line">docs/udp.md</a>.</p>
+numbers: <a href="https://openthinrdp.github.io/udp.html#on-a-lossy-line">docs/udp.md</a>.</p>
 <h2 id="who-it-is-for" dir="auto">Who it is for</h2>
 <ul dir="auto">
 <li>You publish desktops with <strong>Windows Remote Desktop Services</strong>: RD Connection Broker with session hosts or a<br>
@@ -124,15 +127,16 @@ office go through the <strong>RD Gateway</strong> over HTTPS (<a href="https://g
 or with any provider, reached through the RD Gateway or a VPN, with UDP through a VPN<br>
 (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md#desktops-in-the-cloud">details</a>). Azure Virtual Desktop and Windows 365 are not supported<br>
 yet (they need a Microsoft Entra ID sign-in).</li>
-<li>You have <strong>x86-64 PCs or thin clients with UEFI</strong> (Secure Boot works) and want to keep them useful without a<br>
-licence per device.</li>
+<li>You have <strong>x86-64 PCs or thin clients, new or old</strong>: UEFI with or without Secure Boot, or a legacy BIOS, with the<br>
+complete Debian kernel and firmware (<a href="https://openthinrdp.github.io/hardware.html">hardware</a>), and want to keep them useful without a licence<br>
+per device.</li>
 <li>You want to <strong>try RDP over UDP</strong> on real clients, or help bring it into FreeRDP.</li>
 <li>You need <strong>screens that only show a web page</strong>: hall TVs, dashboards, info points, production boards. The same<br>
 system, no sign-in, the page chosen centrally (<a href="#screens-that-only-show-a-web-page">see below</a>), so one image<br>
 covers the whole fleet.</li>
 </ul>
-<p dir="auto">Not for you (yet): Citrix, VMware/Omnissa Horizon and other protocols (OpenThinRDP does RDP only), ARM devices,<br>
-PCs without UEFI.</p>
+<p dir="auto">Not for you (yet): Citrix, VMware/Omnissa Horizon and other protocols (OpenThinRDP does RDP only), ARM devices<br>
+(the Raspberry Pi 4 is <a href="https://github.com/OpenThinRdp/openthinrdp/issues/61" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/61/hovercard">in preparation</a>), 32-bit only PCs.</p>
 <h2 id="requirements" dir="auto">Requirements</h2>
 <markdown-accessiblity-table><table role="table">
 <thead>
@@ -144,7 +148,11 @@ PCs without UEFI.</p>
 <tbody>
 <tr>
 <td>Device</td>
-<td>any 64-bit x86 PC or thin client with <strong>UEFI</strong> (Secure Boot supported, not required): old office PCs are fine</td>
+<td>any 64-bit x86 PC or thin client, <strong>UEFI</strong> (Secure Boot supported, not required) <strong>or legacy BIOS</strong>: old office PCs and used thin clients are fine</td>
+</tr>
+<tr>
+<td>Drivers</td>
+<td>the complete Debian 13 kernel and every Debian firmware package: what runs Debian 13 runs OpenThinRDP</td>
 </tr>
 <tr>
 <td>Memory</td>
@@ -156,7 +164,7 @@ PCs without UEFI.</p>
 </tr>
 <tr>
 <td>Network</td>
-<td>cable, Wi-Fi (WPA2 personal) or a USB Ethernet adapter</td>
+<td>cable, Wi-Fi or a USB Ethernet adapter; WPA2/WPA3 personal or Enterprise, and 802.1X on the cable</td>
 </tr>
 <tr>
 <td>TPM 2.0</td>
@@ -168,7 +176,7 @@ PCs without UEFI.</p>
 </tr>
 </tbody>
 </table></markdown-accessiblity-table>
-<p dir="auto">Tested hardware and firmware settings: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/hardware.md">docs/hardware.md</a>.</p>
+<p dir="auto">Tested hardware and firmware settings: <a href="https://openthinrdp.github.io/hardware.html">docs/hardware.md</a>.</p>
 <h2 id="try-it-in-five-minutes" dir="auto">Try it in five minutes</h2>
 <ol dir="auto">
 <li><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download <code class="notranslate">openthinrdp-&lt;version&gt;.iso</code></a> and write it<br>
@@ -190,7 +198,7 @@ instead of queueing: smoother on busy servers, lossy Wi-Fi and VPNs. The image s
 transport that is still under review upstream (<a href="https://github.com/FreeRDP/FreeRDP/pull/13608" data-hovercard-type="pull_request" data-hovercard-url="/FreeRDP/FreeRDP/pull/13608/hovercard">FreeRDP #13608</a>).<br>
 Per device: <code class="notranslate">auto</code> (UDP, TCP when UDP is blocked), <code class="notranslate">udp</code> (UDP only) or <code class="notranslate">tcp</code>. In our 3-hour test with packet<br>
 loss, bandwidth limits, network cuts and killed clients the session stayed on UDP the whole time<br>
-(<a href="https://github.com/FreeRDP/FreeRDP/pull/13608#issuecomment-6110587552" data-hovercard-type="pull_request" data-hovercard-url="/FreeRDP/FreeRDP/pull/13608/hovercard">results</a>). See <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/udp.md">docs/udp.md</a>.</li>
+(<a href="https://github.com/FreeRDP/FreeRDP/pull/13608#issuecomment-6110587552" data-hovercard-type="pull_request" data-hovercard-url="/FreeRDP/FreeRDP/pull/13608/hovercard">results</a>). See <a href="https://openthinrdp.github.io/udp.html">docs/udp.md</a>.</li>
 <li><strong>Sign-in form, then full screen remote desktop.</strong> Boots in a few seconds with your logo, no desktop, no<br>
 shell. Retries, fallback brokers, clear messages for "no network", "broker not reachable", "the virtual<br>
 machine does not start", wrong password (never retried, so accounts are not locked). A virtual machine that is<br>
@@ -317,7 +325,7 @@ that you can read: the whole client side is a few shell scripts in <code class="
 </tr>
 <tr>
 <td>Runs on</td>
-<td>x86-64 PCs and thin clients with UEFI</td>
+<td>x86-64 PCs and thin clients, UEFI or BIOS</td>
 <td>Dell thin clients</td>
 <td>many x86-64 devices</td>
 <td>x86-64 PCs, Raspberry Pi</td>
@@ -361,11 +369,12 @@ that you can read: the whole client side is a few shell scripts in <code class="
 choice. OpenThinRDP is for networks built on Windows Remote Desktop that want a free, open client that is simple<br>
 to manage, and for anyone who wants to put FreeRDP's UDP transport to work. Product names are trademarks of<br>
 their owners; the comparison reflects public information and our understanding, corrections are welcome.</p>
+<p dir="auto">Each of them in more detail, and <strong>Linux Mint or Ubuntu with Remmina</strong>: <a href="https://openthinrdp.github.io/alternatives.html">docs/alternatives.md</a>.<br>
+Questions people ask first (hardware, drivers, UDP, Azure, PXE, 802.1X): <a href="https://openthinrdp.github.io/faq.html">docs/faq.md</a>.</p>
 <h2 id="what-comes-next" dir="auto">What comes next</h2>
 <p dir="auto">Ideas we would like to build, roughly in this order. Tell us in an issue which ones you need, or send a pull<br>
 request:</p>
 <ul dir="auto">
-<li><strong>Wi-Fi with 802.1X</strong> (WPA-Enterprise) and wired 802.1X.</li>
 <li><strong>Network installation (PXE)</strong> for many devices at once.</li>
 <li><strong>More tested hardware</strong> and more languages (one file each).</li>
 </ul>
@@ -380,12 +389,14 @@ image/build.sh
 <li><a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/CHANGELOG.md">CHANGELOG.md</a>: what changed in each release.</li>
 <li><a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/status.md">docs/status.md</a>: what is in production, what is only tested, what does not exist yet.</li>
 <li><a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md">docs/configuration.md</a>: every setting.</li>
+<li><a href="https://openthinrdp.github.io/faq.html">docs/faq.md</a>: frequently asked questions.</li>
+<li><a href="https://openthinrdp.github.io/alternatives.html">docs/alternatives.md</a>: compared with Linux Mint + Remmina, IGEL OS, Dell ThinOS, Stratodesk, ThinStation, openthinclient.</li>
 <li><a href="https://openthinrdp.github.io/manager.html">docs/manager.md</a>: the Windows manager, page by page: devices, settings, pilot devices and going back.</li>
 <li><a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md">docs/management.md</a>: the management folder, central settings, SSH keys, signed updates.</li>
 <li><a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/building.md">docs/building.md</a>: building and customizing the image.</li>
 <li><a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/security.md">docs/security.md</a>: security model and known limits.</li>
-<li><a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/hardware.md">docs/hardware.md</a>: tested hardware and firmware settings.</li>
-<li><a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/udp.md">docs/udp.md</a>: the UDP transport and the FreeRDP the image ships.</li>
+<li><a href="https://openthinrdp.github.io/hardware.html">docs/hardware.md</a>: tested hardware and firmware settings.</li>
+<li><a href="https://openthinrdp.github.io/udp.html">docs/udp.md</a>: the UDP transport and the FreeRDP the image ships.</li>
 </ul>
 <h2 id="layout" dir="auto">Layout</h2>
 <markdown-accessiblity-table><table role="table">

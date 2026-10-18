@@ -1,0 +1,1940 @@
+# OpenThinRDP: the documentation in one file
+
+Source: https://github.com/OpenThinRdp/openthinrdp (main), release 0.2.1, built 2026-10-18. Every section below is one file of the repository.
+
+
+---
+
+<!-- https://github.com/OpenThinRdp/openthinrdp/blob/main/README.md -->
+
+<p align="center"><img src="docs/logo.png" alt="OpenThinRDP" width="480"></p>
+
+<p align="center"><b>The open source thin client OS with RDP over UDP<br>
+for Windows Remote Desktop, RDS and VDI: FreeRDP with the UDP transport that upstream does not ship yet.</b></p>
+
+<p align="center">
+<a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest"><b>⬇ Download the ISO (latest release)</b></a>
+&nbsp;·&nbsp; <a href="#try-it-in-five-minutes">Try it live, nothing installed</a>
+&nbsp;·&nbsp; <a href="https://openthinrdp.github.io/">Website</a>
+&nbsp;·&nbsp; <a href="README.it.md">Italiano</a>
+</p>
+
+<p align="center">
+<img src="docs/screenshots/boot.png" alt="Boot menu: try it live or install" width="32%">
+<img src="docs/screenshots/sign-in.png" alt="Sign-in form" width="32%">
+<img src="docs/screenshots/settings.png" alt="Settings of the device" width="32%">
+</p>
+
+OpenThinRDP turns small PCs and old thin clients into kiosks that boot straight into a sign-in form and connect
+to Windows: through an RD Connection Broker to the user's desktop or VM, or straight to a session host or to any
+Windows PC with Remote Desktop turned on, **on premises or in the cloud** (Azure, AWS, any provider). They are
+managed from a shared folder with a small Windows manager: status of every device, central settings, logo, signed
+updates, and the screen of any device in your browser. No agent, no management server, no cloud service to depend
+on, no licence per device.
+
+> **Not openthinclient.** OpenThinRDP is a new, independent project, not affiliated with openthinclient: the names
+> sound alike, nothing else is shared. openthinclient is an older project whose devices boot over the network (PXE)
+> from its management server; OpenThinRDP is installed on each device or runs live from a USB stick, needs no server
+> and is built around RDP with FreeRDP's UDP transport.
+
+It grew out of a real migration away from a commercial thin client OS, on a fleet of Dell OptiPlex 3000 Thin
+Clients connected to a Windows 11 VDI on Hyper-V, where the system it comes from runs every day.
+
+> **Status: in production every day.** It runs the whole thin client fleet of the company it comes from: 14 Dell
+> OptiPlex 3000 Thin Clients at desks, tills, a laboratory, weighing stations and a wall screen on Wi-Fi, on a
+> Windows 11 VDI on Hyper-V behind two RD Connection Brokers, signing in with Kerberos and NTLM as fallback. The
+> devices were converted in place from the system they ran before and take every release through their management
+> folder (the manager checks each GitHub release and signs it again with the key of the site), installed during
+> sessions and applied when the session is over. FreeRDP security releases reach OpenThinRDP [within 7 days](SECURITY.md#freerdp-security-fixes)
+> (3.32.2: four hours). The ISO is tested in QEMU/KVM with Secure Boot at every release and the system tests run on
+> every commit ([CI](https://github.com/OpenThinRdp/openthinrdp/actions/workflows/tests.yml)). What is in production,
+> what is only tested and what does not exist yet:
+> **[docs/status.md](docs/status.md)**. Try it live, then on one device, before rolling it out.
+
+## RDP over UDP that keeps going on a bad line
+
+It started with a faulty switch port losing 43% of the large packets: over TCP the remote desktop froze. We
+reproduced that line, then raised the loss on every packet from the virtual machine step by step (Windows 11 VDI,
+full-screen load changing every pixel, frame rate measured by the server):
+
+| packets lost | over TCP | **OpenThinRDP over UDP** |
+|---|---|---|
+| 20% | 0.6 frames per second: the screen barely moves | not measured (19-21 fps at 50%) |
+| 43% of the large packets\* (the faulty port) | 0-0.1 fps | **16-21 fps**, 7 minutes in a row |
+| 50% | not measured (0.2 fps already at 30%) | **19-21 fps**, as on a clean line |
+| 70% | not measured | **18-19 fps**\*\* |
+| 80% | not measured | 4 fps, then the tunnel gives up |
+
+\* The other rows lose that share of every packet; this one 43% of the large packets and 5% of the small ones.
+\*\* At 70% the TCP connection RDP keeps beside the tunnel may end the session after 20 s without an
+acknowledgement. One environment (Dell OptiPlex 3000 Thin Client, Windows 11 VDI on Hyper-V), loss emulated with
+netem: [the method and the scripts](tests/udp-bench/README.md), to get your own numbers.
+
+Getting there took a fix to FreeRDP's UDP transport, which we found and reported in
+[#13608](https://github.com/FreeRDP/FreeRDP/pull/13608), and which is now part of it. Every step and the TCP
+numbers: [docs/udp.md](docs/udp.md#on-a-lossy-line).
+
+## Who it is for
+
+- You publish desktops with **Windows Remote Desktop Services**: RD Connection Broker with session hosts or a
+  Hyper-V VDI collection. Or there is no broker at all: each device connects to one Windows PC or server (set
+  its name instead of the broker), e.g. a reception desk that works on the PC in the office. Devices outside the
+  office go through the **RD Gateway** over HTTPS ([`RDP_GATEWAY`](docs/configuration.md#rd-gateway)) or their own
+  **VPN**, WireGuard or OpenVPN ([`VPN`](docs/configuration.md#vpn)).
+- Your desktops are **in the cloud**: an RDS deployment or Windows virtual machines in Azure, AWS, Google Cloud
+  or with any provider, reached through the RD Gateway or a VPN, with UDP through a VPN
+  ([details](docs/configuration.md#desktops-in-the-cloud)). Azure Virtual Desktop and Windows 365 are not supported
+  yet (they need a Microsoft Entra ID sign-in).
+- You have **x86-64 PCs or thin clients, new or old**: UEFI with or without Secure Boot, or a legacy BIOS, with the
+  complete Debian kernel and firmware ([hardware](docs/hardware.md)), and want to keep them useful without a licence
+  per device.
+- You want to **try RDP over UDP** on real clients, or help bring it into FreeRDP.
+- You need **screens that only show a web page**: hall TVs, dashboards, info points, production boards. The same
+  system, no sign-in, the page chosen centrally ([see below](#screens-that-only-show-a-web-page)), so one image
+  covers the whole fleet.
+
+Not for you (yet): Citrix, VMware/Omnissa Horizon and other protocols (OpenThinRDP does RDP only), ARM devices
+(the Raspberry Pi 4 is [in preparation](https://github.com/OpenThinRdp/openthinrdp/issues/61)), 32-bit only PCs.
+
+## Requirements
+
+| | Minimum |
+|---|---|
+| Device | any 64-bit x86 PC or thin client, **UEFI** (Secure Boot supported, not required) **or legacy BIOS**: old office PCs and used thin clients are fine |
+| Drivers | the complete Debian 13 kernel and every Debian firmware package: what runs Debian 13 runs OpenThinRDP |
+| Memory | 2 GB of RAM |
+| Storage | 8 GB to install it (eMMC, SSD or disk); nothing to try it live from a USB stick |
+| Network | cable, Wi-Fi or a USB Ethernet adapter; WPA2/WPA3 personal or Enterprise, and 802.1X on the cable |
+| TPM 2.0 | optional: with one, the device's secrets (management folder password, Wi-Fi key, SSH host keys) are kept encrypted in it ([security](docs/security.md)); without one it works the same |
+| Windows side | an RD Connection Broker (RDS session hosts or a Hyper-V VDI collection), or any Windows PC or server that accepts Remote Desktop (Pro, Enterprise, Server), on premises or in any cloud |
+
+Tested hardware and firmware settings: [docs/hardware.md](docs/hardware.md).
+
+## Try it in five minutes
+
+1. [Download `openthinrdp-<version>.iso`](https://github.com/OpenThinRdp/openthinrdp/releases/latest) and write it
+   to a USB stick with any raw image writer (Rufus in DD mode, balenaEtcher, `dd`).
+2. Boot the PC from the stick. The menu starts the **live system** by itself after 10 seconds: it runs from the
+   stick and **never writes to the disk**.
+3. With a network, when GitHub has a newer version than the ISO it asks whether to download it or to use the
+   ISO's (no answer in 30 seconds: the newer one), so the ISO does not need downloading again for every release.
+   Then the settings dialog opens: set the broker (or the name of a Windows PC) and the domain, save, sign in.
+4. Like it? Restart and choose **Install**: it shows the disk it is going to erase and asks before writing
+   anything (answer *Yes* to go on), then about three minutes. It installs on the **first internal disk**, never
+   a USB disk (not even the installation stick). For rollouts, *Unattended install* skips the question.
+
+What the device needs: [Requirements](#requirements).
+
+## What it does
+
+- **Remote desktop over UDP.** Windows sends the graphics (and USB, sound and camera) over UDP and adapts frame rate and quality to the line
+  instead of queueing: smoother on busy servers, lossy Wi-Fi and VPNs. The image ships FreeRDP built with the UDP
+  transport that is still under review upstream ([FreeRDP #13608](https://github.com/FreeRDP/FreeRDP/pull/13608)).
+  Per device: `auto` (UDP, TCP when UDP is blocked), `udp` (UDP only) or `tcp`. In our 3-hour test with packet
+  loss, bandwidth limits, network cuts and killed clients the session stayed on UDP the whole time
+  ([results](https://github.com/FreeRDP/FreeRDP/pull/13608#issuecomment-6110587552)). See [docs/udp.md](docs/udp.md).
+- **Sign-in form, then full screen remote desktop.** Boots in a few seconds with your logo, no desktop, no
+  shell. Retries, fallback brokers, clear messages for "no network", "broker not reachable", "the virtual
+  machine does not start", wrong password (never retried, so accounts are not locked). A virtual machine that is
+  restarting or installing a Windows update gets "Waiting for Windows" (up to 20 minutes) instead of an error.
+- **Reconnects by itself** after network drops, stops when the session is ended on purpose (sign out,
+  disconnect, VM shut down by an administrator), and warns before taking over a session open on another device.
+  A session taken over by another device shows "Session opened elsewhere" with *Resume here*.
+- **USB done right for VDI.** Signature keys, tachograph keys and other special devices go to Windows as whole
+  USB devices, also when plugged in during the session. **Webcams and headsets work in meetings**: the camera goes
+  through the RDP camera channel and the microphone through the RDP audio channel, so Teams, Zoom and the browser
+  in the session see both (a microphone passed as a USB device stays outside the remote session). Keyboards, mice,
+  touch screens, hubs and network adapters stay local; smart card readers go through the smart card channel.
+  Touch screens work as touch in Windows. With `USB_MODE=disks` USB sticks stay on the thin client and appear in
+  Windows as drives; with `USB_MODE=auto` the thin client decides device by device: a stick as a drive, a device
+  with storage and something else (an instrument, a key with its own driver) whole.
+- **Managed from a shared folder (SMB) with a Windows manager**, no server: the whole fleet in one window, settings
+  for all devices or one, and the **remote screen** of any device ([the manager](#the-manager-the-whole-fleet-from-one-window)).
+- **Signed updates** that never interrupt a session: from GitHub releases (checked every 3 hours, installed in
+  the background, applied when the session is over), or from your folder when you decide.
+  **Try a version on a few devices first**, and **go back** to an earlier one when something breaks
+  ([`UPDATE_TO`](docs/configuration.md#management)): FreeRDP goes back with it.
+  Debian security updates install by themselves.
+- **Settings dialog on the device** (optionally behind a PIN): broker or PC, network (DHCP, static, Wi-Fi),
+  management folder and its account, USB mode, web button, power schedule, language. A new device names itself
+  from its network card (`thinclient-1a2b3c`).
+- **Diagnostics for the help desk**, no PIN needed (the ℹ button): network, can each broker or PC be reached,
+  time, management folder, last events. Read only.
+- **Locked down**: no desktop, no menus, no text consoles (Ctrl+Alt+F1..F12 do nothing), no password-less
+  account.
+- **Several monitors** become one remote desktop spanning all of them (`MULTIMON`).
+- **Power schedule and Wake-on-LAN**, screen always on, monitors switched on late handled.
+- **Web button**: a web app, free browsing, or a full screen kiosk page, with Chromium
+  ([screens that only show a web page](#screens-that-only-show-a-web-page)).
+- English and Italian interface; more languages are one file each.
+
+<p align="center">
+<img src="docs/screenshots/connecting.png" alt="Desktop start with the real steps" width="32%">
+<img src="docs/screenshots/end-of-session.png" alt="End of session with a countdown" width="32%">
+<img src="docs/screenshots/update.png" alt="Software update in progress" width="32%">
+</p>
+
+## The manager: the whole fleet from one window
+
+`OpenThinRDP-Manager` is one PowerShell script for Windows 10/11 (English and Italian, nothing to install) that works
+on the shared folder the devices report to. No server, no agent, no database: what you see is the files in the folder.
+
+<p align="center">
+<img src="docs/screenshots/manager-devices.png" alt="Manager: every device, its state, user and version, and its settings" width="49%">
+<img src="docs/screenshots/manager-updates.png" alt="Manager, Updates page: all devices on one version, a pilot device on the newest" width="49%">
+</p>
+
+- **Every device at a glance**: state, user, version, last report, a readable summary and the event log of each.
+- **Settings for all devices or one**, checked before saving, with the value in use on each device and what is
+  still on its way.
+- **A new version on a few devices first, then on all**: *Release from GitHub* asks *pilot devices only* or *all
+  devices*; the others stay where they are until *Release to all devices*.
+- **Back to an earlier version when something breaks**, for the whole fleet or one device, FreeRDP included: one
+  click on the Updates page.
+- **Remote screen** of any device in your browser, over SSH only, with a notice on the device.
+- **Problems across the fleet** grouped from every event log; a **vault** for the SSH key and the signing key; your
+  fleet on **its own signing key**; logo and background; and the manager **updates itself** from the signed releases.
+
+**Everything it does, page by page, with the steps for a pilot group and for going back: [docs/manager.md](docs/manager.md).**
+
+## Screens that only show a web page
+
+The same image runs the screens that never need a Windows desktop: a TV in the hall, a dashboard in the
+office, an info point, a board in production. With `WEB_BUTTON=kiosk` and `KIOSK_URL`:
+
+- At power on the page opens **full screen in Chromium**: no sign-in, no desktop, no menus, no address bar.
+- The page is set **centrally**, for every screen (`config\common.conf`), a group or a single one
+  (`config\<hostname>.conf`) in the management folder. Change it and each screen picks it up within a few
+  minutes and reopens the page, without a restart.
+- It **reloads itself** every `KIOSK_RELOAD_MIN` minutes when nobody is touching it, so a page that went to an
+  error after a network glitch comes back by itself.
+- The **power schedule** switches the screens on and off (`POWER_ON_TIME`, `POWER_OFF_TIME`, `POWER_ON_DAYS`),
+  on cable or Wi-Fi; status and events of every screen are in the management folder like any other device.
+- Cookies and saved sign-ins stay across restarts. For dashboards behind a login, a link with an access token
+  (offered by most dashboard tools) avoids signing in on the screen at all.
+- Someone at the screen can still reach the sign-in form: it shows for 5 seconds before the page, and
+  Ctrl+Shift+W closes the page. The settings can be locked with a PIN.
+
+Settings: [docs/configuration.md](docs/configuration.md#web-button-and-kiosk-page).
+
+## Why it is built this way
+
+**Why FreeRDP is not updated automatically.** Debian security updates install by themselves, but FreeRDP is
+excluded. First, the image ships its own FreeRDP build with UDP, which Debian's packages would replace with a
+version without it. Second, the remote desktop client is the part users depend on: a new FreeRDP version can
+change how sessions, USB devices, smart cards or the graphics behave, and on a fleet a regression stops everyone
+at the same moment. So FreeRDP comes with OpenThinRDP releases, after testing on real devices, and you can still
+keep it as it is on one device (`/etc/openthinrdp/freerdp-pinned`).
+
+**Why UDP from a pull request that is not merged yet.** Over TCP, a busy server or a lossy line makes the screen
+fall behind; over UDP, Windows lowers quality instead. The pull request is solid in our tests, and the only way
+it gets merged is people using it and reporting. `TRANSPORT=tcp` is one setting away, and the image follows the
+upstream code as it changes.
+
+**Why a shared folder instead of a management server.** Every Windows network already has a file share and
+someone who can manage permissions on it. The devices only read and write files there, so there is nothing to
+install, patch or license on the server side, and the settings are plain text files you can read, diff and back
+up.
+
+**Why Debian.** Stable, security updates for years, every driver and firmware package, and a kiosk on top of it
+that you can read: the whole client side is a few shell scripts in `rootfs/opt/openthinrdp`.
+
+## How it compares
+
+| | **OpenThinRDP** | Dell ThinOS | IGEL OS | Stratodesk NoTouch | ThinStation |
+|---|---|---|---|---|---|
+| Cost | free | comes with Dell thin clients | subscription per device | licence per device | free |
+| Source | open (Apache 2.0) | closed | closed | closed | open |
+| Runs on | x86-64 PCs and thin clients, UEFI or BIOS | Dell thin clients | many x86-64 devices | x86-64 PCs, Raspberry Pi | x86 PCs |
+| Protocols | RDP only | Citrix, Omnissa/VMware, Microsoft and more | Citrix, Omnissa/VMware, Microsoft and more | many | many (you build the image) |
+| Management | shared folder + Windows tool, no server | Wyse Management Suite | UMS server | NoTouch Center | configuration files on a network server |
+| Updates | signed, from GitHub or your folder | vendor firmware | vendor | vendor | rebuild the image |
+| Install | ISO, live or automatic installation | preinstalled | installer or preinstalled | installer | build, then PXE or USB |
+
+If you need Citrix or Horizon, vendor support or certified hardware, the commercial systems are the right
+choice. OpenThinRDP is for networks built on Windows Remote Desktop that want a free, open client that is simple
+to manage, and for anyone who wants to put FreeRDP's UDP transport to work. Product names are trademarks of
+their owners; the comparison reflects public information and our understanding, corrections are welcome.
+
+Each of them in more detail, and **Linux Mint or Ubuntu with Remmina**: [docs/alternatives.md](docs/alternatives.md).
+Questions people ask first (hardware, drivers, UDP, Azure, PXE, 802.1X): [docs/faq.md](docs/faq.md).
+
+## What comes next
+
+Ideas we would like to build, roughly in this order. Tell us in an issue which ones you need, or send a pull
+request:
+
+- **Network installation (PXE)** for many devices at once.
+- **More tested hardware** and more languages (one file each).
+
+## Build your own image
+
+Your logo, your broker, your settings and keys built in (Linux with Docker or Podman):
+
+```
+cp -r image/site.example image/site      # then edit image/site/site.conf and build.conf, add your logo
+image/build.sh
+```
+
+The result is `out/openthinrdp-<version>.iso`. See [docs/building.md](docs/building.md).
+
+## Documentation
+
+- [CHANGELOG.md](CHANGELOG.md): what changed in each release.
+- [docs/status.md](docs/status.md): what is in production, what is only tested, what does not exist yet.
+- [docs/configuration.md](docs/configuration.md): every setting.
+- [docs/faq.md](docs/faq.md): frequently asked questions.
+- [docs/alternatives.md](docs/alternatives.md): compared with Linux Mint + Remmina, IGEL OS, Dell ThinOS, Stratodesk, ThinStation, openthinclient.
+- [docs/manager.md](docs/manager.md): the Windows manager, page by page: devices, settings, pilot devices and going back.
+- [docs/management.md](docs/management.md): the management folder, central settings, SSH keys, signed updates.
+- [docs/building.md](docs/building.md): building and customizing the image.
+- [docs/security.md](docs/security.md): security model and known limits.
+- [docs/hardware.md](docs/hardware.md): tested hardware and firmware settings.
+- [docs/udp.md](docs/udp.md): the UDP transport and the FreeRDP the image ships.
+
+## Layout
+
+| Folder | Content |
+|---|---|
+| `rootfs/` | everything installed on the thin client (`/opt/openthinrdp`, udev rules, systemd units) |
+| `image/` | the ISO build (live-build in a container), the FreeRDP build and the example site folder |
+| `management/windows/` | the Windows manager (PowerShell, no installation) |
+| `management/publish/` | building and signing update packages |
+| `tests/` | tests that run in a Debian container |
+
+## Contributing
+
+Issues and pull requests are welcome. Please describe the hardware and the Windows side (broker, session
+host version) for anything related to connections or devices. See [CONTRIBUTING.md](CONTRIBUTING.md) and the
+[code of conduct](CODE_OF_CONDUCT.md).
+
+Security problems: please report them privately, see [SECURITY.md](SECURITY.md).
+
+## License
+
+Apache License 2.0, see [LICENSE](LICENSE). OpenThinRDP uses FreeRDP (Apache 2.0), the noVNC viewer for the remote
+screen (included unmodified, MPL 2.0 and BSD, [rootfs/opt/openthinrdp/novnc](rootfs/opt/openthinrdp/novnc)) and Debian packages under
+their own licenses. Windows and Remote Desktop are trademarks of Microsoft; this project is not affiliated with
+Microsoft or with any vendor named above.
+
+---
+
+<!-- https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/faq.md -->
+
+# Frequently asked questions
+
+## The project
+
+### What is OpenThinRDP?
+
+An open source operating system for thin clients that connect to Windows with Remote Desktop: RDS session hosts,
+VDI collections behind an RD Connection Broker, or any Windows PC with Remote Desktop on. It is Debian 13 with a
+locked-down kiosk on FreeRDP, the RDP UDP transport built in, and a Windows manager that runs the whole fleet from a
+shared folder.
+
+### Is it free?
+
+Yes. Apache 2.0 licence, no cost per device, no subscription, no account. The ISO and the signed updates are on
+[GitHub](https://github.com/OpenThinRdp/openthinrdp/releases/latest).
+
+### Is it not too young to use in production?
+
+It is young as a public project (October 2026), but not as a system. It comes from the thin client fleet of a
+company, where it replaced a commercial thin client OS. It runs there every day on 14 devices at desks, tills, a
+laboratory and weighing stations, and every release reaches that fleet. On top of that:
+
+- 170+ system tests run on every commit;
+- every release is installed in QEMU/KVM with Secure Boot;
+- UDP was tested for hours with packet loss, cut networks and killed clients.
+
+What is in production, what is only tested and what is missing: [status.md](status.md).
+
+### Who maintains it?
+
+The IT team of the company where it runs in production, in the open on GitHub. Bug reports, test reports on other
+hardware and pull requests are welcome.
+
+## Hardware
+
+### Which hardware does it run on?
+
+Any 64-bit x86 PC or thin client with UEFI or a legacy BIOS, 2 GB of RAM and 8 GB of storage (none to run it live
+from a USB stick). Tested: Dell OptiPlex 3000 Thin Client in production, QEMU/KVM with UEFI and with BIOS. Used thin
+clients such as Dell Wyse 5070, HP t630 or Fujitsu Futro S740 meet the requirements. See [hardware.md](hardware.md).
+
+### Did it leave drivers out to be light?
+
+No. The ISO has the complete Debian 13 kernel (Linux 6.12) with every driver, and every firmware package of Debian.
+Whatever works with Debian 13, or with Ubuntu and Linux Mint of the same period, works here. It is light because it
+runs no desktop.
+
+### Does it run on Raspberry Pi or ARM?
+
+Not yet. The Raspberry Pi 4 is in preparation ([#61](https://github.com/OpenThinRdp/openthinrdp/issues/61)).
+
+### Does it run on old 32-bit thin clients?
+
+No: Debian 13 no longer supports 32-bit only CPUs.
+
+## Remote Desktop
+
+### Does it really use RDP over UDP?
+
+Yes. FreeRDP has no UDP transport in any release yet; OpenThinRDP ships FreeRDP with the pull request that adds it
+([#13608](https://github.com/FreeRDP/FreeRDP/pull/13608)), which we test and report on. With `TRANSPORT=auto` the
+session uses UDP, and TCP when UDP is blocked. On a line losing 50% of its packets it kept 19-21 frames per second,
+where TCP was down to 0.6 at 20% ([udp.md](udp.md)).
+
+### Which Windows can it connect to?
+
+Windows RDS session hosts and VDI collections through an RD Connection Broker, or a single Windows PC or server with
+Remote Desktop on (Pro, Enterprise, Server), on premises or in Azure, AWS or any cloud. Kerberos with NTLM as fallback,
+RD Gateway, and its own WireGuard or OpenVPN for devices outside the office.
+
+### Does it work with Azure Virtual Desktop or Windows 365?
+
+Not yet: they need a Microsoft Entra ID sign-in and Microsoft's own gateway, which the kiosk does not do. An RDS
+deployment or Windows virtual machines in Azure work, through an RD Gateway or a VPN
+([desktops in the cloud](configuration.md#desktops-in-the-cloud)).
+
+### Citrix or VMware/Omnissa Horizon?
+
+No, OpenThinRDP is RDP only. For those, see [the alternatives](alternatives.md).
+
+### Do webcams, headsets, USB keys and smart cards work?
+
+Yes:
+
+- Webcams through the RDP camera channel, and headsets through the RDP audio channels, so Teams, Zoom and the
+  browser in the session see them.
+- USB keys go to Windows as drives, or as whole devices: signature keys, tachograph keys and other special devices,
+  also when plugged in during the session.
+- Smart card readers through the smart card channel.
+
+## Management
+
+### Do I need a server to manage the devices?
+
+No. The devices report to a shared folder (SMB) and read their settings from it; a PowerShell manager for Windows
+shows the whole fleet, changes settings for all devices or one, and opens the screen of any device in your browser.
+No agent, no database, no management server ([the manager](manager.md)).
+
+### How are updates done? Can I go back?
+
+OpenThinRDP updates come as signed packages, from GitHub or from your folder. They install in the background and
+apply when the session is over. A new version can go to a few pilot devices first, then to all. If something breaks,
+the whole fleet or one device goes back to the version before, FreeRDP included. Debian security updates install by
+themselves.
+
+### Is it secure?
+
+- Updates are signed, and can be signed again with the key of your site only.
+- No desktop, no terminal, no text consoles.
+- SSH with keys only, off by default.
+- The device secrets are sealed in the TPM when there is one.
+- The keys of the fleet are kept in a vault with an access code.
+
+See [security.md](security.md) and [SECURITY.md](../SECURITY.md).
+
+### Does it boot over the network (PXE)?
+
+Not yet. OpenThinRDP runs live from a USB stick or is installed, with an automatic installation for rollouts.
+Network boot is considered for a later version.
+
+### Does it support 802.1X?
+
+Yes, since 0.2.1: 802.1X on the cable and WPA2/WPA3-Enterprise Wi-Fi, with PEAP (a domain or machine account)
+or EAP-TLS (a certificate from your CA). The RADIUS server is checked against your CA before any password is sent,
+and on a switch without 802.1X the device goes on by itself. Setup with Windows NPS or FreeRADIUS:
+[802.1X and Wi-Fi Enterprise](configuration.md#8021x-and-wi-fi-enterprise).
+
+### Why not just Linux Mint with Remmina?
+
+The hardware support is the same, but Remmina has no RDP over UDP. A desktop also has to be locked down and set up
+PC by PC, and its updates come without pilot devices or a way back. See
+[the alternatives](alternatives.md#linux-mint-ubuntu-or-debian-with-remmina).
+
+### How do I try it?
+
+Write the ISO to a USB stick and start a PC from it: the live system writes nothing to the disk. Set the broker and
+the domain, and sign in ([five minutes](../README.md#try-it-in-five-minutes)).
+
+---
+
+<!-- https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/alternatives.md -->
+
+# OpenThinRDP and the alternatives
+
+What OpenThinRDP does differently from the other ways of turning PCs into Remote Desktop clients, and when another
+choice is better. The facts about other products are public information as we understand it; corrections are
+welcome in the [discussions](https://github.com/OpenThinRdp/openthinrdp/discussions).
+
+- [Linux Mint, Ubuntu or Debian with Remmina](#linux-mint-ubuntu-or-debian-with-remmina)
+- [IGEL OS](#igel-os)
+- [Dell ThinOS](#dell-thinos)
+- [Stratodesk NoTouch](#stratodesk-notouch)
+- [ThinStation](#thinstation)
+- [openthinclient](#openthinclient)
+- [What only OpenThinRDP does](#what-only-openthinrdp-does)
+
+## Linux Mint, Ubuntu or Debian with Remmina
+
+A general desktop with Remmina, or with FreeRDP itself, is the usual free answer. It is a good one for a PC or two.
+For a fleet of Remote Desktop clients, here is what it means.
+
+**Hardware support is the same.** OpenThinRDP is Debian 13 with its complete kernel and every firmware package
+([hardware](hardware.md#drivers-all-of-debians)). A device that works with Mint or Ubuntu of the same period works
+with OpenThinRDP too. Neither side has a driver advantage.
+
+**No RDP over UDP.** Remmina and the `xfreerdp` of the distributions use the distribution's FreeRDP. FreeRDP has no
+UDP transport in any release yet: it is the pull request [#13608](https://github.com/FreeRDP/FreeRDP/pull/13608),
+which OpenThinRDP builds and ships. So on a busy server, on Wi-Fi or through a VPN the session runs over TCP. On a
+line that loses packets, TCP queues the screen while UDP keeps it moving ([the numbers](udp.md#on-a-lossy-line)).
+
+**A desktop to lock down.** Users can open other programs, change the settings, fill the disk. Making it a kiosk is
+your work: automatic sign-in, no terminal, no other applications, no text consoles, a session that comes back by
+itself, a device that switches off when the session ends. OpenThinRDP is all of that out of the box.
+
+**Each PC set up by hand.** There is nothing to see the state of the fleet, nothing that sets all devices or one
+from one place, and no screen of a device from your desk. The [manager](manager.md) of OpenThinRDP does this from a
+shared folder.
+
+**Updates of a whole desktop.** The whole operating system updates, FreeRDP included, whenever the distribution
+says so. OpenThinRDP updates come as one signed package that you can send to a few pilot devices first. If something
+breaks you go back to the version before, for the whole fleet in one click. FreeRDP never changes behind your back
+(Debian security updates still install by themselves).
+
+**The details of a thin client**, which you would have to rebuild:
+- the RD Connection Broker with its collection, fallback brokers, and Kerberos behind a shared broker name;
+- reconnecting after a network drop, but not after a deliberate sign out;
+- *Waiting for Windows* while the virtual machine restarts;
+- which USB devices go to Windows whole and which as drives;
+- webcams and headsets through the RDP channels, so that Teams sees them;
+- smart card readers;
+- a power schedule and Wake-on-LAN.
+
+**When Mint is the better choice:** the user also needs local programs (a real desktop with a remote session now and
+then), or there are one or two PCs and nobody to manage them.
+
+## IGEL OS
+
+A commercial thin client operating system with a subscription per device, managed by the IGEL UMS server. It runs on
+many x86-64 devices, with certified hardware and vendor support, and connects with many protocols: Citrix, Omnissa
+(VMware) Horizon, Microsoft AVD, Windows 365 and RDP.
+
+**Better for:** Citrix or Horizon, Azure Virtual Desktop and Windows 365, support contracts. **OpenThinRDP is for:**
+networks built on Windows Remote Desktop that do not want a cost per device or a management server.
+
+## Dell ThinOS
+
+The operating system of Dell (Wyse) thin clients, managed with Wyse Management Suite, with Citrix, Omnissa Horizon and
+Microsoft clients. It runs only on Dell thin clients. OpenThinRDP runs on those same devices too: the production
+fleet it comes from is Dell OptiPlex 3000 Thin Clients that ran ThinOS before. It also runs on any other PC.
+
+**Better for:** a Dell-only fleet with Citrix or Horizon, under Dell support.
+
+## Stratodesk NoTouch
+
+A commercial thin client operating system with a licence per device, managed by NoTouch Center. It runs on x86-64
+PCs and on Raspberry Pi, with many protocols. **Better for:** many protocols, Raspberry Pi today (OpenThinRDP's
+Raspberry Pi support is [in preparation](https://github.com/OpenThinRdp/openthinrdp/issues/61)), vendor support.
+
+## ThinStation
+
+An open source, long-standing thin client toolkit. You build your own image with the protocols you need, and the
+devices boot it over the network (PXE) or from a USB stick or disk; the settings are files on a network server.
+**Better for:** network boot (OpenThinRDP has no PXE yet), protocols other than RDP, and very old or very small
+devices. **OpenThinRDP gives you:**
+- a ready image, installed or live;
+- the RDP UDP transport;
+- signed updates with pilot devices and going back;
+- a Windows manager with the remote screen;
+- the device secrets in the TPM.
+
+## openthinclient
+
+An open source thin client system (with a commercial offer) whose devices boot over the network from the
+openthinclient server, managed from that server, with many protocols. OpenThinRDP is a different, unrelated project:
+it is installed on each device or runs live, and needs no server. **Better for:** network boot from a central server,
+protocols other than RDP.
+
+## What only OpenThinRDP does
+
+- **RDP over UDP with FreeRDP**, tested on lossy lines and in daily production
+  ([udp.md](udp.md)). Over TCP a line losing 20% of its packets gave 0.6 frames per second; OpenThinRDP over UDP gave
+  19-21 at 50%.
+- **No server to manage the fleet:** a shared folder and a Windows manager. Settings for all devices or one, the
+  remote screen over SSH, and the problems of every device read together.
+- **Signed updates with pilot devices and going back**, from GitHub or from your folder, re-signed with your own key
+  if you want.
+- **Built from a fleet in production.** It runs every day on 14 thin clients at desks, tills, a laboratory and
+  weighing stations ([status](status.md)), a fleet that left a commercial thin client OS for it.
+- **Free and open** (Apache 2.0), with no cost per device.
+
+---
+
+<!-- https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/hardware.md -->
+
+# Hardware
+
+## Drivers: all of Debian's
+
+OpenThinRDP is light because it runs no desktop, not because drivers were left out. The downloadable ISO carries
+the **complete Debian 13 kernel (Linux 6.12) with every driver module, and every firmware package Debian has**
+(`firmware-linux-nonfree`, `firmware-realtek`, `firmware-iwlwifi`, `firmware-atheros`, `firmware-brcm80211`,
+`firmware-mediatek`, `firmware-amd-graphics`, `firmware-intel-graphics`, `firmware-sof-signed` and the others: the
+`FIRMWARE=all` build of [building.md](building.md)). A network card, Wi-Fi adapter or graphics chip that works with
+Debian 13, or with the Ubuntu and Linux Mint releases of the same period, works the same here. Only an image you
+build yourself with `FIRMWARE=thinclient` keeps just the usual thin client firmware, to save about 600 MB.
+
+The quickest way to know: start the ISO **live** from a USB stick. Nothing is written to the disk, and the
+diagnostics (ℹ on the sign-in screen) show the network card, the address and whether the brokers answer.
+
+## Requirements
+
+| | |
+|---|---|
+| CPU | 64-bit x86 (x86-64): Intel, AMD, VIA. 32-bit only CPUs cannot run Debian 13 |
+| Firmware | UEFI, with or without Secure Boot, or a legacy BIOS |
+| Memory | 2 GB |
+| Storage | 8 GB to install; none to run it live from a USB stick |
+
+## Tested
+
+| Device | Firmware | Notes |
+|---|---|---|
+| Dell OptiPlex 3000 Thin Client (Intel Pentium Silver/Celeron, eMMC, Realtek NIC, Intel Wi-Fi) | UEFI, Secure Boot | the production fleet: 14 devices, boot to sign-in form in about 6 s after the firmware |
+| QEMU/KVM virtual machine (OVMF) | UEFI, Secure Boot | every release: live system, automatic and confirmed installation, first update |
+| QEMU/KVM virtual machine (SeaBIOS) | legacy BIOS | live system and installation |
+
+## Should work: models that meet the requirements
+
+These are common used thin clients with a 64-bit CPU, 2 GB of RAM or more and 8 GB of storage or more. We have not
+tested them: if you try one, a line in the [discussions](https://github.com/OpenThinRdp/openthinrdp/discussions/3)
+(model, what works and what does not) moves it to the table above.
+
+| Family | Examples |
+|---|---|
+| Dell Wyse | 3040, 5060, 5070, 5470 |
+| HP | t520, t620, t630, t640, t540 |
+| Fujitsu Futro | S740, S940, S920 |
+| Lenovo, IGEL and others | ThinCentre M625q, IGEL UD3 (x86-64 models), any office mini PC |
+
+Some of them ship with less storage than 8 GB in their smallest version: run them live from a USB stick or put in a
+bigger module.
+
+## Not supported
+
+- **ARM** (Raspberry Pi and ARM thin clients): in preparation, the Raspberry Pi 4 first.
+- **32-bit only** CPUs (older Atom and VIA models): Debian 13 no longer runs on them.
+
+## Firmware settings (Dell)
+
+- **Wake-on-LAN**: enable "Wake on LAN" and **disable "Deep Sleep Control"**. With deep sleep in S4/S5 the
+  network card is off and the magic packet never arrives. The same setting blocks the RTC alarm used by
+  `POWER_ON_TIME`.
+- **USB boot** must be enabled to install from a stick (Integrated Devices).
+- On Linux the settings can be changed without entering the setup screen, through `dell-wmi-sysman`
+  (`/sys/class/firmware-attributes/dell-wmi-sysman/`), with the BIOS admin password if one is set.
+
+## Monitors
+
+- A monitor switched on after the thin client (or a slow HDMI/DisplayPort link) leaves X without an output:
+  the kiosk checks every 2 s and enables it.
+- Monitors with a built-in USB hub may expose a "Hub Controller" device: it is kept local.
+- Touch monitors stay local and their touches go to Windows as real touch input (`+multitouch`).
+
+## USB devices seen in the field
+
+- Webcams with microphone (UVC + audio): camera through the RDP camera channel, microphone through the RDP audio
+  channel (tested with an eMeet Nova and an HD Web Camera 05a3:9331 against Windows 11 and Zoom).
+- Signature keys with smart card reader + storage: the reader goes through the smart card channel, the
+  storage as a whole device.
+- Composite devices that restart in another mode once they see a PC (e.g. tachograph download keys): passed
+  with `/usb:auto`, so they are passed again after re-enumeration. Devices plugged in during the session are
+  passed only with a FreeRDP that has the `filter:` option of the USB channel (merged upstream after 3.32.1);
+  with older versions plug them in before signing in, or list them in `USB_REDIRECT`.
+- USB network adapters are never passed (the device would lose its own network).
+
+---
+
+<!-- https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/status.md -->
+
+# Status: what you can deploy today
+
+OpenThinRDP is numbered 0.x, but it is not a prototype: it runs a company's whole thin client fleet every day.
+This page says what is used in production, what is available but not exercised by that fleet, and what does
+not exist yet, so you know what to test before rolling it out.
+
+## The production fleet
+
+- **14 Dell OptiPlex 3000 Thin Clients** (BIOS 1.19 to 1.37) in offices, at the tills, in a laboratory and at
+  weighing stations: 13 wired, one on **Wi-Fi** (a wall screen that shows a web page all day).
+- **Windows 11 VDI on Hyper-V**: personal desktops behind two RD Connection Brokers (DNS round robin), plus a
+  handful of session hosts.
+- Every device was **converted in place** from the system it ran before, by an update package, with its settings
+  carried over; none was reinstalled by hand.
+- Updates reach them from the **management folder, signed with the key of the site**: the manager checks each GitHub
+  release (project signature and hash) and signs it again with that key. Installed in the background during sessions
+  and applied when the session is over. Until October 2026 the devices took the GitHub releases straight.
+
+## In production every day
+
+| Area | What |
+|---|---|
+| Sign-in | Kiosk sign-in screen, default user, two brokers with fallback, load balance info for VDI collections; **Kerberos with NTLM as fallback** behind the brokers' round-robin name; a session opened from another device is told apart from a VM shutdown |
+| Transport | **RDP over UDP** (`TRANSPORT=auto`) with fallback to TCP; reconnection after network drops |
+| Network | Wired (DHCP) and **Wi-Fi** (WPA2-PSK) |
+| Web | **Web button** that opens the company portal (app mode, allowed sites only) on every device; a wall screen in **web kiosk** mode |
+| USB | Whole-device redirection of signature keys and other special devices, also plugged in during the session |
+| Meetings | Webcams through the RDP camera channel, microphones and speakers through the RDP audio channels |
+| Smart cards | Readers through the smart card channel (pcscd) |
+| Touch | Touch screens at the tills, as real touch in Windows |
+| Management | Status and events of every device, central settings (common and per device), logo and background, Windows manager |
+| Updates | Signed packages from the **management folder** with the **site key** (`UPDATE_FROM=share`, `UPDATE_KEY=site`), the GitHub releases checked and signed again by the manager; straight from GitHub (`UPDATE_FROM=github`) before. Debian security updates by themselves |
+| Power | Shutdown at the end of the session, Wake-on-LAN (also from the BIOS), **power on and off on a schedule** (the wall screen: RTC wake alarm) |
+
+## Available, not exercised by that fleet
+
+These work in our tests (QEMU/KVM at every release, the system tests in `tests/`, a test device), but the
+production fleet does not use them, so test them in your environment first:
+
+- **ISO installation** on new hardware: live system and automatic installation, Secure Boot. Tested in QEMU/KVM
+  with Secure Boot at every release; the fleet itself was converted in place, not installed from the ISO.
+- Static addressing (the fleet uses DHCP).
+- Web button in free browsing mode (`WEB_BUTTON=browser`).
+- `RDP_CERT=verify` with your own certificate authority.
+- Devices outside the office: the RD Gateway (`RDP_GATEWAY`), tested against a Windows Server RD Gateway, and the
+  VPN (`VPN=wireguard|openvpn`), tested against WireGuard and OpenVPN servers (tunnel, routes, DNS, a refused
+  password). No device of the fleet works outside the office yet.
+- **A pilot group and going back** (`UPDATE_TO`): a version on a few devices first, the others kept where they are,
+  and back to an earlier version with its FreeRDP. In the system tests (management folder and GitHub, going back with
+  the packages of that version), new in 0.2.0.
+- **The manager updating itself** from the signed releases, new in 0.2.0.
+- **802.1X and WPA2/WPA3-Enterprise Wi-Fi** (PEAP, EAP-TLS): in the system tests and in a lab against hostapd and
+  FreeRADIUS, new in 0.2.1; not yet on a real switch or with Windows NPS.
+- **Desktops in the cloud** (Azure, AWS, any provider): the same RDP, through an RD Gateway or a VPN, but we have
+  no cloud deployment to test on ([what to know](configuration.md#desktops-in-the-cloud)).
+
+## Not available yet
+
+- Citrix, VMware/Omnissa Horizon or any protocol other than RDP.
+- Azure Virtual Desktop and Windows 365 (Microsoft Entra ID sign-in and Microsoft's gateway).
+- ARM devices.
+- Network boot (PXE).
+- Disk encryption, signed central configuration.
+
+Tell us what you need first in the [discussions](https://github.com/OpenThinRdp/openthinrdp/discussions).
+
+## Tested hardware
+
+| Device | Status |
+|---|---|
+| Dell OptiPlex 3000 Thin Client | production (14 devices, one of them on its built-in Wi-Fi) |
+| QEMU/KVM, UEFI with Secure Boot | tested at every release |
+
+Other x86-64 PCs and thin clients with UEFI should work: reports in the
+[discussions](https://github.com/OpenThinRdp/openthinrdp/discussions) are very welcome.
+
+## When something goes wrong
+
+- **A device cannot reach the management folder.** It keeps the last settings it read (the last good
+  configuration) and keeps working. The ℹ button of the sign-in screen shows the network and the reachability
+  of the folder and of the brokers; the settings dialog (PIN) fixes the folder, user or password on the device.
+- **An update is interrupted.** A package is checked (signature, hash, syntax of every script) before anything
+  is touched; Shut down waits for a running install. If the power goes in the middle, the device installs the
+  same package again at its next check, because its version is still the old one.
+- **Going back.** Devices never install an older version. To go back, publish the older package again under a
+  higher version number, or reinstall the device from the ISO: its settings come back from the management folder.
+- **A device is stolen.** Rotate the management folder password (`MGMT_PASSWORD` in the central settings) and,
+  if it had one, the password of the session user. See [security.md](security.md).
+
+---
+
+<!-- https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/manager.md -->
+
+# The OpenThinRDP manager
+
+The manager is the one place where you run a fleet of OpenThinRDP devices: one PowerShell script for Windows 10/11,
+in English and Italian, with nothing to install. It works on the shared folder the devices report to: no server,
+no agent, no database. What you see is the files in that folder, and everything you change is a file in that
+folder too, with a backup and a line in the change log.
+
+<p align="center">
+<img src="screenshots/manager-devices.png" alt="Devices page: every device with its state, user, version and last report; the selected device with its settings" width="100%">
+</p>
+
+- [What you need](#what-you-need)
+- [Devices: the whole fleet at a glance](#devices-the-whole-fleet-at-a-glance)
+- [Settings for all devices or one](#settings-for-all-devices-or-one)
+- [Updates: a few devices first, then all, and back when something breaks](#updates-a-few-devices-first-then-all-and-back-when-something-breaks)
+- [Remote screen](#remote-screen)
+- [Problems across the fleet](#problems-across-the-fleet)
+- [Vault, keys and the site key](#vault-keys-and-the-site-key)
+- [Logo, background, SSH keys, permissions](#logo-background-ssh-keys-permissions)
+- [The manager updates itself](#the-manager-updates-itself)
+- [Starting it, and the command line](#starting-it-and-the-command-line)
+
+## What you need
+
+- A **shared folder** (SMB) that the devices can read and write their status to: `\\fileserver\thinclients`. How
+  to create it, its account and its permissions: [management.md](management.md#account).
+- A **Windows 10 or 11 PC** of an administrator, with PowerShell 5.1 (it is part of Windows). For the remote screen,
+  also the OpenSSH client of Windows (`ssh.exe`, usually there) and a browser.
+- **The manager itself**: `openthinrdp-manager-<version>.zip` from the [latest release](https://github.com/OpenThinRdp/openthinrdp/releases/latest),
+  unpacked into a folder only the administrators can write (a share works, so that everybody starts the same copy).
+  From then on it [updates itself](#the-manager-updates-itself).
+- The devices set to that folder: `MGMT_SHARE` in their settings dialog, or in the image you build.
+
+Start `OpenThinRDP-Manager.vbs` (no console window) or `OpenThinRDP-Manager.cmd -Folder \\fileserver\thinclients`.
+
+## Devices: the whole fleet at a glance
+
+The **Devices** page lists every device that reports to the folder, with a coloured dot for its state, the user
+signed in, the version it runs and its last report; the search box finds a device by name, address or user. Devices
+report every 5 minutes and at boot, and the list refreshes itself every minute. A device that stopped reporting,
+rejected the central settings or has a failed service stands out in its colour.
+
+Select a device and its header shows its address, version, last report and user, with its actions: **Remote
+screen**, **Logo and background...**, **Software version...**. Under it:
+
+| Tab | What it shows |
+|---|---|
+| Settings | every setting: the value in use on the device, where it comes from, and the value you set for it |
+| Summary | a readable report: session, transport in use (UDP or TCP), network and Wi-Fi, software and FreeRDP, the version it installs, security updates, management, secrets, uptime |
+| Events | the event log of the device: sessions, drops with their cause, updates, settings applied or rejected |
+| Full report | the status file as the device wrote it |
+
+<p align="center">
+<img src="screenshots/manager-pilot.png" alt="A pilot device: the list marks it (pilot), its summary says it installs the newest version" width="100%">
+</p>
+
+## Settings for all devices or one
+
+**Common settings** are for every device (`config\common.conf`); in a device's **Settings** tab, tick *Exception*
+to give that device a value of its own (`config\<hostname>.conf`), which wins over the common one. Every row shows:
+
+- the value **in use on the device** (from its last report);
+- **where it comes from**: the device itself, the common settings, or an exception for this device;
+- in orange, ***on its way***: a value you saved that the device has not applied yet. It reads the folder every 5
+  minutes; when it stays orange, the device has refused the settings (its state says so).
+
+The help of the selected setting is in full under the list. Before saving, the manager checks every value with the
+same rules as the devices (a device refuses a whole configuration with one wrong value), and before saving the
+common settings it lists the devices that would refuse them. Every save keeps a copy of the file in
+`config\backup\` and adds a line to `config\changes.log`.
+
+<p align="center">
+<img src="screenshots/manager-common.png" alt="Common settings: every setting with its value and the help of the selected one" width="100%">
+</p>
+
+All the settings: [configuration.md](configuration.md).
+
+## Updates: a few devices first, then all, and back when something breaks
+
+The **Updates** page shows the newest version in the folder, the version all devices are on, the pilot devices,
+the devices kept on a version of their own, the versions you can choose, and what the devices run now.
+
+<p align="center">
+<img src="screenshots/manager-updates.png" alt="Updates page: newest published version, all devices on 0.2.0, one pilot device on the newest, the versions that can be chosen" width="100%">
+</p>
+
+Everything here is one setting, `UPDATE_TO`, written for you in the right file:
+
+| `UPDATE_TO` | where | means |
+|---|---|---|
+| `latest` | `common.conf` | every device takes each new version as soon as it is in the folder (the default) |
+| a version, e.g. `0.2.0` | `common.conf` | every device stays on that version, or **goes back** to it |
+| `latest` | `<hostname>.conf` | a **pilot device**: it takes the newest version even while the others stay |
+| a version | `<hostname>.conf` | that device stays on, or goes back to, its own version |
+
+A device installs a version also when it is **older** than its own, FreeRDP included, and installs nothing newer
+until the setting changes. As always, an update never interrupts a session: it is installed in the background and
+applied when the session is over.
+
+### Try a new version on a few devices
+
+1. **Choose the pilots.** In the header of a device, **Software version...** > *pilot device*. Pick devices that
+   look like the rest of the fleet (the same model, the same kind of user), and users who will tell you when
+   something is odd. The list marks them *(pilot)*.
+2. **Bring the new version in for the pilots only.** **Release from GitHub...** (top bar or Updates page) downloads
+   the latest release, checks its project signature and hash, and asks: *all devices* or ***pilot devices only***.
+   With pilot only, all the other devices are first kept on the version they have (`UPDATE_TO=<that version>` in
+   `common.conf`), and only then the new version goes into the folder.
+3. **Watch the pilots** for a few days: their **Summary** and **Events**, and the **Problems** page.
+
+### Release it to the whole fleet
+
+When the pilots are fine: **Updates > Release to all devices**. `common.conf` goes back to `UPDATE_TO=latest`
+and every device takes the new version within 5 minutes, each one when its session is over.
+
+### Something broke: go back
+
+- **The whole fleet:** **Updates > Version for all devices...**, choose the version that worked (newest first, from
+  `updates\versions\`). Every device goes back to it, FreeRDP included, and stays there.
+- **One device:** **Software version...** in its header > *its own version*.
+- **A version that is no longer in the folder:** **Version from GitHub...** fetches it (the release `v<version>`,
+  with the same checks) into the folder, without changing what the others get.
+
+When the fix is out, **Release from GitHub...** again, pilots first, and **Release to all devices**.
+
+**Good to know**
+
+- Devices go back only to **0.2.0 or later**: older versions do not know `UPDATE_TO`.
+- Devices that still run a version **before 0.2.0** ignore `UPDATE_TO` and take the newest version in the folder.
+  The manager names them before a pilot-only release: the first time, release 0.2.0 to all devices, or update those
+  devices first.
+- With `UPDATE_FROM=github` (no management folder for updates) the same setting works: the devices fetch the release
+  `v<version>` from GitHub.
+- Every published version keeps its signed index in `updates\versions\`; the newest 3 packages stay in the folder,
+  plus every version a device is kept on. Details: [management.md](management.md#pilot-devices-and-going-back).
+
+## Remote screen
+
+**Remote screen**, in the header of a device, shows its screen in your browser and lets you use it: to see what a
+user sees, or to sign in once to a web page on a screen with no keyboard.
+
+<p align="center">
+<img src="screenshots/remote-screen.png" alt="The screen of a device in the browser, with the notice the device shows" width="80%">
+</p>
+
+It goes **through SSH only**, with the key of the manager's vault and a one-time password: nothing new listens on
+the network, and nothing is installed on your PC. The device shows *Remote assistance active* while it lasts and
+records it in its events; it ends when you close the small window, or by itself after 2 hours. `REMOTE_SCREEN=off`
+turns it off. How it works: [management.md](management.md#remote-screen).
+
+## Problems across the fleet
+
+The **Problems** page reads the event logs of every device together, for today, 24 hours, 7 or 30 days, and groups
+what went wrong: failed sign-ins (by broker), desktops that did not start, sessions dropped (by cause), sessions
+taken over, UDP blocked, failed updates, rejected settings. Each line says how many times, on which devices, for
+which users, first and last time. A line is orange when 3 or more devices had the same problem: that points at a
+server or the network, not at a device. "Six devices could not reach the broker this morning" is one line instead
+of six logs.
+
+## Vault, keys and the site key
+
+Two keys rule the fleet: the SSH key that opens the screen of any device, and the key that signs the update packages
+every device installs. The manager keeps both in `vault.otr`, next to it, encrypted with an **access code** that only
+the administrators know. Every administrator who starts the same copy opens it with the same code; without the code
+the settings can still be edited, but no screen opens and nothing is signed.
+
+<p align="center">
+<img src="screenshots/manager-vault.png" alt="Vault page: the access code, the SSH key of the manager, the key that signs the updates" width="80%">
+</p>
+
+**A fleet on its own key.** With `UPDATE_KEY=site` your devices accept only updates signed by the key of your site,
+which exists only in your vault. The manager checks each GitHub release (project signature and hash) and signs it
+again with your key: a stolen project key installs nothing on your fleet. Set it up step by step:
+[management.md](management.md#a-fleet-on-its-own-key).
+
+## Logo, background, SSH keys, permissions
+
+- **Logo and background...** (common settings, or a device): any picture, scaled and saved as PNG, for every device
+  or one.
+- **SSH keys**: the keys of the administrators, sent to every device (`SSH=on`); **Add the key of the manager** puts
+  the vault's key there for the remote screen.
+- **Check permissions** tells you what the account of the devices can do in the folder: it needs to write only its
+  status, never the settings or the updates.
+- The window fits any screen, from a 27" monitor to a laptop with display scaling (down to 860×560).
+
+## The manager updates itself
+
+Every release carries the manager of the same version, under the same signature as the update package. At start,
+in the background, the manager checks the latest release; when there is a newer manager, the top bar shows
+***Manager X available***. **Update the manager** downloads it, checks signature and hash, keeps the files it
+replaces in `previous\`, and starts again. Your `vault.otr`, the launcher and anything that is not part of the
+manager stay as they are; if anything fails, the previous files come back.
+
+Update the copy the administrators start (on a share, from a PC that can write there): everybody who starts it gets
+the new version. The **Updates** page shows the manager's version and has **Check again**. Details:
+[management.md](management.md#the-manager-updates-itself).
+
+## Starting it, and the command line
+
+- `OpenThinRDP-Manager.vbs` starts it without a console window; `build-launcher.ps1` makes an `.exe` with the
+  OpenThinRDP icon to pin to the taskbar, and with `-Install` a shortcut on each PC that starts the copy on the share
+  ([details](management.md#central-settings)).
+- `OpenThinRDP-Manager.cmd -Folder \\fileserver\thinclients -Language en|it`: the folder and the language (by default
+  the Windows display language).
+- `OpenThinRDP-Manager.cmd -Sign <folder>\LATEST.txt`: signs an update package you built with `make-update.sh`, with
+  the key in the vault ([Signed updates](management.md#signed-updates)).
+- `OpenThinRDP-Manager.cmd -UpdateManager`: updates the manager without a window (exit code 0 = updated, 1 = error,
+  2 = nothing to do).
+
+What is in the folder, file by file, and how the devices use it: [management.md](management.md).
+
+---
+
+<!-- https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md -->
+
+# Configuration
+
+Every setting is a `KEY=value` line. A device reads them in this order, the first file that has the key wins:
+
+1. `/etc/openthinrdp/openthinrdp.conf`: this device (settings dialog ⚙, central settings)
+2. `/etc/openthinrdp/site.conf`: your organization, built into the image from `image/site/site.conf`
+3. `/opt/openthinrdp/defaults.conf`: project defaults
+
+An empty value in a higher file clears a lower one on purpose (e.g. `TITLE=` in the device file).
+
+The device file is written by the settings dialog **and** by the central settings, and the central settings
+win: in practice the order is `config\<hostname>.conf` > `config\common.conf` > settings dialog > `site.conf` >
+defaults. A key removed from the central files goes back to `site.conf`/defaults, so all devices stay alike
+(see [management.md](management.md)).
+Values are validated by `save-config.sh` with the same rules wherever they come from (dialog, central
+settings, manager); invalid central settings are refused as a whole and the previous ones stay.
+
+The reference with comments is [`rootfs/opt/openthinrdp/defaults.conf`](../rootfs/opt/openthinrdp/defaults.conf).
+
+## Remote desktop
+
+| Key | Default | Meaning |
+|---|---|---|
+| `BROKER` | | RD Connection Broker, or directly a session host or any Windows PC with Remote Desktop on: name or IP. Empty = the settings dialog opens at start |
+| `BROKER_FALLBACK` | | other brokers, space separated, tried in turn from the 3rd attempt |
+| `DOMAIN` | | Windows domain of the users |
+| `LOAD_BALANCE_INFO` | | RDS collection, as `loadbalanceinfo` in the .rdp file, e.g. `tsv://VMResource.1.VDI` |
+| `DEFAULT_USER` | | user name pre-filled in the sign-in form |
+| `TRANSPORT` | `auto` | `auto` = UDP, TCP when UDP is blocked or fails; `udp` = UDP only; `tcp` = TCP only. See [udp.md](udp.md) |
+| `RDP_AUTH` | `negotiate` | `negotiate` = Kerberos, NTLM when Kerberos is not available (`DOMAIN` must be the full DNS name, e.g. `example.local`); `kerberos` = Kerberos only: the sign-in fails instead of falling back to NTLM (for domains that turned NTLM off, and to see a broken Kerberos setup at once); `ntlm` = NTLM only. Behind an alias shared by several brokers the device connects to one of them by its own name, so that the Kerberos ticket is for the server it talks to |
+| `RDP_CERT` | `tofu` | `ignore`, `tofu` (trust on first use) or `verify` |
+| `RDP_GATEWAY` | | RD Gateway (Remote Desktop Gateway) for devices outside the office: `name[:port]`, 443 when no port. See [RD Gateway](#rd-gateway) |
+| `RDP_GATEWAY_USE` | `always` | `always` = every connection through the gateway; `detect` = a server on the local network straight, the others through the gateway |
+| `RDP_GFX` | `progressive,AVC420:off,AVC444:off` | `/gfx` options. Without a GPU on the server this keeps text pixel exact |
+| `RDP_KEYBOARD` | | keyboard layout id for Windows, e.g. `0x00000409`. Empty = taken from the X keyboard |
+| `MULTIMON` | `auto` | `auto` = every monitor when more than one is connected (`/multimon`), `off` = only the main one |
+| `RDP_EXTRA` | | extra xfreerdp3 options (letters, digits, `/:+,._=#-` and spaces only) |
+| `SESSION_THRESHOLD` | `10` | a session that ends within these seconds counts as a failed attempt |
+| `SHUTDOWN_SECS` | `10` | after the user disconnects, switch off after these seconds (0 = never) |
+
+The device switches off only after a deliberate end (disconnect, sign out, VM shut down by an administrator).
+Every other ending (network drop, crash, server restart) reconnects without asking. A session taken over by
+another device shows "Session opened elsewhere" with *Resume here* instead of reconnecting. When the broker
+answers but the virtual machine refuses the desktop (it is restarting or installing a Windows update), the device
+shows *Waiting for Windows* with a Cancel button and tries again every 20 s, without counting attempts, for up to
+20 minutes.
+
+### RD Gateway
+
+A device in a branch office or at home reaches the RDS deployment through its **RD Gateway**, the role that
+carries RDP over HTTPS (port 443), so that nothing but 443 is published on the Internet. Set `RDP_GATEWAY` to its
+public name, e.g. in `config\<hostname>.conf` of the devices that are outside, or in `common.conf` with
+`RDP_GATEWAY_USE=detect` for devices that move:
+
+```
+RDP_GATEWAY=rdgateway.example.com
+```
+
+- The broker and, after its redirect, the virtual machine are reached through the gateway with the **credentials of
+  the session**: the user signs in once. Who may connect, and to which servers, is decided by the policies of the
+  gateway (RD CAP and RD RAP).
+- **TCP through the gateway.** FreeRDP carries no UDP through a gateway (its UDP transport, port 3391, is not
+  implemented). With `detect`, a server reached straight on the local network keeps UDP (since 0.1.15; before, UDP
+  was declined as soon as a gateway was set). `TRANSPORT=udp` is not enforced with a gateway. `/network:auto` stays:
+  the server adapts frame rate and image quality to the line.
+- **Certificate.** The gateway presents its HTTPS certificate: with `RDP_CERT=verify` it must be trusted by the device
+  (a public certificate, or your CA in the `ca/` folder of the site files).
+- **Kerberos** needs the domain controllers: outside the office, with no KDC proxy, use `RDP_AUTH=negotiate` (NTLM
+  when Kerberos cannot be reached) or `ntlm`.
+- The diagnostics of the device (settings, *Diagnostics*) test the gateway on its port instead of the brokers on
+  3389. A session that the server closes with code 1 counts as ended: through a gateway the device cannot ask the
+  virtual machine whether it still runs.
+
+## USB
+
+| Key | Default | Meaning |
+|---|---|---|
+| `USB_MODE` | `all` | `all` = every device except keyboard, mouse, touch screen, hub, Bluetooth adapter, network adapter, smart card reader, webcam and USB headset goes to Windows as a whole device (RemoteFX USB redirection). `disks` = USB sticks stay on the thin client, are mounted there and appear in Windows as redirected drives (`\\tsclient`), also when plugged in during a session (since 0.1.7). `auto` = device by device: a device that is only storage (every interface mass storage: a stick, a card reader, a disk) as a drive, as with `disks`; a device with storage and something else (an instrument with a serial port, a key with its own Windows driver) whole, as with `all`, so that its driver gets all of it. Plugged in during a session, `auto` works as `disks`: FreeRDP's filter sees a class on any interface |
+| `USB_REDIRECT` | | `VID:PID` list always passed whole, in every mode (smart card readers excepted: they always go through the smart card channel) |
+
+A USB stick passed whole (`USB_MODE=all`) gets its drive letter from Windows inside the session of the user it is
+redirected to, as on a physical PC. That letter is not visible to services or to other sessions, so a tool running
+as SYSTEM sees no letter: this is how Windows works, not something to fix by assigning letters.
+
+Webcams and USB sound devices (headsets, speakerphones) stay on the thin client: the camera goes through the RDP
+camera channel and appears in Windows as "*name* (redirected)", the microphone and the speaker through the RDP
+audio channels ("Remote Audio"). Passed as whole USB devices they reach Windows as devices of the console session,
+and the apps of the remote session see no microphone at all. When there is no USB microphone the thin client's
+own input is used. A device listed in `USB_REDIRECT` is still passed whole.
+
+## Network
+
+| Key | Default | Meaning |
+|---|---|---|
+| `NETMODE` | `dhcp` | `dhcp` or `static` |
+| `IPADDR`, `NETMASK`, `GATEWAY` | | static address (static mode only) |
+| `DNS1`, `DNS2` | | DNS servers; empty = from DHCP. Required with a static address |
+| `NTP` | | time servers; empty = Debian pool |
+| `HOSTNAME` | `thinclient-` + the last 6 digits of the MAC address | name of the device (the system host name, not stored in the settings file) |
+| `WIFI` | `off` | `on` = use Wi-Fi when no cable is connected |
+| `WIFI_SSID`, `WIFI_COUNTRY` | | network name, regulatory country (two letters) |
+| `WIFI_PSK` | | password or 64-hex key. Only in central settings or the dialog; stored only in `/etc/wpa_supplicant` |
+| `WIFI_SECURITY` | `psk` | `psk` = a password (WPA2-Personal, `WIFI_PSK`); `peap` or `tls` = WPA2/WPA3-Enterprise with the 802.1X settings below. See [802.1X and Wi-Fi Enterprise](#8021x-and-wi-fi-enterprise) |
+| `DOT1X` | `off` | 802.1X on the cable: `peap` (an account and its password) or `tls` (a certificate of the device). See [802.1X and Wi-Fi Enterprise](#8021x-and-wi-fi-enterprise) |
+| `EAP_IDENTITY` | | the identity: `DOMAIN\user`, `user@domain`, `host/name.domain`. With `tls`, empty = the common name of the certificate |
+| `EAP_ANONYMOUS` | | outer identity, sent in clear before the tunnel, e.g. `anonymous@example.com`. Empty = the identity |
+| `EAP_CA` | `system` | the authority that signed the certificate of the RADIUS server: `system` (the system trust store, with the CAs of the site) or the name of a `.crt` file in `/etc/openthinrdp/ca` |
+| `EAP_SERVER_NAME` | | name(s) the certificate of the RADIUS server must be for (or a name under them), space separated. Always set it |
+| `EAP_PASSWORD` | | the PEAP password. Only in the dialog, the central settings or sent by the manager; stored only as a secret of the device |
+| `VPN` | `off` | `wireguard` or `openvpn`: the device's own VPN, for devices outside the office. See [VPN](#vpn) |
+| `VPN_SERVER`, `VPN_SERVER_KEY` | | WireGuard: the server, `name[:port]` (51820 when no port), and its public key |
+| `VPN_ADDRESS` | | WireGuard: the address of this device in the tunnel with its prefix, e.g. `10.8.0.15/24`. One per device: ignored in `common.conf` |
+| `VPN_ROUTES` | | networks of the office through the tunnel (CIDR, space separated); empty = all the traffic (WireGuard). With OpenVPN, added to the routes the server pushes |
+| `VPN_DNS` | | DNS servers of the office, in front of the others while the tunnel is up. Empty: WireGuard keeps the DNS it has, OpenVPN takes the ones the server pushes |
+
+### VPN
+
+The other way for a device outside the office: its own tunnel to the office network, WireGuard or OpenVPN. Through
+it go the broker, the management folder (status, central configuration, updates) and the DNS of the office, so the
+device works as it does inside. Compared with the [RD Gateway](#rd-gateway): no gateway server to publish, and inside
+WireGuard the session **keeps UDP**; a VPN server is needed instead, often the firewall of the office.
+
+**WireGuard**, set in the manager or in the configuration files:
+
+```
+# config\common.conf
+VPN=wireguard
+VPN_SERVER=vpn.example.com
+VPN_SERVER_KEY=<public key of the server>
+VPN_ROUTES=192.168.0.0/23
+VPN_DNS=192.168.1.10
+
+# config\<hostname>.conf
+VPN_ADDRESS=10.8.0.15/24
+```
+
+- The **private key is made on the device** at the first start with `VPN=wireguard` and never leaves it (a secret,
+  in the TPM when there is one). Its public key is in the status report (`VPN_PUBLIC_KEY`); in the manager, the
+  Summary of the device shows it, and a double click or Ctrl+C on that row copies the `[Peer]` block to add on the
+  server (the public key and `AllowedIPs` = the address of the device /32). Until the server knows it, the state
+  says *no answer from the server yet*.
+- `VPN_ROUTES` empty sends **all the traffic** through the tunnel: the server itself stays on the local way, the
+  default route of the local network stays and is used again as soon as the tunnel goes.
+- A server name is resolved again when the tunnel stays silent for 3 minutes (a dynamic address). The tunnel sends a
+  keepalive every 25 s, so that a NAT router at home keeps it open.
+
+**OpenVPN**: `VPN=openvpn`, and the profile of the device (the `.ovpn` file the VPN provider or the firewall gives)
+sent from the manager with **VPN profile...** (device header, shown when `VPN=openvpn`), with the user and password
+when the profile asks for them (`auth-user-pass`).
+
+- Profile and password go **over SSH** with the key of the vault (`SSH=on` on the device) and are secrets of the
+  device: they never go through the management folder, which every device can read, and never on a command line.
+  The profile is refused when it would run commands or write files (`script-security`, `up`/`down`, `plugin`,
+  `management`, `log`...): the scripts that run are the device's own.
+- The tunnel restarts by itself when it drops. A **password the server refuses** is tried again only after an hour
+  (or as soon as the manager sends new credentials): retried every few seconds, it would lock a domain account.
+- DNS servers pushed by the server (`dhcp-option DNS`) are used unless `VPN_DNS` names others.
+
+The state of the VPN is in the report (`VPN=`), in the manager (Summary, Network) and in the diagnostics of the
+device. Events: *VPN: ...* in the event log.
+
+### 802.1X and Wi-Fi Enterprise
+
+Corporate networks often admit nothing on a switch port that has not authenticated with **802.1X**, and enterprise
+Wi-Fi uses **WPA2/WPA3-Enterprise**, the same protocol over the air. The device does both with `wpa_supplicant`:
+
+- `DOT1X=peap` or `tls`: 802.1X on every wired adapter (`dot1x.sh`, one `openthinrdp-dot1x@<adapter>` service each,
+  `wpa_supplicant -D wired`).
+- `WIFI_SECURITY=peap` or `tls`: the Wi-Fi network of `WIFI_SSID` as WPA2- or WPA3-Enterprise.
+- **One block of EAP settings serves both**: the same account (PEAP) or the same certificate (EAP-TLS) on the cable
+  and on the Wi-Fi, as a Windows PC uses the same credentials for both. A network that wants a different identity on
+  each is rare enough not to double every setting.
+
+Two methods, the ones Windows NPS and FreeRADIUS offer for domain devices:
+
+| | PEAP (`peap`) | EAP-TLS (`tls`) |
+|---|---|---|
+| Who authenticates | an account and its password (PEAP-MSCHAPv2) | a certificate of the device and its private key |
+| Where the secret comes from | the settings dialog (*802.1X password*), `EAP_PASSWORD` in the central settings, or the manager (**802.1X...**, over SSH) | the manager (**802.1X...**, over SSH): a `.pfx` as Windows exports it, or a PEM certificate and its key |
+| Identity | `EAP_IDENTITY`, e.g. `EXAMPLE\svc-thin-8021x` | `EAP_IDENTITY`, or empty = the common name of the certificate |
+
+```
+# config\common.conf: every device on 802.1X ports with one service account (PEAP)
+DOT1X=peap
+EAP_IDENTITY=EXAMPLE\svc-thin-8021x
+EAP_ANONYMOUS=anonymous@example.com
+EAP_CA=corp-root.crt
+EAP_SERVER_NAME=nps.example.com
+```
+
+**The server is always checked.** The device sends nothing secret before the RADIUS server has shown a certificate
+signed by `EAP_CA` and made out to `EAP_SERVER_NAME` (or a name under it, `domain_suffix_match`); a server that fails
+either check is refused (*certificate of the server not accepted: ...*) and the password never leaves the device.
+`EAP_CA=system` trusts the system store, which holds the public authorities **and** the authorities of your site
+(`ca/*.crt` of the site files, `/etc/openthinrdp/ca`); a file name (e.g. `corp-root.crt`, from that folder) trusts that
+authority only. **Set `EAP_SERVER_NAME` always**: without it any server with a certificate of `EAP_CA`, with `system`
+any server with a public certificate, would get the password; the status of the device says so with a WARNING, and the
+manager notes it when the settings are saved.
+
+**On the cable**, in the order things happen:
+
+1. The adapter comes up (boot, cable plugged in, settings changed): its supplicant starts **before** the address is
+   asked (a `pre-up` of the adapter), and DHCP (or the static address) waits for the authentication, 40 s at most.
+2. **Authenticated**: the port is open, DHCP goes on. When the port was authenticated after the address was already
+   asked (a supplicant restarted, a switch that answered late), the address is asked again (`dhcpcd -n`): a switch may
+   put an authenticated device in another VLAN than before.
+3. **Refused**: DHCP goes on too, for the network the switch gives a refused device (a guest or restricted VLAN, or
+   none). The reason is in the state: *password refused by the server*, *certificate of the server not accepted:
+   Domain suffix mismatch (...)*, *refused by the server (certificate, account or network policy)*.
+   A **PEAP password the server refuses is not tried again for an hour**, or until a new one arrives (dialog, central
+   settings, manager): switches ask again every minute, and a domain account would be locked.
+4. **No authenticator**: a port that does not answer 802.1X at all (a switch without it, a desk at home) gets the
+   network without it after 15 s, and the state says *no authenticator: DHCP without 802.1X*. A device set up for
+   802.1X works on any switch; the supplicant keeps listening, and a switch that starts 802.1X later is answered.
+5. **Cable out and in**: authenticated again (an EAPOL-Start of its own after 2 and 8 s, when the switch does not ask
+   first), then the address again.
+
+Missing pieces are no error of the settings (the password or the certificate come later, from the manager): the state
+says *incomplete: no password* or *no client certificate*, and the network works without 802.1X meanwhile.
+
+**Secrets.** The PEAP password and the private key of the certificate are secrets of the device, kept like the Wi-Fi
+key: in the TPM when there is one (`TPM_SECRETS`), otherwise in root-only files; never in the settings files, never in
+the status. The manager sends them with **802.1X...** in the header of a device (shown with `DOT1X` or an enterprise
+Wi-Fi), over SSH with the key of the vault (`SSH=on`), on standard input: never through the management folder, which
+every device can read. A certificate is checked twice, in the manager (the password of a `.pfx`, its private key, the
+dates, the use for client authentication) and on the device with openssl (the key belongs to the certificate, not
+expired); the key is kept **decrypted**, its password nowhere. `EAP_PASSWORD` in `common.conf` works too (compared by
+its hash, applied once), but every device that reads the file can read it: per device, prefer the manager.
+
+**Getting there the first time.** A device on a port that admits nothing without 802.1X has no network until it is set
+up: type the PEAP settings in its settings dialog (section *802.1X*), or set it up first on a port without 802.1X, or
+one with MAC authentication bypass or a guest VLAN that reaches the management folder. EAP-TLS needs the network once
+anyway, for the manager to send the certificate.
+
+**State and troubleshooting.** The report has `DOT1X=` (adapter by adapter: *authenticated (PEAP, server ...)*,
+*failed: ...*, *no authenticator*, *incomplete: ...*, *no link*, or `off`), shown in the manager (Summary, Network) and
+in the diagnostics of the device; `WIFI_STATUS` says *(802.1X PEAP)* or what is missing. Events: *802.1X: authenticated
+on eth0 (...)*, *802.1X: failed on eth0: ...*, *802.1X: no authenticator on eth0 ...*. Everything the supplicant says:
+`journalctl -u openthinrdp-dot1x@eth0` (SSH).
+
+**Wi-Fi Enterprise** joins WPA2-Enterprise and WPA3-Enterprise networks (`WPA-EAP` and `WPA-EAP-SHA256`, protected
+management frames when the access point offers or requires them), with the same EAP settings and the same checks of
+the server. Not supported: WPA3-Enterprise 192-bit (Suite B), and WPA3-Personal (SAE) for `psk` networks. On Wi-Fi the
+supplicant's own back-off applies to a refused password (10 s, then longer), not the hour of the cable.
+
+#### Windows NPS: PEAP with domain accounts
+
+1. Install the *Network Policy and Access Services* role and register the NPS server in Active Directory.
+2. **Server certificate.** NPS needs a certificate for its name, e.g. `nps.example.com`, from your AD CS (the *RAS and
+   IAS Server* template, autoenrollment for the NPS server), or any CA. Export the root CA as Base-64 (`.cer`), put it
+   in the site files as `ca/corp-root.crt` (image or update package), and set `EAP_CA=corp-root.crt` (or `system`) and
+   `EAP_SERVER_NAME=nps.example.com`.
+3. **RADIUS clients**: the switches (and Wi-Fi controllers) with their address and shared secret.
+4. **Network policy**: conditions *Windows Groups* = a group of the accounts the devices use, *NAS Port Type* =
+   Ethernet (and Wireless - IEEE 802.11); constraints, *Authentication Methods*: **Microsoft: Protected EAP (PEAP)**,
+   edited to use the server certificate above, with *Secured password (EAP-MSCHAP v2)* inside. Leave the other methods
+   off. A refused device: the reason is in the NPS log (Event Viewer, *Network Policy Server*).
+5. The device: `DOT1X=peap`, `EAP_IDENTITY=EXAMPLE\account` (a user account: a thin client has no domain computer
+   password to use), its password with the manager or the dialog.
+
+#### Windows NPS: EAP-TLS with certificates from AD CS
+
+1. A **certificate template** for the devices: duplicate *Workstation Authentication* (or *User*), Enhanced Key Usage
+   *Client Authentication*, *Allow private key to be exported*, subject from the request or built from Active Directory.
+   Issue one certificate per device, e.g. for a computer account created for it, subject `CN=host/thin1.example.com`
+   (and that name as DNS name in the subject alternative name), and export it with its private key as `.pfx`.
+2. NPS maps the certificate to an account in Active Directory. With the *strong certificate mapping* that Windows
+   enforces (KB5014754), give the certificate the security identifier of the account (issued by an enterprise CA for
+   that account) or map it explicitly on the account (`altSecurityIdentities`), otherwise the mapping, and the
+   authentication, may fail.
+3. **Network policy** as for PEAP, with the authentication method **Microsoft: Smart Card or other certificate** (its
+   server certificate as above).
+4. The device: `DOT1X=tls`, `EAP_IDENTITY` empty (the common name of the certificate: `host/thin1.example.com`), and the
+   `.pfx` with **802.1X...** in the manager.
+
+#### FreeRADIUS
+
+```
+# clients.conf: each switch or Wi-Fi controller
+client switches { ipaddr = 192.0.2.0/24  secret = <shared secret> }
+
+# mods-available/eap, tls-config tls-common: the server certificate, and the CA of the device certificates (EAP-TLS)
+private_key_file = ${certdir}/nps.example.com.key
+certificate_file = ${certdir}/nps.example.com.crt
+ca_file = ${cadir}/corp-root.crt
+
+# mods-config/files/authorize: a local account for PEAP (or the mschap module with ntlm_auth for domain accounts)
+svc-thin-8021x Cleartext-Password := "..."
+```
+
+PEAP-MSCHAPv2 and EAP-TLS are enabled in the default `eap` module; its first proposal (MD5) is declined by the device,
+which asks for PEAP or TLS as set. The switch is a plain 802.1X authenticator with the FreeRADIUS server as its RADIUS
+server.
+
+Tested against hostapd (802.1X authenticator on a wired link, and a WPA2/WPA3-Enterprise access point on virtual
+radios) with its own EAP server and with FreeRADIUS 3.2: PEAP and EAP-TLS, a wrong password (one try, then the hour),
+a server of another CA or another name, no authenticator, the cable out and in.
+
+### Desktops in the cloud
+
+OpenThinRDP connects with RDP to any Windows it can reach, wherever it runs. An RDS deployment (broker, session
+hosts or a VDI collection) or single Windows virtual machines in **Azure, AWS, Google Cloud** or with any other
+provider are set up as on premises: `BROKER` is the broker or the machine, `LOAD_BALANCE_INFO` the collection.
+
+- **How the devices reach it:** through the deployment's [RD Gateway](#rd-gateway) (HTTPS, the usual way to publish
+  RDS in the cloud), through a [VPN](#vpn) to the cloud network (the device's own WireGuard or OpenVPN, or the
+  site-to-site VPN of the office), or straight to a public address (not recommended: Remote Desktop open to the
+  Internet).
+- **UDP** works straight and through a VPN, as on premises: the firewall of the cloud network (security group, NSG)
+  must let UDP 3389 in, besides TCP 3389. Through an RD Gateway the session uses TCP.
+- **Sign-in** with the domain accounts of the deployment (Active Directory in the cloud, or a managed domain such as
+  Microsoft Entra Domain Services), Kerberos or NTLM as on premises. Kerberos needs the domain controllers, so from
+  outside with no VPN use `RDP_AUTH=negotiate` or `ntlm`.
+- **Management folder:** an SMB share the devices can reach, usually on a file server through the VPN. Devices without
+  a management folder work too, set up on the device (settings dialog) and updated from GitHub.
+- **Not supported yet: Azure Virtual Desktop and Windows 365.** Their clients sign in with Microsoft Entra ID and
+  connect through Microsoft's own gateway and broker, which the kiosk does not do (FreeRDP has experimental support,
+  OpenThinRDP does not use it). Services with their own protocol (Citrix, Omnissa Horizon, Amazon WorkSpaces) are
+  not RDP.
+
+OpenThinRDP runs in production on premises; it is the same RDP in the cloud, but we have no cloud deployment of our
+own to test on. Reports are welcome in the [Discussions](https://github.com/OpenThinRdp/openthinrdp/discussions).
+
+## Management
+
+| Key | Default | Meaning |
+|---|---|---|
+| `MGMT_SHARE` | | management folder, e.g. `\\fileserver\thinclients`, see [management.md](management.md) |
+| `MGMT_USER` | | account of the management folder: `user`, `DOMAIN\user` or `user@domain`. Empty = `smb.cred` of the image |
+| `MGMT_PASSWORD` | | its password. Only in central settings or the dialog; stored only in `/etc/openthinrdp/smb.cred` |
+| `SECURITY_UPDATES` | `on` | Debian security updates, never FreeRDP, never a reboot |
+| `TPM_SECRETS` | `on` | with a TPM 2.0: folder password, Wi-Fi key, SSH host keys, VPN and 802.1X secrets kept encrypted in it ([security.md](security.md)); `off` = root-only files, and back out of the TPM at the next start |
+| `UPDATE_FROM` | `github` | OpenThinRDP software updates: `github` (signed releases, checked every 3 hours), `share` (`updates\` of the management folder) or `off`, see [management.md](management.md#signed-updates) |
+| `UPDATE_GITHUB` | `OpenThinRdp/openthinrdp` | repository of the releases, `owner/repository` (for a fork) |
+| `UPDATE_KEY` | `any` | signature an update from the management folder needs: `any` (project key or site key) or `site` (only the site key, once the device has it), see [management.md](management.md#a-fleet-on-its-own-key) |
+| `UPDATE_TO` | `latest` | `latest` = the newest version published; a version (e.g. `0.2.0`) = exactly that one, also an older one (going back, FreeRDP included), and nothing newer until it changes. A pilot group: the current version in `common.conf`, `latest` for the pilot devices. Going back works to 0.2.0 or later. See [management.md](management.md#signed-updates) |
+| `SSH` | `off` | `on` = SSH for the `otradmin` account, key login only |
+| `REMOTE_SCREEN` | `on` | `off` = no remote screen from the manager ([management.md](management.md#remote-screen)); it needs `SSH=on` |
+
+## Web button and kiosk page
+
+| Key | Default | Meaning |
+|---|---|---|
+| `WEB_BUTTON` | `none` | `app` (only `WEB_URL` and `WEB_ALLOW`), `browser` (free browsing), `kiosk` (page full screen at power on) |
+| `WEB_LABEL` | `Web` | button label |
+| `WEB_URL` | | web address for `app` and `browser` |
+| `WEB_ALLOW` | | other sites allowed in `app` mode (URL prefixes) |
+| `KIOSK_URL` | | the kiosk page. The sign-in form shows for 5 s first: touching anything keeps it |
+| `KIOSK_RELOAD_MIN` | `10` | reload the page every N minutes when idle (0 = never) |
+
+## Power schedule
+
+| Key | Default | Meaning |
+|---|---|---|
+| `POWER_ON_TIME` | | `hh:mm`, RTC wake alarm (firmware support needed, see [hardware.md](hardware.md)) |
+| `POWER_OFF_TIME` | | `hh:mm`, with a 60 s warning that can be cancelled; waits for an open session to end |
+| `POWER_ON_DAYS` | `1234567` | 1 = Monday ... 7 = Sunday |
+
+## Look and language
+
+| Key | Default | Meaning |
+|---|---|---|
+| `LANGUAGE` | `en` | `en`, `it` (a file in `/opt/openthinrdp/lang/`) |
+| `KEYBOARD` | `us` | X11 layout |
+| `TITLE` | `Remote desktop` | window titles |
+| `LOGO` | `/opt/openthinrdp/branding/logo.png` | logo in the dialogs. A logo in the management folder wins, see [management.md](management.md#logo-and-background-picture) |
+| `BG_TOP`, `BG_BOTTOM` | `#1b2733`, `#000000` | background gradient (boot splash and behind the form) |
+| `SUPPORT_TEXT` | | extra line in error messages, e.g. "Call the IT desk, ext. 123" |
+| `SETTINGS_PIN_SHA256` | | protects the settings dialog. Set it from the manager, which stores `pbkdf2-sha256:<iterations>:<salt>:<key>` (salted PBKDF2-SHA256); by hand: `python3 -c 'import hashlib,os,sys; s=os.urandom(16); print("pbkdf2-sha256:600000:"+s.hex()+":"+hashlib.pbkdf2_hmac("sha256",sys.argv[1].encode(),s,600000).hex())' 123456`. The plain SHA-256 of 0.1.4 and earlier still works. Never shown in the status files |
+
+`HOSTNAME`, `DEFAULT_USER`, `NETMODE` and `IPADDR` identify a device: in central settings they are accepted
+only in `config\<hostname>.conf`, never in `config\common.conf`.
+
+---
+
+<!-- https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md -->
+
+# Management folder
+
+One SMB share (a folder on any Windows or Samba file server) is the whole management system. Every device
+mounts it every 5 minutes, at boot and at every new event, writes its status and reads settings and updates.
+
+```
+\\fileserver\thinclients\
+  status\<hostname>.txt        status: KEY=value lines + last errors and events
+  status\<hostname>-events.log event log
+  status\SUMMARY.csv           one line per device (rewritten by the devices)
+  config\common.conf           settings for every device
+  config\<hostname>.conf       settings for one device (wins over common.conf)
+  config\authorized_keys       SSH public keys of the administrators (optional)
+  config\branding\logo.png, splash.png              logo and background picture for every device (optional)
+  config\branding\<hostname>\logo.png, splash.png   for one device (wins over the common ones)
+  config\backup\, changes.log  written by the Windows manager
+  updates\LATEST.txt(.sig)     signed update index of the newest version, and the packages
+  updates\versions\<version>.txt(.sig)   the index of every version that can be chosen (UPDATE_TO)
+```
+
+## Account
+
+The devices log in with `/etc/openthinrdp/smb.cred` (root only). Two ways to get it there:
+
+- **On the device**, also with the downloadable ISO: in the settings dialog, *Management folder user*
+  (`user`, `DOMAIN\user` or `user@domain`; without a domain, `DOMAIN` is used) and *Management folder
+  password*. The user is a normal setting (`MGMT_USER`); the password goes only into `smb.cred`, is never shown
+  again, never in the status files, and an empty field keeps the saved one. Central settings can change both
+  (`MGMT_USER=`, `MGMT_PASSWORD=` in `config\common.conf` or `config\<hostname>.conf`), e.g. to rotate it.
+- **In your own image**: `image/site/smb.cred`:
+
+  ```
+  username=svc-thinclients
+  password=...
+  domain=EXAMPLE
+  ```
+
+Every device can read this password, so use an account that can do as little as possible: not a member of
+Domain Users, no rights outside this folder, and inside it **write access to `status\` only**. A device only
+writes its status and events there; settings, branding and updates it only reads. So a stolen device gives
+its holder an account that can fill `status\` with nonsense, but cannot change the settings of the other
+devices or put anything in `updates\`.
+
+| folder | devices' account | administrators |
+|---|---|---|
+| the management folder itself | Read (to list and open the subfolders) | Full control |
+| `status\` | Modify | Full control |
+| `config\` (with `branding\`) | Read | Full control |
+| `updates\` | Read | Full control |
+
+With PowerShell on the file server (example account `EXAMPLE\svc-thinclients`, folder `D:\thinclients`):
+
+```powershell
+icacls D:\thinclients /grant "EXAMPLE\svc-thinclients:(OI)(CI)RX"
+icacls D:\thinclients\status /grant "EXAMPLE\svc-thinclients:(OI)(CI)M"
+```
+
+The icacls lines only add rights: whatever the folder inherits stays, and a group such as Users or Domain
+Users with write access inherited from above still lets the devices, or every user, change the settings.
+**Check permissions** in the Windows manager reads the permissions of the folder for the account the devices
+report (`MGMT_ACCOUNT` in their status, from 0.1.6; older devices: it asks for the account) and lists:
+
+- whether the devices can write in `status\`;
+- every place outside `status\` they can change (the folder itself, `config\` and its files, logos,
+  `updates\`), and through which account or group;
+- every place outside `status\` that Everyone, Authenticated Users, Users or Domain Users can change.
+
+It follows the order of the rules as Windows does (the first rule that allows or denies a right decides it),
+and the groups of the account in the domain, nested ones included. It reads the NTFS permissions only: the
+permissions of the share can only take rights away. Check also from a device that the account cannot list
+anything outside the folder.
+
+## Central settings
+
+`config\common.conf` and `config\<hostname>.conf` hold the same keys as [configuration.md](configuration.md).
+Files saved on Windows are fine (BOM, CRLF, spaces around `=`, `#` and `;` comments). A device:
+
+- merges common, then its own file, over its current settings;
+- validates the result with the same rules as the settings dialog, and applies it only if something changed;
+- refuses the whole result if anything is invalid (event "central configuration REJECTED", reported once),
+  keeping the previous settings;
+- keeps the last good copy when the folder is unreachable;
+- does not apply them while a software update is installing (since 0.1.7): the next run does.
+
+Central values win: a key in the central files is written into the device settings at every run (every 5
+minutes and at boot), so a change made in the settings dialog of a device lasts only until then. Keys that the
+central files do not set stay as set on the device.
+
+Removing a key from the central files gives it back to the device defaults: the device drops it from its
+settings and follows `site.conf` or the project defaults again, like a device installed today. If the result
+would not be valid (e.g. removing `WEB_URL` while `WEB_BUTTON=app` stays), the key is kept, the event is logged
+once and the release is retried at every run.
+
+The Windows manager (`management/windows/OpenThinRDP-Manager.vbs`, or the `.cmd` to pass `-Folder`/`-Language`) shows the devices, their status and events,
+and edits these files with the same validation, a backup of every file it overwrites and a change log.
+Before saving `common.conf` it lists the devices that would reject it.
+
+The window has six pages on the left: **Devices** (the list, and the selected device with its settings, a summary,
+its events and its full report), **Common settings**, **Updates** (see [Pilot devices and going back](#pilot-devices-and-going-back)
+and [The manager updates itself](#the-manager-updates-itself)), **SSH keys**, **Vault** and **Problems**; the actions on the
+folder (refresh, open, release from GitHub, check permissions) and the state of the vault are in the bar at the top. In a settings list each row shows
+the value in use on the device, where it comes from (*the device itself*, *common settings*, *this device* for an
+exception) and *on its way* when a saved value has not reached the device yet (it reads the folder every 5 minutes;
+if it stays, the device has probably rejected the configuration: see its state). The help of the selected setting is
+under the list; the search box finds a setting by name, key or help text.
+It is available in English and Italian: it follows the Windows display language (English for any language
+without a file in `management/windows/lang/`), or `-Language en` / `-Language it` chooses one.
+
+The window opens at 85% of the screen (at least 1440×880, maximized on a smaller screen) and works down to 860×560:
+the columns of every list and grid share the width instead of hiding behind a scroll bar, the rows of buttons wrap,
+and the buttons of the top bar and of the device header keep only their icon (their text in the tooltip) when the
+room is short.
+
+**A program to pin.** `build-launcher.ps1` builds `OpenThinRDP-Manager.exe` next to the script, with the
+OpenThinRDP icon, from `Launcher.cs` and the C# compiler that comes with Windows: it starts the manager with no
+console window. Its arguments can live next to it, so a shortcut needs none:
+
+```
+.\build-launcher.ps1 -Name Thin-clients -Folder \\fileserver\thinclients -Language en
+```
+
+writes `Thin-clients.exe` and `Thin-clients.args`. Copy the `.exe` with the other files of the manager (it is not
+signed: an antivirus that holds back unknown programs may want it allowed).
+
+With the manager on a file share, a shortcut to the `.exe` on the share shows a blank icon: Windows reads the icon
+of a shortcut's program only from a local disk. On each PC that starts the manager, run once from the share:
+
+```
+\\fileserver\it\manager\build-launcher.ps1 -Name "Thin clients" -Folder \\fileserver\thinclients -Install
+```
+
+It builds the `.exe` in `%ProgramData%\OpenThinRDP` with a `.script` file that points to the manager on the share
+(one copy of the manager for everybody), and puts a shortcut with the icon on the desktop.
+
+### The manager updates itself
+
+Every release carries `openthinrdp-manager-<version>.zip`: the files of `management/windows` (without the launcher
+`.exe`, which is built where it runs) and a `VERSION` file. Its name and SHA-256 are in the release's `LATEST.txt`
+(`manager=`, `manager_sha256=`), under the same project signature as the update package.
+
+- At every start the manager reads `VERSION` next to it, and in the background (the window does not wait) the
+  `LATEST.txt` of the latest GitHub release of `UPDATE_GITHUB`, checked against the project key next to it
+  (`openthinrdp-release.asc`). When that release has a newer manager, the top bar shows *Manager X available*.
+- **Update the manager** (that notice, or **Updates > This manager**) downloads the zip, checks its hash against the
+  signed `LATEST.txt`, checks that it holds `OpenThinRDP-Manager.ps1` and `VERSION` of that version, copies the files
+  it replaces into `previous\` next to the manager (the copy of the update before goes), puts the new ones in place
+  and starts the manager again. `vault.otr`, the launchers (`.exe`, `.args`, `.script`) and anything else that is not
+  in the zip stay as they are. A file in use is renamed to `.old` and removed at the next start. If anything fails,
+  the files of `previous\` go back.
+- The copy that matters is the one the administrators start: on a file share, update it from a PC that can write
+  there (the manager says so when it cannot). PCs with a launcher made by `-Install` start the share copy, so they get
+  the new version at their next start. When `Launcher.cs` changed, the manager asks to build the `.exe` again with
+  `build-launcher.ps1` (the old one keeps working).
+- Without the window, from a console or a script: `OpenThinRDP-Manager.cmd -UpdateManager` (exit code 0 =
+  updated, 1 = error, 2 = nothing to do).
+- A copy without `VERSION` (the repository) is a development copy and never updates itself.
+
+The manager keeps the SSH host keys of the devices by device **name** in its own file
+(`%LOCALAPPDATA%\OpenThinRDP\known_hosts`, `HostKeyAlias`), not by address: DHCP may give a device the address
+another device had. A device that presents another key under its name (reinstalled) is reported, and the remote
+screen asks whether to forget the old key.
+
+## Logo and background picture
+
+`logo.png` is the logo of the dialogs and of the sign-in form; `splash.png` is the background picture, shown
+behind the sign-in form on the `BG_TOP`/`BG_BOTTOM` gradient. In `config\branding\` they are for every device,
+in `config\branding\<hostname>\` for that device only; a device without them uses the ones of its image.
+The manager's **Logo and background...** button (common settings, or a device) takes any picture, scales it
+down and saves it as PNG there; files copied by hand are fine too.
+
+<p align="center"><img src="screenshots/manager-branding.png" alt="Manager: logo and background" width="60%"></p>
+
+The boot screen never changes from here: it always shows the picture and colors of the image (OpenThinRDP's,
+or your own when you build your image with `image/site/splash.png`). At power on the device shows the boot
+screen, then the background of your site from the sign-in form on.
+
+A device accepts PNG files only, up to 2 MB, a logo up to 400 x 240 pixels and a background up to 1024 x 640
+(anything else is refused once with an event, and the previous picture stays), and shows them within 5
+minutes. The status file says where each picture comes from: `BRANDING=logo=common splash=image` (`image`,
+`common` or `device`).
+
+## Problems across the fleet
+
+Every device sends its event log to `status\<hostname>-events.log`. The **Problems** tab of the Windows manager
+(since 0.1.7) reads them all together for a period (today, 24 hours, 7 or 30 days) and groups what went wrong:
+sign-in attempts that failed (by the broker really contacted), desktops that did not start, sign-ins refused, sessions dropped (by
+cause: network lost, FreeRDP stuck, error code), sessions taken over, UDP blocked, failed updates, rejected settings.
+A dropped session's event ends with FreeRDP's last error, and the device keeps its FreeRDP log as
+`/tmp/kiosk.log.prev`. Each line of the tab says how many times, on which devices and for which users, first
+and last time; a line is orange when the same problem hit 3 or more devices, which points at a server or the network rather than at a device. The line at
+the top sums up the problems that touched most devices; selecting a line shows its events. A device keeps the last
+2000 lines of its log, which is weeks for a normal device.
+
+## SSH keys
+
+With `SSH=on`, the `otradmin` account accepts only the keys in `/etc/openthinrdp/authorized_keys`: from the image
+(`image/site/authorized_keys`) or from `config\authorized_keys`. Removing `config\authorized_keys` after it
+was used revokes those keys and brings back the image ones.
+
+## Vault
+
+Two keys give power over the whole fleet: the SSH key that opens the screen of any device, and the OpenPGP key
+that signs the update packages every device installs. The manager keeps both in `vault.otr`, next to
+`OpenThinRDP-Manager.ps1`, encrypted with an **access code**:
+
+- At the first start the manager asks for the code (at least 8 characters) and creates the vault, with a new SSH
+  key inside (`openthinrdp-manager`) that it adds to the **SSH keys** page: Save there, and the devices take it
+  within 5 minutes. At every later start it asks the code again; **Go on without** keeps the manager usable for
+  the settings, without remote screen and signing.
+- Every administrator who starts the same copy of the manager (e.g. from a file share only the administrators can
+  write) opens the same vault with the same code: nothing to copy from PC to PC. **Change the code...** re-encrypts
+  it, and the old code stops working at once.
+- The code is not stored anywhere. Keep it where you keep the other passwords of your servers: if it is lost, the
+  keys are lost with it (a new SSH key is easy; a lost signing key means a key change, see
+  [SECURITY.md](../SECURITY.md)).
+- Encryption: PBKDF2-HMAC-SHA256 with 600000 rounds (about 2 seconds to open, on purpose), AES-256-CBC and
+  HMAC-SHA256 over the whole file (`management/windows/OtrVault.cs`). The secrets stay in memory while the window
+  is open; the SSH key is written for `ssh.exe` only into a folder that just your account and SYSTEM can read
+  (`%LOCALAPPDATA%\OpenThinRDP\vault-keys`), removed when the vault closes.
+
+<img src="screenshots/manager-vault.png" alt="Vault page of the manager: the vault, the SSH key of the manager, the key that signs the updates" width="100%">
+
+On the **Vault** page:
+
+| Block | Actions |
+|---|---|
+| Vault | Open / Close, Change the code |
+| SSH key of the manager | Add to the devices (to the SSH keys page, then Save), Create a new key, Import a private key (e.g. the one used so far: the file stays where it is, delete it yourself) |
+| Key that signs the updates | Sign an update (see [Signed updates](#signed-updates)), Send to the devices and Create the site key (see [A fleet on its own key](#a-fleet-on-its-own-key)), Save the public key (`update-key.asc`), Import the key: the file of `gpg --export-secret-keys --armor <key>` from a key without a passphrase; the manager offers to delete that file afterwards. |
+
+The page says whether the signing key is the project key (releases for every installation) or one of yours
+(`update-key.asc` of your image).
+
+## Remote screen
+
+**Remote screen...**, in the header of the selected device, shows its screen in your browser and lets you use it:
+to see what a user sees, or to sign in once to a web page on a screen with no keyboard (the kiosk page keeps the
+sign-in in its profile).
+
+**What it needs**
+- On the device: `SSH=on`, the key of the manager among the SSH keys, and `REMOTE_SCREEN=on` (the default). On
+  the **SSH keys** page, **Add the key of the manager** adds it (from the [vault](#vault)); then Save, and the
+  devices take it within 5 minutes.
+- On your PC: the OpenSSH client of Windows 10/11 (`ssh.exe`, an optional feature that is usually there), the
+  vault open with the access code, and a browser. Nothing else is installed. Only the key of the vault is offered
+  to the device (`ssh -i ... -o IdentitiesOnly=yes`): keys in your profile (`%USERPROFILE%\.ssh`) are not used.
+
+**How it works**
+1. Over SSH, as `otradmin`, the manager asks the device to start the remote screen (`remote-screen.sh start`). The
+   device starts x11vnc on its screen and the noVNC viewer with a small WebSocket bridge (`vncbridge.py`), both on
+   127.0.0.1 only and as the account that owns the screen, not root, with a one-time password.
+2. The manager opens an SSH tunnel from a free port of your PC to the viewer and opens your browser on it with that
+   password. The screen is reached only through the tunnel: nothing new listens on the network.
+3. While it is on, the device shows *Remote assistance active: an administrator can see this screen* in the top
+   right corner, and its event log records the start and the end.
+4. Closing the small window in the manager ends it on the device (`remote-screen.sh stop`); it also ends by itself
+   after 2 hours.
+
+During a remote session the screen is the Windows desktop the user is working on: tell the user, as the notice does.
+`REMOTE_SCREEN=off`, for all devices or one, turns it off. The viewer is noVNC 1.7.0, included unmodified
+(`/opt/openthinrdp/novnc`, MPL 2.0 and BSD licenses).
+
+**When it does not start** the manager shows why: SSH off on the device, no address reported yet, the vault
+closed or without an SSH key, the key not accepted (Add the key of the manager on the SSH keys page, then Save),
+or a device that has not received the version
+with the remote screen yet. A device reinstalled with the same address has a new SSH host key: remove the old one
+with `ssh-keygen -R <address>`.
+
+## Signed updates
+
+Software updates (kiosk, FreeRDP with UDP, fixes) come from where `UPDATE_FROM` says:
+
+| `UPDATE_FROM` | Source | Signature accepted |
+|---|---|---|
+| `github` (default) | the latest release of `UPDATE_GITHUB` (not pre-releases), asked every 3 hours | the project key only |
+| `share` | `updates\` in the management folder: you decide when the devices get a version | the project key, or your own key |
+| `off` | none | |
+
+The project key is `/opt/openthinrdp/keys/openthinrdp-release.asc`, in the image and in every update
+(fingerprint `8552 734B 5C1B 67D7 C576 F1AB 79B2 3AE6 1CD4 F6AF`, see [SECURITY.md](../SECURITY.md)). A
+device installs a package only if `LATEST.txt` carries a valid signature, the hash of the package matches, and
+the version is newer than the installed one (or than the image, when no update was installed yet), or is the one
+`UPDATE_TO` asks for (see [Pilot devices and going back](#pilot-devices-and-going-back)).
+Installation runs in the background and never interrupts a session: a running kiosk is replaced as soon as the
+session is over.
+Three failed attempts per version at most. The status file shows the source (`UPDATE_FROM`) and the result.
+
+**A fleet you manage**: set `UPDATE_FROM=share` in `config\common.conf`. **Release from GitHub...** in the manager
+copies the latest release into `updates\` (package first, then signature and index), and into
+`updates\versions\<version>.txt` (+ `.sig`) too: every device checks the signature itself. The 3 newest packages
+stay, and any package a device is kept on (`UPDATE_TO`, below); a package removed takes its `versions\` index with it.
+
+### Pilot devices and going back
+
+`UPDATE_TO` says which version a device installs: `latest` (the default, the newest published) or a version such as
+`0.2.0`, installed also when it is older than the installed one, and kept until the setting changes. In
+`common.conf` it is the version of every device, in `<hostname>.conf` of one device. A device kept on a version
+reads `updates\versions\<version>.txt` and its signature (with `UPDATE_FROM=github`, the release with tag
+`v<version>`). Devices with a version that does not know `UPDATE_TO` ignore it and install the newest. For the
+same reason a device goes back only to **0.2.0 or later**: an older version would bring back an updater that does
+not know `UPDATE_TO` and goes straight up again. The device refuses it and says so in its status.
+
+- **Pilot devices.** **Software version...** in the header of a device makes it a pilot (`UPDATE_TO=latest` of its
+  own); the list marks it *(pilot)*. **Release from GitHub...** then asks: *all devices*, or *pilot devices only*.
+  Pilot only keeps every other device on the version published now (`UPDATE_TO=<that version>` in `common.conf`,
+  written before the new release is there; a folder published before `versions\` existed gets its index from the
+  current `LATEST.txt` first), and only the pilots take the new one.
+- **Release to all devices** (page **Updates**) puts `common.conf` back to `UPDATE_TO=latest` when the pilots are
+  fine. The page shows the newest version, the one all devices are on, the pilot devices, the devices on a version of
+  their own and what the devices run now; the status bar too.
+- **Going back.** **Version for all devices...** (page **Updates**) or **Software version...** of a device chooses
+  any version of `updates\versions\`, newest first. A version that is not there comes from GitHub with **Version from
+  GitHub...** (the release with tag `v<version>`, with the same checks: project signature, hash, signed again with
+  the site key when there is one); an older version goes into `updates\` and `updates\versions\` without changing
+  `updates\LATEST.txt`.
+
+Every change goes through the same files as any setting (`config\backup\`, `config\changes.log`), and the devices
+apply it within 5 minutes, never during a session.
+
+### A fleet on its own key
+
+With `UPDATE_KEY=any` a device on the folder accepts the project key too: whoever held the project key could get a
+package installed, if they could also write into `updates\`. With `UPDATE_KEY=site` the devices accept only the key
+of your site, which exists only in the [vault](#vault) of your manager: the releases still come from GitHub, but
+nothing reaches the devices unless an administrator with the access code passes it on.
+
+1. **Vault > Create the site key...**: an Ed25519 key made in the manager, kept only in the vault. **Save the public
+   key...** writes its public half, `update-key.asc` (nothing secret: put it into your image too, if you build one).
+2. **Vault > Send to the devices...**: the public half to every device that is on, over SSH with the key of the
+   manager (`site-key.sh` checks it and logs it). It cannot come through the folder: whoever may write there would
+   choose the key. Each device reports it (**Summary > Update signatures**); send it again for the devices that were
+   off.
+3. `UPDATE_FROM=share` and `UPDATE_KEY=site` in `common.conf` (a pilot device first, as an exception).
+4. From then on **Release from GitHub...** checks the project signature, **signs the release again with the site
+   key** and publishes it: the new signature replaces the project one. A release whose project signature cannot be
+   checked in the manager is never signed again.
+
+A device without the site key yet (off during step 2, or reinstalled from the ISO) still accepts the project key, so
+it is never left without updates; it reports `site key: none` until it gets it. If the vault and its code are lost,
+the devices on `UPDATE_KEY=site` install nothing more from the folder: create a new site key, send it over SSH (step
+2: SSH is enough, the folder is not involved), and they accept the new one.
+
+**Your own packages** (changes of yours, or your site files) need your own key, built into your image as
+`/etc/openthinrdp/update-key.asc`. Create it once, on a machine you trust, without a passphrase (the vault
+protects it), put it into the [vault](#vault) and remove it from gpg:
+
+```
+gpg --quick-gen-key "Thin client updates <it@example.com>" ed25519 sign never
+gpg --armor --export it@example.com > image/site/update-key.asc
+gpg --armor --export-secret-keys it@example.com > it-signing.asc     # Vault > Import the key..., then delete it
+gpg --delete-secret-keys it@example.com
+```
+
+Build a version without signing it (Linux or WSL), then sign it in the manager:
+
+```
+management/publish/make-update.sh -v 2026.10.1
+OpenThinRDP-Manager.cmd -Sign <path>\out\update-2026.10.1\LATEST.txt
+```
+
+`-Sign` asks only the access code and writes `LATEST.txt.sig` next to `LATEST.txt` (also **Vault > Sign an
+update...**). It checks the format of `LATEST.txt` and, when the package is next to it, its hash; the signature
+is the one `gpg --armor --detach-sign` would write (Ed25519, SHA-512), checked by `sqv` on the devices. Then copy
+the package, `LATEST.txt.sig` and `LATEST.txt`, in this order, into `updates\`.
+
+With the key still in gpg on the build machine, `-k` signs there and `-o` publishes at once (Linux, WSL or Git
+Bash with Gpg4win; the folder mounted or reachable as a path):
+
+```
+management/publish/make-update.sh -v 2026.10.1 -k it@example.com -o /mnt/thinclients
+```
+
+`-d <folder>` adds `.deb` files (e.g. your own FreeRDP build, installed only when newer); `-s image/site`
+ships your site files too. To keep FreeRDP as it is on one device, create `/etc/openthinrdp/freerdp-pinned`
+with the reason inside.
+
+---
+
+<!-- https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/udp.md -->
+
+# UDP transport
+
+Windows sends Remote Desktop graphics over UDP when the client supports MS-RDPEMT/RDPEUDP. Over TCP a busy
+server or a lossy line makes the screen fall behind: every lost packet holds up everything after it. Over UDP
+the server measures the line and lowers frame rate and quality instead, so the session stays responsive.
+
+FreeRDP does not ship UDP support yet: it is under review upstream
+([FreeRDP pull request #13608](https://github.com/FreeRDP/FreeRDP/pull/13608)). OpenThinRDP ships FreeRDP
+built with it, so it works out of the box.
+
+## What travels over UDP
+
+With the UDP transport Windows moves the dynamic virtual channels onto the reliable UDP tunnel (with Soft-Sync):
+graphics, USB redirection, audio, camera, input and the other dynamic channels. The static channels stay on the
+TCP connection: clipboard, drive redirection (smart cards and serial ports included) and printing. The TCP
+connection also carries sign-in and licensing and is always needed, also with `TRANSPORT=udp`: if it drops, the
+session drops.
+
+A USB stick passed whole over the UDP tunnel moved 1 GiB each way and 4000 small files each way, all with the
+same SHA-256 at both ends.
+
+## Modes
+
+`TRANSPORT`, per device or for all of them (settings dialog, central settings, manager):
+
+| Value | Behaviour |
+|---|---|
+| `auto` (default) | UDP. When UDP is blocked, or fails during the session, FreeRDP goes on over TCP; the next connection tries UDP again |
+| `udp` | UDP only. A connection that runs without UDP for 30 s is closed and opened again; after 3 in a row the device shows "UDP not available". For networks where UDP is known to work, and for testing |
+| `tcp` | TCP only |
+
+The kiosk runs FreeRDP with `/network:auto` for `auto` and `udp`, and with `-multitransport` for `tcp`. It does
+not use `/auto-reconnect`: when FreeRDP's own reconnection fails it exits with the same code as an
+administrator disconnect, and the device would stop. The kiosk reopens the session itself instead.
+
+The `status\<hostname>.txt` line `TRANSPORT=auto (in use: udp)` shows what the session really uses.
+
+## Server side
+
+Nothing to install. UDP must be allowed:
+
+- Group Policy *Computer Configuration > Administrative Templates > Windows Components > Remote Desktop Services
+  > Remote Desktop Session Host > Connections > Select RDP transport protocols*: not configured, or "Use both
+  UDP and TCP".
+- UDP port 3389 open on the session hosts (Windows opens it by default) and on any firewall in between. The
+  broker does not need it: it only redirects.
+
+## On a lossy line
+
+It started with a switch port with a faulty transceiver, losing **43% of the large packets** (5% of the small
+ones). We reproduced it with netem on the thin client, on the traffic from the virtual machine only, then raised
+the loss on every packet step by step until the session gave up. Windows 11 VDI behind the broker, full-screen
+load that changes every pixel at 30 frames per second; frame rate and loss as reported by the server; 90-120 s per
+step.
+
+| packets lost | OpenThinRDP over UDP | TCP, same line and load |
+|---|---|---|
+| 0% | 15-21 fps | not measured |
+| 5% | not measured | 7-12 fps |
+| 10% | not measured | 6 fps |
+| 20% | not measured | **0.6 fps**, the screen barely moves |
+| 30% | not measured | 0.2 fps, 26 frames a second dropped by the server |
+| 43% of the large packets only\* (the faulty port) | **16-21 fps**, 7 minutes in a row | 0-0.1 fps |
+| 50% | **19-21 fps** | not measured (already at 0.2 fps with 30%) |
+| 60% | 14-21 fps | not measured |
+| **70%** | **18-19 fps**\*\* | not measured |
+| 80% | 4 fps, then the tunnel gives up after 18 s | not measured |
+
+\* Every other row loses that share of all the packets from the virtual machine; this one, as on the faulty port,
+43% of the large packets and 5% of the small ones.
+\*\* With the FreeRDP of OpenThinRDP 0.1.5 (no 1 s freeze at every wrap of the channel sequence; 9-13 fps
+before). At 70% the first thing to give up is the TCP connection that RDP keeps beside the UDP tunnel: after
+20 s without an acknowledgement (`/timeout`, set by the kiosk) it ends the session, which happened once after
+100 s and not in another run of 150 s.
+
+On UDP no frame was dropped by the server for network reasons up to 70%. A session opened when the line is
+already bad is set up over UDP too (14-19 fps at 43%).
+
+**Limits of these numbers:** one environment (Dell OptiPlex 3000 Thin Client, Windows 11 VDI on Hyper-V behind an
+RD Connection Broker), one kind of load, loss emulated with netem on the client. The method and the scripts are
+in [tests/udp-bench](../tests/udp-bench/README.md): numbers from other networks and servers are very welcome.
+
+Over TCP every lost packet holds up everything behind it until it is resent; over UDP the lost packets are resent
+while the rest of the stream goes on. Getting there took a fix to the UDP transport: after the channel sequence
+wrapped, an unsigned difference went below zero, the client believed the stream had been stuck for ages and
+ended the connection within 1-25 seconds of the loss starting. We reported it with a fix in the pull request; its
+author fixed the root cause there (the client now skips channel sequence 0 like Windows does).
+
+## The FreeRDP in the image
+
+`image/freerdp/freerdp.conf` names the exact source: commit `dda5414` on branch
+[`openthinrdp-udp-3.32.2-pr58`](https://github.com/Ceschi-ops/FreeRDP/tree/openthinrdp-udp-3.32.2-pr58) of a
+FreeRDP fork, which is the **FreeRDP 3.32.2** release (the security release of 2026-10-12) with the 58 commits of pull
+request #13608, the UDP transport, at its head `f54ad1d36`, applied unchanged. Several of those commits came from our
+tests: no false "stream is stuck" on lossy lines (see above), ten SYN attempts instead of four (SYN and SYN+ACK are
+padded to the MTU, the first packets a bad line loses), run-length ACK vectors, reconnecting through the broker after
+its one-time token, and UDP declined only when the connection really goes through an RD Gateway.
+
+On top, nine commits of FreeRDP master that came after 3.32.2:
+
+- The header of bandwidth measure payloads is counted, as mstsc does. With `/network:auto`, which the kiosk passes
+  with UDP, Windows otherwise reported a bandwidth of 0 and started every session **5 seconds late**: from the
+  broker's redirect to the desktop took 5.1 s, now 0.13–0.18 s.
+- `/network` is applied before the other options (ours, [#13748](https://github.com/FreeRDP/FreeRDP/pull/13748)).
+  Without it `/network:auto` turned on the H.264 codecs that `RDP_GFX` turns off, and the server encoded the whole
+  desktop with AVC444 (0.1.12).
+- The microphone keeps capturing when the server changes only the bit rate (ours,
+  [#13751](https://github.com/FreeRDP/FreeRDP/pull/13751)). Windows 11 switches between AAC entries several times a
+  second, and every switch closed and reopened the capture: the other end of a call heard gaps.
+- RD Gateway: a possible out-of-bounds read, RDG packet handling, a partly read header (five commits).
+- USB: a failed kernel driver detach no longer stops the redirection (two commits).
+
+FreeRDP 3.32.2 already contains the USB fixes found while building OpenThinRDP: #13674 (deadlock between USB hotplug
+and the closing of the USB channel) and #13679 (from our #13677: no hang on disconnect with a USB transfer pending),
+plus #13618 (no real USB device reset). When the UDP transport reaches a FreeRDP release, the image goes back to
+Debian's packages.
+
+The packages are built by `image/freerdp/build-debs.sh` (Debian's trixie-backports packaging, with
+`-DWITH_RDPEUDP=ON`). The image build downloads the prebuilt ones from the release named in `freerdp.conf`
+and checks them against `image/freerdp/SHA256SUMS`, or builds them when that file is missing. To use Debian's
+FreeRDP instead (TCP only), set `FREERDP_FROM=backports` in `build.conf`.
+
+## Reporting
+
+Problems with UDP itself (a session that freezes, drops, falls back to TCP) are worth reporting upstream,
+in the pull request thread, with:
+
+- the FreeRDP log of the session (`/tmp/kiosk.log` on the device; for a session that dropped,
+  `/tmp/kiosk.log.prev`) and the events (`status\<hostname>-events.log` in the management folder: the DROPPED
+  event ends with FreeRDP's last error);
+- what the network was doing (Wi-Fi, VPN, loss), and the Windows version of the session host.
+
+Problems with the kiosk or the image: issues in this repository.
+
+---
+
+<!-- https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/security.md -->
+
+# Security model
+
+A thin client is a public-facing device: anyone can sit at it. OpenThinRDP assumes that whoever is at the
+keyboard is untrusted and that the management folder is readable by the devices only.
+
+## What protects what
+
+- **No shell for the user.** Openbox without menus or key bindings; the only programs are the sign-in form,
+  FreeRDP and, if enabled, Chromium with policies (no downloads, extensions, developer tools, guest or
+  incognito windows; in `app` mode only the allowed sites).
+- **No text consoles.** Ctrl+Alt+F1..F12 do not leave X (`DontVTSwitch`), there are no spare consoles with a
+  login prompt (`NAutoVTs=0`), and the `kiosk` account is locked: it logs in automatically on tty1 only.
+  (0.1.0 left `kiosk` with an empty password and the spare consoles on: anybody at the keyboard could get a
+  shell with Ctrl+Alt+F2. Fixed in 0.1.1, also on devices updated from 0.1.0.)
+- **Diagnostics without a PIN** (the ℹ button of the sign-in form): read only, it shows the network, the
+  reachability of the remote desktop hosts and the last events, never a setting or a secret.
+- **Settings dialog behind a PIN** (`SETTINGS_PIN_SHA256`). Without a PIN anyone at the device can point it to
+  another broker. The "Terminal" button of the dialog opens a shell as the `kiosk` user.
+- **`kiosk` has one root privilege:** `save-config.sh`, which validates every value before touching the system.
+- **No password in the image.** `root` is locked; `otradmin` has no password unless you set a hash in
+  `build.conf`; SSH is off by default and accepts only keys.
+- **Signed updates.** A package is installed only with a valid signature (verified with `sqv`): the
+  project key, or with `UPDATE_FROM=share` also your own key ([management.md](management.md#signed-updates)),
+  and a matching hash; never an older version.
+- **Credentials.** The user's password goes to FreeRDP on its command line, which FreeRDP overwrites with `*`
+  right after start (visible to the local `kiosk` account for a moment at most); it is never stored. The Wi-Fi
+  key and the management folder password are never reported or printed back (`save-config.sh --print` shows
+  only their hash). The settings PIN hash is never written to the status files.
+- **The device's secrets in the TPM, when there is one.** The management folder password, the Wi-Fi key, the
+  SSH host keys, the VPN key and profile, and the 802.1X password and the private key of the 802.1X certificate
+  ([configuration.md](configuration.md#8021x-and-wi-fi-enterprise)) are the only secrets on the device. With a TPM 2.0 (most PCs and thin clients since about 2016)
+  they are kept in `/etc/openthinrdp/sealed/`, encrypted with a key that never leaves the TPM
+  (`systemd-creds --with-key=tpm2`), and decrypted at every start into `/run/openthinrdp/secrets/`, in memory
+  only, before the network and SSH start. A disk or eMMC taken out of the device, or an image of it, gives
+  nothing. They are bound to the TPM only, not to firmware measurements (PCRs), so a BIOS update or a Secure Boot
+  change does not lose them. Devices set up before move their plain files into the TPM at the next start; the
+  status file says which mode a device is in (`SECRETS=tpm` or `SECRETS=file (no TPM)`, also in the manager).
+  Without a TPM they stay in root-only files (600), as before, so older PCs keep working. The folder password, the
+  Wi-Fi key and the 802.1X certificate key keep their usual paths, links to the copy in memory, so the network configuration never changes; a
+  secret is read back from the TPM and compared before its plain file is deleted. `TPM_SECRETS=off` (central or per
+  device) keeps a device out of the TPM, and puts back in root-only files the secrets of a device that had them there,
+  at the next start; set centrally, it counts from the first start after the update. To roll it out, set it off in
+  `common.conf`, on for one device, restart that one twice, then remove the line.
+  If the TPM is cleared or replaced, or the disk moved to another device, the secrets cannot be read: an event
+  says so, the SSH host keys are created again, and the folder password and the Wi-Fi key must be set again.
+
+- **Remote screen only through SSH.** x11vnc and the viewer's WebSocket bridge listen on 127.0.0.1 only, run as the
+  account that owns the screen (not root), start only when an administrator asks over SSH (`otradmin`, key login)
+  and need a one-time password. While the remote screen is on, the device says so on its screen and its event log
+  records start and end; it stops by itself after 2 hours. `REMOTE_SCREEN=off` turns it off
+  ([management.md](management.md#remote-screen)).
+
+## Known limits
+
+- `smb.cred` is on every device: a stolen device gives its holder that account. Give it write access to
+  `status\` only and read access to the rest of the management folder ([management.md](management.md#account)):
+  then that account cannot change the settings of the other devices nor offer them anything to install. Change
+  the password if a device is lost (`MGMT_PASSWORD` in the central settings rotates it on every device that can
+  still reach the folder).
+- The management folder is trusted: whoever can write `config\` can change the settings of every device
+  (within the validation rules) and can make devices mount another folder. Updates still need a valid
+  signature (the project key, or your own key).
+- `RDP_CERT=ignore` accepts any server certificate. The default `tofu` trusts the first certificate seen per
+  server; `verify` requires certificates trusted by the system.
+- The PIN is a speed bump, not a vault. The manager stores it salted and stretched (PBKDF2-SHA256, 600,000
+  iterations, about 0.2 s per try on a thin client): a 6-digit PIN takes days to brute-force from a stolen
+  settings file, a 4-digit one less than an hour, so use 6 digits or more. A PIN set by 0.1.4 or earlier is a
+  plain SHA-256 and still works; set it again from the manager to store it the new way.
+- The disk is not encrypted as a whole: the code is public and no user data is stored on the device, so only the
+  secrets above are protected, and only with a TPM. Without one, physical access to the disk gives them. With one,
+  the whole device in someone's hands still starts and uses them, like any device that boots unattended; lock the
+  firmware setup and USB boot with a BIOS password, and rotate the folder password if a device is lost. Plain
+  copies deleted when the secrets moved into the TPM may survive in flash memory blocks until overwritten.
+
+Report security problems privately to the maintainers (GitHub security advisories) rather than in a public issue.

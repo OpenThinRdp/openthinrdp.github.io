@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenThinRDP compared with Linux Mint + Remmina, IGEL OS, Dell ThinOS, Stratodesk, ThinStation</title>
+<meta name="description" content="A free alternative to IGEL OS, Dell ThinOS, Stratodesk NoTouch, ThinStation and openthinclient for Windows Remote Desktop, and why not just Linux Mint with Remmina: RDP over UDP, a locked kiosk, central management, signed updates with rollback.">
+<link rel="canonical" href="https://openthinrdp.github.io/alternatives.html">
+<link rel="icon" href="img/icon.png">
+<link rel="alternate" type="text/plain" href="https://openthinrdp.github.io/llms-full.txt" title="The documentation in one text file">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenThinRDP">
+<meta property="og:title" content="OpenThinRDP compared with Linux Mint + Remmina, IGEL OS, Dell ThinOS, Stratodesk, ThinStation">
+<meta property="og:description" content="A free alternative to IGEL OS, Dell ThinOS, Stratodesk NoTouch, ThinStation and openthinclient for Windows Remote Desktop, and why not just Linux Mint with Remmina: RDP over UDP, a locked kiosk, central management, signed updates with rollback.">
+<meta property="og:url" content="https://openthinrdp.github.io/alternatives.html">
+<meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.1","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
+ "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
+</script>
+
+</head>
+<body>
+<header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="img/icon.png" alt="" width="28" height="28"> OpenThinRDP</a>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.1</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<main class="markdown-body">
+<h1 id="openthinrdp-and-the-alternatives" dir="auto">OpenThinRDP and the alternatives</h1>
+<p dir="auto">What OpenThinRDP does differently from the other ways of turning PCs into Remote Desktop clients, and when another<br>
+choice is better. The facts about other products are public information as we understand it; corrections are<br>
+welcome in the <a href="https://github.com/OpenThinRdp/openthinrdp/discussions">discussions</a>.</p>
+<ul dir="auto">
+<li><a href="#linux-mint-ubuntu-or-debian-with-remmina">Linux Mint, Ubuntu or Debian with Remmina</a></li>
+<li><a href="#igel-os">IGEL OS</a></li>
+<li><a href="#dell-thinos">Dell ThinOS</a></li>
+<li><a href="#stratodesk-notouch">Stratodesk NoTouch</a></li>
+<li><a href="#thinstation">ThinStation</a></li>
+<li><a href="#openthinclient">openthinclient</a></li>
+<li><a href="#what-only-openthinrdp-does">What only OpenThinRDP does</a></li>
+</ul>
+<h2 id="linux-mint-ubuntu-or-debian-with-remmina" dir="auto">Linux Mint, Ubuntu or Debian with Remmina</h2>
+<p dir="auto">A general desktop with Remmina, or with FreeRDP itself, is the usual free answer. It is a good one for a PC or two.<br>
+For a fleet of Remote Desktop clients, here is what it means.</p>
+<p dir="auto"><strong>Hardware support is the same.</strong> OpenThinRDP is Debian 13 with its complete kernel and every firmware package<br>
+(<a href="https://openthinrdp.github.io/hardware.html#drivers-all-of-debians">hardware</a>). A device that works with Mint or Ubuntu of the same period works<br>
+with OpenThinRDP too. Neither side has a driver advantage.</p>
+<p dir="auto"><strong>No RDP over UDP.</strong> Remmina and the <code class="notranslate">xfreerdp</code> of the distributions use the distribution's FreeRDP. FreeRDP has no<br>
+UDP transport in any release yet: it is the pull request <a href="https://github.com/FreeRDP/FreeRDP/pull/13608" data-hovercard-type="pull_request" data-hovercard-url="/FreeRDP/FreeRDP/pull/13608/hovercard">#13608</a>,<br>
+which OpenThinRDP builds and ships. So on a busy server, on Wi-Fi or through a VPN the session runs over TCP. On a<br>
+line that loses packets, TCP queues the screen while UDP keeps it moving (<a href="https://openthinrdp.github.io/udp.html#on-a-lossy-line">the numbers</a>).</p>
+<p dir="auto"><strong>A desktop to lock down.</strong> Users can open other programs, change the settings, fill the disk. Making it a kiosk is<br>
+your work: automatic sign-in, no terminal, no other applications, no text consoles, a session that comes back by<br>
+itself, a device that switches off when the session ends. OpenThinRDP is all of that out of the box.</p>
+<p dir="auto"><strong>Each PC set up by hand.</strong> There is nothing to see the state of the fleet, nothing that sets all devices or one<br>
+from one place, and no screen of a device from your desk. The <a href="https://openthinrdp.github.io/manager.html">manager</a> of OpenThinRDP does this from a<br>
+shared folder.</p>
+<p dir="auto"><strong>Updates of a whole desktop.</strong> The whole operating system updates, FreeRDP included, whenever the distribution<br>
+says so. OpenThinRDP updates come as one signed package that you can send to a few pilot devices first. If something<br>
+breaks you go back to the version before, for the whole fleet in one click. FreeRDP never changes behind your back<br>
+(Debian security updates still install by themselves).</p>
+<p dir="auto"><strong>The details of a thin client</strong>, which you would have to rebuild:</p>
+<ul dir="auto">
+<li>the RD Connection Broker with its collection, fallback brokers, and Kerberos behind a shared broker name;</li>
+<li>reconnecting after a network drop, but not after a deliberate sign out;</li>
+<li><em>Waiting for Windows</em> while the virtual machine restarts;</li>
+<li>which USB devices go to Windows whole and which as drives;</li>
+<li>webcams and headsets through the RDP channels, so that Teams sees them;</li>
+<li>smart card readers;</li>
+<li>a power schedule and Wake-on-LAN.</li>
+</ul>
+<p dir="auto"><strong>When Mint is the better choice:</strong> the user also needs local programs (a real desktop with a remote session now and<br>
+then), or there are one or two PCs and nobody to manage them.</p>
+<h2 id="igel-os" dir="auto">IGEL OS</h2>
+<p dir="auto">A commercial thin client operating system with a subscription per device, managed by the IGEL UMS server. It runs on<br>
+many x86-64 devices, with certified hardware and vendor support, and connects with many protocols: Citrix, Omnissa<br>
+(VMware) Horizon, Microsoft AVD, Windows 365 and RDP.</p>
+<p dir="auto"><strong>Better for:</strong> Citrix or Horizon, Azure Virtual Desktop and Windows 365, support contracts. <strong>OpenThinRDP is for:</strong><br>
+networks built on Windows Remote Desktop that do not want a cost per device or a management server.</p>
+<h2 id="dell-thinos" dir="auto">Dell ThinOS</h2>
+<p dir="auto">The operating system of Dell (Wyse) thin clients, managed with Wyse Management Suite, with Citrix, Omnissa Horizon and<br>
+Microsoft clients. It runs only on Dell thin clients. OpenThinRDP runs on those same devices too: the production<br>
+fleet it comes from is Dell OptiPlex 3000 Thin Clients that ran ThinOS before. It also runs on any other PC.</p>
+<p dir="auto"><strong>Better for:</strong> a Dell-only fleet with Citrix or Horizon, under Dell support.</p>
+<h2 id="stratodesk-notouch" dir="auto">Stratodesk NoTouch</h2>
+<p dir="auto">A commercial thin client operating system with a licence per device, managed by NoTouch Center. It runs on x86-64<br>
+PCs and on Raspberry Pi, with many protocols. <strong>Better for:</strong> many protocols, Raspberry Pi today (OpenThinRDP's<br>
+Raspberry Pi support is <a href="https://github.com/OpenThinRdp/openthinrdp/issues/61" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/61/hovercard">in preparation</a>), vendor support.</p>
+<h2 id="thinstation" dir="auto">ThinStation</h2>
+<p dir="auto">An open source, long-standing thin client toolkit. You build your own image with the protocols you need, and the<br>
+devices boot it over the network (PXE) or from a USB stick or disk; the settings are files on a network server.<br>
+<strong>Better for:</strong> network boot (OpenThinRDP has no PXE yet), protocols other than RDP, and very old or very small<br>
+devices. <strong>OpenThinRDP gives you:</strong></p>
+<ul dir="auto">
+<li>a ready image, installed or live;</li>
+<li>the RDP UDP transport;</li>
+<li>signed updates with pilot devices and going back;</li>
+<li>a Windows manager with the remote screen;</li>
+<li>the device secrets in the TPM.</li>
+</ul>
+<h2 id="openthinclient" dir="auto">openthinclient</h2>
+<p dir="auto">An open source thin client system (with a commercial offer) whose devices boot over the network from the<br>
+openthinclient server, managed from that server, with many protocols. OpenThinRDP is a different, unrelated project:<br>
+it is installed on each device or runs live, and needs no server. <strong>Better for:</strong> network boot from a central server,<br>
+protocols other than RDP.</p>
+<h2 id="what-only-openthinrdp-does" dir="auto">What only OpenThinRDP does</h2>
+<ul dir="auto">
+<li><strong>RDP over UDP with FreeRDP</strong>, tested on lossy lines and in daily production<br>
+(<a href="https://openthinrdp.github.io/udp.html">udp.md</a>). Over TCP a line losing 20% of its packets gave 0.6 frames per second; OpenThinRDP over UDP gave<br>
+19-21 at 50%.</li>
+<li><strong>No server to manage the fleet:</strong> a shared folder and a Windows manager. Settings for all devices or one, the<br>
+remote screen over SSH, and the problems of every device read together.</li>
+<li><strong>Signed updates with pilot devices and going back</strong>, from GitHub or from your folder, re-signed with your own key<br>
+if you want.</li>
+<li><strong>Built from a fleet in production.</strong> It runs every day on 14 thin clients at desks, tills, a laboratory and<br>
+weighing stations (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/status.md">status</a>), a fleet that left a commercial thin client OS for it.</li>
+<li><strong>Free and open</strong> (Apache 2.0), with no cost per device.</li>
+</ul>
+</main>
+<footer class="bar small">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/alternatives.md">docs/alternatives.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</footer>
+</body>
+</html>

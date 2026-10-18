@@ -6,17 +6,19 @@
 <title>OpenThinRDP hardware &#8211; drivers, requirements, thin clients that run it</title>
 <meta name="description" content="Hardware for OpenThinRDP: any 64-bit x86 PC or thin client, UEFI or legacy BIOS, with the complete Debian 13 kernel and firmware. Tested devices, used thin clients that meet the requirements (Dell Wyse, HP t-series, Fujitsu Futro), firmware settings.">
 <link rel="canonical" href="https://openthinrdp.github.io/hardware.html">
-<link rel="icon" href="img/icon.png">
+
+<link rel="icon" href="https://openthinrdp.github.io/img/icon.png">
 <link rel="alternate" type="text/plain" href="https://openthinrdp.github.io/llms-full.txt" title="The documentation in one text file">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OpenThinRDP">
+<meta property="og:locale" content="en_US">
 <meta property="og:title" content="OpenThinRDP hardware &#8211; drivers, requirements, thin clients that run it">
 <meta property="og:description" content="Hardware for OpenThinRDP: any 64-bit x86 PC or thin client, UEFI or legacy BIOS, with the complete Debian 13 kernel and firmware. Tested devices, used thin clients that meet the requirements (Dell Wyse, HP t-series, Fujitsu Futro), firmware settings.">
 <meta property="og:url" content="https://openthinrdp.github.io/hardware.html">
 <meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
  "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.1","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
@@ -26,7 +28,7 @@
 
 </head>
 <body>
-<header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="img/icon.png" alt="" width="28" height="28"> OpenThinRDP</a>
+<header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="28" height="28"> OpenThinRDP</a>
 <nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.1</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
 <main class="markdown-body">
 <h1 id="hardware" dir="auto">Hardware</h1>
@@ -131,6 +133,8 @@ bigger module.</p>
 <li><strong>ARM</strong> (Raspberry Pi and ARM thin clients): in preparation, the Raspberry Pi 4 first.</li>
 <li><strong>32-bit only</strong> CPUs (older Atom and VIA models): Debian 13 no longer runs on them.</li>
 </ul>
+<p dir="auto"><strong>Raspberry Pi 4</strong> (arm64): an SD card image built by <code class="notranslate">image/build-rpi.sh</code>, tested in emulation only so far. What is<br>
+different from a PC and what to check on the first board: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/arm.md">arm.md</a>.</p>
 <h2 id="firmware-settings-dell" dir="auto">Firmware settings (Dell)</h2>
 <ul dir="auto">
 <li><strong>Wake-on-LAN</strong>: enable "Wake on LAN" and <strong>disable "Deep Sleep Control"</strong>. With deep sleep in S4/S5 the<br>

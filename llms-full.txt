@@ -283,7 +283,8 @@ The result is `out/openthinrdp-<version>.iso`. See [docs/building.md](docs/build
 - [CHANGELOG.md](CHANGELOG.md): what changed in each release.
 - [docs/status.md](docs/status.md): what is in production, what is only tested, what does not exist yet.
 - [docs/configuration.md](docs/configuration.md): every setting.
-- [docs/faq.md](docs/faq.md): frequently asked questions.
+- [docs/faq.md](docs/faq.md): frequently asked questions ([italiano](docs/faq.it.md)).
+- Guides: [replacing Dell ThinOS on Dell thin clients](docs/guides/replace-dell-thinos.md), [turning an old PC into a thin client](docs/guides/old-pc-thin-client.md).
 - [docs/alternatives.md](docs/alternatives.md): compared with Linux Mint + Remmina, IGEL OS, Dell ThinOS, Stratodesk, ThinStation, openthinclient.
 - [docs/manager.md](docs/manager.md): the Windows manager, page by page: devices, settings, pilot devices and going back.
 - [docs/management.md](docs/management.md): the management folder, central settings, SSH keys, signed updates.
@@ -323,6 +324,8 @@ Microsoft or with any vendor named above.
 
 # Frequently asked questions
 
+*[Italiano](faq.it.md)*
+
 ## The project
 
 ### What is OpenThinRDP?
@@ -360,7 +363,9 @@ hardware and pull requests are welcome.
 
 Any 64-bit x86 PC or thin client with UEFI or a legacy BIOS, 2 GB of RAM and 8 GB of storage (none to run it live
 from a USB stick). Tested: Dell OptiPlex 3000 Thin Client in production, QEMU/KVM with UEFI and with BIOS. Used thin
-clients such as Dell Wyse 5070, HP t630 or Fujitsu Futro S740 meet the requirements. See [hardware.md](hardware.md).
+clients such as Dell Wyse 5070, HP t630 or Fujitsu Futro S740 meet the requirements. See [hardware.md](hardware.md),
+and the guides [replacing Dell ThinOS](guides/replace-dell-thinos.md) and
+[turning an old PC into a thin client](guides/old-pc-thin-client.md).
 
 ### Did it leave drivers out to be light?
 
@@ -370,7 +375,9 @@ runs no desktop.
 
 ### Does it run on Raspberry Pi or ARM?
 
-Not yet. The Raspberry Pi 4 is in preparation ([#61](https://github.com/OpenThinRdp/openthinrdp/issues/61)).
+Experimentally. There is an SD card image for the Raspberry Pi 4, tested in emulation but not yet on a real board
+([the image](https://github.com/OpenThinRdp/openthinrdp/releases/tag/rpi-test-1), [what to check](arm.md)). The
+Pi 5 is not supported yet.
 
 ### Does it run on old 32-bit thin clients?
 
@@ -627,6 +634,9 @@ bigger module.
 
 - **ARM** (Raspberry Pi and ARM thin clients): in preparation, the Raspberry Pi 4 first.
 - **32-bit only** CPUs (older Atom and VIA models): Debian 13 no longer runs on them.
+
+**Raspberry Pi 4** (arm64): an SD card image built by `image/build-rpi.sh`, tested in emulation only so far. What is
+different from a PC and what to check on the first board: [arm.md](arm.md).
 
 ## Firmware settings (Dell)
 
@@ -963,6 +973,172 @@ the new version. The **Updates** page shows the manager's version and has **Chec
   2 = nothing to do).
 
 What is in the folder, file by file, and how the devices use it: [management.md](management.md).
+
+---
+
+<!-- https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/replace-dell-thinos.md -->
+
+# Replacing Dell ThinOS with OpenThinRDP on Dell thin clients
+
+Dell OptiPlex Thin Clients and Wyse thin clients that run ThinOS are 64-bit x86 PCs with UEFI. OpenThinRDP runs
+on them like on any other PC: the production fleet OpenThinRDP comes from is Dell OptiPlex 3000 Thin Clients that ran
+ThinOS before, and they connect every day to a Windows 11 VDI through two RD Connection Brokers.
+
+This guide is for networks built on **Windows Remote Desktop** (RDS session hosts, a VDI collection, or Windows PCs).
+If your users need Citrix or Omnissa Horizon, keep ThinOS: OpenThinRDP does RDP only.
+
+- [1. Write down what ThinOS connects to](#1-write-down-what-thinos-connects-to)
+- [2. Firmware settings](#2-firmware-settings)
+- [3. Try it live, nothing installed](#3-try-it-live-nothing-installed)
+- [4. Install](#4-install)
+- [5. Many devices: the management folder](#5-many-devices-the-management-folder)
+- [6. What changes for the users](#6-what-changes-for-the-users)
+
+## 1. Write down what ThinOS connects to
+
+From the ThinOS configuration, or from Wyse Management Suite, write down:
+
+| ThinOS | OpenThinRDP setting |
+|---|---|
+| the RD Connection Broker or session host | `BROKER` (and `BROKER_FALLBACK` for a second broker) |
+| the collection (VDI pool or RemoteApp/desktop collection) | `LOAD_BALANCE_INFO`, as `loadbalanceinfo` in the .rdp file, e.g. `tsv://VMResource.1.VDI` |
+| the domain | `DOMAIN`, its full DNS name for Kerberos (e.g. `example.local`) |
+| an RD Gateway, for devices outside the office | `RDP_GATEWAY` |
+| USB devices redirected whole (signature keys, special devices) | `USB_REDIRECT` (`VID:PID` list) |
+
+Everything else (network, time, power schedule, logo) is set the same way: [all the settings](../configuration.md).
+
+## 2. Firmware settings
+
+Open the firmware setup (F2 at power on on Dell devices). On devices that came with ThinOS it is often protected
+by an administrator password: Dell documents a default one for its thin clients, and ThinOS or Wyse Management Suite
+may have set another.
+
+- **Enable USB boot** (Integrated Devices, or the boot configuration), to start from a stick. F12 at power on opens
+  the one-time boot menu.
+- **Secure Boot can stay on**: OpenThinRDP boots with Debian's signed shim and GRUB.
+- **Wake-on-LAN**: enable it, and **disable Deep Sleep Control**. With deep sleep in S4/S5 the network card is off,
+  the magic packet never arrives, and the alarm of the power schedule cannot switch the device on either.
+
+Once OpenThinRDP runs, these settings can also be read and changed from Linux through `dell-wmi-sysman`, without the
+setup screen ([hardware](../hardware.md#firmware-settings-dell)).
+
+## 3. Try it live, nothing installed
+
+1. Write the [ISO](https://github.com/OpenThinRdp/openthinrdp/releases/latest) to a USB stick (Rufus in DD mode,
+   balenaEtcher or `dd`).
+2. Start the thin client from the stick (F12). The live system starts by itself after 10 seconds and **never writes
+   to the internal disk**: ThinOS is still there when you remove the stick.
+3. In the settings dialog set the broker, the collection and the domain, save, and sign in as a user.
+
+Check what matters to you before installing: the monitors, the USB devices your users plug in, the webcam and
+headset in Teams, smart cards, sound. The diagnostics (ℹ on the sign-in screen) show the network, the brokers and the
+time.
+
+## 4. Install
+
+Restart from the stick and choose **Install**. The installer shows the disk it is going to erase and asks; answer
+*Yes* and it takes about three minutes. It installs on the **internal** disk (eMMC or SSD), never on a USB disk.
+
+Installing **erases ThinOS**. Going back needs Dell's recovery image for that model: make sure you can get it before
+you install, if you may want to go back. For many devices, the *Unattended install* entry of the boot menu skips the
+question.
+
+## 5. Many devices: the management folder
+
+Instead of Wyse Management Suite, OpenThinRDP uses a shared folder (SMB) and a Windows tool, with no server:
+
+1. Create the folder, e.g. `\\fileserver\thinclients`, with an account the devices use to write their status
+   ([management](../management.md#account)).
+2. Put the common settings in `config\common.conf` (broker, collection, domain...), and the settings of a single
+   device in `config\<hostname>.conf`.
+3. Set `MGMT_SHARE` on each device, or build your own image with it ([building](../building.md)).
+4. Run the [manager](../manager.md): the state of every device, settings for all or one, the screen of any device,
+   updates that go to a few pilot devices first, and going back to the version before when something breaks.
+
+## 6. What changes for the users
+
+- They see a sign-in form with your logo, type their user and password, and get their desktop in full screen. At
+  the end of the session the device can switch itself off.
+- Sessions use **RDP over UDP**: on Wi-Fi, a VPN or a busy server, the screen keeps moving instead of freezing
+  ([udp](../udp.md)).
+- USB sticks appear in Windows as drives, or go whole to Windows. Signature keys and special devices are passed
+  whole. Webcams and headsets work in Teams through the RDP channels.
+- Nothing runs on the device but the remote desktop: no local desktop, no browser unless you enable the web button.
+
+Questions: [FAQ](../faq.md). Compared with ThinOS and the others: [alternatives](../alternatives.md#dell-thinos).
+
+---
+
+<!-- https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/old-pc-thin-client.md -->
+
+# Turning an old PC into a thin client for Windows Remote Desktop
+
+An office PC that is too slow for Windows 11, or a used thin client bought for little, makes a good Remote Desktop
+client. OpenThinRDP turns it into a kiosk that starts straight into a sign-in form and opens the user's Windows
+desktop in full screen. Nothing is installed on the Windows side and there is no licence per device.
+
+- [What the PC needs](#what-the-pc-needs)
+- [What it connects to](#what-it-connects-to)
+- [Step by step](#step-by-step)
+- [Making it a good thin client](#making-it-a-good-thin-client)
+- [When it is not the right choice](#when-it-is-not-the-right-choice)
+
+## What the PC needs
+
+| | |
+|---|---|
+| CPU | 64-bit x86 (Intel or AMD from about 2010 on). 32-bit only CPUs, such as the first Atoms, cannot run it |
+| Firmware | UEFI, with or without Secure Boot, or a legacy BIOS |
+| Memory | 2 GB |
+| Disk | 8 GB (an old SSD, eMMC or hard disk); none to run it live from a USB stick |
+| Network | its own card or Wi-Fi; a USB Ethernet adapter works too |
+
+Drivers are not a worry: the system is Debian 13 with its complete kernel and every firmware package
+([hardware](../hardware.md)). The quickest test is to start it live from a stick: if the settings dialog shows an
+address, the network works.
+
+## What it connects to
+
+- **A Windows PC with Remote Desktop on**, e.g. the user's office PC (Windows Pro or Enterprise: Home cannot be a
+  Remote Desktop host). Set its name as the broker.
+- **A Windows Server with Remote Desktop Services**: session hosts or a VDI collection behind an RD Connection
+  Broker. Set the broker and the collection.
+- **The same, in the cloud** (Azure, AWS or any provider), through an RD Gateway or a VPN
+  ([desktops in the cloud](../configuration.md#desktops-in-the-cloud)).
+
+## Step by step
+
+1. **Download** the [ISO](https://github.com/OpenThinRdp/openthinrdp/releases/latest) and write it to a USB stick
+   with Rufus (DD mode), balenaEtcher or `dd`.
+2. **Start the PC from the stick.** It is usually F12, F11, F9 or Esc at power on; enable USB boot in the firmware
+   setup if the stick is not in the list. Turn off "fast boot" if the PC never shows the boot menu.
+3. The **live system** starts by itself after 10 seconds. It runs from the stick and writes nothing to the disk.
+4. In the **settings dialog** set the broker (or the name of the Windows PC) and the domain. Save, then sign in with
+   a Windows account.
+5. Happy with it? Restart from the stick and choose **Install**. It shows the disk it is going to erase and asks,
+   then takes about three minutes. From then on the PC starts straight into the sign-in form, in a few seconds.
+
+## Making it a good thin client
+
+- **One place for all devices.** Put the settings in a shared folder and use the [manager](../manager.md), with
+  updates for a few pilot devices first and a way back.
+- **Power.** Set a schedule (`POWER_ON_TIME`, `POWER_OFF_TIME`, `POWER_ON_DAYS`), and set the device to switch off
+  when the session ends (`SHUTDOWN_SECS`). Wake-on-LAN needs the firmware option on
+  ([configuration](../configuration.md)).
+- **The PIN.** A PIN on the settings dialog (⚙) keeps users out of the settings.
+- **USB.** Sticks appear in Windows as drives; signature keys and special devices are passed whole; webcams and
+  headsets work in Teams.
+- **Company networks.** 802.1X on the cable and WPA2/WPA3-Enterprise Wi-Fi are supported.
+
+## When it is not the right choice
+
+- **The user also needs local programs**: a normal Linux desktop with a Remote Desktop client is better.
+- **Citrix or Omnissa Horizon**: OpenThinRDP does RDP only.
+- **Azure Virtual Desktop or Windows 365**: not supported yet.
+
+Questions: [FAQ](../faq.md). Compared with Linux Mint + Remmina and the thin client systems:
+[alternatives](../alternatives.md).
 
 ---
 

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenThinRDP domande frequenti &#8211; hardware, driver, RDP su UDP, Azure, PXE, 802.1X</title>
+<meta name="description" content="Domande e risposte su OpenThinRDP, il sistema operativo gratuito per thin client con Desktop remoto Windows: quale hardware, driver, RDP su UDP, RDS e VDI, Azure Virtual Desktop, gestione senza server, aggiornamenti e ritorno indietro, PXE, 802.1X.">
+<link rel="canonical" href="https://openthinrdp.github.io/it/faq.html">
+<link rel="alternate" hreflang="it" href="https://openthinrdp.github.io/it/faq.html">
+<link rel="alternate" hreflang="en" href="https://openthinrdp.github.io/faq.html">
+<link rel="alternate" hreflang="x-default" href="https://openthinrdp.github.io/faq.html">
+<link rel="icon" href="https://openthinrdp.github.io/img/icon.png">
+<link rel="alternate" type="text/plain" href="https://openthinrdp.github.io/llms-full.txt" title="The documentation in one text file">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenThinRDP">
+<meta property="og:locale" content="it_IT">
+<meta property="og:title" content="OpenThinRDP domande frequenti &#8211; hardware, driver, RDP su UDP, Azure, PXE, 802.1X">
+<meta property="og:description" content="Domande e risposte su OpenThinRDP, il sistema operativo gratuito per thin client con Desktop remoto Windows: quale hardware, driver, RDP su UDP, RDS e VDI, Azure Virtual Desktop, gestione senza server, aggiornamenti e ritorno indietro, PXE, 802.1X.">
+<meta property="og:url" content="https://openthinrdp.github.io/it/faq.html">
+<meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.1","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
+ "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
+</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Che cos\u0027è OpenThinRDP?","acceptedAnswer":{"@type":"Answer","text":"Un sistema operativo open source per thin client che si collegano a Windows con Desktop remoto: host di sessione RDS, raccolte VDI dietro un RD Connection Broker, o qualsiasi PC Windows con Desktop remoto attivo. È Debian 13 con un kiosk bloccato su FreeRDP, il trasporto UDP di RDP incluso, e un gestore per Windows che governa tutto il parco da una cartella condivisa."}},{"@type":"Question","name":"È gratuito?","acceptedAnswer":{"@type":"Answer","text":"Sì. Licenza Apache 2.0, nessun costo per postazione, nessun abbonamento, nessun account. La ISO e gli aggiornamenti firmati sono su GitHub."}},{"@type":"Question","name":"Non è troppo giovane per usarlo in produzione?","acceptedAnswer":{"@type":"Answer","text":"È giovane come progetto pubblico (ottobre 2026), non come sistema. Nasce dal parco di thin client di un\u0027azienda, dove ha sostituito un sistema operativo commerciale per thin client. Lì lavora ogni giorno su 14 postazioni (scrivanie, casse, un laboratorio e postazioni di pesatura), e ogni versione arriva a quel parco. In più: - oltre 170 test di sistema girano a ogni modifica; - ogni versione viene installata in QEMU/KVM con Secure Boot; - l\u0027UDP è stato provato per ore con perdita di pacchetti, rete tagliata e client uccisi. Cosa è in produzione, cosa è solo provato e cosa manca: status.md (in inglese)."}},{"@type":"Question","name":"Chi lo mantiene?","acceptedAnswer":{"@type":"Answer","text":"Il reparto IT dell\u0027azienda dove gira in produzione, in modo aperto su GitHub. Segnalazioni di errori, prove su altro hardware e pull request sono benvenute."}},{"@type":"Question","name":"Su quale hardware gira?","acceptedAnswer":{"@type":"Answer","text":"Qualsiasi PC o thin client x86 a 64 bit, con UEFI o BIOS tradizionale, 2 GB di RAM e 8 GB di memoria (nessuna per farlo girare live da una chiavetta USB). Provati: Dell OptiPlex 3000 Thin Client in produzione, QEMU/KVM con UEFI e con BIOS. Thin client usati come Dell Wyse 5070, HP t630 o Fujitsu Futro S740 rispettano i requisiti. Vedi hardware.md e le guide sostituire Dell ThinOS e un vecchio PC come thin client (in inglese)."}},{"@type":"Question","name":"Per essere leggero ha tolto i driver?","acceptedAnswer":{"@type":"Answer","text":"No. La ISO ha il kernel Debian 13 completo (Linux 6.12) con tutti i driver, e tutti i pacchetti firmware di Debian. Quello che funziona con Debian 13, o con Ubuntu e Linux Mint dello stesso periodo, funziona anche qui. È leggero perché non fa girare un desktop."}},{"@type":"Question","name":"Gira su Raspberry Pi o ARM?","acceptedAnswer":{"@type":"Answer","text":"In via sperimentale. C\u0027è un\u0027immagine per scheda SD per il Raspberry Pi 4, provata in emulazione ma non ancora su una scheda vera (l\u0027immagine, cosa controllare). Il Pi 5 non è ancora supportato."}},{"@type":"Question","name":"Gira sui vecchi thin client a 32 bit?","acceptedAnswer":{"@type":"Answer","text":"No: Debian 13 non supporta più le CPU solo a 32 bit."}},{"@type":"Question","name":"Usa davvero RDP su UDP?","acceptedAnswer":{"@type":"Answer","text":"Sì. FreeRDP non ha il trasporto UDP in nessuna release; OpenThinRDP distribuisce FreeRDP con la pull request che lo aggiunge (#13608), che proviamo e su cui riferiamo. Con TRANSPORT=auto la sessione usa UDP, e TCP quando l\u0027UDP è bloccato. Su una linea che perde il 50% dei pacchetti ha tenuto 19-21 fotogrammi al secondo, dove il TCP era sceso a 0,6 già al 20% (udp.md)."}},{"@type":"Question","name":"A quali Windows si collega?","acceptedAnswer":{"@type":"Answer","text":"Host di sessione RDS e raccolte VDI attraverso un RD Connection Broker, oppure un singolo PC o server Windows con Desktop remoto attivo (Pro, Enterprise, Server), in sede o in Azure, AWS o qualsiasi cloud. Kerberos con NTLM di riserva, RD Gateway, e la sua VPN WireGuard o OpenVPN per le postazioni fuori sede."}},{"@type":"Question","name":"Funziona con Azure Virtual Desktop o Windows 365?","acceptedAnswer":{"@type":"Answer","text":"Non ancora: richiedono l\u0027accesso con Microsoft Entra ID e il gateway di Microsoft, che il kiosk non fa. Un deployment RDS o macchine virtuali Windows in Azure funzionano, attraverso un RD Gateway o una VPN (desktop nel cloud)."}},{"@type":"Question","name":"Citrix o VMware/Omnissa Horizon?","acceptedAnswer":{"@type":"Answer","text":"No, OpenThinRDP fa solo RDP. Per quelli, vedi le alternative."}},{"@type":"Question","name":"Funzionano webcam, cuffie, chiavette USB e smart card?","acceptedAnswer":{"@type":"Answer","text":"Sì: - le webcam attraverso il canale della fotocamera di RDP, e le cuffie attraverso i canali audio di RDP, così Teams, Zoom e il browser nella sessione le vedono; - le chiavette USB arrivano a Windows come unità, oppure come dispositivi interi: chiavette di firma, chiavette del tachigrafo e altri dispositivi particolari, anche se inserite durante la sessione; - i lettori di smart card attraverso il canale delle smart card."}},{"@type":"Question","name":"Serve un server per gestire le postazioni?","acceptedAnswer":{"@type":"Answer","text":"No. Le postazioni scrivono il loro stato in una cartella condivisa (SMB) e da lì leggono le impostazioni; un gestore in PowerShell per Windows mostra tutto il parco, cambia le impostazioni per tutte le postazioni o per una, e apre lo schermo di qualsiasi postazione nel browser. Niente agenti, niente database, nessun server di gestione (il gestore)."}},{"@type":"Question","name":"Come si fanno gli aggiornamenti? Si può tornare indietro?","acceptedAnswer":{"@type":"Answer","text":"Gli aggiornamenti di OpenThinRDP sono pacchetti firmati, da GitHub o dalla vostra cartella. Si installano in sottofondo e si applicano a fine sessione. Una versione nuova può andare prima a poche postazioni pilota, poi a tutte. Se qualcosa non va, tutto il parco o una sola postazione tornano alla versione precedente, FreeRDP compreso. Gli aggiornamenti di sicurezza di Debian si installano da soli."}},{"@type":"Question","name":"È sicuro?","acceptedAnswer":{"@type":"Answer","text":"- Gli aggiornamenti sono firmati, e possono essere firmati di nuovo con la sola chiave del vostro sito. - Niente desktop, niente terminale, niente console di testo. - SSH solo con chiave, spento di default. - I segreti della postazione sono sigillati nel TPM quando c\u0027è. - Le chiavi del parco stanno in una cassaforte con un codice di accesso. Vedi security.md e SECURITY.md."}},{"@type":"Question","name":"Si avvia dalla rete (PXE)?","acceptedAnswer":{"@type":"Answer","text":"Non ancora. OpenThinRDP gira live da una chiavetta USB oppure si installa, con un\u0027installazione automatica per i rilasci in serie. L\u0027avvio dalla rete è valutato per una versione futura."}},{"@type":"Question","name":"Supporta 802.1X?","acceptedAnswer":{"@type":"Answer","text":"Sì, dalla 0.2.1: 802.1X sul cavo e Wi-Fi WPA2/WPA3-Enterprise, con PEAP (un account di dominio o della macchina) o EAP-TLS (un certificato della vostra CA). Il server RADIUS viene verificato con la vostra CA prima di mandare qualsiasi password, e su uno switch senza 802.1X la postazione prosegue da sola. Configurazione con Windows NPS o FreeRADIUS: 802.1X e Wi-Fi Enterprise."}},{"@type":"Question","name":"Perché non semplicemente Linux Mint con Remmina?","acceptedAnswer":{"@type":"Answer","text":"Il supporto dell\u0027hardware è lo stesso, ma Remmina non ha RDP su UDP. In più un desktop va bloccato e configurato PC per PC, e i suoi aggiornamenti arrivano senza postazioni pilota né modo di tornare indietro. Vedi le alternative."}},{"@type":"Question","name":"Come lo provo?","acceptedAnswer":{"@type":"Answer","text":"Scrivete la ISO su una chiavetta USB e avviate un PC da lì: il sistema live non scrive niente sul disco. Impostate il broker e il dominio, e accedete (cinque minuti)."}}]}</script>
+</head>
+<body>
+<header class="bar"><a class="home" href="https://openthinrdp.github.io/it/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="28" height="28"> OpenThinRDP</a>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Scarica 0.2.1</a><a href="https://openthinrdp.github.io/manager.html">Gestore</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Confronto</a><a href="https://openthinrdp.github.io/it/faq.html">Domande</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://openthinrdp.github.io/faq.html" hreflang="en">English</a></nav></header>
+<main class="markdown-body">
+<h1 id="domande-frequenti" dir="auto">Domande frequenti</h1>
+<p dir="auto"><em><a href="https://openthinrdp.github.io/faq.html">English</a></em></p>
+<h2 id="il-progetto" dir="auto">Il progetto</h2>
+<h3 id="che-cosè-openthinrdp" dir="auto">Che cos'è OpenThinRDP?</h3>
+<p dir="auto">Un sistema operativo open source per thin client che si collegano a Windows con Desktop remoto: host di sessione<br>
+RDS, raccolte VDI dietro un RD Connection Broker, o qualsiasi PC Windows con Desktop remoto attivo. È Debian 13 con un<br>
+kiosk bloccato su FreeRDP, il trasporto UDP di RDP incluso, e un gestore per Windows che governa tutto il parco da una<br>
+cartella condivisa.</p>
+<h3 id="è-gratuito" dir="auto">È gratuito?</h3>
+<p dir="auto">Sì. Licenza Apache 2.0, nessun costo per postazione, nessun abbonamento, nessun account. La ISO e gli aggiornamenti<br>
+firmati sono su <a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">GitHub</a>.</p>
+<h3 id="non-è-troppo-giovane-per-usarlo-in-produzione" dir="auto">Non è troppo giovane per usarlo in produzione?</h3>
+<p dir="auto">È giovane come progetto pubblico (ottobre 2026), non come sistema. Nasce dal parco di thin client di un'azienda, dove<br>
+ha sostituito un sistema operativo commerciale per thin client. Lì lavora ogni giorno su 14 postazioni (scrivanie,<br>
+casse, un laboratorio e postazioni di pesatura), e ogni versione arriva a quel parco. In più:</p>
+<ul dir="auto">
+<li>oltre 170 test di sistema girano a ogni modifica;</li>
+<li>ogni versione viene installata in QEMU/KVM con Secure Boot;</li>
+<li>l'UDP è stato provato per ore con perdita di pacchetti, rete tagliata e client uccisi.</li>
+</ul>
+<p dir="auto">Cosa è in produzione, cosa è solo provato e cosa manca: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/status.md">status.md</a> (in inglese).</p>
+<h3 id="chi-lo-mantiene" dir="auto">Chi lo mantiene?</h3>
+<p dir="auto">Il reparto IT dell'azienda dove gira in produzione, in modo aperto su GitHub. Segnalazioni di errori, prove su altro<br>
+hardware e pull request sono benvenute.</p>
+<h2 id="hardware" dir="auto">Hardware</h2>
+<h3 id="su-quale-hardware-gira" dir="auto">Su quale hardware gira?</h3>
+<p dir="auto">Qualsiasi PC o thin client x86 a 64 bit, con UEFI o BIOS tradizionale, 2 GB di RAM e 8 GB di memoria (nessuna per<br>
+farlo girare live da una chiavetta USB). Provati: Dell OptiPlex 3000 Thin Client in produzione, QEMU/KVM con UEFI e<br>
+con BIOS. Thin client usati come Dell Wyse 5070, HP t630 o Fujitsu Futro S740 rispettano i requisiti. Vedi<br>
+<a href="https://openthinrdp.github.io/hardware.html">hardware.md</a> e le guide <a href="https://openthinrdp.github.io/replace-dell-thinos.html">sostituire Dell ThinOS</a> e<br>
+<a href="https://openthinrdp.github.io/old-pc-thin-client.html">un vecchio PC come thin client</a> (in inglese).</p>
+<h3 id="per-essere-leggero-ha-tolto-i-driver" dir="auto">Per essere leggero ha tolto i driver?</h3>
+<p dir="auto">No. La ISO ha il kernel Debian 13 completo (Linux 6.12) con tutti i driver, e tutti i pacchetti firmware di Debian.<br>
+Quello che funziona con Debian 13, o con Ubuntu e Linux Mint dello stesso periodo, funziona anche qui. È leggero<br>
+perché non fa girare un desktop.</p>
+<h3 id="gira-su-raspberry-pi-o-arm" dir="auto">Gira su Raspberry Pi o ARM?</h3>
+<p dir="auto">In via sperimentale. C'è un'immagine per scheda SD per il Raspberry Pi 4, provata in emulazione ma non ancora su una<br>
+scheda vera (<a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/rpi-test-1">l'immagine</a>,<br>
+<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/arm.md">cosa controllare</a>). Il Pi 5 non è ancora supportato.</p>
+<h3 id="gira-sui-vecchi-thin-client-a-32-bit" dir="auto">Gira sui vecchi thin client a 32 bit?</h3>
+<p dir="auto">No: Debian 13 non supporta più le CPU solo a 32 bit.</p>
+<h2 id="desktop-remoto" dir="auto">Desktop remoto</h2>
+<h3 id="usa-davvero-rdp-su-udp" dir="auto">Usa davvero RDP su UDP?</h3>
+<p dir="auto">Sì. FreeRDP non ha il trasporto UDP in nessuna release; OpenThinRDP distribuisce FreeRDP con la pull request che lo<br>
+aggiunge (<a href="https://github.com/FreeRDP/FreeRDP/pull/13608" data-hovercard-type="pull_request" data-hovercard-url="/FreeRDP/FreeRDP/pull/13608/hovercard">#13608</a>), che proviamo e su cui riferiamo. Con<br>
+<code class="notranslate">TRANSPORT=auto</code> la sessione usa UDP, e TCP quando l'UDP è bloccato. Su una linea che perde il 50% dei pacchetti ha<br>
+tenuto 19-21 fotogrammi al secondo, dove il TCP era sceso a 0,6 già al 20% (<a href="https://openthinrdp.github.io/udp.html">udp.md</a>).</p>
+<h3 id="a-quali-windows-si-collega" dir="auto">A quali Windows si collega?</h3>
+<p dir="auto">Host di sessione RDS e raccolte VDI attraverso un RD Connection Broker, oppure un singolo PC o server Windows con<br>
+Desktop remoto attivo (Pro, Enterprise, Server), in sede o in Azure, AWS o qualsiasi cloud. Kerberos con NTLM di<br>
+riserva, RD Gateway, e la sua VPN WireGuard o OpenVPN per le postazioni fuori sede.</p>
+<h3 id="funziona-con-azure-virtual-desktop-o-windows-365" dir="auto">Funziona con Azure Virtual Desktop o Windows 365?</h3>
+<p dir="auto">Non ancora: richiedono l'accesso con Microsoft Entra ID e il gateway di Microsoft, che il kiosk non fa. Un deployment<br>
+RDS o macchine virtuali Windows in Azure funzionano, attraverso un RD Gateway o una VPN<br>
+(<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md#desktops-in-the-cloud">desktop nel cloud</a>).</p>
+<h3 id="citrix-o-vmwareomnissa-horizon" dir="auto">Citrix o VMware/Omnissa Horizon?</h3>
+<p dir="auto">No, OpenThinRDP fa solo RDP. Per quelli, vedi <a href="https://openthinrdp.github.io/alternatives.html">le alternative</a>.</p>
+<h3 id="funzionano-webcam-cuffie-chiavette-usb-e-smart-card" dir="auto">Funzionano webcam, cuffie, chiavette USB e smart card?</h3>
+<p dir="auto">Sì:</p>
+<ul dir="auto">
+<li>le webcam attraverso il canale della fotocamera di RDP, e le cuffie attraverso i canali audio di RDP, così Teams,<br>
+Zoom e il browser nella sessione le vedono;</li>
+<li>le chiavette USB arrivano a Windows come unità, oppure come dispositivi interi: chiavette di firma, chiavette del<br>
+tachigrafo e altri dispositivi particolari, anche se inserite durante la sessione;</li>
+<li>i lettori di smart card attraverso il canale delle smart card.</li>
+</ul>
+<h2 id="gestione" dir="auto">Gestione</h2>
+<h3 id="serve-un-server-per-gestire-le-postazioni" dir="auto">Serve un server per gestire le postazioni?</h3>
+<p dir="auto">No. Le postazioni scrivono il loro stato in una cartella condivisa (SMB) e da lì leggono le impostazioni; un gestore<br>
+in PowerShell per Windows mostra tutto il parco, cambia le impostazioni per tutte le postazioni o per una, e apre lo<br>
+schermo di qualsiasi postazione nel browser. Niente agenti, niente database, nessun server di gestione<br>
+(<a href="https://openthinrdp.github.io/manager.html">il gestore</a>).</p>
+<h3 id="come-si-fanno-gli-aggiornamenti-si-può-tornare-indietro" dir="auto">Come si fanno gli aggiornamenti? Si può tornare indietro?</h3>
+<p dir="auto">Gli aggiornamenti di OpenThinRDP sono pacchetti firmati, da GitHub o dalla vostra cartella. Si installano in<br>
+sottofondo e si applicano a fine sessione. Una versione nuova può andare prima a poche postazioni pilota, poi a tutte.<br>
+Se qualcosa non va, tutto il parco o una sola postazione tornano alla versione precedente, FreeRDP compreso. Gli<br>
+aggiornamenti di sicurezza di Debian si installano da soli.</p>
+<h3 id="è-sicuro" dir="auto">È sicuro?</h3>
+<ul dir="auto">
+<li>Gli aggiornamenti sono firmati, e possono essere firmati di nuovo con la sola chiave del vostro sito.</li>
+<li>Niente desktop, niente terminale, niente console di testo.</li>
+<li>SSH solo con chiave, spento di default.</li>
+<li>I segreti della postazione sono sigillati nel TPM quando c'è.</li>
+<li>Le chiavi del parco stanno in una cassaforte con un codice di accesso.</li>
+</ul>
+<p dir="auto">Vedi <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/security.md">security.md</a> e <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/SECURITY.md">SECURITY.md</a>.</p>
+<h3 id="si-avvia-dalla-rete-pxe" dir="auto">Si avvia dalla rete (PXE)?</h3>
+<p dir="auto">Non ancora. OpenThinRDP gira live da una chiavetta USB oppure si installa, con un'installazione automatica per i<br>
+rilasci in serie. L'avvio dalla rete è valutato per una versione futura.</p>
+<h3 id="supporta-8021x" dir="auto">Supporta 802.1X?</h3>
+<p dir="auto">Sì, dalla 0.2.1: 802.1X sul cavo e Wi-Fi WPA2/WPA3-Enterprise, con PEAP (un account di dominio o della macchina) o<br>
+EAP-TLS (un certificato della vostra CA). Il server RADIUS viene verificato con la vostra CA prima di mandare<br>
+qualsiasi password, e su uno switch senza 802.1X la postazione prosegue da sola. Configurazione con Windows NPS o<br>
+FreeRADIUS: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md#8021x-and-wi-fi-enterprise">802.1X e Wi-Fi Enterprise</a>.</p>
+<h3 id="perché-non-semplicemente-linux-mint-con-remmina" dir="auto">Perché non semplicemente Linux Mint con Remmina?</h3>
+<p dir="auto">Il supporto dell'hardware è lo stesso, ma Remmina non ha RDP su UDP. In più un desktop va bloccato e configurato PC<br>
+per PC, e i suoi aggiornamenti arrivano senza postazioni pilota né modo di tornare indietro. Vedi<br>
+<a href="https://openthinrdp.github.io/alternatives.html#linux-mint-ubuntu-or-debian-with-remmina">le alternative</a>.</p>
+<h3 id="come-lo-provo" dir="auto">Come lo provo?</h3>
+<p dir="auto">Scrivete la ISO su una chiavetta USB e avviate un PC da lì: il sistema live non scrive niente sul disco. Impostate il<br>
+broker e il dominio, e accedete (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/README.it.md#provarlo-in-cinque-minuti">cinque minuti</a>).</p>
+</main>
+<footer class="bar small">Questa pagina &#232; <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/faq.it.md">docs/faq.it.md</a> come pubblicato su <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, dove ci sono la documentazione, le release e le discussioni.</footer>
+</body>
+</html>

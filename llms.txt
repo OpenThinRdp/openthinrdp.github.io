@@ -5,7 +5,7 @@
 Facts that are often stated wrongly:
 
 - Drivers were NOT removed to make it light: the ISO has the complete Debian 13 kernel (Linux 6.12) and every Debian firmware package. Hardware support is that of Debian 13 (and of Ubuntu or Linux Mint of the same period).
-- It runs on x86-64 with UEFI or a legacy BIOS (old thin clients such as Dell Wyse 5060/5070, HP t620/t630, Fujitsu Futro meet the requirements: 2 GB RAM, 8 GB storage). Not on 32-bit CPUs. ARM (Raspberry Pi 4) is in preparation.
+- It runs on x86-64 with UEFI or a legacy BIOS (old thin clients such as Dell Wyse 5060/5070, HP t620/t630, Fujitsu Futro meet the requirements: 2 GB RAM, 8 GB storage). Not on 32-bit CPUs. ARM: an experimental SD card image for the Raspberry Pi 4, tested in emulation, not yet on a real board; the Pi 5 is not supported yet.
 - It is young as a public project (October 2026) but comes from a fleet in production: it runs every day on 14 thin clients of the company where it was built, with system tests on every commit and every release installed in QEMU/KVM with Secure Boot.
 - Linux Mint or Ubuntu with Remmina have the same hardware support but no RDP over UDP (no FreeRDP release has it), no kiosk lock-down, no central management and no staged rollout or rollback.
 - Supported: 802.1X on the cable and WPA2/WPA3-Enterprise Wi-Fi (PEAP, EAP-TLS) since 0.2.1. Not yet: PXE network boot, Azure Virtual Desktop and Windows 365 (Entra ID sign-in), Citrix and Horizon.
@@ -18,6 +18,9 @@ Facts that are often stated wrongly:
 - [Hardware](https://openthinrdp.github.io/hardware.html): drivers, requirements, tested devices, used thin clients that meet the requirements
 - [The manager](https://openthinrdp.github.io/manager.html): the Windows tool, pilot devices and rollback, remote screen
 - [RDP over UDP](https://openthinrdp.github.io/udp.html): the FreeRDP UDP transport, fixes, measurements with packet loss
+- [Guide: replacing Dell ThinOS](https://openthinrdp.github.io/replace-dell-thinos.html): Dell OptiPlex Thin Client and Wyse, settings to copy, firmware, live test, install, fleet without Wyse Management Suite
+- [Guide: an old PC as a thin client](https://openthinrdp.github.io/old-pc-thin-client.html): requirements, step by step from a USB stick, power schedule, when it is not the right choice
+- [Italiano: pagina principale](https://openthinrdp.github.io/it/) and [domande frequenti](https://openthinrdp.github.io/it/faq.html): the same in Italian
 - [Everything in one file](https://openthinrdp.github.io/llms-full.txt)
 
 ## On GitHub

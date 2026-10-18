@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Replacing Dell ThinOS with OpenThinRDP &#8211; Wyse and OptiPlex thin clients</title>
+<meta name="description" content="How to replace Dell ThinOS on Dell OptiPlex Thin Clients and Wyse thin clients with OpenThinRDP for Windows Remote Desktop: settings to copy, firmware settings, trying it live, installing, managing many devices without Wyse Management Suite.">
+<link rel="canonical" href="https://openthinrdp.github.io/replace-dell-thinos.html">
+
+<link rel="icon" href="https://openthinrdp.github.io/img/icon.png">
+<link rel="alternate" type="text/plain" href="https://openthinrdp.github.io/llms-full.txt" title="The documentation in one text file">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenThinRDP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Replacing Dell ThinOS with OpenThinRDP &#8211; Wyse and OptiPlex thin clients">
+<meta property="og:description" content="How to replace Dell ThinOS on Dell OptiPlex Thin Clients and Wyse thin clients with OpenThinRDP for Windows Remote Desktop: settings to copy, firmware settings, trying it live, installing, managing many devices without Wyse Management Suite.">
+<meta property="og:url" content="https://openthinrdp.github.io/replace-dell-thinos.html">
+<meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.1","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
+ "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
+</script>
+
+</head>
+<body>
+<header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="28" height="28"> OpenThinRDP</a>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.1</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<main class="markdown-body">
+<h1 id="replacing-dell-thinos-with-openthinrdp-on-dell-thin-clients" dir="auto">Replacing Dell ThinOS with OpenThinRDP on Dell thin clients</h1>
+<p dir="auto">Dell OptiPlex Thin Clients and Wyse thin clients that run ThinOS are 64-bit x86 PCs with UEFI. OpenThinRDP runs<br>
+on them like on any other PC: the production fleet OpenThinRDP comes from is Dell OptiPlex 3000 Thin Clients that ran<br>
+ThinOS before, and they connect every day to a Windows 11 VDI through two RD Connection Brokers.</p>
+<p dir="auto">This guide is for networks built on <strong>Windows Remote Desktop</strong> (RDS session hosts, a VDI collection, or Windows PCs).<br>
+If your users need Citrix or Omnissa Horizon, keep ThinOS: OpenThinRDP does RDP only.</p>
+<ul dir="auto">
+<li><a href="#1-write-down-what-thinos-connects-to">1. Write down what ThinOS connects to</a></li>
+<li><a href="#2-firmware-settings">2. Firmware settings</a></li>
+<li><a href="#3-try-it-live-nothing-installed">3. Try it live, nothing installed</a></li>
+<li><a href="#4-install">4. Install</a></li>
+<li><a href="#5-many-devices-the-management-folder">5. Many devices: the management folder</a></li>
+<li><a href="#6-what-changes-for-the-users">6. What changes for the users</a></li>
+</ul>
+<h2 id="1-write-down-what-thinos-connects-to" dir="auto">1. Write down what ThinOS connects to</h2>
+<p dir="auto">From the ThinOS configuration, or from Wyse Management Suite, write down:</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>ThinOS</th>
+<th>OpenThinRDP setting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>the RD Connection Broker or session host</td>
+<td><code class="notranslate">BROKER</code> (and <code class="notranslate">BROKER_FALLBACK</code> for a second broker)</td>
+</tr>
+<tr>
+<td>the collection (VDI pool or RemoteApp/desktop collection)</td>
+<td><code class="notranslate">LOAD_BALANCE_INFO</code>, as <code class="notranslate">loadbalanceinfo</code> in the .rdp file, e.g. <code class="notranslate">tsv://VMResource.1.VDI</code></td>
+</tr>
+<tr>
+<td>the domain</td>
+<td><code class="notranslate">DOMAIN</code>, its full DNS name for Kerberos (e.g. <code class="notranslate">example.local</code>)</td>
+</tr>
+<tr>
+<td>an RD Gateway, for devices outside the office</td>
+<td><code class="notranslate">RDP_GATEWAY</code></td>
+</tr>
+<tr>
+<td>USB devices redirected whole (signature keys, special devices)</td>
+<td><code class="notranslate">USB_REDIRECT</code> (<code class="notranslate">VID:PID</code> list)</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">Everything else (network, time, power schedule, logo) is set the same way: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/configuration.md">all the settings</a>.</p>
+<h2 id="2-firmware-settings" dir="auto">2. Firmware settings</h2>
+<p dir="auto">Open the firmware setup (F2 at power on on Dell devices). On devices that came with ThinOS it is often protected<br>
+by an administrator password: Dell documents a default one for its thin clients, and ThinOS or Wyse Management Suite<br>
+may have set another.</p>
+<ul dir="auto">
+<li><strong>Enable USB boot</strong> (Integrated Devices, or the boot configuration), to start from a stick. F12 at power on opens<br>
+the one-time boot menu.</li>
+<li><strong>Secure Boot can stay on</strong>: OpenThinRDP boots with Debian's signed shim and GRUB.</li>
+<li><strong>Wake-on-LAN</strong>: enable it, and <strong>disable Deep Sleep Control</strong>. With deep sleep in S4/S5 the network card is off,<br>
+the magic packet never arrives, and the alarm of the power schedule cannot switch the device on either.</li>
+</ul>
+<p dir="auto">Once OpenThinRDP runs, these settings can also be read and changed from Linux through <code class="notranslate">dell-wmi-sysman</code>, without the<br>
+setup screen (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/hardware.md#firmware-settings-dell">hardware</a>).</p>
+<h2 id="3-try-it-live-nothing-installed" dir="auto">3. Try it live, nothing installed</h2>
+<ol dir="auto">
+<li>Write the <a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">ISO</a> to a USB stick (Rufus in DD mode,<br>
+balenaEtcher or <code class="notranslate">dd</code>).</li>
+<li>Start the thin client from the stick (F12). The live system starts by itself after 10 seconds and <strong>never writes<br>
+to the internal disk</strong>: ThinOS is still there when you remove the stick.</li>
+<li>In the settings dialog set the broker, the collection and the domain, save, and sign in as a user.</li>
+</ol>
+<p dir="auto">Check what matters to you before installing: the monitors, the USB devices your users plug in, the webcam and<br>
+headset in Teams, smart cards, sound. The diagnostics (ℹ on the sign-in screen) show the network, the brokers and the<br>
+time.</p>
+<h2 id="4-install" dir="auto">4. Install</h2>
+<p dir="auto">Restart from the stick and choose <strong>Install</strong>. The installer shows the disk it is going to erase and asks; answer<br>
+<em>Yes</em> and it takes about three minutes. It installs on the <strong>internal</strong> disk (eMMC or SSD), never on a USB disk.</p>
+<p dir="auto">Installing <strong>erases ThinOS</strong>. Going back needs Dell's recovery image for that model: make sure you can get it before<br>
+you install, if you may want to go back. For many devices, the <em>Unattended install</em> entry of the boot menu skips the<br>
+question.</p>
+<h2 id="5-many-devices-the-management-folder" dir="auto">5. Many devices: the management folder</h2>
+<p dir="auto">Instead of Wyse Management Suite, OpenThinRDP uses a shared folder (SMB) and a Windows tool, with no server:</p>
+<ol dir="auto">
+<li>Create the folder, e.g. <code class="notranslate">\\fileserver\thinclients</code>, with an account the devices use to write their status<br>
+(<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/management.md#account">management</a>).</li>
+<li>Put the common settings in <code class="notranslate">config\common.conf</code> (broker, collection, domain...), and the settings of a single<br>
+device in <code class="notranslate">config\&lt;hostname&gt;.conf</code>.</li>
+<li>Set <code class="notranslate">MGMT_SHARE</code> on each device, or build your own image with it (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/building.md">building</a>).</li>
+<li>Run the <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/manager.md">manager</a>: the state of every device, settings for all or one, the screen of any device,<br>
+updates that go to a few pilot devices first, and going back to the version before when something breaks.</li>
+</ol>
+<h2 id="6-what-changes-for-the-users" dir="auto">6. What changes for the users</h2>
+<ul dir="auto">
+<li>They see a sign-in form with your logo, type their user and password, and get their desktop in full screen. At<br>
+the end of the session the device can switch itself off.</li>
+<li>Sessions use <strong>RDP over UDP</strong>: on Wi-Fi, a VPN or a busy server, the screen keeps moving instead of freezing<br>
+(<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/udp.md">udp</a>).</li>
+<li>USB sticks appear in Windows as drives, or go whole to Windows. Signature keys and special devices are passed<br>
+whole. Webcams and headsets work in Teams through the RDP channels.</li>
+<li>Nothing runs on the device but the remote desktop: no local desktop, no browser unless you enable the web button.</li>
+</ul>
+<p dir="auto">Questions: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/faq.md">FAQ</a>. Compared with ThinOS and the others: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/alternatives.md#dell-thinos">alternatives</a>.</p>
+</main>
+<footer class="bar small">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/replace-dell-thinos.md">docs/guides/replace-dell-thinos.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</footer>
+</body>
+</html>

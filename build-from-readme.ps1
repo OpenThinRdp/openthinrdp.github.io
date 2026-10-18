@@ -1,12 +1,7 @@
 # Builds https://openthinrdp.github.io/ from the documents published on GitHub, so the site is never a second copy
 # of the documentation: the text rendered by GitHub itself, links pointing to the pages of the site or to GitHub.
-#   index.html          the README
-#   manager.html        docs/manager.md      the Windows manager, page by page
-#   faq.html            docs/faq.md          questions and answers (with FAQPage structured data)
-#   alternatives.html   docs/alternatives.md compared with Mint + Remmina, IGEL OS, ThinOS, Stratodesk...
-#   hardware.html       docs/hardware.md     drivers, requirements, tested and expected devices
-#   udp.html            docs/udp.md          the RDP UDP transport and its measurements
-#   llms-full.txt       the main documents whole, for AI assistants; sitemap.xml
+# The pages are listed in $site_pages below (English and Italian, linked to each other with hreflang); then
+# llms-full.txt (the main documents whole, for AI assistants) and sitemap.xml.
 # Run it after every release (or change of those documents), then commit and push this folder.
 #   powershell -ExecutionPolicy Bypass -File build-from-readme.ps1
 $ErrorActionPreference = 'Stop'
@@ -19,12 +14,54 @@ $site = 'https://openthinrdp.github.io/'
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ver = (& $gh api "repos/$repo/releases/latest" --jq .tag_name) -replace '^v', ''
 $today = Get-Date -Format 'yyyy-MM-dd'
-# the pages of the site: a link to their document goes to the page instead of GitHub
-$pages = [ordered]@{ 'README.md' = ''; 'docs/manager.md' = 'manager.html'; 'docs/faq.md' = 'faq.html'
-  'docs/alternatives.md' = 'alternatives.html'; 'docs/hardware.md' = 'hardware.html'; 'docs/udp.md' = 'udp.html' }
+$dash = '&#8211;'   # PowerShell 5.1 reads this file as ANSI: no non-ASCII characters in it
+
+# Doc = file of the repository; Url = its address on the site ('' = home, a folder ends with /); Alt = the same page in
+# the other language; Faq = FAQPage structured data from its "### question" sections
+$site_pages = @(
+  @{ Doc = 'README.md'; Url = ''; Lang = 'en'; Alt = 'it/'
+     Title = "OpenThinRDP $dash open source thin client OS with RDP over UDP for RDS and VDI"
+     Desc = 'OpenThinRDP: free, open source thin client operating system for Microsoft Remote Desktop (RDS and VDI), on premises or in the cloud. Debian 13 with FreeRDP and the RDP UDP transport, a kiosk sign-in, central management from a shared folder, signed updates with pilot devices and rollback.' }
+  @{ Doc = 'README.it.md'; Url = 'it/'; Lang = 'it'; Alt = ''
+     Title = "OpenThinRDP $dash sistema operativo open source per thin client, RDP su UDP per RDS e VDI"
+     Desc = 'OpenThinRDP: sistema operativo gratuito e open source per thin client e vecchi PC che si collegano a Desktop remoto Windows (RDS e VDI), in sede o nel cloud. Debian 13 con FreeRDP e il trasporto UDP, accesso in kiosk, gestione centrale da una cartella condivisa, aggiornamenti firmati con postazioni pilota e ritorno indietro.' }
+  @{ Doc = 'docs/manager.md'; Url = 'manager.html'; Lang = 'en'
+     Title = "OpenThinRDP manager $dash the whole thin client fleet from one window"
+     Desc = 'The OpenThinRDP manager for Windows: every thin client at a glance, central settings, a new version on pilot devices first, going back to an earlier version for the whole fleet, remote screen, signed updates. No server.' }
+  @{ Doc = 'docs/faq.md'; Url = 'faq.html'; Lang = 'en'; Alt = 'it/faq.html'; Faq = $true
+     Title = "OpenThinRDP FAQ $dash hardware, drivers, RDP over UDP, Azure, PXE, 802.1X"
+     Desc = 'Questions and answers about OpenThinRDP, the free thin client OS for Microsoft Remote Desktop: which hardware, drivers, RDP over UDP, RDS and VDI, Azure Virtual Desktop, management without a server, updates and rollback, PXE, 802.1X.' }
+  @{ Doc = 'docs/faq.it.md'; Url = 'it/faq.html'; Lang = 'it'; Alt = 'faq.html'; Faq = $true
+     Title = "OpenThinRDP domande frequenti $dash hardware, driver, RDP su UDP, Azure, PXE, 802.1X"
+     Desc = 'Domande e risposte su OpenThinRDP, il sistema operativo gratuito per thin client con Desktop remoto Windows: quale hardware, driver, RDP su UDP, RDS e VDI, Azure Virtual Desktop, gestione senza server, aggiornamenti e ritorno indietro, PXE, 802.1X.' }
+  @{ Doc = 'docs/alternatives.md'; Url = 'alternatives.html'; Lang = 'en'
+     Title = 'OpenThinRDP compared with Linux Mint + Remmina, IGEL OS, Dell ThinOS, Stratodesk, ThinStation'
+     Desc = 'A free alternative to IGEL OS, Dell ThinOS, Stratodesk NoTouch, ThinStation and openthinclient for Windows Remote Desktop, and why not just Linux Mint with Remmina: RDP over UDP, a locked kiosk, central management, signed updates with rollback.' }
+  @{ Doc = 'docs/hardware.md'; Url = 'hardware.html'; Lang = 'en'
+     Title = "OpenThinRDP hardware $dash drivers, requirements, thin clients that run it"
+     Desc = 'Hardware for OpenThinRDP: any 64-bit x86 PC or thin client, UEFI or legacy BIOS, with the complete Debian 13 kernel and firmware. Tested devices, used thin clients that meet the requirements (Dell Wyse, HP t-series, Fujitsu Futro), firmware settings.' }
+  @{ Doc = 'docs/udp.md'; Url = 'udp.html'; Lang = 'en'
+     Title = "RDP over UDP on Linux $dash the FreeRDP UDP transport in OpenThinRDP"
+     Desc = 'RDP over UDP on Linux with FreeRDP: the UDP transport (MS-RDPEUDP, pull request 13608) built and shipped by OpenThinRDP, what travels over UDP, the fixes we found and the measurements with packet loss against TCP.' }
+  @{ Doc = 'docs/guides/replace-dell-thinos.md'; Url = 'replace-dell-thinos.html'; Lang = 'en'
+     Title = "Replacing Dell ThinOS with OpenThinRDP $dash Wyse and OptiPlex thin clients"
+     Desc = 'How to replace Dell ThinOS on Dell OptiPlex Thin Clients and Wyse thin clients with OpenThinRDP for Windows Remote Desktop: settings to copy, firmware settings, trying it live, installing, managing many devices without Wyse Management Suite.' }
+  @{ Doc = 'docs/guides/old-pc-thin-client.md'; Url = 'old-pc-thin-client.html'; Lang = 'en'
+     Title = "Turn an old PC into a thin client for Windows Remote Desktop $dash OpenThinRDP"
+     Desc = 'Turn an old office PC or a used thin client into a free Remote Desktop thin client for a Windows PC, RDS or VDI: requirements, step by step from a USB stick, power schedule, USB, 802.1X, and when it is not the right choice.' }
+)
+$pages = @{}; foreach ($p in $site_pages) { $pages[$p.Doc] = $p.Url }
 # the documents an AI assistant should read whole, in llms-full.txt, in this order
 $fullDocs = 'README.md', 'docs/faq.md', 'docs/alternatives.md', 'docs/hardware.md', 'docs/status.md', 'docs/manager.md',
-  'docs/configuration.md', 'docs/management.md', 'docs/udp.md', 'docs/security.md'
+  'docs/guides/replace-dell-thinos.md', 'docs/guides/old-pc-thin-client.md', 'docs/configuration.md', 'docs/management.md',
+  'docs/udp.md', 'docs/security.md'
+# the texts of the page around the document
+$ui = @{
+  en = @{ Download = "Download $ver"; Manager = 'Manager'; Hardware = 'Hardware'; Compare = 'Compare'; Faq = 'FAQ'; FaqUrl = 'faq.html'
+          Other = 'Italiano'; Footer = 'This page is {0} as published on <a href="https://github.com/{1}">GitHub</a>, where the documentation, the releases and the discussions are.' }
+  it = @{ Download = "Scarica $ver"; Manager = 'Gestore'; Hardware = 'Hardware'; Compare = 'Confronto'; Faq = 'Domande'; FaqUrl = 'it/faq.html'
+          Other = 'English'; Footer = 'Questa pagina &#232; {0} come pubblicato su <a href="https://github.com/{1}">GitHub</a>, dove ci sono la documentazione, le release e le discussioni.' }
+}
 
 function Get-Doc([string]$doc) { (& $gh api "repos/$repo/contents/$doc" -H 'Accept: application/vnd.github.raw') -join "`n" }
 
@@ -46,48 +83,62 @@ function Get-FaqJson([string]$md) {
   ConvertTo-Json ([ordered]@{ '@context' = 'https://schema.org'; '@type' = 'FAQPage'; mainEntity = @($items) }) -Depth 6 -Compress
 }
 
-function Build-Page([string]$doc, [string]$title, [string]$desc, [string]$footer, [switch]$Faq) {
-  $out = if ($pages[$doc]) { $pages[$doc] } else { 'index.html' }
-  $md = Get-Doc $doc
+function Build-Page($p) {
+  $t = $ui[$p.Lang]
+  $file = if ($p.Url -eq '' -or $p.Url.EndsWith('/')) { $p.Url + 'index.html' } else { $p.Url }
+  $md = Get-Doc $p.Doc
   $tmp = [IO.Path]::GetTempFileName(); [IO.File]::WriteAllText($tmp, $md, $utf8)
   $body = (& $gh api markdown -f mode=gfm -f context=$repo -F "text=@$tmp") -join "`n"
   Remove-Item $tmp
-  $dir = if ($doc.Contains('/')) { $doc.Substring(0, $doc.LastIndexOf('/')) } else { '' }
+  $doc = $p.Doc; $dir = if ($doc.Contains('/')) { $doc.Substring(0, $doc.LastIndexOf('/')) } else { '' }
   # relative links -> the page of the site when there is one, else the repository on GitHub (anchors inside stay)
   $body = [regex]::Replace($body, 'href="(?!https?:|#|mailto:)([^"#]*)(#[^"]*)?"', {
-    param($m) $p = Resolve-RepoPath $dir $m.Groups[1].Value; $a = $m.Groups[2].Value
-    if ($pages.Contains($p)) { 'href="' + $site + $pages[$p] + $a + '"' } else { 'href="' + "$blob/$p$a" + '"' } })
+    param($m) $r = Resolve-RepoPath $dir $m.Groups[1].Value; $a = $m.Groups[2].Value
+    if ($pages.ContainsKey($r)) { 'href="' + $site + $pages[$r] + $a + '"' } else { 'href="' + "$blob/$r$a" + '"' } })
   $body = [regex]::Replace($body, 'src="(?!https?:|data:)([^"]+)"', { param($m) 'src="' + "$raw/" + (Resolve-RepoPath $dir $m.Groups[1].Value) + '"' })
   # the API gives the headings no id (GitHub's own page adds them with a script): the same ids as on GitHub, so
   # that #anchors inside the page and from other pages work
   $seen = @{}
   $body = [regex]::Replace($body, '<h([1-6]) dir="auto">(.*?)</h\1>', {
-    param($m) $t = [Net.WebUtility]::HtmlDecode(($m.Groups[2].Value -replace '<[^>]+>', '')).Trim().ToLowerInvariant()
-    $s = (($t -replace '[^\p{L}\p{Nd}\s_-]', '') -replace '\s', '-')
+    param($m) $s0 = [Net.WebUtility]::HtmlDecode(($m.Groups[2].Value -replace '<[^>]+>', '')).Trim().ToLowerInvariant()
+    $s = (($s0 -replace '[^\p{L}\p{Nd}\s_-]', '') -replace '\s', '-')
     if ($seen.ContainsKey($s)) { $seen[$s]++; $s = "$s-$($seen[$s])" } else { $seen[$s] = 0 }
     "<h$($m.Groups[1].Value) id=`"$s`" dir=`"auto`">$($m.Groups[2].Value)</h$($m.Groups[1].Value)>" }, 'Singleline')
-  $url = $site + $(if ($out -eq 'index.html') { '' } else { $out })
-  $faqLd = if ($Faq) { "<script type=`"application/ld+json`">" + (Get-FaqJson $md) + "</script>" } else { '' }
+  $url = $site + $p.Url
+  $alt = ''; $other = ''
+  if ($p.ContainsKey('Alt') -and ($site_pages | Where-Object { $_.Url -eq $p.Alt -and $_.Doc -ne $p.Doc })) {
+    $o = $site_pages | Where-Object { $_.Url -eq $p.Alt } | Select-Object -First 1
+    $alt = "<link rel=`"alternate`" hreflang=`"$($p.Lang)`" href=`"$url`">`n<link rel=`"alternate`" hreflang=`"$($o.Lang)`" href=`"$site$($o.Url)`">"
+    if ($p.Lang -eq 'en') { $alt += "`n<link rel=`"alternate`" hreflang=`"x-default`" href=`"$url`">" } else { $alt += "`n<link rel=`"alternate`" hreflang=`"x-default`" href=`"$site$($o.Url)`">" }
+    $other = "<a href=`"$site$($o.Url)`" hreflang=`"$($o.Lang)`">$($t.Other)</a>"
+  } elseif ($p.Lang -eq 'it') {
+    $other = "<a href=`"$site`" hreflang=`"en`">$($t.Other)</a>"
+  }
+  $faqLd = if ($p.Faq) { "<script type=`"application/ld+json`">" + (Get-FaqJson $md) + "</script>" } else { '' }
+  $footer = $t.Footer -f "<a href=`"$blob/$doc`">$doc</a>", $repo
+  $homeUrl = if ($p.Lang -eq 'it') { "${site}it/" } else { $site }
   $html = @"
 <!doctype html>
-<html lang="en">
+<html lang="$($p.Lang)">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>$title</title>
-<meta name="description" content="$desc">
+<title>$($p.Title)</title>
+<meta name="description" content="$($p.Desc)">
 <link rel="canonical" href="$url">
-<link rel="icon" href="img/icon.png">
+$alt
+<link rel="icon" href="${site}img/icon.png">
 <link rel="alternate" type="text/plain" href="${site}llms-full.txt" title="The documentation in one text file">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OpenThinRDP">
-<meta property="og:title" content="$title">
-<meta property="og:description" content="$desc">
+<meta property="og:locale" content="$(if ($p.Lang -eq 'it') { 'it_IT' } else { 'en_US' })">
+<meta property="og:title" content="$($p.Title)">
+<meta property="og:description" content="$($p.Desc)">
 <meta property="og:url" content="$url">
 <meta property="og:image" content="${site}img/social.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="${site}style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
  "operatingSystem":"Debian 13 (Linux)","softwareVersion":"$ver","license":"https://github.com/$repo/blob/main/LICENSE",
@@ -97,8 +148,8 @@ function Build-Page([string]$doc, [string]$title, [string]$desc, [string]$footer
 $faqLd
 </head>
 <body>
-<header class="bar"><a class="home" href="$site"><img src="img/icon.png" alt="" width="28" height="28"> OpenThinRDP</a>
-<nav><a href="https://github.com/$repo/releases/latest">Download $ver</a><a href="${site}manager.html">Manager</a><a href="${site}hardware.html">Hardware</a><a href="${site}alternatives.html">Compare</a><a href="${site}faq.html">FAQ</a><a href="https://github.com/$repo">GitHub</a></nav></header>
+<header class="bar"><a class="home" href="$homeUrl"><img src="${site}img/icon.png" alt="" width="28" height="28"> OpenThinRDP</a>
+<nav><a href="https://github.com/$repo/releases/latest">$($t.Download)</a><a href="${site}manager.html">$($t.Manager)</a><a href="${site}hardware.html">$($t.Hardware)</a><a href="${site}alternatives.html">$($t.Compare)</a><a href="$site$($t.FaqUrl)">$($t.Faq)</a><a href="https://github.com/$repo">GitHub</a>$other</nav></header>
 <main class="markdown-body">
 $body
 </main>
@@ -106,24 +157,13 @@ $body
 </body>
 </html>
 "@
-  [IO.File]::WriteAllText((Join-Path $here $out), $html, $utf8)
-  "${out}: $doc, release $ver, $([math]::Round($html.Length/1KB)) KB"
+  $path = Join-Path $here ($file -replace '/', '\')
+  New-Item -ItemType Directory -Force (Split-Path $path) | Out-Null
+  [IO.File]::WriteAllText($path, $html, $utf8)
+  "${file}: $doc, release $ver, $([math]::Round($html.Length/1KB)) KB"
 }
-function Footer([string]$doc) { "This page is <a href=`"$blob/$doc`">$doc</a> as published on <a href=`"https://github.com/$repo`">GitHub</a>, where the documentation, the releases and the discussions are." }
 
-Build-Page 'README.md' 'OpenThinRDP &#8211; open source thin client OS with RDP over UDP for RDS and VDI' `
-  'OpenThinRDP: free, open source thin client operating system for Microsoft Remote Desktop (RDS and VDI), on premises or in the cloud. Debian 13 with FreeRDP and the RDP UDP transport, a kiosk sign-in, central management from a shared folder, signed updates with pilot devices and rollback.' `
-  "This page is the project README as published on <a href=`"https://github.com/$repo`">GitHub</a>, where the documentation, the releases and the discussions are."
-Build-Page 'docs/manager.md' 'OpenThinRDP manager &#8211; the whole thin client fleet from one window' `
-  'The OpenThinRDP manager for Windows: every thin client at a glance, central settings, a new version on pilot devices first, going back to an earlier version for the whole fleet, remote screen, signed updates. No server.' (Footer 'docs/manager.md')
-Build-Page 'docs/faq.md' 'OpenThinRDP FAQ &#8211; hardware, drivers, RDP over UDP, Azure, PXE, 802.1X' `
-  'Questions and answers about OpenThinRDP, the free thin client OS for Microsoft Remote Desktop: which hardware, drivers, RDP over UDP, RDS and VDI, Azure Virtual Desktop, management without a server, updates and rollback, PXE, 802.1X.' (Footer 'docs/faq.md') -Faq
-Build-Page 'docs/alternatives.md' 'OpenThinRDP compared with Linux Mint + Remmina, IGEL OS, Dell ThinOS, Stratodesk, ThinStation' `
-  'A free alternative to IGEL OS, Dell ThinOS, Stratodesk NoTouch, ThinStation and openthinclient for Windows Remote Desktop, and why not just Linux Mint with Remmina: RDP over UDP, a locked kiosk, central management, signed updates with rollback.' (Footer 'docs/alternatives.md')
-Build-Page 'docs/hardware.md' 'OpenThinRDP hardware &#8211; drivers, requirements, thin clients that run it' `
-  'Hardware for OpenThinRDP: any 64-bit x86 PC or thin client, UEFI or legacy BIOS, with the complete Debian 13 kernel and firmware. Tested devices, used thin clients that meet the requirements (Dell Wyse, HP t-series, Fujitsu Futro), firmware settings.' (Footer 'docs/hardware.md')
-Build-Page 'docs/udp.md' 'RDP over UDP on Linux &#8211; the FreeRDP UDP transport in OpenThinRDP' `
-  'RDP over UDP on Linux with FreeRDP: the UDP transport (MS-RDPEUDP, pull request 13608) built and shipped by OpenThinRDP, what travels over UDP, the fixes we found and the measurements with packet loss against TCP.' (Footer 'docs/udp.md')
+foreach ($p in $site_pages) { Build-Page $p }
 
 # llms-full.txt: the documents whole (llmstxt.org), for assistants that read one file instead of crawling
 $full = "# OpenThinRDP: the documentation in one file`n`nSource: https://github.com/$repo (main), release $ver, built $today. Every section below is one file of the repository.`n"
@@ -131,8 +171,13 @@ foreach ($d in $fullDocs) { $full += "`n`n---`n`n<!-- $blob/$d -->`n`n" + (Get-D
 [IO.File]::WriteAllText((Join-Path $here 'llms-full.txt'), $full, $utf8)
 "llms-full.txt: $($fullDocs.Count) documents, $([math]::Round($full.Length/1KB)) KB"
 
-# sitemap.xml: every page, today
-$urls = foreach ($p in $pages.Values) { $pr = if ($p) { '0.8' } else { '1.0' }; "  <url><loc>$site$p</loc><lastmod>$today</lastmod><priority>$pr</priority></url>" }
+# sitemap.xml: every page, today, with its other language
+$urls = foreach ($p in $site_pages) {
+  $pr = if ($p.Url -eq '' -or $p.Url -eq 'it/') { '1.0' } else { '0.8' }
+  $x = ''; if ($p.ContainsKey('Alt')) { $o = $site_pages | Where-Object { $_.Url -eq $p.Alt } | Select-Object -First 1
+    if ($o) { $x = "<xhtml:link rel=`"alternate`" hreflang=`"$($p.Lang)`" href=`"$site$($p.Url)`"/><xhtml:link rel=`"alternate`" hreflang=`"$($o.Lang)`" href=`"$site$($o.Url)`"/>" } }
+  "  <url><loc>$site$($p.Url)</loc>$x<lastmod>$today</lastmod><priority>$pr</priority></url>"
+}
 $urls += "  <url><loc>${site}llms-full.txt</loc><lastmod>$today</lastmod><priority>0.3</priority></url>"
-[IO.File]::WriteAllText((Join-Path $here 'sitemap.xml'), "<?xml version=`"1.0`" encoding=`"UTF-8`"?>`n<urlset xmlns=`"http://www.sitemaps.org/schemas/sitemap/0.9`">`n" + ($urls -join "`n") + "`n</urlset>`n", $utf8)
+[IO.File]::WriteAllText((Join-Path $here 'sitemap.xml'), "<?xml version=`"1.0`" encoding=`"UTF-8`"?>`n<urlset xmlns=`"http://www.sitemaps.org/schemas/sitemap/0.9`" xmlns:xhtml=`"http://www.w3.org/1999/xhtml`">`n" + ($urls -join "`n") + "`n</urlset>`n", $utf8)
 'sitemap.xml written'

@@ -1,6 +1,6 @@
 # Builds https://openthinrdp.github.io/ from the documents published on GitHub, so the site is never a second copy
 # of the documentation: the text rendered by GitHub itself, links pointing to the pages of the site or to GitHub.
-# The pages are listed in $site_pages below. English only (decided 13/10): it/ and it/faq.html only redirect, because a
+# The pages are listed in $site_pages below. English only (decided 13/10; the Italian pages were removed on 20/10), because a
 # translation lags behind and says wrong things. Then llms-full.txt (the main documents whole, for AI assistants) and sitemap.xml.
 # Run it after every release (or change of those documents), then commit and push this folder.
 #   powershell -ExecutionPolicy Bypass -File build-from-readme.ps1

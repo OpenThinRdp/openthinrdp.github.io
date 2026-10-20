@@ -132,6 +132,7 @@ $alt
 <meta property="og:image" content="${site}img/social.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${site}style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
@@ -142,7 +143,7 @@ $alt
 $faqLd
 </head>
 <body>
-<header class="bar"><a class="home" href="$homeUrl"><img src="${site}img/icon.png" alt="" width="28" height="28"> OpenThinRDP</a>
+<header class="bar"><a class="home" href="$homeUrl"><img src="${site}img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
 <nav><a href="https://github.com/$repo/releases/latest">$($t.Download)</a><a href="${site}manager.html">$($t.Manager)</a><a href="${site}hardware.html">$($t.Hardware)</a><a href="${site}alternatives.html">$($t.Compare)</a><a href="$site$($t.FaqUrl)">$($t.Faq)</a><a href="https://github.com/$repo">GitHub</a>$other</nav></header>
 <main class="markdown-body">
 $body
@@ -158,6 +159,10 @@ $body
 }
 
 foreach ($p in $site_pages) { Build-Page $p }
+# the home page is the designed landing (landing.html + landing.css), with the facts of the README; the README itself
+# stays the source of every other page
+$land = [IO.File]::ReadAllText((Join-Path $here 'landing.html')).Replace('{{SITE}}', $site).Replace('{{VER}}', $ver)
+[IO.File]::WriteAllText((Join-Path $here 'index.html'), $land, $utf8); "index.html: landing, release $ver"
 
 # llms-full.txt: the documents whole (llmstxt.org), for assistants that read one file instead of crawling
 $full = "# OpenThinRDP: the documentation in one file`n`nSource: https://github.com/$repo (main), release $ver, built $today. Every section below is one file of the repository.`n"

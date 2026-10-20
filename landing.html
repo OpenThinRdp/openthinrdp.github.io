@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenThinRDP &#8211; free thin client OS for Windows Remote Desktop, RDS and VDI, with RDP over UDP</title>
+<meta name="description" content="OpenThinRDP turns any PC or old thin client into a locked-down Windows Remote Desktop kiosk: RDP over UDP that keeps working on lossy lines, zero-touch setup from the domain, the whole fleet managed from one Windows window. Free, GPLv3, no licence per device, no server.">
+<link rel="canonical" href="{{SITE}}">
+<link rel="icon" href="{{SITE}}img/icon.png">
+<link rel="alternate" type="text/plain" href="{{SITE}}llms-full.txt" title="The documentation in one text file">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenThinRDP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="OpenThinRDP &#8211; Remote Desktop thin clients that keep working when the network doesn't">
+<meta property="og:description" content="Free thin client OS for Windows RDS and VDI: RDP over UDP, zero-touch setup, one window for the whole fleet.">
+<meta property="og:url" content="{{SITE}}">
+<meta property="og:image" content="{{SITE}}img/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{SITE}}landing.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"{{VER}}","license":"https://www.gnu.org/licenses/gpl-3.0.html",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"{{SITE}}",
+ "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
+</script>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="{{SITE}}"><img src="{{SITE}}img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
+    <nav>
+      <a href="#udp">RDP over UDP</a><a href="#features">Features</a><a href="#manager">Manager</a><a href="#compare">Compare</a>
+      <a href="{{SITE}}faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>
+    </nav>
+    <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download {{VER}}</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-in">
+    <div class="hero-text">
+      <p class="eyebrow">Free &middot; Open source (GPLv3) &middot; In production every day</p>
+      <h1>Remote Desktop thin clients that keep working <span class="grad">when the network doesn't.</span></h1>
+      <p class="lead">OpenThinRDP turns any PC or old thin client into a locked-down Windows Remote Desktop kiosk in five minutes.
+        RDP over UDP, zero-touch setup from your domain, and your whole fleet managed from one Windows window.
+        No licence per device. No management server.</p>
+      <div class="ctas">
+        <a class="btn" href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">&#11015; Download the ISO</a>
+        <a class="btn btn-ghost" href="#start">Try it live, nothing installed</a>
+      </div>
+      <p class="fine">For Windows RDS and Hyper-V VDI, on premises or in the cloud &middot; x86-64, UEFI or BIOS &middot; from 2 GB of RAM</p>
+    </div>
+    <div class="hero-shot">
+      <div class="window"><div class="dots"><i></i><i></i><i></i></div><img src="{{SITE}}img/manager-devices.png" alt="OpenThinRDP manager: every thin client with its state, user and version" width="1440" height="840"></div>
+      <div class="device"><img src="{{SITE}}img/sign-in.png" alt="The sign-in screen of an OpenThinRDP thin client"></div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="wrap stats-in">
+    <div><b>19&#8211;21 fps</b><span>with 50% of the packets lost, where TCP is frozen</span></div>
+    <div><b>&euro;0</b><span>per device, no subscription, no account</span></div>
+    <div><b>5 min</b><span>from a USB stick to your Windows desktop</span></div>
+    <div><b>14</b><span>thin clients in daily production at the company it was built for</span></div>
+  </div>
+</section>
+
+<section id="udp" class="band">
+  <div class="wrap two">
+    <div>
+      <p class="eyebrow">RDP over UDP</p>
+      <h2>TCP freezes. <span class="grad">UDP keeps moving.</span></h2>
+      <p>Over TCP every lost packet stops the screen until it is sent again: a weak Wi-Fi, a VPN or a bad cable is enough to
+        freeze the remote desktop. Over UDP Windows drops what is late and lowers the quality instead, and the desktop keeps moving.</p>
+      <p>The UDP transport comes from our work in FreeRDP: we found and fixed what made it fail on lossy lines, and it was merged
+        upstream as <a href="https://github.com/FreeRDP/FreeRDP/pull/13608">#13608</a>. Upstream ships it switched off;
+        OpenThinRDP has it on.</p>
+      <p class="fine">Windows 11 VDI, full-screen load changing every pixel, frames counted by the server, loss on every packet
+        from the VM. One environment; <a href="{{SITE}}udp.html">method, scripts and every step</a>.</p>
+    </div>
+    <div class="chart" role="img" aria-label="Frames per second by packet loss: TCP 7-12 fps at 5%, 6 at 10%, 0.6 at 20%, 0.2 at 30%; UDP 15-21 at 0%, 19-21 at 50%, 14-21 at 60%, 18-19 at 70%, 4 at 80%">
+      <div class="legend"><span class="k tcp"></span>over TCP <span class="k udp"></span>OpenThinRDP over UDP <em>frames per second</em></div>
+      <div class="row"><span class="l">0%</span><div class="bar udp" style="--v:100%"><b>15&#8211;21</b></div></div>
+      <div class="row"><span class="l">5%</span><div class="bar tcp" style="--v:57%"><b>7&#8211;12</b></div></div>
+      <div class="row"><span class="l">10%</span><div class="bar tcp" style="--v:29%"><b>6</b></div></div>
+      <div class="row"><span class="l">20%</span><div class="bar tcp" style="--v:3%"><b>0.6</b></div></div>
+      <div class="row"><span class="l">30%</span><div class="bar tcp" style="--v:1%"><b>0.2 &middot; frozen</b></div></div>
+      <div class="row"><span class="l">50%</span><div class="bar udp" style="--v:100%"><b>19&#8211;21</b></div></div>
+      <div class="row"><span class="l">60%</span><div class="bar udp" style="--v:100%"><b>14&#8211;21</b></div></div>
+      <div class="row"><span class="l">70%</span><div class="bar udp" style="--v:90%"><b>18&#8211;19</b></div></div>
+      <div class="row"><span class="l">80%</span><div class="bar udp" style="--v:19%"><b>4</b></div></div>
+      <p class="cap">packets lost &rarr; TCP measured up to 30%, where it was already frozen; UDP from 50%.</p>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <p class="eyebrow center">Everything a thin client fleet needs</p>
+    <h2 class="center">Built for real offices, tills and labs.</h2>
+    <div class="cards">
+      <article><div class="ic">&#128274;</div><h3>A kiosk, not a desktop</h3><p>Boots in seconds into a sign-in form with your logo, then full-screen Remote Desktop. No desktop, no menus, no consoles. Clear messages instead of error codes, and it never locks accounts by retrying a wrong password.</p></article>
+      <article><div class="ic">&#9889;</div><h3>Zero-touch from the domain</h3><p>A new device needs a domain account and nothing else: it finds its management folder in the domain by itself. Moving the folder later moves the whole fleet in one step.</p></article>
+      <article><div class="ic">&#128268;</div><h3>USB done right for VDI</h3><p>Signature keys, tachographs and instruments go to Windows whole. Webcams and headsets work in Teams and Zoom. Smart cards, touch screens, several monitors.</p></article>
+      <article><div class="ic">&#128737;</div><h3>Signed updates, never in a session</h3><p>From GitHub or your own folder, installed in the background, applied when the session ends. Pilot devices first, then everyone, and back to an earlier version in one click.</p></article>
+      <article><div class="ic">&#129658;</div><h3>Health Center for the Windows side</h3><p>Brokers, Hyper-V hosts and cluster, VMs, domain controllers, DNS, SQL AlwaysOn and backups in one tree, each problem in a plain sentence with its fix.</p></article>
+      <article><div class="ic">&#128187;</div><h3>Any hardware you already own</h3><p>Old office PCs and used thin clients, UEFI with Secure Boot or legacy BIOS, the complete Debian 13 kernel and firmware. Cable, Wi-Fi, 802.1X, VPN and RD Gateway.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="manager" class="band">
+  <div class="wrap">
+    <p class="eyebrow center">The manager</p>
+    <h2 class="center">Your whole fleet, and the servers behind it, <span class="grad">in one window.</span></h2>
+    <p class="center narrow">One PowerShell tool for Windows 10/11, nothing to install, working on the shared folder the devices report to. No server, no agent, no database.</p>
+    <div class="gallery">
+      <figure><img src="{{SITE}}img/manager-devices.png" alt="Devices: state, user, version and settings of every thin client" loading="lazy"><figcaption><b>Devices</b> State, user, version and settings of every device; power on, restart, remote screen.</figcaption></figure>
+      <figure><img src="{{SITE}}img/manager-health.png" alt="Health Center: the whole Hyper-V and RDS infrastructure in one tree" loading="lazy"><figcaption><b>Health Center</b> Hosts, cluster, VMs, DCs, DNS, SQL and backups, with a fix for each problem.</figcaption></figure>
+      <figure><img src="{{SITE}}img/manager-desktops.png" alt="Desktops: who cannot sign in now and why" loading="lazy"><figcaption><b>Desktops</b> Who cannot sign in right now, and why: device, desktop, host, broker.</figcaption></figure>
+      <figure><img src="{{SITE}}img/manager-updates.png" alt="Updates: a pilot device on the newest version, the others on theirs" loading="lazy"><figcaption><b>Updates</b> A new version on a few devices first, then on all, or back with one click.</figcaption></figure>
+    </div>
+    <p class="center"><a class="btn btn-ghost" href="{{SITE}}manager.html">Everything the manager does &rarr;</a></p>
+  </div>
+</section>
+
+<section id="start">
+  <div class="wrap">
+    <p class="eyebrow center">Up and running</p>
+    <h2 class="center">From USB stick to Windows desktop in five minutes.</h2>
+    <ol class="steps">
+      <li><b>1</b><h3>Download and boot</h3><p>Write the ISO to a USB stick and boot any PC from it. The live system never writes to the disk.</p></li>
+      <li><b>2</b><h3>Sign in</h3><p>Set the broker (or a Windows PC) and the domain, and sign in to your desktop. That's the test.</p></li>
+      <li><b>3</b><h3>Install and manage</h3><p>Like it? Choose Install, about three minutes. Then name the folder in the domain and every new device sets itself up.</p></li>
+    </ol>
+    <p class="center"><a class="btn" href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">&#11015; Download OpenThinRDP {{VER}}</a></p>
+  </div>
+</section>
+
+<section id="compare" class="band">
+  <div class="wrap">
+    <p class="eyebrow center">How it compares</p>
+    <h2 class="center">The free alternative to IGEL OS and Dell ThinOS for Windows Remote Desktop.</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th></th><th class="us">OpenThinRDP</th><th>Dell ThinOS</th><th>IGEL OS</th><th>Stratodesk NoTouch</th><th>ThinStation</th></tr></thead>
+      <tbody>
+        <tr><td>Cost</td><td class="us">free</td><td>comes with Dell thin clients</td><td>subscription per device</td><td>licence per device</td><td>free</td></tr>
+        <tr><td>Source</td><td class="us">open (GPLv3)</td><td>closed</td><td>closed</td><td>closed</td><td>open</td></tr>
+        <tr><td>Runs on</td><td class="us">x86-64 PCs and thin clients, UEFI or BIOS</td><td>Dell thin clients</td><td>many x86-64 devices</td><td>x86-64 PCs, Raspberry Pi</td><td>x86 PCs</td></tr>
+        <tr><td>Protocols</td><td class="us">RDP, with UDP</td><td>Citrix, Omnissa/VMware, Microsoft and more</td><td>Citrix, Omnissa/VMware, Microsoft and more</td><td>many</td><td>many (you build the image)</td></tr>
+        <tr><td>Management</td><td class="us">shared folder + Windows tool, no server</td><td>Wyse Management Suite</td><td>UMS server</td><td>NoTouch Center</td><td>configuration files on a network server</td></tr>
+        <tr><td>Updates</td><td class="us">signed, from GitHub or your folder</td><td>vendor firmware</td><td>vendor</td><td>vendor</td><td>rebuild the image</td></tr>
+      </tbody>
+    </table></div>
+    <p class="fine center">Need Citrix or Horizon, vendor support or certified hardware? Then a commercial system is the right choice.
+      Product names are trademarks of their owners. <a href="{{SITE}}alternatives.html">Each of them in detail, and Linux Mint with Remmina</a>.</p>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap center">
+    <h2>Give your old PCs a second life.</h2>
+    <p class="narrow center">Try OpenThinRDP live on one device today. If it works for you, it works for the whole fleet, for free.</p>
+    <div class="ctas center"><a class="btn" href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">&#11015; Download the ISO</a>
+      <a class="btn btn-ghost" href="https://github.com/OpenThinRdp/openthinrdp">Star it on GitHub</a></div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div><a class="brand" href="{{SITE}}"><img src="{{SITE}}img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
+      <p>Free thin client OS for Windows Remote Desktop. GPLv3 &middot; release {{VER}}.</p></div>
+    <nav><a href="{{SITE}}manager.html">Manager</a><a href="{{SITE}}udp.html">RDP over UDP</a><a href="{{SITE}}hardware.html">Hardware</a>
+      <a href="{{SITE}}alternatives.html">Compare</a><a href="{{SITE}}faq.html">FAQ</a><a href="{{SITE}}replace-dell-thinos.html">Replace Dell ThinOS</a>
+      <a href="{{SITE}}old-pc-thin-client.html">Old PC as a thin client</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
+    <p class="fine">Windows and Remote Desktop are trademarks of Microsoft. OpenThinRDP is not affiliated with Microsoft, with openthinclient or with any vendor named here.</p>
+  </div>
+</footer>
+</body>
+</html>

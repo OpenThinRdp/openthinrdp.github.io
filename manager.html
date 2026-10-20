@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.4","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.5","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
@@ -29,7 +29,7 @@
 </head>
 <body>
 <header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="28" height="28"> OpenThinRDP</a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.4</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.5</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
 <main class="markdown-body">
 <h1 id="the-openthinrdp-manager" dir="auto">The OpenThinRDP manager</h1>
 <p dir="auto">The manager is the one place where you run a fleet of OpenThinRDP devices: one PowerShell script for Windows 10/11,<br>
@@ -559,6 +559,16 @@ manager stay as they are; if anything fails, the previous files come back.</p>
 <p dir="auto">Update the copy the administrators start (on a share, from a PC that can write there): everybody who starts it gets<br>
 the new version. The <strong>Updates</strong> page shows the manager's version and has <strong>Check again</strong>. Details:<br>
 <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#the-manager-updates-itself">management.md</a>.</p>
+<h2 id="power-and-commands-of-a-device" dir="auto">Power and commands of a device</h2>
+<p dir="auto"><strong>Power and commands</strong> in the header of a device:</p>
+<ul dir="auto">
+<li><strong>Power on (Wake-on-LAN)</strong>: the magic packet to the broadcast of the network the device last reported (e.g.<br>
+<code class="notranslate">192.168.1.255</code> for <code class="notranslate">192.168.0.37/23</code>) and to <code class="notranslate">255.255.255.255</code>. It needs Wake-on-LAN in the BIOS; the device<br>
+enables it on its network card at every start.</li>
+<li><strong>Restart</strong>, <strong>Switch off</strong>, <strong>Send its status now</strong>, <strong>Run a command...</strong>: over SSH as <code class="notranslate">otradmin</code> with the key of<br>
+the vault (SSH on for the device). Restart and switch off warn when someone is working on the device; a command<br>
+shows its output and exit code (<code class="notranslate">sudo</code> in front for root). Every action goes to the change log.</li>
+</ul>
 <h2 id="settings--manager-language-and-local-copy" dir="auto">Settings &gt; Manager: language and local copy</h2>
 <ul dir="auto">
 <li>

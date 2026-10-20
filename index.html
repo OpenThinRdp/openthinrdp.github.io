@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.1","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.2","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
@@ -29,7 +29,7 @@
 </head>
 <body>
 <header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="28" height="28"> OpenThinRDP</a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.1</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.2</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
 <main class="markdown-body">
 <p align="center" dir="auto"><a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/logo.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/logo.png" alt="OpenThinRDP" width="480" style="max-width: 100%;"></a></p>
 <p align="center" dir="auto"><b>The open source thin client OS with RDP over UDP<br>
@@ -259,7 +259,15 @@ devices</em>; the others stay where they are until <em>Release to all devices</e
 <li><strong>Back to an earlier version when something breaks</strong>, for the whole fleet or one device, FreeRDP included: one<br>
 click on the Updates page.</li>
 <li><strong>Remote screen</strong> of any device in your browser, over SSH only, with a notice on the device.</li>
-<li><strong>Problems across the fleet</strong> grouped from every event log; a <strong>vault</strong> for the SSH key and the signing key; your<br>
+<li><strong>The Windows side of the desktops</strong> (Remote Desktop Services with Hyper-V): who cannot sign in now and why, each<br>
+user with the device, the desktop, its host, the session and the last sign-in; brokers and hosts checked (a broker<br>
+that fails every request, a missing permission, a stuck RDVH agent), each problem with its fix; actions on VMs and<br>
+sessions, always confirmed and logged.</li>
+<li><strong>Health Center: the health of the whole Hyper-V and RDS infrastructure from the manager</strong>: hosts, failover cluster,<br>
+storage, VMs, domain controllers, DNS, SQL AlwaysOn, the NAS and the witness, the backups, in one tree with a state<br>
+for each item and a plain sentence for each problem; <em>diagnosis only</em> or <em>diagnosis and repair</em>, where only safe<br>
+repairs run by themselves.</li>
+<li><strong>The history of the fleet</strong>, problems grouped from every event log; a <strong>vault</strong> for the SSH key and the signing key; your<br>
 fleet on <strong>its own signing key</strong>; logo and background; and the manager <strong>updates itself</strong> from the signed releases.</li>
 </ul>
 <p dir="auto"><strong>Everything it does, page by page, with the steps for a pilot group and for going back: <a href="https://openthinrdp.github.io/manager.html">docs/manager.md</a>.</strong></p>

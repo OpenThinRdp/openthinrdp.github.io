@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.2","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.3","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
@@ -29,7 +29,7 @@
 </head>
 <body>
 <header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="28" height="28"> OpenThinRDP</a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.2</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.3</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
 <main class="markdown-body">
 <h1 id="the-openthinrdp-manager" dir="auto">The OpenThinRDP manager</h1>
 <p dir="auto">The manager is the one place where you run a fleet of OpenThinRDP devices: one PowerShell script for Windows 10/11,<br>
@@ -103,7 +103,10 @@ screen</strong>, <strong>Logo and background...</strong>, <strong>Software versi
 </p>
 <h2 id="settings-for-all-devices-or-one" dir="auto">Settings for all devices or one</h2>
 <p dir="auto"><strong>Settings &gt; Devices</strong> holds the settings for every device (<code class="notranslate">config\common.conf</code>); in a device's <strong>Settings</strong> tab, tick <em>Exception</em><br>
-to give that device a value of its own (<code class="notranslate">config\&lt;hostname&gt;.conf</code>), which wins over the common one. Every row shows:</p>
+to give that device a value of its own (<code class="notranslate">config\&lt;hostname&gt;.conf</code>), which wins over the common one. <strong>Edit as text...</strong><br>
+opens the same file as plain text, comments included: it is saved only after the same checks as the page, in the form<br>
+the page would write (a Wi-Fi passphrase becomes its key, a PIN its hash), with the previous file in <code class="notranslate">config\backup\</code>.<br>
+Passwords show as <code class="notranslate">********</code>: leave them to keep them. Every row shows:</p>
 <ul dir="auto">
 <li>the value <strong>in use on the device</strong> (from its last report);</li>
 <li><strong>where it comes from</strong>: the device itself, the common settings, or an exception for this device;</li>
@@ -558,14 +561,34 @@ the new version. The <strong>Updates</strong> page shows the manager's version a
 <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#the-manager-updates-itself">management.md</a>.</p>
 <h2 id="settings--manager-language-and-local-copy" dir="auto">Settings &gt; Manager: language and local copy</h2>
 <ul dir="auto">
-<li><strong>Language</strong>: the language of the window for your Windows user (<em>Language of Windows</em> = as today); it applies from<br>
-the next start. <code class="notranslate">-Language</code> on the command line still wins.</li>
-<li><strong>Local copy of the management folder</strong>: choose a folder on this PC and the manager mirrors the management folder<br>
+<li>
+<p dir="auto"><strong>Management folder &gt; Name it in the domain</strong> (<a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="5941153985" data-permission-text="Title is private" data-url="https://github.com/OpenThinRdp/openthinrdp/issues/82" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/82/hovercard" href="https://github.com/OpenThinRdp/openthinrdp/issues/82">#82</a>): writes <code class="notranslate">&lt;account&gt;=&lt;folder&gt;</code> into<br>
+<code class="notranslate">\\&lt;domain&gt;\NETLOGON\OpenThinRDP\folders.conf</code>, for the account of the devices (<code class="notranslate">MGMT_USER</code> of the common<br>
+settings). A device with that account and <strong>no folder of its own</strong> finds the folder there at every report: a new<br>
+device needs only domain, account and password. NETLOGON is on every DC and every domain account reads it over the<br>
+SMB the device uses anyway; no LDAP on the device (LDAP signing, or a domain without an LDAPS certificate, would<br>
+refuse it). The last folder found is kept for when no DC answers. Writing NETLOGON needs a domain administrator.</p>
+</li>
+<li>
+<p dir="auto"><strong>Management folder &gt; Move the folder...</strong>: copies everything to a new network path, points <code class="notranslate">MGMT_SHARE</code> to it in<br>
+every <code class="notranslate">.conf</code> of both copies (and adds it to the old <code class="notranslate">common.conf</code>), updates the domain entry when there is one, and<br>
+goes on working on the new folder. Every device moves at its next report, those switched off when they start; the<br>
+old folder stays until no device reports there any more.</p>
+</li>
+<li>
+<p dir="auto"><strong>Language</strong>: the language of the window for your Windows user (<em>Language of Windows</em> = as today); it applies from<br>
+the next start. <code class="notranslate">-Language</code> on the command line still wins.</p>
+</li>
+<li>
+<p dir="auto"><strong>Local copy of the management folder</strong>: choose a folder on this PC and the manager mirrors the management folder<br>
 there in the background at every start (and with <em>Update the copy now</em>), without the packages of the old versions.<br>
 When the file server is down, the manager offers to open the local copy, so the Health Center works when it is<br>
 needed most; <em>Open the local copy</em> opens it by hand, or start with <code class="notranslate">-Folder &lt;local copy&gt;</code>. The title says <em>(LOCAL<br>
-COPY)</em>: what is changed there stays there and does not reach the file server.</li>
-<li><strong>The manager updates itself</strong>: its block is in this tab too.</li>
+COPY)</em>: what is changed there stays there and does not reach the file server.</p>
+</li>
+<li>
+<p dir="auto"><strong>The manager updates itself</strong>: its block is in this tab too.</p>
+</li>
 </ul>
 <h2 id="starting-it-and-the-command-line" dir="auto">Starting it, and the command line</h2>
 <ul dir="auto">

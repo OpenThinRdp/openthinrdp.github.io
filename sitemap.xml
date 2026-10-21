@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <url><loc>https://openthinrdp.github.io/</loc><lastmod>2026-10-20</lastmod><priority>1.0</priority></url>
-  <url><loc>https://openthinrdp.github.io/manager.html</loc><lastmod>2026-10-20</lastmod><priority>0.8</priority></url>
-  <url><loc>https://openthinrdp.github.io/faq.html</loc><lastmod>2026-10-20</lastmod><priority>0.8</priority></url>
-  <url><loc>https://openthinrdp.github.io/alternatives.html</loc><lastmod>2026-10-20</lastmod><priority>0.8</priority></url>
-  <url><loc>https://openthinrdp.github.io/hardware.html</loc><lastmod>2026-10-20</lastmod><priority>0.8</priority></url>
-  <url><loc>https://openthinrdp.github.io/udp.html</loc><lastmod>2026-10-20</lastmod><priority>0.8</priority></url>
-  <url><loc>https://openthinrdp.github.io/replace-dell-thinos.html</loc><lastmod>2026-10-20</lastmod><priority>0.8</priority></url>
-  <url><loc>https://openthinrdp.github.io/old-pc-thin-client.html</loc><lastmod>2026-10-20</lastmod><priority>0.8</priority></url>
-  <url><loc>https://openthinrdp.github.io/llms-full.txt</loc><lastmod>2026-10-20</lastmod><priority>0.3</priority></url>
+  <url><loc>https://openthinrdp.github.io/</loc><lastmod>2026-10-21</lastmod><priority>1.0</priority></url>
+  <url><loc>https://openthinrdp.github.io/manager.html</loc><lastmod>2026-10-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://openthinrdp.github.io/faq.html</loc><lastmod>2026-10-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://openthinrdp.github.io/alternatives.html</loc><lastmod>2026-10-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://openthinrdp.github.io/hardware.html</loc><lastmod>2026-10-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://openthinrdp.github.io/maturity.html</loc><lastmod>2026-10-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://openthinrdp.github.io/udp.html</loc><lastmod>2026-10-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://openthinrdp.github.io/replace-dell-thinos.html</loc><lastmod>2026-10-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://openthinrdp.github.io/old-pc-thin-client.html</loc><lastmod>2026-10-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://openthinrdp.github.io/llms-full.txt</loc><lastmod>2026-10-21</lastmod><priority>0.3</priority></url>
 </urlset>

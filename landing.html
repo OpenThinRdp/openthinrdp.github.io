@@ -33,7 +33,7 @@
     <a class="brand" href="{{SITE}}"><img src="{{SITE}}img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
     <nav>
       <a href="#udp">RDP over UDP</a><a href="#features">Features</a><a href="#manager">Manager</a><a href="#compare">Compare</a>
-      <a href="{{SITE}}faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>
+      <a href="{{SITE}}maturity.html">Production ready?</a><a href="{{SITE}}faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>
     </nav>
     <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download {{VER}}</a>
   </div>
@@ -141,8 +141,24 @@
   </div>
 </section>
 
-<section id="compare" class="band">
+<section id="proven">
   <div class="wrap">
+    <p class="eyebrow center">Proven, not promised</p>
+    <h2 class="center">Tested on a production thin client, <span class="grad">failures included.</span></h2>
+    <p class="center narrow">We break things on purpose on a device of the production fleet, through the same folder and manager you would use.</p>
+    <div class="cards proof">
+      <article><b class="big">30 s</b><h3>Rollback</h3><p>Pinned to the previous version: back from 0.2.3 to 0.2.1 in 30 seconds, the reason written in its log.</p></article>
+      <article><b class="big">0</b><h3>Hands needed after a killed update</h3><p>The install killed mid-way with SIGKILL: the device knew it was not done and installed again by itself.</p></article>
+      <article><b class="big">41 s</b><h3>Network cut</h3><p>Cable down for 30 seconds: back on the network after 41, reporting again at the next round, no restart.</p></article>
+      <article><b class="big">1 s</b><h3>Zero-touch</h3><p>Management folder emptied: found again in the domain with the device's own account, status sent a second later.</p></article>
+      <article><b class="big">189 / 0</b><h3>Updates installed / failed</h3><p>Across the 15 thin clients of the production fleet, from their event logs, 11-20 October 2026.</p></article>
+      <article><b class="big">GPLv3</b><h3>Signed, open, yours</h3><p>Every update signed and checked on the device, your own signing key if you want it, and every copy stays open source.</p></article>
+    </div>
+    <p class="center"><a class="btn btn-ghost" href="{{SITE}}maturity.html">Is it production ready? Area by area &rarr;</a></p>
+  </div>
+</section>
+
+<section id="compare" class="band">  <div class="wrap">
     <p class="eyebrow center">How it compares</p>
     <h2 class="center">The free alternative to IGEL OS and Dell ThinOS for Windows Remote Desktop.</h2>
     <div class="tablewrap"><table>
@@ -175,7 +191,7 @@
     <div><a class="brand" href="{{SITE}}"><img src="{{SITE}}img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
       <p>Free thin client OS for Windows Remote Desktop. GPLv3 &middot; release {{VER}}.</p></div>
     <nav><a href="{{SITE}}manager.html">Manager</a><a href="{{SITE}}udp.html">RDP over UDP</a><a href="{{SITE}}hardware.html">Hardware</a>
-      <a href="{{SITE}}alternatives.html">Compare</a><a href="{{SITE}}faq.html">FAQ</a><a href="{{SITE}}replace-dell-thinos.html">Replace Dell ThinOS</a>
+      <a href="{{SITE}}alternatives.html">Compare</a><a href="{{SITE}}maturity.html">Production readiness</a><a href="{{SITE}}faq.html">FAQ</a><a href="{{SITE}}replace-dell-thinos.html">Replace Dell ThinOS</a>
       <a href="{{SITE}}old-pc-thin-client.html">Old PC as a thin client</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
     <p class="fine">Windows and Remote Desktop are trademarks of Microsoft. OpenThinRDP is not affiliated with Microsoft, with openthinclient or with any vendor named here.</p>
   </div>

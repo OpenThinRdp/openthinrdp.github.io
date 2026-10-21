@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Is OpenThinRDP production ready? &#8211; security, tests, rollback, field data</title>
+<meta name="description" content="Production readiness of OpenThinRDP area by area: security and signed updates, automated tests, tests on a production device (rollback in 30 s, an interrupted update that installs again by itself, network cut, zero-touch), field data and what is still missing.">
+<link rel="canonical" href="https://openthinrdp.github.io/maturity.html">
+
+<link rel="icon" href="https://openthinrdp.github.io/img/icon.png">
+<link rel="alternate" type="text/plain" href="https://openthinrdp.github.io/llms-full.txt" title="The documentation in one text file">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenThinRDP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Is OpenThinRDP production ready? &#8211; security, tests, rollback, field data">
+<meta property="og:description" content="Production readiness of OpenThinRDP area by area: security and signed updates, automated tests, tests on a production device (rollback in 30 s, an interrupted update that installs again by itself, network cut, zero-touch), field data and what is still missing.">
+<meta property="og:url" content="https://openthinrdp.github.io/maturity.html">
+<meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.7","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
+ "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
+</script>
+
+</head>
+<body>
+<header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.7</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<main class="markdown-body">
+<h1 id="production-readiness-what-is-covered-what-is-not-yet" dir="auto">Production readiness: what is covered, what is not yet</h1>
+<p dir="auto">A short, verifiable answer to "can I run this in production?", area by area: what exists today with the evidence,<br>
+and what is still missing. It is updated when something changes. What runs where: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/status.md">status.md</a>.</p>
+<h2 id="security" dir="auto">Security</h2>
+<p dir="auto"><strong>Covered</strong></p>
+<ul dir="auto">
+<li>Vulnerability disclosure: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/SECURITY.md">SECURITY.md</a>, private reporting on GitHub.</li>
+<li>FreeRDP security fixes reach a release within 7 days (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/SECURITY.md#freerdp-security-fixes">SECURITY.md</a>);<br>
+Debian security updates install by themselves on every device.</li>
+<li>Every update is signed and checked on the device before it is installed; the release key, how it is kept and how<br>
+it is replaced or revoked: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/SECURITY.md#release-signing-key">SECURITY.md</a>. A site can sign with <strong>its own key</strong><br>
+and accept only that one (<code class="notranslate">UPDATE_KEY=site</code>), so a compromised GitHub account cannot reach its devices.</li>
+<li>The keys of the manager live in an encrypted vault; device secrets (folder password, Wi-Fi key, SSH host keys) are<br>
+kept in the TPM when there is one. The model and its known limits: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/security.md">security.md</a>.</li>
+</ul>
+<p dir="auto"><strong>Not yet</strong></p>
+<ul dir="auto">
+<li>No independent security audit. We cannot provide one ourselves; reviews and reports are welcome.</li>
+<li>No SBOM per release yet: the packages of an image are those of Debian 13 at build time plus FreeRDP, but the list<br>
+is not published with each release.</li>
+</ul>
+<h2 id="automated-testing" dir="auto">Automated testing</h2>
+<p dir="auto"><strong>Covered</strong></p>
+<ul dir="auto">
+<li>System tests on every commit (<a href="https://github.com/OpenThinRdp/openthinrdp/actions/workflows/tests.yml">CI</a>,<br>
+<code class="notranslate">tests/run-tests.sh</code>, about 240 checks): settings validation, central settings and their layers, updates with<br>
+signature checks, pilot devices and <strong>rollback</strong>, interrupted and repeated installs, USB classification, secrets<br>
+in a simulated TPM, language files.</li>
+<li>Manager tests (<code class="notranslate">tests/windows</code>, about 240 checks in Windows PowerShell 5.1): save plans, the configuration as text,<br>
+permissions, the Health Center model, actions in dry-run mode.</li>
+<li>At every release the ISO boots in QEMU/KVM with Secure Boot; the UDP transport has a reproducible lossy-line bench<br>
+(<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/tests/udp-bench/README.md">tests/udp-bench</a>); 802.1X has a lab with hostapd and FreeRADIUS (<code class="notranslate">tests/lab-8021x</code>).</li>
+</ul>
+<p dir="auto"><strong>Not yet</strong></p>
+<ul dir="auto">
+<li>Network failures, reconnection, sign-in and USB are tested on real devices by hand, not automatically.</li>
+<li>No automated matrix of Windows Server versions: the fleet runs Windows 11 VDI behind Windows Server 2025 brokers.</li>
+</ul>
+<h2 id="reliability-in-the-field" dir="auto">Reliability in the field</h2>
+<p dir="auto"><strong>Covered</strong>: one production fleet since October 2026, 15 Dell OptiPlex 3000 Thin Clients (desks, tills, a<br>
+laboratory, weighing stations, a wall screen on Wi-Fi). From the event logs the devices keep (11-20 October 2026):</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>software updates installed</td>
+<td>189</td>
+</tr>
+<tr>
+<td>software updates failed</td>
+<td>0</td>
+</tr>
+<tr>
+<td>sessions opened</td>
+<td>175</td>
+</tr>
+<tr>
+<td>automatic reconnections</td>
+<td>57</td>
+</tr>
+<tr>
+<td>starts of the kiosk</td>
+<td>261</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto"><strong>Not yet</strong>: months of data, and fleets other than ours. The numbers will be updated here as they grow; a fleet<br>
+report in the manager (uptime, failed updates, recovery times) is planned.</p>
+<h2 id="tests-on-a-production-device" dir="auto">Tests on a production device</h2>
+<p dir="auto">On one device of the production fleet (Dell OptiPlex 3000 Thin Client at a weighing station, outside working hours,<br>
+through its management folder and the manager, no hand-made shortcuts), 20-21 October 2026:</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>test</th>
+<th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Rollback</strong>: the device pinned to the previous version (<code class="notranslate">UPDATE_TO</code>)</td>
+<td>back from 0.2.3 to 0.2.1 in <strong>30 s</strong> from the change in the folder, 4 s of install, the reason in its event log</td>
+</tr>
+<tr>
+<td><strong>Interrupted update</strong>: the install killed (<code class="notranslate">SIGKILL</code>) one second after it started</td>
+<td>the device still knew it had the old version and <strong>installed again by itself</strong> after the 10 minute pause; 4 s, the kiosk restarted, nothing done by hand</td>
+</tr>
+<tr>
+<td><strong>Network cut</strong>: cable link down for 30 s</td>
+<td>reachable again after 41 s, status in the folder again at the next 5 minute report, no restart</td>
+</tr>
+<tr>
+<td><strong>Zero-touch</strong>: management folder emptied, only the domain account left</td>
+<td>the folder read from NETLOGON with the device's account, status sent there <strong>1 s</strong> later</td>
+</tr>
+<tr>
+<td><strong>Sign-in through each broker</strong>: two users, one through each RD Connection Broker</td>
+<td>sessions open on their VMs in 17 s and 28 s</td>
+</tr>
+<tr>
+<td><strong>Power</strong>: switch off, Wake-on-LAN, restart from the manager</td>
+<td>off in 7 s, up again by Wake-on-LAN in 21 s, back after a restart in 29 s</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">What these tests found and fixed: on devices converted from another system the account is only in the credentials<br>
+file, and emptying the folder was refused (safely: the device kept its previous settings); fixed in 0.2.7. The<br>
+manager's <em>Name it in the domain</em> missed the account the devices report and wrote its first entry on the comment<br>
+line; fixed in 0.2.4.</p>
+<h2 id="release-quality" dir="auto">Release quality</h2>
+<p dir="auto"><strong>Covered</strong>: every release has its notes in the <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/CHANGELOG.md">CHANGELOG</a>; a fleet can stay on a version<br>
+(<code class="notranslate">UPDATE_TO</code>), try a new one on pilot devices first, and go back to an earlier one, FreeRDP included, from the<br>
+manager; FreeRDP can be held on one device (<code class="notranslate">/etc/openthinrdp/freerdp-pinned</code>). Converting a fleet from Dell ThinOS<br>
+was done in place on the whole fleet (<a href="https://openthinrdp.github.io/replace-dell-thinos.html">guide</a>).</p>
+<p dir="auto"><strong>Not yet</strong>: builds are documented and scripted (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/building.md">building.md</a>) but not bit-for-bit reproducible.</p>
+<h2 id="independent-adoption" dir="auto">Independent adoption</h2>
+<p dir="auto"><strong>Covered</strong>: issues from other administrators are answered and fixed in the open (for example<br>
+<a href="https://github.com/OpenThinRdp/openthinrdp/issues/76" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/76/hovercard">#76</a>, <a href="https://github.com/OpenThinRdp/openthinrdp/issues/80" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/80/hovercard">#80</a>,<br>
+<a href="https://github.com/OpenThinRdp/openthinrdp/issues/83" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/83/hovercard">#83</a>, a Dutch translation contributed by a user testing it<br>
+on HP thin clients).</p>
+<p dir="auto"><strong>Not yet</strong>: documented deployments by others. If you run it, a short report in the<br>
+<a href="https://github.com/OpenThinRdp/openthinrdp/discussions/3" data-hovercard-type="discussion" data-hovercard-url="/OpenThinRdp/openthinrdp/discussions/3/hovercard">test reports discussion</a> (hardware, Windows side, how many<br>
+devices) helps everyone.</p>
+<h2 id="long-term-maintainability" dir="auto">Long-term maintainability</h2>
+<p dir="auto"><strong>Covered</strong>: documentation for users and administrators (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md">configuration</a>,<br>
+<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md">management</a>, <a href="https://openthinrdp.github.io/manager.html">manager</a>, <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/security.md">security</a>, <a href="https://openthinrdp.github.io/faq.html">FAQ</a>); build instructions<br>
+(<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/building.md">building.md</a>); what to do when something goes wrong (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/status.md#when-something-goes-wrong">status.md</a>);<br>
+the whole client is shell scripts in <code class="notranslate">rootfs/opt/openthinrdp</code>, on Debian, with no proprietary part; GPLv3 keeps every<br>
+copy open.</p>
+<p dir="auto"><strong>Not yet</strong>: the project is maintained by the team that runs it in production; more maintainers would lower the risk<br>
+of depending on one team.</p>
+<h2 id="in-short" dir="auto">In short</h2>
+<p dir="auto">Ready for a <strong>gradual rollout</strong> on Windows Remote Desktop (RDS, Hyper-V VDI): try it live, then on a few pilot<br>
+devices, then the rest, with rollback one click away. It is not the right choice yet if you need vendor support,<br>
+certified hardware, an audit report or protocols other than RDP.</p>
+</main>
+<footer class="bar small">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/maturity.md">docs/maturity.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</footer>
+</body>
+</html>

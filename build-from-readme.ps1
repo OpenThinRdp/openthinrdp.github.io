@@ -34,6 +34,9 @@ $site_pages = @(
   @{ Doc = 'docs/hardware.md'; Url = 'hardware.html'; Lang = 'en'
      Title = "OpenThinRDP hardware $dash drivers, requirements, thin clients that run it"
      Desc = 'Hardware for OpenThinRDP: any 64-bit x86 PC or thin client, UEFI or legacy BIOS, with the complete Debian 13 kernel and firmware. Tested devices, used thin clients that meet the requirements (Dell Wyse, HP t-series, Fujitsu Futro), firmware settings.' }
+  @{ Doc = 'docs/maturity.md'; Url = 'maturity.html'; Lang = 'en'
+     Title = "Is OpenThinRDP production ready? $dash security, tests, rollback, field data"
+     Desc = 'Production readiness of OpenThinRDP area by area: security and signed updates, automated tests, tests on a production device (rollback in 30 s, an interrupted update that installs again by itself, network cut, zero-touch), field data and what is still missing.' }
   @{ Doc = 'docs/udp.md'; Url = 'udp.html'; Lang = 'en'
      Title = "RDP over UDP on Linux $dash the FreeRDP UDP transport in OpenThinRDP"
      Desc = 'RDP over UDP on Linux with FreeRDP: the UDP transport (MS-RDPEUDP, pull request 13608) built and shipped by OpenThinRDP, what travels over UDP, the fixes we found and the measurements with packet loss against TCP.' }
@@ -48,7 +51,7 @@ $pages = @{}; foreach ($p in $site_pages) { $pages[$p.Doc] = $p.Url }
 # the documents an AI assistant should read whole, in llms-full.txt, in this order
 $fullDocs = 'README.md', 'docs/faq.md', 'docs/alternatives.md', 'docs/hardware.md', 'docs/status.md', 'docs/manager.md',
   'docs/guides/replace-dell-thinos.md', 'docs/guides/old-pc-thin-client.md', 'docs/configuration.md', 'docs/management.md',
-  'docs/udp.md', 'docs/security.md'
+  'docs/udp.md', 'docs/security.md', 'docs/maturity.md'
 # the texts of the page around the document
 $ui = @{
   en = @{ Download = "Download $ver"; Manager = 'Manager'; Hardware = 'Hardware'; Compare = 'Compare'; Faq = 'FAQ'; FaqUrl = 'faq.html'

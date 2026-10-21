@@ -136,3 +136,8 @@ tr:last-child td { border-bottom: 0; }
   .device { display: none; }
   .hero-shot { margin-left: 0; }
 }
+
+/* proof cards */
+.proof article { text-align: left; }
+.big { display: block; font-size: 38px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+

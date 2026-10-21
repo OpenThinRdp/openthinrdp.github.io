@@ -46,12 +46,12 @@ it is replaced or revoked: <a href="https://github.com/OpenThinRdp/openthinrdp/b
 and accept only that one (<code class="notranslate">UPDATE_KEY=site</code>), so a compromised GitHub account cannot reach its devices.</li>
 <li>The keys of the manager live in an encrypted vault; device secrets (folder password, Wi-Fi key, SSH host keys) are<br>
 kept in the TPM when there is one. The model and its known limits: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/security.md">security.md</a>.</li>
+<li>The packages of an image (name and version) are published with every ISO (<code class="notranslate">openthinrdp-&lt;version&gt;.packages.txt</code>);<br>
+update packages change only OpenThinRDP and FreeRDP, Debian security updates come from Debian.</li>
 </ul>
 <p dir="auto"><strong>Not yet</strong></p>
 <ul dir="auto">
 <li>No independent security audit. We cannot provide one ourselves; reviews and reports are welcome.</li>
-<li>No SBOM per release yet: the packages of an image are those of Debian 13 at build time plus FreeRDP, but the list<br>
-is not published with each release.</li>
 </ul>
 <h2 id="automated-testing" dir="auto">Automated testing</h2>
 <p dir="auto"><strong>Covered</strong></p>
@@ -103,7 +103,8 @@ laboratory, weighing stations, a wall screen on Wi-Fi). From the event logs the 
 </tr>
 </tbody>
 </table></markdown-accessiblity-table>
-<p dir="auto"><strong>Not yet</strong>: months of data, and fleets other than ours. The numbers will be updated here as they grow; a fleet<br>
+<p dir="auto"><strong>Not yet</strong>: months of data, and fleets other than ours; the hardware test of the live system (0.2.8) lets anyone<br>
+send a hardware report from their own devices. The numbers will be updated here as they grow; a fleet<br>
 report in the manager (uptime, failed updates, recovery times) is planned.</p>
 <h2 id="tests-on-a-production-device" dir="auto">Tests on a production device</h2>
 <p dir="auto">On one device of the production fleet (Dell OptiPlex 3000 Thin Client at a weighing station, outside working hours,<br>

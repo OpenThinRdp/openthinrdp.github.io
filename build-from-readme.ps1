@@ -22,6 +22,9 @@ $site_pages = @(
   @{ Doc = 'README.md'; Url = ''; Lang = 'en'
      Title = "OpenThinRDP $dash open source thin client OS with RDP over UDP for RDS and VDI"
      Desc = 'OpenThinRDP: free, open source thin client operating system for Microsoft Remote Desktop (RDS and VDI), on premises or in the cloud. Debian 13 with FreeRDP and the RDP UDP transport, a kiosk sign-in, central management from a shared folder, signed updates with pilot devices and rollback.' }
+  @{ Doc = 'docs/guides/getting-started.md'; Url = 'getting-started.html'; Lang = 'en'
+     Title = "Getting started with OpenThinRDP $dash from a USB stick to a managed thin client fleet"
+     Desc = 'Step by step: try OpenThinRDP live with its hardware test, install it, set up the management folder and the Windows manager, and set up every new thin client with only a domain account.' }
   @{ Doc = 'docs/manager.md'; Url = 'manager.html'; Lang = 'en'
      Title = "OpenThinRDP manager $dash the whole thin client fleet from one window"
      Desc = 'The OpenThinRDP manager for Windows: every thin client at a glance, central settings, a new version on pilot devices first, going back to an earlier version for the whole fleet, remote screen, signed updates. No server.' }
@@ -49,7 +52,7 @@ $site_pages = @(
 )
 $pages = @{}; foreach ($p in $site_pages) { $pages[$p.Doc] = $p.Url }
 # the documents an AI assistant should read whole, in llms-full.txt, in this order
-$fullDocs = 'README.md', 'docs/faq.md', 'docs/alternatives.md', 'docs/hardware.md', 'docs/status.md', 'docs/manager.md',
+$fullDocs = 'README.md', 'docs/guides/getting-started.md', 'docs/faq.md', 'docs/alternatives.md', 'docs/hardware.md', 'docs/status.md', 'docs/manager.md',
   'docs/guides/replace-dell-thinos.md', 'docs/guides/old-pc-thin-client.md', 'docs/configuration.md', 'docs/management.md',
   'docs/udp.md', 'docs/security.md', 'docs/maturity.md'
 # the texts of the page around the document

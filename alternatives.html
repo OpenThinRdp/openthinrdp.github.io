@@ -51,10 +51,12 @@ For a fleet of Remote Desktop clients, here is what it means.</p>
 <p dir="auto"><strong>Hardware support is the same.</strong> OpenThinRDP is Debian 13 with its complete kernel and every firmware package<br>
 (<a href="https://openthinrdp.github.io/hardware.html#drivers-all-of-debians">hardware</a>). A device that works with Mint or Ubuntu of the same period works<br>
 with OpenThinRDP too. Neither side has a driver advantage.</p>
-<p dir="auto"><strong>No RDP over UDP.</strong> Remmina and the <code class="notranslate">xfreerdp</code> of the distributions use the distribution's FreeRDP. FreeRDP has no<br>
-UDP transport in any release yet: it is the pull request <a href="https://github.com/FreeRDP/FreeRDP/pull/13608" data-hovercard-type="pull_request" data-hovercard-url="/FreeRDP/FreeRDP/pull/13608/hovercard">#13608</a>,<br>
-which OpenThinRDP builds and ships. So on a busy server, on Wi-Fi or through a VPN the session runs over TCP. On a<br>
-line that loses packets, TCP queues the screen while UDP keeps it moving (<a href="https://openthinrdp.github.io/udp.html#on-a-lossy-line">the numbers</a>).</p>
+<p dir="auto"><strong>No RDP over UDP.</strong> Remmina and the <code class="notranslate">xfreerdp</code> of the distributions use the distribution's FreeRDP. FreeRDP merged<br>
+its UDP transport on 20 October 2026 (<a href="https://github.com/FreeRDP/FreeRDP/pull/13608" data-hovercard-type="pull_request" data-hovercard-url="/FreeRDP/FreeRDP/pull/13608/hovercard">#13608</a>), but no release has it<br>
+yet, and it is built switched off unless asked for (it is marked experimental): the packages of the distributions do<br>
+not have it. OpenThinRDP ships FreeRDP built with it on. Without it, on a busy server, on Wi-Fi or through a VPN the<br>
+session runs over TCP. On a line that loses packets, TCP queues the screen while UDP keeps it moving<br>
+(<a href="https://openthinrdp.github.io/udp.html#on-a-lossy-line">the numbers</a>).</p>
 <p dir="auto"><strong>A desktop to lock down.</strong> Users can open other programs, change the settings, fill the disk. Making it a kiosk is<br>
 your work: automatic sign-in, no terminal, no other applications, no text consoles, a session that comes back by<br>
 itself, a device that switches off when the session ends. OpenThinRDP is all of that out of the box.</p>

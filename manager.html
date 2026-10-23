@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.19","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.20","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
@@ -30,7 +30,7 @@
 </head>
 <body>
 <header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.19</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.20</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
 <main class="markdown-body">
 <h1 id="the-openthinrdp-manager" dir="auto">The OpenThinRDP manager</h1>
 <p dir="auto">The manager is the one place where you run a fleet of OpenThinRDP devices: one PowerShell script for Windows 10/11,<br>
@@ -174,6 +174,15 @@ With pilot only, all the other devices are first kept on the version they have (
 <code class="notranslate">common.conf</code>), and only then the new version goes into the folder.</li>
 <li><strong>Watch the pilots</strong> for a few days: their <strong>Summary</strong> and <strong>Events</strong>, and the <strong>History</strong> page.</li>
 </ol>
+<p dir="auto"><strong>Some groups only.</strong> <strong>Release from GitHub...</strong> can also send the new version to the groups you tick (one or more,<br>
+with their pilot devices); every other device stays on the version it has. The ticked groups get <code class="notranslate">UPDATE_TO=latest</code><br>
+in their <code class="notranslate">_group.conf</code>, so a device follows its own file first, then its group, then <code class="notranslate">common.conf</code>. A group left on the<br>
+newest by an earlier release follows <code class="notranslate">common.conf</code> again, so it does not take the new one unasked. <strong>Release to all<br>
+devices</strong> brings everyone along.</p>
+<p dir="auto"><strong>Major updates.</strong> A release with a change to how a session connects or runs is marked <strong>Test first</strong> in its notes<br>
+(and in the <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/CHANGELOG.md">CHANGELOG</a>). The manager says so above the notes, proposes <em>pilot devices only</em>, and<br>
+before a major update goes to all devices (from <strong>Release from GitHub...</strong>, <strong>Release to all devices</strong> or <strong>Version<br>
+for all devices...</strong>) it asks once more, with <em>No</em> as the default answer.</p>
 <h3 id="release-it-to-the-whole-fleet" dir="auto">Release it to the whole fleet</h3>
 <p dir="auto">When the pilots are fine: <strong>Updates &gt; Release to all devices</strong>. <code class="notranslate">common.conf</code> goes back to <code class="notranslate">UPDATE_TO=latest</code><br>
 and every device takes the new version within 5 minutes, each one when its session is over.</p>

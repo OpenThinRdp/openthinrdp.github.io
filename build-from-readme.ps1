@@ -49,12 +49,15 @@ $site_pages = @(
   @{ Doc = 'docs/guides/old-pc-thin-client.md'; Url = 'old-pc-thin-client.html'; Lang = 'en'
      Title = "Turn an old PC into a thin client for Windows Remote Desktop $dash OpenThinRDP"
      Desc = 'Turn an old office PC or a used thin client into a free Remote Desktop thin client for a Windows PC, RDS or VDI: requirements, step by step from a USB stick, power schedule, USB, 802.1X, and when it is not the right choice.' }
+  @{ Doc = 'docs/privacy.md'; Url = 'privacy.html'; Lang = 'en'
+     Title = "OpenThinRDP privacy $dash the anonymous counts, all of them, and how to switch them off"
+     Desc = 'What OpenThinRDP and its manager send to the project: a few anonymous counts (version, model, processor, memory), never names, addresses or users. On GoatCounter, no cookies, no IP addresses. How to switch it off on one device, a whole site or the manager.' }
 )
 $pages = @{}; foreach ($p in $site_pages) { $pages[$p.Doc] = $p.Url }
 # the documents an AI assistant should read whole, in llms-full.txt, in this order
 $fullDocs = 'README.md', 'docs/guides/getting-started.md', 'docs/faq.md', 'docs/alternatives.md', 'docs/hardware.md', 'docs/status.md', 'docs/manager.md',
   'docs/guides/replace-dell-thinos.md', 'docs/guides/old-pc-thin-client.md', 'docs/configuration.md', 'docs/management.md',
-  'docs/udp.md', 'docs/security.md', 'docs/maturity.md'
+  'docs/udp.md', 'docs/security.md', 'docs/privacy.md', 'docs/maturity.md'
 # the texts of the page around the document
 $ui = @{
   en = @{ Download = "Download $ver"; Manager = 'Manager'; Hardware = 'Hardware'; Compare = 'Compare'; Faq = 'FAQ'; FaqUrl = 'faq.html'

@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenThinRDP privacy &#8211; the anonymous counts, all of them, and how to switch them off</title>
+<meta name="description" content="What OpenThinRDP and its manager send to the project: a few anonymous counts (version, model, processor, memory), never names, addresses or users. On GoatCounter, no cookies, no IP addresses. How to switch it off on one device, a whole site or the manager.">
+<link rel="canonical" href="https://openthinrdp.github.io/privacy.html">
+
+<link rel="icon" href="https://openthinrdp.github.io/img/icon.png">
+<link rel="alternate" type="text/plain" href="https://openthinrdp.github.io/llms-full.txt" title="The documentation in one text file">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenThinRDP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="OpenThinRDP privacy &#8211; the anonymous counts, all of them, and how to switch them off">
+<meta property="og:description" content="What OpenThinRDP and its manager send to the project: a few anonymous counts (version, model, processor, memory), never names, addresses or users. On GoatCounter, no cookies, no IP addresses. How to switch it off on one device, a whole site or the manager.">
+<meta property="og:url" content="https://openthinrdp.github.io/privacy.html">
+<meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.16","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
+ "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
+</script>
+
+</head>
+<body>
+<header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.16</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<main class="markdown-body">
+<h1 id="privacy-the-anonymous-counts" dir="auto">Privacy: the anonymous counts</h1>
+<p dir="auto">OpenThinRDP sends a few anonymous counts to the project once a week. They tell us which computers it runs on, which<br>
+versions are in use and how many devices a manager looks after, so we know what to test and what to support. It is<br>
+on by default, it is easy to switch off, and this page lists everything it sends.</p>
+<h2 id="what-a-device-sends" dir="auto">What a device sends</h2>
+<p dir="auto">About a minute after it starts the first time, then once a week (<code class="notranslate">stats.sh</code>, started by <code class="notranslate">report.sh</code>). A live system<br>
+that keeps nothing between starts sends at each start.</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>Count</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OpenThinRDP version</td>
+<td><code class="notranslate">0.2.16</code></td>
+</tr>
+<tr>
+<td>Maker and model of the computer</td>
+<td><code class="notranslate">Dell Inc. OptiPlex 3000 Thin Client</code></td>
+</tr>
+<tr>
+<td>Processor</td>
+<td><code class="notranslate">Intel(R) Celeron(R) N5105 @ 2.00GHz</code></td>
+</tr>
+<tr>
+<td>Memory, rounded to whole GB</td>
+<td><code class="notranslate">8 GB</code></td>
+</tr>
+<tr>
+<td>FreeRDP version</td>
+<td><code class="notranslate">3.33.0</code></td>
+</tr>
+<tr>
+<td>Transport setting</td>
+<td><code class="notranslate">auto</code>, <code class="notranslate">udp</code> or <code class="notranslate">tcp</code></td>
+</tr>
+<tr>
+<td>Language</td>
+<td><code class="notranslate">it</code></td>
+</tr>
+<tr>
+<td>Live system or installed</td>
+<td><code class="notranslate">installed</code></td>
+</tr>
+<tr>
+<td>A Wi-Fi adapter present</td>
+<td><code class="notranslate">yes</code> / <code class="notranslate">no</code></td>
+</tr>
+<tr>
+<td>A TPM present</td>
+<td><code class="notranslate">yes</code> / <code class="notranslate">no</code></td>
+</tr>
+<tr>
+<td>Managed from a management folder</td>
+<td><code class="notranslate">yes</code> / <code class="notranslate">no</code></td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto"><code class="notranslate">sudo /opt/openthinrdp/stats.sh --print</code> on a device prints exactly what it would send, and sends nothing.</p>
+<h2 id="what-the-manager-sends" dir="auto">What the manager sends</h2>
+<p dir="auto">Half a minute after it starts the first time, then once a week:</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>Count</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Manager version</td>
+<td><code class="notranslate">0.2.16</code></td>
+</tr>
+<tr>
+<td>Windows version</td>
+<td><code class="notranslate">Windows Server 2025 Datacenter</code></td>
+</tr>
+<tr>
+<td>Language of the window</td>
+<td><code class="notranslate">it</code></td>
+</tr>
+<tr>
+<td>How many devices it manages, in ranges</td>
+<td><code class="notranslate">1-5</code>, <code class="notranslate">6-20</code>, <code class="notranslate">21-100</code>, <code class="notranslate">more than 100</code></td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h2 id="what-is-never-sent" dir="auto">What is never sent</h2>
+<p dir="auto">The name of a device or of a computer, IP or MAC addresses, user names, passwords, the domain, the names or addresses<br>
+of servers and brokers, settings, anything typed on a device, anything shown in a session.</p>
+<h2 id="where-it-goes" dir="auto">Where it goes</h2>
+<p dir="auto">Each value is one count on <a href="https://www.goatcounter.com/" rel="nofollow">GoatCounter</a>, an open-source web counter that sets no<br>
+cookies and keeps no IP address. The project sees totals, such as <em>OptiPlex 3000 Thin Client: 12</em>, never a single<br>
+device: each count carries no number or name that would tell two devices apart.</p>
+<h2 id="switching-it-off" dir="auto">Switching it off</h2>
+<ul dir="auto">
+<li><strong>One device</strong>: <em>Anonymous counts for the project</em> = off, the last setting of the device.</li>
+<li><strong>Every device of a site</strong>: the same setting in the manager, last in the <em>Settings</em> of the site (or of a group), or<br>
+<code class="notranslate">ANON_STATS=off</code> in <code class="notranslate">common.conf</code>.</li>
+<li><strong>Before the first start</strong>: <code class="notranslate">ANON_STATS=off</code> in <code class="notranslate">image/site/site.conf</code> of your own image, and nothing is ever sent.<br>
+A managed device reads the central settings before its first send, so <code class="notranslate">ANON_STATS=off</code> in <code class="notranslate">common.conf</code> also<br>
+holds for a new device that reaches the management folder.</li>
+<li><strong>The manager</strong>: <em>Settings &gt; Manager &gt; Anonymous counts for the project</em>, untick.</li>
+</ul>
+<p dir="auto">When it is off, nothing is sent. A device with no internet sends nothing and tries again at its next report.</p>
+</main>
+<footer class="bar small">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/privacy.md">docs/privacy.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</footer>
+<script data-goatcounter="https://ceschi-ops.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

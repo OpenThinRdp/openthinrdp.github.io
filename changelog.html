@@ -1,0 +1,763 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenThinRDP changelog &#8211; what changed in every release</title>
+<meta name="description" content="Every release of OpenThinRDP, newest first: new features, fixes, security updates and major updates of the thin client OS and of its Windows manager.">
+<link rel="canonical" href="https://openthinrdp.github.io/changelog.html">
+
+<link rel="icon" href="https://openthinrdp.github.io/img/icon.png">
+<link rel="alternate" type="text/plain" href="https://openthinrdp.github.io/llms-full.txt" title="The documentation in one text file">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenThinRDP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="OpenThinRDP changelog &#8211; what changed in every release">
+<meta property="og:description" content="Every release of OpenThinRDP, newest first: new features, fixes, security updates and major updates of the thin client OS and of its Windows manager.">
+<meta property="og:url" content="https://openthinrdp.github.io/changelog.html">
+<meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.22","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
+ "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
+</script>
+
+</head>
+<body>
+<header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.22</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<main class="markdown-body">
+<h1 id="changelog" dir="auto">Changelog</h1>
+<p dir="auto">Every release, newest first. <strong>Security</strong> marks what every device should get at once. A <em>Major update</em> (in bold at<br>
+the start of an entry, and in the file MAJOR of the repository) changes how a session connects or runs: a device<br>
+with a management folder installs it only once the manager released it, one without asks on its screen.<br>
+Downloads and signed update packages: <a href="https://github.com/OpenThinRdp/openthinrdp/releases">releases</a>.</p>
+<h2 id="0222-2026-10-23" dir="auto">0.2.22 (2026-10-23)</h2>
+<ul dir="auto">
+<li><strong>Diagnostics of a device in one file</strong>: the events, the log of the last session and of the frozen ones, the<br>
+journal, the kernel, the update logs, the network, the hardware and the settings without their secrets. From the<br>
+manager (<em>Collect its diagnostics</em>, then <em>Open its diagnostics</em>, with a GitHub issue only if you want), from the<br>
+diagnostics screen of the device (<em>Send to the administrator</em>), or by itself after a frozen session or a power off<br>
+in a session. It lands in <code class="notranslate">diag\</code> of the management folder; nothing goes to the project unless you send it.</li>
+</ul>
+<h2 id="0221-2026-10-23" dir="auto">0.2.21 (2026-10-23)</h2>
+<ul dir="auto">
+<li><strong>Major updates go through the manager</strong>: we mark in the release the ones that change how a session connects or<br>
+runs. A device with a management folder installs one only once the manager released it to that device, after a<br>
+second confirmation, also when it updates straight from GitHub. The first major update marked this way comes later:<br>
+0.2.21 itself is not one.</li>
+<li><strong>The update question only without a management folder</strong>: the live system from the USB stick, or an image of its<br>
+own with <code class="notranslate">site.conf</code> only, asks every new version at the sign-in, with its changes. A normal update installs after<br>
+30 seconds without an answer, a major one only with a yes; <em>Not now</em> lasts until the next start. Installed and<br>
+managed devices update as the site says, without a question.</li>
+<li><strong>Pilot devices are a group</strong>: <em>Release from GitHub</em> sends a new version to all devices or to the groups ticked.</li>
+<li><strong>The manager starts in under 2 seconds</strong> instead of about 9: the other pages are built right after the window shows.</li>
+<li><strong>The manager updates itself</strong> (on by default, <em>Updates &gt; This manager</em>) when nothing is being edited, and starts<br>
+again with the vault still open.</li>
+</ul>
+<h2 id="0220-2026-10-23" dir="auto">0.2.20 (2026-10-23)</h2>
+<ul dir="auto">
+<li><strong>A major update asks once more</strong>: a release marked <em>Test first</em> changes how a session connects or runs. The<br>
+manager says so above the notes, proposes the pilot devices first, and before it goes to all devices it asks once<br>
+more, with <em>No</em> as the default answer.</li>
+<li><strong>A release to the groups you choose</strong>: <em>Release from GitHub</em> can send the new version to the groups ticked in a<br>
+list (one or more, with the pilot devices); every other device stays on the version it has. The manager now also<br>
+reads the version of a group and of the devices inside groups.</li>
+<li><strong>The manager accepts a session collection with spaces</strong>: <code class="notranslate">tsv://MS Terminal Services Plugin.1.&lt;collection&gt;</code> was<br>
+refused with <em>RDS collection not valid</em>, although the devices take it since 0.2.2. The manager now uses the same<br>
+rule as the devices, and a test keeps the two equal.</li>
+</ul>
+<h2 id="0219-2026-10-23" dir="auto">0.2.19 (2026-10-23)</h2>
+<ul dir="auto">
+<li><strong>The time zone of the device</strong>: <code class="notranslate">TIMEZONE=Europe/Amsterdam</code> (any zone, in the settings of the device, centrally or<br>
+in the manager). The published ISO runs on UTC, so outside the UTC zone the clock, the power schedule and the time<br>
+zone of the session were off by hours until now. Empty keeps the one of the image.</li>
+</ul>
+<h2 id="0218-2026-10-23" dir="auto">0.2.18 (2026-10-23)</h2>
+<ul dir="auto">
+<li><strong>Test first. A session whose UDP transport stalls comes back by itself</strong>: seen twice in a video call, the pointer<br>
+moved but the picture, the camera and the microphone stayed stuck until the device was switched off, while the<br>
+server sent nothing for hours. When FreeRDP keeps sending over UDP and nothing comes back for 60 seconds, the<br>
+session is closed and reopened over TCP until the device restarts (<code class="notranslate">TRANSPORT=auto</code>); what FreeRDP was doing goes to<br>
+<code class="notranslate">session-hang.log</code>. An idle session is never taken for one.</li>
+<li><strong>The log of the last session survives a power off</strong>: the FreeRDP log (in memory) is kept at shutdown as<br>
+<code class="notranslate">/var/log/openthinrdp/last-session.log</code>. A device switched off during a session says so in its events, with the<br>
+threads of FreeRDP in <code class="notranslate">session-hang.log</code>. Both, and a stalled UDP transport, are in the anonymous counts.</li>
+<li><strong>A reinstalled device: its new SSH key is confirmed from any command</strong>: <em>Restart</em>, <em>Update</em> and the other device<br>
+commands now ask whether to accept the new host key, as the remote screen did, instead of showing the ssh warning.</li>
+</ul>
+<h2 id="0217-2026-10-23" dir="auto">0.2.17 (2026-10-23)</h2>
+<ul dir="auto">
+<li><strong>The anonymous counts say what went wrong</strong>: frozen and dropped sessions (with the exit code of FreeRDP),<br>
+connections that failed or timed out, failed updates, programs that crashed, graphics hangs, kernel errors and<br>
+stops without a shutdown, counted since the last send, by version and by model. Only the kind, a code number and the<br>
+name of a program leave the device, never the text of a message. <a href="https://openthinrdp.github.io/privacy.html">docs/privacy.md</a> lists them.</li>
+</ul>
+<h2 id="0216-2026-10-23" dir="auto">0.2.16 (2026-10-23)</h2>
+<ul dir="auto">
+<li><strong>The network on the sign-in screen, and a Wi-Fi page</strong>: a small sign at the top right shows Wi-Fi with its signal,<br>
+cable or no network, and the address. With the PIN of the settings it opens a page that lists the Wi-Fi networks in<br>
+range: pick one, type the password, and the page says whether it joined, with its address and whether the<br>
+management folder answers. A wrong password changes nothing: it is tried apart first, and the Wi-Fi of before comes<br>
+back by itself. Also from the settings (<em>Wi-Fi networks…</em>).</li>
+<li><strong>Anonymous counts for the project</strong>, on by default: the model of the computer, its processor and memory, the<br>
+versions and a few yes/no, at the first start and then once a week; the manager its version, Windows and how many<br>
+devices, in ranges. Never names, addresses or users. Off with <code class="notranslate">ANON_STATS=off</code> (the last setting of a device, or<br>
+centrally) and in <em>Settings &gt; Manager</em>. Everything sent is listed in <a href="https://openthinrdp.github.io/privacy.html">docs/privacy.md</a>.</li>
+<li><strong>Room for a failure counted on the memory a VM needs to restart</strong>: a VM with dynamic memory restarts on another<br>
+node with its startup memory, not with what it grew to during the day. 123 GB of memory in use were 114 GB to<br>
+restart, and a node with 121 GB free was reported as too small.</li>
+</ul>
+<h2 id="0215-2026-10-22" dir="auto">0.2.15 (2026-10-22)</h2>
+<ul dir="auto">
+<li><strong>Two more commands for a device in the manager</strong>: <em>Force update</em> (looks for an update at once, also past the<br>
+3-hour pause of GitHub; an open session stays open) and <em>Disconnect the session</em> (its desktop stays open, the device<br>
+goes back to the sign-in and does not reconnect; the device needs 0.2.15).</li>
+<li><strong>A restart or power off that did not reach the device says so</strong>: they run 2 seconds later on the device, so the<br>
+command answers before the connection drops. A failed connection used to count as done (<em>restarting</em>, with<br>
+nothing sent).</li>
+</ul>
+<h2 id="0214-2026-10-22" dir="auto">0.2.14 (2026-10-22)</h2>
+<ul dir="auto">
+<li><strong>How many updates, on Updates in the menu</strong>: a number instead of a dot, one for the devices (a release on GitHub<br>
+newer than the one published to them) and one for the manager; the tooltip says which.</li>
+</ul>
+<h2 id="0213-2026-10-22" dir="auto">0.2.13 (2026-10-22)</h2>
+<ul dir="auto">
+<li><strong>A connection can always be left</strong>: <em>Cancel</em> on the connecting screen ends the attempt and goes back to the<br>
+sign-in; with no desktop after 150 seconds the attempt ends by itself and says so; a FreeRDP stopped by the<br>
+system for 10 seconds is ended too. FreeRDP runs without a console: missing a user it can no longer wait<br>
+forever for an answer nobody can give (a till stuck on <em>connecting</em> until switched off).</li>
+<li><strong>Never a sign-in without a user</strong>: an empty field is the default user as it is at that moment, and without one<br>
+the name is asked. The sign-in screen is drawn again when the settings change (a default user or the kiosk mode<br>
+that arrived a second after the screen).</li>
+<li><strong>A device keeps its last settings when its file is not in the folder</strong> (moved by hand, a group its version did<br>
+not know): before, its own settings went back to the defaults. <em>Remove all exceptions</em> in the manager now leaves an<br>
+empty file, which is what says <em>no exceptions</em>.</li>
+</ul>
+<h2 id="0212-2026-10-22" dir="auto">0.2.12 (2026-10-22)</h2>
+<ul dir="auto">
+<li><strong>New versions in sight, with what they change</strong>: an orange dot on Updates in the menu and on <em>Release from<br>
+GitHub</em> when GitHub has a release newer than the one published to the devices (and on Updates for a newer<br>
+manager); the Updates page says which version GitHub has. Before <em>Release from GitHub</em> and <em>Update the manager</em><br>
+a window shows the notes of every version in between, then asks. The check runs at the start and every 6 hours.</li>
+<li><strong>The Health Center reads in 25 seconds instead of 60</strong>: the hosts, the domain controllers and the other servers are<br>
+asked together, and SQL Server is read while they answer. The same checks with the same results (compared check<br>
+by check on a real site).</li>
+<li><strong>Leftovers of earlier versions removed from the manager</strong>: 44 texts no window used any more, a function never<br>
+called, a settings tab built and never shown, values assigned and never read.</li>
+<li><strong>A fault that is over gives no warning any more</strong>: critical events and errors of the RDVH agent warn only while<br>
+they go on (the last one within the hour); a broker silent for more than an hour is the row of a broker that is<br>
+gone, not a third broker. A file share witness down for five hours had kept four servers yellow for the next 24.</li>
+</ul>
+<h2 id="0211-2026-10-21" dir="auto">0.2.11 (2026-10-21)</h2>
+<ul dir="auto">
+<li><strong>Health Center settings by area</strong>: general, Hyper-V and cluster, domain and DNS, remote desktops, SQL Server, file<br>
+and other servers, devices and appliances, backup. Each area has its switch, the servers it reads (one line each,<br>
+with a remove button and <em>+ Add</em>, instead of a small grid), its own settings, its thresholds as numbers with their<br>
+names (no more <code class="notranslate">DiskPct=10; ...</code> to type) and its checks; the list on the left says which areas are on and how many<br>
+of their checks. An area switched on without what it needs (a host, a domain controller, a broker...) is not saved:<br>
+the window goes there and says what is missing. An area never configured opens switched off.</li>
+<li><strong>Save in the Health Center settings saved nothing</strong>: the buttons were created twice, and the Save in front had no<br>
+action.</li>
+<li><strong>A frozen session reconnects by itself</strong>: a FreeRDP still connected but no longer reading (data waiting in its<br>
+sockets, the queue never shrinking for 60 s) is killed and the session reopened, like after any drop. Seen during a<br>
+call with microphone and camera: the screen stayed frozen for hours until the device was switched off. What it was<br>
+doing (its sockets, its threads, the end of its log) is kept in <code class="notranslate">/var/log/openthinrdp/session-hang.log</code>.</li>
+<li><strong>10 000 lines a day less in the journal</strong>: the kiosk no longer asks systemd every 5 s about the collected update<br>
+unit ("Failed to open /run/systemd/transient/openthinrdp-update.service").</li>
+<li><strong>A device before 0.2.9 is not moved into a group</strong>: it looks for its file only in <code class="notranslate">config\</code>, so in a group it<br>
+lost the settings of its own (they went back to the defaults). The manager now refuses the move and says to update<br>
+the device first.</li>
+</ul>
+<h2 id="0210-2026-10-21" dir="auto">0.2.10 (2026-10-21)</h2>
+<ul dir="auto">
+<li><strong>An address for every device that is on the network</strong>: when its main adapter has no IPv4, a device reports the<br>
+address and adapter of its default route instead of <code class="notranslate">IP=none</code>; and for a report without an address the manager<br>
+looks the name of the device up in the DNS before saying it has none (remote screen, power and commands) (<a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="5940887765" data-permission-text="Title is private" data-url="https://github.com/OpenThinRdp/openthinrdp/issues/80" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/80/hovercard" href="https://github.com/OpenThinRdp/openthinrdp/issues/80">#80</a>).</li>
+<li><strong>The age of a device right in every time zone</strong>: devices write the time of their report in UTC too<br>
+(<code class="notranslate">UPDATED_UTC</code>), and the manager uses it. The ISO is built with <code class="notranslate">Etc/UTC</code>: a manager two hours east of UTC saw<br>
+every device two hours old, as <em>off or offline</em> (<a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="5940887765" data-permission-text="Title is private" data-url="https://github.com/OpenThinRdp/openthinrdp/issues/80" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/80/hovercard" href="https://github.com/OpenThinRdp/openthinrdp/issues/80">#80</a>).</li>
+<li><strong>The actions of a device on a line of their own, with their names</strong>: remote screen, power and commands, version,<br>
+group, logo. They used to be bare icons in the top right corner and, on a small screen, covered the state of the<br>
+device. Past two lines only the secondary ones keep just their icon.</li>
+<li><strong>A narrow window works</strong>: the column of the pages keeps only its icons under 1200 points, the group links sit<br>
+under the count instead of over it, the note of the site is never cut, the help under the settings has no empty<br>
+title line.</li>
+<li><strong>Where a value comes from, said right</strong>: a value set by the group of the device reads <em>group Pesa</em>, no longer<br>
+<em>common settings</em>; the others read <em>site</em> or <em>local</em>.</li>
+</ul>
+<h2 id="029-2026-10-21" dir="auto">0.2.9 (2026-10-21)</h2>
+<ul dir="auto">
+<li><strong>Groups of devices, as folders of the management folder.</strong> <code class="notranslate">config\groups\&lt;group&gt;\_group.conf</code> holds the settings<br>
+of a group (between <code class="notranslate">common.conf</code> and each device); the files of its devices sit next to it, so the folder a file<br>
+is in is the group of the device, and moving the file moves the device. Devices with different accounts, or the<br>
+same one, in as many groups as you like. The manager shows the devices in collapsible groups, creates and deletes<br>
+groups, and moves a device to another group (its file moves in the share).</li>
+<li><strong>The devices as a tree, as in the Health Center</strong>: the site (your domain), its groups and the devices, each with<br>
+the dot of its state. Selecting the site shows the settings of every device (moved here from the Settings page),<br>
+a group its own (what is ticked is set there and wins from there down, the rest shows the value inherited from<br>
+the site), a device its own. Drag a device onto a group, or right click; <em>New group</em> above the tree.</li>
+<li><strong>Health Center settings in tabs</strong> (Hyper-V, domain and desktops, SQL and files, devices and backups, checks),<br>
+in a window of fixed size with Save always in sight. The updates of the manager are on the Updates page.</li>
+<li><strong>Fewer false problems in the Health Center</strong>: a former broker still named as fallback by some devices is no<br>
+longer shown as a broker failing every sign-in, nor as missing in the permissions of the hosts; the time source<br>
+of a server is not judged before the domain controllers are read.</li>
+<li><strong>A renamed device just gets its new name</strong>: no empty file of its own is left behind, and it stays in its group.</li>
+<li><strong>A faster manager.</strong> The vault opens in 0.2 s instead of 2.4 s after the access code (the PBKDF2 of Windows,<br>
+the same keys); its C# is compiled once and kept, so it loads in half the time; and while the Health Center reads<br>
+the servers it no longer stops the window when its page is not open.</li>
+<li>0.2.8 (hardware test, package list) was not published on its own: it is part of this release, with the new ISO.</li>
+</ul>
+<h2 id="028-2026-10-21" dir="auto">0.2.8 (2026-10-21)</h2>
+<ul dir="auto">
+<li><strong>Hardware test.</strong> The live system tests the device at its first start, and any device does from Diagnostics<br>
+(<em>Hardware test</em>): processor, memory, disk, graphics driver, missing firmware, kernel errors, network, DNS, clock,<br>
+sound, USB, TPM, Secure Boot, FreeRDP with UDP, the broker and the management folder. <em>Send to the OpenThinRDP<br>
+project</em> opens a ready-made hardware report on GitHub, sent with your own account; nothing in it identifies the<br>
+device or the network (no name, address, MAC or serial number, checked by the tests).</li>
+<li><strong>The package list of every ISO</strong> (<code class="notranslate">openthinrdp-&lt;version&gt;.packages.txt</code>), name and version of each package.</li>
+<li><strong>New ISO</strong>: the licence (GPLv3), the folder from the domain and the hardware test from the first start (built as 0.2.9).</li>
+</ul>
+<h2 id="027-2026-10-21" dir="auto">0.2.7 (2026-10-21)</h2>
+<ul dir="auto">
+<li><strong>Zero-touch on devices converted from another system.</strong> Their account is only in the credentials file, without<br>
+<code class="notranslate">MGMT_USER</code>: emptying the management folder (to take it from the domain) with <code class="notranslate">UPDATE_FROM=share</code> was refused.<br>
+The device kept its previous settings, safely; now the credentials file is enough. Found by testing on a<br>
+production device (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/97" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/97/hovercard">#97</a>).</li>
+<li><strong>Production readiness, area by area</strong>: <a href="https://openthinrdp.github.io/maturity.html">docs/maturity.md</a>, with the tests run on a production<br>
+device (rollback in 30 s, an interrupted update that installs again by itself, a network cut, zero-touch,<br>
+sign-in through each broker, power) and what is still missing.</li>
+</ul>
+<h2 id="026-2026-10-20" dir="auto">0.2.6 (2026-10-20)</h2>
+<ul dir="auto">
+<li><strong>Licence: GNU GPL version 3 or later.</strong> Anyone may use, study, change and share OpenThinRDP, and every copy or<br>
+modified version that is distributed must stay under the same licence, with its source. Releases up to 0.2.5<br>
+stay under the Apache License 2.0. The name and the logo are not part of the licence: a distributed fork needs a<br>
+name of its own (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/NOTICE">NOTICE</a>). The device now carries the licence in <code class="notranslate">/opt/openthinrdp/LICENSE</code>. No other<br>
+change from 0.2.5.</li>
+</ul>
+<h2 id="025-2026-10-20" dir="auto">0.2.5 (2026-10-20)</h2>
+<ul dir="auto">
+<li><strong>Manager: power and commands for a device.</strong> In the header of a device, <em>Power and commands</em>: power on with<br>
+Wake-on-LAN (to the broadcast of the network it reported), restart, switch off, send its status now, run a command<br>
+and see its output. Over SSH with the key of the vault; restart and switch off warn when someone is working on it.</li>
+</ul>
+<h2 id="024-2026-10-20" dir="auto">0.2.4 (2026-10-20)</h2>
+<ul dir="auto">
+<li><strong>Manager: <em>Name it in the domain</em> works on a real domain.</strong> Found in the first real use of 0.2.3: the account of<br>
+the devices, when it is set on each device and not in <code class="notranslate">common.conf</code>, was not found (now the account the devices<br>
+report is used), and in a new <code class="notranslate">folders.conf</code> the entry was glued to the comment line, so no device could read it<br>
+(now one line per account; a glued line is split again). Tried on a production device: with its own account it<br>
+reads the folder from NETLOGON and unmounts it again.</li>
+</ul>
+<h2 id="023-2026-10-20" dir="auto">0.2.3 (2026-10-20)</h2>
+<ul dir="auto">
+<li><strong>Dutch interface</strong> (<code class="notranslate">LANGUAGE=nl</code>), translated by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/wvanommen/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/wvanommen">@wvanommen</a><br>
+(<a href="https://github.com/OpenThinRdp/openthinrdp/issues/83" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/83/hovercard">#83</a>); the start screen shows day and month in Dutch too.<br>
+Every language file is now checked: only <code class="notranslate">KEY="text"</code> lines, no unknown key, the same <code class="notranslate">%s</code> as English.</li>
+<li><strong>First start: a device always gets its own name</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/80" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/80/hovercard">#80</a>).<br>
+One invalid setting (a hand-written <code class="notranslate">openthinrdp.conf</code>, an image built with settings of its own) made the rename<br>
+fail silently and the device stayed <code class="notranslate">thinclient</code>; now the name is set anyway and the event log says which setting<br>
+to fix.</li>
+<li><strong>Zero-touch from the domain account</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/82" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/82/hovercard">#82</a>). A device with<br>
+a domain account and no folder of its own finds the management folder in<br>
+<code class="notranslate">\\&lt;domain&gt;\NETLOGON\OpenThinRDP\folders.conf</code>, written by the manager (Settings &gt; Manager &gt; <em>Name it in the<br>
+domain</em>): a new device needs only domain, account and password, and follows the folder when it moves.</li>
+<li><strong>Manager: move the management folder</strong> in one step (Settings &gt; Manager &gt; <em>Move the folder...</em>): everything is<br>
+copied, every device follows at its next report, the manager goes on in the new folder.</li>
+<li><strong>Manager: correct the permissions of the devices' account.</strong> <em>Check permissions</em>, when it finds a problem, offers<br>
+(after asking) to give the account what it needs and no more: read on the folder, modify on <code class="notranslate">status\</code> only; write<br>
+rights of its own elsewhere are removed, rights through groups only reported.</li>
+<li><strong>Manager: the configuration as text</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/82" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/82/hovercard">#82</a>).<br>
+<strong>Edit as text...</strong> opens <code class="notranslate">common.conf</code> or a device's file as plain text, comments included; it is saved after the<br>
+same checks as the page, in the form the page writes, with a backup. Passwords show as <code class="notranslate">********</code>.</li>
+<li><strong>Health Center: switch checks on and off</strong> in Settings &gt; Health Center; an unticked check is neither performed nor<br>
+shown. The Server Manager list check is gone.</li>
+<li><strong>Health Center: fewer false warnings.</strong> Names are looked up in the DNS itself: the computer running the manager no<br>
+longer sees its own storage, cluster and APIPA addresses under its name. VMs of one role on one node are a warning<br>
+only when the cluster has a free node for one of them (three brokers on two nodes always share one).</li>
+</ul>
+<h2 id="022-2026-10-20" dir="auto">0.2.2 (2026-10-20)</h2>
+<ul dir="auto">
+<li><strong>Manager: the access code first.</strong> A copy of the manager with a vault asks its access code before anything else, in a<br>
+window of its own: no folder, no device, no window behind it. A wrong code can be typed again (after three, each try<br>
+waits longer); Exit ends the manager; the right code keeps the vault open for the session. Without a vault, as before.</li>
+<li><strong>Manager: the SSH keys of the devices are on the Vault page</strong>, under the SSH key of the manager; the menu has no<br>
+SSH keys page any more. Same list, same buttons, same file (<code class="notranslate">config\authorized_keys</code>).</li>
+<li><strong>Manager: Health Center, the health of the whole Hyper-V and RDS infrastructure</strong><br>
+(<a href="https://github.com/OpenThinRdp/openthinrdp/issues/78" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/78/hovercard">#78</a>). A page under Desktops; details in<br>
+<a href="https://openthinrdp.github.io/manager.html#health-center-the-whole-infrastructure">docs/manager.md</a>.</li>
+<li><strong>Health Center: every check with its result.</strong> Each item lists every check it ran, OK ones included, with one short<br>
+line; new checks: RD Gateway and RD Web (service, certificate, policies, port 443, failed connections), network<br>
+adapters and their drivers, UPS, the cluster volumes from each node, the witness on its device; new actions: move all<br>
+VMs to the other node, restart or shut down a server with its guards, the LAPS password (read only), and on a<br>
+personal desktop the session actions. Which check of the original runbook script is where:<br>
+<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/health-center-coverage.md">docs/health-center-coverage.md</a>.</li>
+<li><strong>Health Center: every server entered by its role, nothing found by itself.</strong> Settings &gt; Health Center has one list<br>
+per role (Hyper-V hosts with or without a cluster, DCs, DNS, brokers, RD Gateway, RD Web, SQL listener and replicas or<br>
+single SQL servers, file servers, other servers, devices), each entry with a note; an empty part says <em>not<br>
+configured</em> with a button to the settings. The settings of before move into the lists by themselves.</li>
+<li><strong>Health Center: the reading shows its steps</strong> with a progress bar, and the first one fills the tree part by part.<br>
+Without a backup log in the settings the backups are not judged: one note <em>source not configured</em>, never a false<br>
+<em>no recent backup</em>.</li>
+<li><strong>Health Center: custom checks.</strong> Your own diagnostic and repair scripts, on the servers you choose, shown in the tree<br>
+like the others; kept in <code class="notranslate">config\health-checks</code> of the management folder, with a warning when people other than the<br>
+administrators can write there.</li>
+<li><strong>Manager: the Desktops page is the Distribution view of the Health Center</strong>: one table, searchable, user -&gt; device -&gt;<br>
+desktop -&gt; host -&gt; VM -&gt; session; who cannot sign in opens the headline of the Health Center.</li>
+<li><strong>Manager: Settings with tabs</strong>: Devices (the common settings), Health Center (with the desktops and the thresholds),<br>
+Manager (its updates, its language, a local copy of the management folder for when the file server is down), Custom<br>
+checks.  - A tree of the infrastructure (cluster, hosts, VMs; domain, DCs, DNS; SQL AlwaysOn and its replicas; brokers;<br>
+devices such as a NAS or the witness; backups), each item with its state; the selected one with its facts, its<br>
+checks (what is wrong and what it means, in one sentence each) and its actions. On top <em>everything OK</em> or the<br>
+problems. Read in the background every 3 minutes.
+<ul dir="auto">
+<li>Checks of hosts (services, stuck services, memory, disks, clock against the PDC emulator, pending restart, errors),<br>
+of the failover cluster (nodes, witness, failed roles and resources, CSVs, storage pool and disks, repair jobs, live<br>
+migration networks, vTPM VMs it would save, guardian keys on every node, room for the VMs of a failed node), of the<br>
+VMs (heartbeat, saved, paused, not watched by the cluster, old checkpoints, stop action, disks inside), of AD and<br>
+DNS (DC services and start mode, SYSVOL, replication, FSMO owners, DNS servers, names with more than one address,<br>
+slow reverse lookups, reverse zones), of an optional SQL AlwaysOn group (replicas, databases, services, logins and<br>
+jobs alike on every replica, backups), of devices (ping, ports, a share) and of an optional backup log. The<br>
+findings of the Desktops page on brokers and hosts show up there too, read once.</li>
+<li><em>Diagnosis only</em> or <em>Diagnosis and repair</em>, for the page and for each item: in repair mode only safe repairs run by<br>
+themselves (start a service a role needs, unblock a stuck service with time limits, resynchronise a clock, the<br>
+witness online, <code class="notranslate">OfflineAction</code> 2, Wake-on-LAN...), each in <code class="notranslate">config\changes.log</code>; the others always ask. Never a<br>
+saved VM, never two DCs, SQL replicas or brokers at once, no SQL failover; a node is drained only with the others<br>
+up, the witness online, no storage repair and room for its VMs.</li>
+<li>Settings of the account (hosts, cluster yes/no, devices to watch, DNS servers, shared broker name, SQL listener,<br>
+backup log); hosts, cluster nodes, VMs, DCs and brokers are found by themselves.</li>
+<li>Tests in Windows PowerShell 5.1 in CI from recorded data (<code class="notranslate">tests/windows/health-tests.ps1</code>).</li>
+</ul>
+</li>
+<li><strong>Manager: the Windows side of the desktops</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/74" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/74/hovercard">#74</a>).<br>
+For Remote Desktop Services with Hyper-V; details in <a href="https://openthinrdp.github.io/manager.html#desktops-brokers-and-hyper-v-hosts">docs/manager.md</a>.
+<ul dir="auto">
+<li>A <strong>Desktops</strong> page: each user with the device, the personal desktop, its Hyper-V host, the state of the VM, the<br>
+Windows session (active, idle, disconnected) and the last sign-in (which broker, ok or failed, second try). Who<br>
+cannot sign in now is on top. Read in the background every 2 minutes.</li>
+<li><strong>Brokers and hosts</strong> at the top of the same page: sign-ins ok and failed per broker, a broker that fails every request<br>
+(with its known signature, event 4648 of <code class="notranslate">tssdis.exe</code> without the <code class="notranslate">$</code>), stuck services, the self-repair task, the<br>
+shared name answering on every address; on each host the brokers in the three local groups (through groups too),<br>
+a stuck RDVH agent or vmms, the broker the agent is attached to, VMs with a vTPM the cluster would save. Each<br>
+problem in one sentence, with a Fix button when a safe fix exists.</li>
+<li>Actions, each confirmed with what happens and to whom, and logged in <code class="notranslate">config\changes.log</code>: restart the broker<br>
+services (only while another broker is healthy, never two at once), purge its tickets, repair the host<br>
+permissions, install the broker self-repair (<code class="notranslate">management/windows/rds</code>), unblock the RDVH agent; start, restart<br>
+and shut down a VM (never saved); log off, disconnect, message, shadow; assign a personal desktop.</li>
+<li>No rights on the servers: one sentence, and the rest of the manager as before.</li>
+<li>The <strong>Problems</strong> page is now <strong>History</strong>: the past problems of the devices, from their event logs; what is wrong<br>
+now is on Desktops.</li>
+<li>Tests of the manager in Windows PowerShell 5.1 in CI, from recorded data (<code class="notranslate">tests/windows</code>).</li>
+</ul>
+</li>
+<li>The settings dialog accepts spaces in the collection (<code class="notranslate">LOAD_BALANCE_INFO</code>), as in <code class="notranslate">tsv://MS Terminal Services Plugin.1.&lt;collection&gt;</code> for RDS session collections (<a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="5925996616" data-permission-text="Title is private" data-url="https://github.com/OpenThinRdp/openthinrdp/issues/76" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/76/hovercard" href="https://github.com/OpenThinRdp/openthinrdp/issues/76">#76</a>).</li>
+<li><strong>Raspberry Pi 4 (arm64), experimental</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/61" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/61/hovercard">#61</a>).
+<ul dir="auto">
+<li><code class="notranslate">image/build-rpi.sh</code> makes an SD card image: Debian 13 arm64 with Debian's kernel and <code class="notranslate">raspi-firmware</code>, the same<br>
+kiosk, and a first boot that grows the root to the card. There is no installer.</li>
+<li>The FreeRDP with the UDP transport is built for arm64 too (<code class="notranslate">ARCH=arm64 image/freerdp/build-debs.sh</code>).</li>
+<li>Update packages carry FreeRDP per architecture (<code class="notranslate">debs/amd64/</code>, <code class="notranslate">debs/arm64/</code>), and a device installs only its own.</li>
+<li>Tested in QEMU (arm64 <code class="notranslate">virt</code>): it boots with no failed unit and opens the settings dialog, FreeRDP has UDP, and an<br>
+update installs. It is not yet tested on a real Pi. What to check there: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/arm.md">docs/arm.md</a>.</li>
+<li>A Pi 4 decodes the graphics in software; the Pi 5 needs a newer kernel layout and is not supported yet.</li>
+</ul>
+</li>
+<li><strong>The USB disk the system runs from is never passed to Windows</strong> (a live stick with <code class="notranslate">USB_MODE=all</code> or listed in<br>
+<code class="notranslate">USB_REDIRECT</code>), and its port is never switched off by <code class="notranslate">usb-hold.sh</code>.</li>
+<li><strong>Only USB disks mounted under <code class="notranslate">/media</code> are unmounted when the USB settings change</strong>, so a system booted from a<br>
+USB disk keeps its own partitions.</li>
+<li><strong>Image build:</strong> <code class="notranslate">ADMIN_PASSWORD_HASH</code> of <code class="notranslate">build.conf</code> reaches the image intact. Its <code class="notranslate">$</code> parts were expanded, and<br>
+<code class="notranslate">otradmin</code> got a broken hash.</li>
+</ul>
+<h2 id="021-2026-10-18" dir="auto">0.2.1 (2026-10-18)</h2>
+<ul dir="auto">
+<li><strong>802.1X on the cable, and WPA2/WPA3-Enterprise Wi-Fi</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/60" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/60/hovercard">#60</a>).<br>
+Networks that open a switch port only to devices that authenticate now take OpenThinRDP.
+<ul dir="auto">
+<li><code class="notranslate">DOT1X=peap|tls</code> for the cable, <code class="notranslate">WIFI_SECURITY=peap|tls</code> for Wi-Fi, with one set of EAP settings for both:<br>
+PEAP with a domain or machine account, or EAP-TLS with a certificate from your CA (e.g. AD CS).</li>
+<li>The RADIUS server's certificate is checked against your CA and its name before any password is sent.</li>
+<li>The password and the certificate's key are secrets of the device, sealed in the TPM when there is one. The<br>
+manager sends them over SSH (<strong>802.1X...</strong>), never through the management folder.</li>
+<li>DHCP waits for the authentication. On a switch with no 802.1X at all the device goes on after 15 s and says so.</li>
+<li>A password the server refuses is not tried again for an hour, so a domain account is not locked.</li>
+<li>Tested against hostapd and FreeRADIUS (cable, and Wi-Fi on virtual radios). Setup notes for Windows NPS:<br>
+<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md#8021x-and-wi-fi-enterprise">docs/configuration.md</a>.</li>
+</ul>
+</li>
+<li><strong>PCs with a legacy BIOS</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/62" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/62/hovercard">#62</a>). The live system already<br>
+started on them, but the installation stopped at the boot loader. The Debian installer tried to remove the Secure<br>
+Boot chain the image carries, a protected package, to put in the BIOS GRUB. Now on a BIOS the EFI packages are<br>
+removed and GRUB for BIOS goes onto the disk. The boot menu is the same on BIOS as on UEFI: our entries and the 10 s<br>
+timeout, instead of isolinux with Debian's. Old thin clients without UEFI (Dell Wyse 5060, HP t620 and the like)<br>
+can now be installed. Tested in QEMU with SeaBIOS: live system, confirmed installation, first start from the disk.</li>
+<li><strong>No 90-second wait at every start of a device without a TPM.</strong> The service that opens the secrets pulled<br>
+<code class="notranslate">tpm2.target</code>, which on Debian waits up to 90 s for <code class="notranslate">/dev/tpmrm0</code>. It no longer does. It waits for the TPM itself, at<br>
+most 10 s, only when the firmware declares one.</li>
+<li><strong>The first start of a new device no longer stays black.</strong> At its first start a device renames itself (from its<br>
+MAC address). With the boot now that fast, the screen could start under the old name, and after the rename no<br>
+program could open it, the settings dialog included. The screen now starts after the rename (at most 10 s later).<br>
+Measured in QEMU: start to settings dialog in about 20 s with a BIOS and 9 s with UEFI, from about 2 minutes.</li>
+<li><strong>An internal SATA disk is never unmounted when the USB settings change.</strong> With <code class="notranslate">USB_MODE=all</code>, a change of the<br>
+USB rules unmounted every mounted <code class="notranslate">sd*</code> partition that was not on USB, <code class="notranslate">/boot/efi</code> included, on PCs with a SATA disk.<br>
+Now only USB disks are considered.</li>
+<li><strong>Docs: drivers and hardware.</strong> The ISO has the complete Debian kernel and every firmware package, and the<br>
+documentation now says so. <a href="https://openthinrdp.github.io/hardware.html">docs/hardware.md</a> has the requirements, the tested devices, and used<br>
+thin clients that meet the requirements.</li>
+<li><strong>Docs: FAQ and the alternatives.</strong>
+<ul dir="auto">
+<li><a href="https://openthinrdp.github.io/faq.html">docs/faq.md</a> answers what people ask first: hardware, drivers, UDP, Azure, PXE, 802.1X, maturity.</li>
+<li><a href="https://openthinrdp.github.io/alternatives.html">docs/alternatives.md</a> compares OpenThinRDP with Linux Mint + Remmina, IGEL OS, Dell<br>
+ThinOS, Stratodesk, ThinStation and openthinclient.</li>
+</ul>
+</li>
+<li><strong>Docs: a page of its own for the manager</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/56" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/56/hovercard">#56</a>):<br>
+<a href="https://openthinrdp.github.io/manager.html">docs/manager.md</a>, and screenshots of the 0.2.0 manager.</li>
+<li><strong>The manager names the devices a pilot-only release cannot hold back</strong><br>
+(<a href="https://github.com/OpenThinRdp/openthinrdp/issues/57" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/57/hovercard">#57</a>). Devices before 0.2.0 do not know <code class="notranslate">UPDATE_TO</code> and take<br>
+the newest version in the folder anyway.</li>
+</ul>
+<h2 id="020-2026-10-17" dir="auto">0.2.0 (2026-10-17)</h2>
+<ul dir="auto">
+<li><strong>Pilot devices first, and going back to an earlier version</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/50" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/50/hovercard">#50</a>).<br>
+New setting <code class="notranslate">UPDATE_TO</code>: <code class="notranslate">latest</code> (the default), or a version that a device installs also when it is older than its<br>
+own, FreeRDP included, and keeps until the setting changes. The current version in <code class="notranslate">common.conf</code> and <code class="notranslate">latest</code> on a<br>
+few devices make a pilot group. It works from GitHub (the release <code class="notranslate">v&lt;version&gt;</code>) and from the management folder,<br>
+where every published version now has its signed index in <code class="notranslate">updates\versions\</code>. In the manager, <strong>Release from<br>
+GitHub</strong> asks <em>all devices</em> or <em>pilot devices only</em>; a device can be made a pilot or set to a version of its own; the<br>
+new <strong>Updates</strong> page shows what the fleet is on, the pilots and the versions in the folder, with <strong>Release to all<br>
+devices</strong>, <strong>Version for all devices...</strong> and <strong>Version from GitHub...</strong>. A device goes back only to 0.2.0 or later.</li>
+<li><strong>The manager updates itself</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/51" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/51/hovercard">#51</a>). Every release carries<br>
+<code class="notranslate">openthinrdp-manager-&lt;version&gt;.zip</code>, named and hashed in the signed <code class="notranslate">LATEST.txt</code>. At start the manager checks the<br>
+latest release in the background and shows <em>Manager X available</em>; <strong>Update the manager</strong> checks signature and hash,<br>
+keeps the replaced files in <code class="notranslate">previous\</code>, never touches <code class="notranslate">vault.otr</code>, the launcher <code class="notranslate">.exe</code> or its <code class="notranslate">.args</code>, restores<br>
+everything when something fails, and restarts. <code class="notranslate">OpenThinRDP-Manager.cmd -UpdateManager</code> does it without a window.</li>
+<li><strong>Desktops in the cloud</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/52" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/52/hovercard">#52</a>): the README and<br>
+<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md#desktops-in-the-cloud">docs/configuration.md</a> say what works with RDS or Windows virtual<br>
+machines in Azure, AWS or any cloud (through the RD Gateway or a VPN, UDP through a VPN), and that Azure Virtual<br>
+Desktop and Windows 365 are not supported yet.</li>
+</ul>
+<h2 id="0115-2026-10-17" dir="auto">0.1.15 (2026-10-17)</h2>
+<ul dir="auto">
+<li><strong>FreeRDP <code class="notranslate">dda5414</code>: sessions start 5 seconds sooner, the newest UDP transport</strong><br>
+(<a href="https://github.com/OpenThinRdp/openthinrdp/issues/47" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/47/hovercard">#47</a>). FreeRDP 3.32.2 with the UDP pull request<br>
+<a href="https://github.com/FreeRDP/FreeRDP/pull/13608" data-hovercard-type="pull_request" data-hovercard-url="/FreeRDP/FreeRDP/pull/13608/hovercard">#13608</a> at its 58 commits (acknowledgements as the specification<br>
+asks, about 40% less CPU per UDP packet, no more connections that Windows 11 ended in their first second, fixes for<br>
+Windows Server 2016) and nine fixes of FreeRDP master. With UDP<br>
+(<code class="notranslate">/network:auto</code>) Windows started every session 5 s late, because the client did not count the header of the<br>
+bandwidth measurement: from the broker's redirect to the desktop now takes 0.13–0.21 s instead of 5.1 s. With<br>
+<code class="notranslate">RDP_GATEWAY_USE=detect</code> a server reached straight keeps UDP. The microphone no longer stops and restarts when<br>
+Windows changes only its bit rate. RD Gateway and USB fixes. See <a href="https://openthinrdp.github.io/udp.html#the-freerdp-in-the-image">docs/udp.md</a>.</li>
+</ul>
+<h2 id="0114-2026-10-16" dir="auto">0.1.14 (2026-10-16)</h2>
+<ul dir="auto">
+<li>
+<p dir="auto"><strong>VPN: WireGuard and OpenVPN</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/44" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/44/hovercard">#44</a>). A device outside<br>
+the office reaches the broker, the management folder and the DNS of the office through its own tunnel<br>
+(<code class="notranslate">VPN=wireguard|openvpn</code>); inside WireGuard the session keeps UDP. The WireGuard key is made on the device and only<br>
+its public key is reported (the manager copies the <code class="notranslate">[Peer]</code> block for the server); the OpenVPN profile and its<br>
+password go to the device from the manager over SSH, as secrets. A password the server refuses is not retried for<br>
+an hour, so that the account is not locked.</p>
+</li>
+<li>
+<p dir="auto"><strong>RD Gateway: <code class="notranslate">RDP_GATEWAY</code></strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/42" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/42/hovercard">#42</a>). Devices outside the<br>
+office connect through the Remote Desktop Gateway of the deployment, over HTTPS, with the credentials of the<br>
+session; <code class="notranslate">RDP_GATEWAY_USE=detect</code> reaches a server on the local network straight. Through a gateway the session<br>
+uses TCP. The diagnostics test the gateway, the manager has both settings.</p>
+</li>
+<li>
+<p dir="auto"><strong>The manager fits every screen</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/38" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/38/hovercard">#38</a>). The columns of<br>
+the lists and grids share the width (the Exception column was behind a scroll bar even on large screens), rows of<br>
+buttons wrap instead of running out of the window, the top bar and the device actions keep only their icons when<br>
+the room is short, the window opens at 85% of the screen and can be made as small as 860×560.</p>
+</li>
+<li>
+<p dir="auto"><strong>SSH host keys by device name.</strong> After DHCP gave the devices new addresses, a device answering at an address<br>
+another one had was refused (remote screen, sending the site key). The manager now keeps the host keys by device<br>
+name in its own <code class="notranslate">known_hosts</code>, and says so when a device really presents a new key.</p>
+</li>
+<li>
+<p dir="auto"><strong>The OpenThinRDP icon</strong> on the windows of the manager (title bar, taskbar) and in its top bar, and<br>
+<code class="notranslate">build-launcher.ps1</code>: an <code class="notranslate">OpenThinRDP-Manager.exe</code> with the icon that starts the manager without a console window,<br>
+its arguments in a <code class="notranslate">.args</code> file next to it.</p>
+</li>
+<li>
+<p dir="auto"><strong>Updates install missing Debian packages without the recommended ones</strong>, as the image is built: a package<br>
+needed by a new version never brings more than its own dependencies.</p>
+</li>
+</ul>
+<h2 id="0113-2026-10-15" dir="auto">0.1.13 (2026-10-15)</h2>
+<ul dir="auto">
+<li><strong>A vault in the manager for the SSH key and the signing key</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/35" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/35/hovercard">#35</a>).<br>
+At the first start the manager asks for an access code and keeps, encrypted with it in <code class="notranslate">vault.otr</code> next to the<br>
+manager, a new SSH key for the remote screen and the key that signs the update packages. Every administrator who<br>
+starts the same manager opens it with the same code; without the code the settings can still be edited, but no<br>
+screen opens and nothing is signed. The remote screen offers only the key of the vault, never the keys in the<br>
+profile of the PC. Update packages are signed in the manager (<strong>Vault &gt; Sign an update</strong>, or<br>
+<code class="notranslate">OpenThinRDP-Manager.cmd -Sign &lt;path&gt;\LATEST.txt</code>), with the same Ed25519 signature <code class="notranslate">gpg</code> writes; <code class="notranslate">make-update.sh</code><br>
+without <code class="notranslate">-k</code> builds the package and leaves <code class="notranslate">LATEST.txt</code> to be signed there.</li>
+<li><strong>A fleet on its own key: <code class="notranslate">UPDATE_KEY=site</code></strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/35" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/35/hovercard">#35</a>).<br>
+Devices updating from the management folder can accept only the key of the site, which the manager creates in its<br>
+vault and sends to the devices over SSH (<code class="notranslate">site-key.sh</code>). <strong>Release from GitHub</strong> checks the project signature in<br>
+the manager (no gpg needed any more) and signs the release again with the site key: a stolen project key installs<br>
+nothing on such a fleet. A device without the site key still accepts the project key, so none is left without<br>
+updates. Each device reports its site key (<code class="notranslate">SITE_KEY</code>, Summary &gt; Update signatures).</li>
+<li>The manager read its texts with <code class="notranslate">Import-PowerShellDataFile</code>, which refuses more than 500 entries: the texts are<br>
+now read entry by entry, as constants.</li>
+</ul>
+<h2 id="0112-2026-10-15" dir="auto">0.1.12 (2026-10-15)</h2>
+<ul dir="auto">
+<li><strong>H.264 was on although <code class="notranslate">RDP_GFX</code> turns it off</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/33" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/33/hovercard">#33</a>).<br>
+With UDP the kiosk passes <code class="notranslate">/network:auto</code>, and FreeRDP applied it after <code class="notranslate">/gfx</code>, turning the H.264 codecs back on:<br>
+the server encoded the whole desktop with AVC444 and dark text on saturated colours came out smeared (labels of<br>
+point of sale buttons on magenta and yellow). The FreeRDP build of OpenThinRDP now applies <code class="notranslate">/network</code> before the<br>
+other options (<a href="https://github.com/FreeRDP/FreeRDP/pull/13748" data-hovercard-type="pull_request" data-hovercard-url="/FreeRDP/FreeRDP/pull/13748/hovercard">FreeRDP#13748</a>): the default<br>
+<code class="notranslate">progressive,AVC420:off,AVC444:off</code> gets progressive and ClearCodec again, text pixel exact, over UDP as before.<br>
+The update installs FreeRDP <code class="notranslate">1529245ac</code> (3.32.2 + the UDP transport of #13608 + this fix). A<br>
+<code class="notranslate">RDP_EXTRA=/network:lan</code> set to work around it can be removed once the devices have this version.</li>
+</ul>
+<h2 id="0111-2026-10-15" dir="auto">0.1.11 (2026-10-15)</h2>
+<ul dir="auto">
+<li><strong>A clearer manager</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/23" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/23/hovercard">#23</a>). Pages on the left (Devices,<br>
+Common settings, SSH keys, Problems), the folder actions in a bar on top. The device list has five columns (a<br>
+coloured state, who is signed in, version, last report) and a search box; the selected device has a header with<br>
+its address and its actions (Remote screen, Logo and background) and four tabs: Settings, Summary, Events, Full<br>
+report. Every setting shows the value in use, where it comes from (the device itself, the common settings, this<br>
+device) and <em>on its way</em> when a saved value has not reached the device yet; the help of the selected setting is<br>
+shown in full under the list. <strong>Add the key of this PC</strong> on the SSH keys page (created when missing), so another<br>
+administrator is ready for the remote screen in one click. A screen that shows its kiosk web page is listed as<br>
+<em>kiosk</em>. Fixed: the Problems headline stayed empty when there were no problems.</li>
+<li><strong>Settings, PIN and diagnostics in the look of the sign-in screen</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/28" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/28/hovercard">#28</a>).<br>
+The settings of the device in sections (Remote desktop, Network, Wi-Fi, USB, Web page, Power on and off,<br>
+Management) with a hint under every field; same values, same checks. When the new screen cannot open, the earlier<br>
+dialog opens instead: the settings must always be reachable.</li>
+<li><strong><code class="notranslate">USB_MODE=auto</code></strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/26" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/26/hovercard">#26</a>): device by device, a device that<br>
+is only storage (a stick, a card reader) appears in Windows as a drive, a device with storage and something else<br>
+(an instrument, a key with its own driver) goes whole. Smart card readers with storage: the reader through the<br>
+smart card channel, the storage as a drive. Plugged in during a session, <code class="notranslate">auto</code> works as <code class="notranslate">disks</code> for now. A device<br>
+that does not know <code class="notranslate">auto</code> yet reads it as <code class="notranslate">all</code>.</li>
+<li><strong>Kerberos only: <code class="notranslate">RDP_AUTH=kerberos</code></strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/22" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/22/hovercard">#22</a>): the sign-in<br>
+fails instead of falling back to NTLM, for domains that turned NTLM off and to see a broken Kerberos setup at once.</li>
+<li>README: OpenThinRDP is not openthinclient (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/30" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/30/hovercard">#30</a>).</li>
+</ul>
+<h2 id="0110-2026-10-15" dir="auto">0.1.10 (2026-10-15)</h2>
+<ul dir="auto">
+<li><strong>Remote screen from the manager</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/19" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/19/hovercard">#19</a>). <em>Device settings &gt;<br>
+Remote screen...</em> shows the screen of a device in your browser and lets you use it: to help a user, or to sign in<br>
+once to a dashboard on a screen with no keyboard. Over SSH only (administrators' key, one-time password, x11vnc and<br>
+the viewer on 127.0.0.1 as the account that owns the screen), nothing to install on the PC (Windows' <code class="notranslate">ssh.exe</code> and<br>
+the browser). The device shows <em>Remote assistance active</em> while it lasts and records it in its events; it ends with<br>
+the manager's window or after 2 hours. <code class="notranslate">REMOTE_SCREEN=off</code> turns it off. The update installs <code class="notranslate">x11vnc</code> (11 MB, needs<br>
+the Debian mirror once); the viewer, noVNC 1.7.0, is included unmodified, with a standard-library WebSocket bridge<br>
+instead of websockify (about 50 MB of dependencies).</li>
+<li>README: the manager gets a section of its own, with the remote screen.</li>
+<li><strong>The device's secrets in the TPM, when there is one</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/17" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/17/hovercard">#17</a>).<br>
+The management folder password, the Wi-Fi key and the SSH host keys are kept encrypted with a key that never<br>
+leaves the TPM 2.0 and decrypted at every start into memory, before the network and SSH; a disk or eMMC taken<br>
+out of the device gives nothing. Devices set up before move their plain files into the TPM at the next start,<br>
+keeping the same SSH host keys. Bound to the TPM only, so BIOS updates do not lose them. Without a TPM nothing<br>
+changes, so older PCs keep working. The status file says which mode a device is in (<code class="notranslate">SECRETS=</code>). The update<br>
+installs the TPM libraries systemd needs (needs the Debian mirror once). The folder password and the Wi-Fi key<br>
+keep their usual paths (links to memory), so the network configuration does not change; each secret is read back<br>
+and compared before its plain file goes. <code class="notranslate">TPM_SECRETS=off</code> keeps a device out of the TPM or brings it back out,<br>
+and set centrally it counts from the first start after the update: a fleet can be moved one device at a time.</li>
+</ul>
+<h2 id="019-2026-10-14" dir="auto">0.1.9 (2026-10-14)</h2>
+<ul dir="auto">
+<li><strong>Started from the ISO, the latest version first</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/12" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/12/hovercard">#12</a>).<br>
+A device still on the version of its image (live system, or installed and never updated) checks for updates<br>
+before the kiosk opens and, when there is a newer version, asks <em>Download and use 0.1.x</em> or <em>Use 0.1.y</em> (no<br>
+answer in 30 s: the newer one, so unattended installs end up current). It used to update in the background a few<br>
+seconds after the kiosk had opened, and restart it. The ISO is no longer rebuilt for every release: a release<br>
+is the signed update package plus the ISO already published, a new ISO only when the base system changes.</li>
+<li><strong>A USB device that hangs no longer ends the session</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/10" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/10/hovercard">#10</a>).<br>
+Windows started the devices passed whole together with the display of the session; a USB stick that hung at<br>
+start held Plug and Play for 60 s and Windows closed the session ("display driver not ready", reported to<br>
+FreeRDP as <a href="https://github.com/FreeRDP/FreeRDP/issues/13719" data-hovercard-type="issue" data-hovercard-url="/FreeRDP/FreeRDP/issues/13719/hovercard">#13719</a>), and at the second time the kiosk took it<br>
+for a session taken over and switched the device off. The devices passed whole now arrive 15 s after the<br>
+desktop: their hub port is off while the session starts (<code class="notranslate">usb-hold.sh</code>), then on again, so for Windows they are<br>
+plugged in with the session running and a device that hangs fails on its own. If anything goes wrong the ports<br>
+come back on by themselves after 2 minutes.</li>
+</ul>
+<h2 id="018-2026-10-14" dir="auto">0.1.8 (2026-10-14)</h2>
+<ul dir="auto">
+<li><strong>A USB network adapter works as soon as it is plugged in</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/8" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/8/hovercard">#8</a>).<br>
+It used to stay without an address until the settings were saved: the udev rule matched the adapter's name<br>
+before udev renamed it (<code class="notranslate">eth0</code>/<code class="notranslate">usb0</code>, then <code class="notranslate">enx…</code>), so it never matched a USB adapter; at boot an adapter<br>
+appearing while the settings were being applied was configured by nobody; and the address request started in<br>
+the background was killed with the udev job. Plugged in with the device running or present at boot, it now gets<br>
+its address within seconds, without touching the adapter in use. A Wi-Fi adapter whose driver loads late is<br>
+picked up the same way.</li>
+<li><strong>Wi-Fi survives kernel updates</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/7" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/7/hovercard">#7</a>). The initramfs<br>
+built for the device included the Wi-Fi driver without the part it loads later (Intel: <code class="notranslate">iwlwifi</code> without<br>
+<code class="notranslate">iwlmvm</code>), so after the next kernel update a device on Wi-Fi came up with no Wi-Fi adapter at all and no network.<br>
+Only wired and graphics drivers go in now; devices set up by older versions get the Wi-Fi drivers taken out at<br>
+the next boot (the boot after that has the adapter back).</li>
+<li>The DROPPED event names why FreeRDP ended the session (its last connection error), not the channels that<br>
+fail while the connection closes behind it (it named a smart card channel after the UDP tunnel broke down).</li>
+</ul>
+<h2 id="017-2026-10-13" dir="auto">0.1.7 (2026-10-13)</h2>
+<ul dir="auto">
+<li><strong>Manager: Problems tab.</strong> The event logs of all devices read together for a period and grouped: failed sign-in<br>
+attempts by broker, dropped sessions by cause, refused sign-ins, sessions taken over, failed updates. The same<br>
+problem on 3 or more devices is highlighted (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#problems-across-the-fleet">management.md</a>).</li>
+<li><strong><code class="notranslate">USB_MODE=disks</code> keeps USB sticks on the thin client also when they are plugged in during a session.</strong> The<br>
+class filter did not include storage, so FreeRDP took a stick plugged in mid-session as a whole USB device and<br>
+Windows got a raw disk without a drive letter instead of the shared drive. Devices listed in <code class="notranslate">USB_REDIRECT</code> still<br>
+go whole.</li>
+<li><strong>Waiting for Windows instead of failing.</strong> When the broker answers but the virtual machine refuses the desktop<br>
+(it is restarting or installing a Windows update), the device no longer spends its attempts and ends on "desktop<br>
+not available", nor reconnects every few seconds to sessions that Windows drops after ~22 s while it finishes the<br>
+update. It shows <em>Waiting for Windows</em> with the minutes elapsed and a Cancel button, tries again every 20 s, and<br>
+connects as soon as the desktop is ready (up to 20 minutes). One event when the wait starts, one every 5 minutes.</li>
+<li><strong>Dropped sessions keep their log.</strong> The FreeRDP log of a dropped session stays as <code class="notranslate">/tmp/kiosk.log.prev</code> (the<br>
+reconnection starts a new one at once) and the DROPPED event ends with its last error, so the cause can be read<br>
+afterwards, also in the manager's Problems tab.</li>
+<li>Updates from GitHub are checked every 3 hours instead of 6.</li>
+<li>The central settings are not applied while an update is installing (a valid setting could be rejected with half<br>
+the files updated).</li>
+</ul>
+<h2 id="016-2026-10-13" dir="auto">0.1.6 (2026-10-13)</h2>
+<ul dir="auto">
+<li><strong>Session taken over from another device.</strong> Windows 11 ends the session of the device left behind with code 1, the<br>
+same as a VM shutdown (measured directly on the VM and through the broker), never with 5. The device now checks<br>
+whether the VM still answers: if it does, it shows "Session opened elsewhere" with Resume here, instead of the<br>
+shutdown page that switched it off.</li>
+<li><strong>Startup progress.</strong> The progress screen showed each step one step late (it read one line per wake-up), so it<br>
+stayed on "Connecting to the broker" while the broker was starting the VM. Every step now shows at once, and after<br>
+5 s on the broker it says the virtual machine is being started.</li>
+<li><strong>Kerberos behind a broker alias.</strong> With <code class="notranslate">RDP_AUTH=negotiate</code> the device connects to one of the brokers behind<br>
+a round-robin name by that broker's own name: the Kerberos ticket was otherwise asked for whichever broker the<br>
+Kerberos library looked up, and the other one refused it. NTLM-only (<code class="notranslate">RDP_AUTH=ntlm</code>) is no longer needed there,<br>
+and the device keeps two ways to sign in instead of one.</li>
+<li><strong>Manager: Check permissions.</strong> Lists what the devices' account can change in the management folder<br>
+besides <code class="notranslate">status\</code>, through which group, and what every user can change there<br>
+(<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#account">management.md</a>).</li>
+<li>Devices report the account of the management folder (<code class="notranslate">MGMT_ACCOUNT</code>, never the password).</li>
+<li><code class="notranslate">SUMMARY.csv</code> moves into <code class="notranslate">status\</code>, so the devices need write access there only.</li>
+</ul>
+<h2 id="015-2026-10-12" dir="auto">0.1.5 (2026-10-12)</h2>
+<ul dir="auto">
+<li><strong>The installer asks before erasing the disk.</strong> <em>Install</em> shows the internal disk it is going to use and<br>
+the partitions it will write, and asks ("No" preselected); old LVM volumes or software RAID on that disk are<br>
+never removed without a question either. <em>Unattended install</em>, a separate entry of the boot menu, keeps the<br>
+old behaviour for rollouts on known hardware.</li>
+<li><strong>FreeRDP: pull request #13608 unchanged, no patches of ours.</strong> The author took our two fixes into the pull<br>
+request (ten SYN attempts, and the root cause of the false "stream is stuck" on lossy lines), which also<br>
+removes a 1 s freeze at every wrap of the channel sequence under loss: with 70% of the packets lost the<br>
+session now keeps 18-19 frames per second instead of 9-13.</li>
+<li><strong>Settings PIN salted and stretched</strong> (PBKDF2-SHA256, 600,000 iterations) when set from the manager; a PIN<br>
+of 0.1.4 and earlier keeps working.</li>
+<li>Docs: the devices' account needs write access to <code class="notranslate">status\</code> only (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#account">management.md</a>);<br>
+replacing or revoking the release key through the update channel (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/SECURITY.md">SECURITY.md</a>).</li>
+<li>FreeRDP gets 20 s instead of 30 to bring a connection up: a broker that accepts the connection and then hangs<br>
+costs this much on every attempt before the next broker is tried. Still above the 15 s a broker took to prepare<br>
+a virtual machine.</li>
+<li>The system tests (93) and a shell syntax check run in Debian 13 on every push and pull request<br>
+(<a href="https://github.com/OpenThinRdp/openthinrdp/actions/workflows/tests.yml">CI</a>).</li>
+</ul>
+<h2 id="014-2026-10-12" dir="auto">0.1.4 (2026-10-12)</h2>
+<ul dir="auto">
+<li>
+<p dir="auto"><strong>The project moved to the OpenThinRDP organization</strong>: <a href="https://github.com/OpenThinRdp/openthinrdp">https://github.com/OpenThinRdp/openthinrdp</a>, website<br>
+<a href="https://openthinrdp.github.io/" rel="nofollow">https://openthinrdp.github.io/</a>. The old addresses redirect, and devices already installed keep updating.</p>
+</li>
+<li>
+<p dir="auto"><strong>Security: FreeRDP 3.32.2</strong>, the security release of 2026-10-12, with the UDP transport (pull request #13608)<br>
+on top. The USB fixes #13674, #13679 and #13618 are part of 3.32.2.</p>
+</li>
+<li>
+<p dir="auto"><strong>UDP holds on lossy lines.</strong> We found and fixed a bug in the UDP transport: after the channel sequence wrapped,<br>
+a wrong elapsed time (an unsigned difference going below zero) made the client believe the stream had been stuck<br>
+for ages, and it ended the connection within seconds whenever packets were being lost. Now the session keeps<br>
+<strong>20 frames per second with 50% of the packets lost and 9 with 70%</strong>, and still draws at 80%; TCP is down to<br>
+0.6 at 20%. The tunnel is also set up with ten attempts instead of four. Both fixes are proposed to FreeRDP in<br>
+pull request #13608. See <a href="https://openthinrdp.github.io/udp.html">docs/udp.md</a>.</p>
+</li>
+<li>
+<p dir="auto">FreeRDP gets 30 s instead of 9 to bring a connection up and to wait for the TCP connection beside the UDP<br>
+tunnel (<code class="notranslate">/timeout</code>): a broker preparing a virtual machine in 15 s no longer makes the first attempt fail, and on<br>
+a very lossy line the TCP connection is not given up while the UDP tunnel still carries the session.</p>
+</li>
+<li>
+<p dir="auto"><strong>Fix: no microphone in meetings with a webcam.</strong> A webcam was passed to Windows as a whole USB device, and<br>
+Windows keeps the microphone of such a device in the console session: Teams and Zoom in the remote session found<br>
+no microphone at all. Webcams and USB headsets now stay on the thin client: the camera goes through the RDP<br>
+camera channel ([MS-RDPECAM]), the microphone and the speaker through the RDP audio channels. Devices plugged in<br>
+during the session follow the same rule, and a webcam an earlier version had passed over USB is given back to<br>
+the thin client by itself (its Linux drivers are attached again).</p>
+</li>
+<li>
+<p dir="auto"><strong>Updates installed during a session take effect when it is over</strong>: as soon as the device is back to the<br>
+sign-in screen, or a new connection starts, the screen reloads with the new version (before: at the next start).</p>
+</li>
+<li>
+<p dir="auto">The mouse pointer on the kiosk screens (sign-in, progress, messages) hides while the mouse is still and comes<br>
+back as soon as it moves; in the remote desktop it is Windows' own pointer as before.</p>
+</li>
+<li>
+<p dir="auto">Fix: a device moved to another management folder by <code class="notranslate">MGMT_SHARE</code> in the common settings went back to the<br>
+folder of its image at the next report, and kept bouncing between the two.</p>
+</li>
+</ul>
+<h2 id="013-2026-10-12" dir="auto">0.1.3 (2026-10-12)</h2>
+<p dir="auto">In production: this version runs a fleet of thin clients converted in place, updated from their management folder.</p>
+<ul dir="auto">
+<li><strong>New screens for the user</strong> (GTK, full screen, on the background of the site): sign-in with the clock and date,<br>
+information and settings small in the top right corner, power with <strong>Restart</strong> and <strong>Shut down</strong> bottom right,<br>
+the web button bottom left; desktop start with a progress bar that follows the real steps (broker, redirection,<br>
+desktop on screen); errors, no network, session open elsewhere, session taken over, end of session with a<br>
+countdown. Settings, diagnostics and PIN stay simple dialogs (administrators only).</li>
+<li><strong>Software updates</strong>: a notice with the progress in the top right corner while one installs; <strong>Shut down<br>
+during an update</strong> shows it full screen and switches off when it is done (before, it interrupted the install).</li>
+<li>The boot screen always shows the picture and colors of the image (OpenThinRDP's, or yours when you build your<br>
+own image); the picture of the management folder is the background of the sign-in screen, which is drawn<br>
+again as soon as a new one arrives. In the manager the button is now <strong>Logo and background...</strong>.</li>
+<li>Devices still showing the provisional logo of 0.1.0 get the current one (only exact project pictures are<br>
+replaced, never those of your own image).</li>
+<li><strong>FreeRDP</strong>: the USB fix for a client hanging on disconnect is now <a href="https://github.com/FreeRDP/FreeRDP/pull/13679" data-hovercard-type="pull_request" data-hovercard-url="/FreeRDP/FreeRDP/pull/13679/hovercard">FreeRDP#13679</a><br>
+(by the FreeRDP maintainer, from our #13677); <a href="https://github.com/FreeRDP/FreeRDP/pull/13674" data-hovercard-type="pull_request" data-hovercard-url="/FreeRDP/FreeRDP/pull/13674/hovercard">#13674</a> was approved.</li>
+<li>Manager: a picture whose width already fit was not scaled to the height.</li>
+<li>Day and month of the sign-in screen follow <code class="notranslate">LANGUAGE</code>, not the system locale.</li>
+</ul>
+<h2 id="012-2026-10-12" dir="auto">0.1.2 (2026-10-12)</h2>
+<ul dir="auto">
+<li><strong>Fix</strong>: update packages always carry 755/644 modes. The 0.1.1 package was built with umask 002, and a device<br>
+that installed it got a group-writable <code class="notranslate">/etc</code>, so sshd refused every key. Installing 0.1.2 repairs it.<br>
+The 0.1.1 package was withdrawn; the 0.1.1 ISO was not affected.</li>
+<li>The README links always point to the latest release.</li>
+</ul>
+<h2 id="011-2026-10-12" dir="auto">0.1.1 (2026-10-12)</h2>
+<ul dir="auto">
+<li><strong>Security</strong>: no text consoles. Ctrl+Alt+F1..F12 and Ctrl+Alt+Backspace do nothing in the kiosk, no spare<br>
+consoles with a login prompt, the <code class="notranslate">kiosk</code> account is locked. In 0.1.0 <code class="notranslate">kiosk</code> had no password: anybody at the<br>
+keyboard could get a shell with Ctrl+Alt+F2. Devices updated from 0.1.0 are fixed too.</li>
+<li>Secrets (Wi-Fi key, management folder password) are never printed back, only their hash.</li>
+<li>Logo and boot image from the Windows manager, for every device or for one (<code class="notranslate">config\branding\</code>); the boot<br>
+splash follows, also when only the colors change.</li>
+<li>Diagnostics button (ℹ) on the sign-in form, without a PIN: network, brokers, time, management folder, events.</li>
+<li>A new device names itself <code class="notranslate">thinclient-</code> + the last 6 digits of its MAC address.</li>
+<li>Management folder account in the settings dialog and in the central settings (<code class="notranslate">MGMT_USER</code>, <code class="notranslate">MGMT_PASSWORD</code>).</li>
+<li><code class="notranslate">MULTIMON=auto|off</code>: one remote desktop over every monitor.</li>
+<li>Certificate authorities of the site are trusted by the system too.</li>
+<li>Settings labels with a colon (<code class="notranslate">hh:mm</code>, <code class="notranslate">VID:PID</code>) were cut short since 0.1.0.</li>
+<li>README: direct connection to a Windows PC, what comes next.</li>
+</ul>
+<h2 id="010-2026-10-11-pre-release" dir="auto">0.1.0 (2026-10-11, pre-release)</h2>
+<ul dir="auto">
+<li>First public version: kiosk with FreeRDP and the UDP transport, USB for VDI, management from a shared folder<br>
+with a Windows manager, signed updates from GitHub or the folder, ISO with a live system and automatic<br>
+installation.</li>
+</ul>
+</main>
+<footer class="bar small">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/CHANGELOG.md">CHANGELOG.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</footer>
+<script data-goatcounter="https://ceschi-ops.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -52,6 +52,9 @@ $site_pages = @(
   @{ Doc = 'docs/privacy.md'; Url = 'privacy.html'; Lang = 'en'
      Title = "OpenThinRDP privacy $dash the anonymous counts, all of them, and how to switch them off"
      Desc = 'What OpenThinRDP and its manager send to the project: a few anonymous counts (version, model, processor, memory), never names, addresses or users. On GoatCounter, no cookies, no IP addresses. How to switch it off on one device, a whole site or the manager.' }
+  @{ Doc = 'CHANGELOG.md'; Url = 'changelog.html'; Lang = 'en'
+     Title = "OpenThinRDP changelog $dash what changed in every release"
+     Desc = 'Every release of OpenThinRDP, newest first: new features, fixes, security updates and major updates of the thin client OS and of its Windows manager.' }
 )
 $pages = @{}; foreach ($p in $site_pages) { $pages[$p.Doc] = $p.Url }
 # the documents an AI assistant should read whole, in llms-full.txt, in this order
@@ -60,9 +63,9 @@ $fullDocs = 'README.md', 'docs/guides/getting-started.md', 'docs/faq.md', 'docs/
   'docs/udp.md', 'docs/security.md', 'docs/privacy.md', 'docs/maturity.md'
 # the texts of the page around the document
 $ui = @{
-  en = @{ Download = "Download $ver"; Manager = 'Manager'; Hardware = 'Hardware'; Compare = 'Compare'; Faq = 'FAQ'; FaqUrl = 'faq.html'
+  en = @{ Download = "Download $ver"; Manager = 'Manager'; Hardware = 'Hardware'; Compare = 'Compare'; Faq = 'FAQ'; FaqUrl = 'faq.html'; Changelog = 'Changelog'
           Other = 'Italiano'; Footer = 'This page is {0} as published on <a href="https://github.com/{1}">GitHub</a>, where the documentation, the releases and the discussions are.' }
-  it = @{ Download = "Scarica $ver"; Manager = 'Gestore'; Hardware = 'Hardware'; Compare = 'Confronto'; Faq = 'Domande'; FaqUrl = 'it/faq.html'
+  it = @{ Download = "Scarica $ver"; Manager = 'Gestore'; Hardware = 'Hardware'; Compare = 'Confronto'; Faq = 'Domande'; FaqUrl = 'it/faq.html'; Changelog = 'Novit&#224;'
           Other = 'English'; Footer = 'Questa pagina &#232; {0} come pubblicato su <a href="https://github.com/{1}">GitHub</a>, dove ci sono la documentazione, le release e le discussioni.' }
 }
 
@@ -153,7 +156,7 @@ $faqLd
 </head>
 <body>
 <header class="bar"><a class="home" href="$homeUrl"><img src="${site}img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
-<nav><a href="https://github.com/$repo/releases/latest">$($t.Download)</a><a href="${site}manager.html">$($t.Manager)</a><a href="${site}hardware.html">$($t.Hardware)</a><a href="${site}alternatives.html">$($t.Compare)</a><a href="$site$($t.FaqUrl)">$($t.Faq)</a><a href="https://github.com/$repo">GitHub</a>$other</nav></header>
+<nav><a href="https://github.com/$repo/releases/latest">$($t.Download)</a><a href="${site}manager.html">$($t.Manager)</a><a href="${site}hardware.html">$($t.Hardware)</a><a href="${site}alternatives.html">$($t.Compare)</a><a href="$site$($t.FaqUrl)">$($t.Faq)</a><a href="${site}changelog.html">$($t.Changelog)</a><a href="https://github.com/$repo">GitHub</a>$other</nav></header>
 <main class="markdown-body">
 $body
 </main>

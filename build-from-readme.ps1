@@ -155,6 +155,7 @@ $faqLd
 $body
 </main>
 <footer class="bar small">$footer</footer>
+<script data-goatcounter="https://ceschi-ops.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
 "@

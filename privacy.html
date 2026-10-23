@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.16","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.17","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
@@ -30,7 +30,7 @@
 </head>
 <body>
 <header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.16</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.17</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
 <main class="markdown-body">
 <h1 id="privacy-the-anonymous-counts" dir="auto">Privacy: the anonymous counts</h1>
 <p dir="auto">OpenThinRDP sends a few anonymous counts to the project once a week. They tell us which computers it runs on, which<br>
@@ -93,6 +93,52 @@ that keeps nothing between starts sends at each start.</p>
 </tr>
 </tbody>
 </table></markdown-accessiblity-table>
+<p dir="auto">And what went wrong since the last send, so we can see which versions and which computers have problems:</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>Count</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A session that froze and was ended by the watchdog</td>
+<td><code class="notranslate">session-frozen</code>, 2-5 times</td>
+</tr>
+<tr>
+<td>A session that dropped, with the exit code of FreeRDP</td>
+<td><code class="notranslate">session-dropped</code>, code <code class="notranslate">145</code></td>
+</tr>
+<tr>
+<td>A connection that failed or got no desktop in time, with the code</td>
+<td><code class="notranslate">connect-failed</code>, code <code class="notranslate">131</code></td>
+</tr>
+<tr>
+<td>A software update that failed</td>
+<td><code class="notranslate">update-failed</code></td>
+</tr>
+<tr>
+<td>A program that crashed, by its name</td>
+<td><code class="notranslate">crash</code>, <code class="notranslate">xfreerdp3</code></td>
+</tr>
+<tr>
+<td>The graphics stuck, an error of the kernel</td>
+<td><code class="notranslate">graphics-hang</code>, <code class="notranslate">kernel-error</code></td>
+</tr>
+<tr>
+<td>A stop that was no shutdown (a power cut, or frozen and switched off by hand)</td>
+<td><code class="notranslate">stopped-without-shutdown</code></td>
+</tr>
+<tr>
+<td>The hardware test found problems</td>
+<td><code class="notranslate">hardware-test-problems</code></td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">Each kind is sent once, with how many times it happened in ranges (1, 2-5, 6-20, more than 20), and once with the<br>
+version and once with the model of the computer. A week with no problem sends <code class="notranslate">none</code>. Only the kind, the number of a<br>
+code and the name of a program leave the device, never the text of a message: those hold user and server names.</p>
 <p dir="auto"><code class="notranslate">sudo /opt/openthinrdp/stats.sh --print</code> on a device prints exactly what it would send, and sends nothing.</p>
 <h2 id="what-the-manager-sends" dir="auto">What the manager sends</h2>
 <p dir="auto">Half a minute after it starts the first time, then once a week:</p>
@@ -124,7 +170,8 @@ that keeps nothing between starts sends at each start.</p>
 </table></markdown-accessiblity-table>
 <h2 id="what-is-never-sent" dir="auto">What is never sent</h2>
 <p dir="auto">The name of a device or of a computer, IP or MAC addresses, user names, passwords, the domain, the names or addresses<br>
-of servers and brokers, settings, anything typed on a device, anything shown in a session.</p>
+of servers and brokers, settings, the text of logs and error messages, anything typed on a device, anything shown in<br>
+a session.</p>
 <h2 id="where-it-goes" dir="auto">Where it goes</h2>
 <p dir="auto">Each value is one count on <a href="https://www.goatcounter.com/" rel="nofollow">GoatCounter</a>, an open-source web counter that sets no<br>
 cookies and keeps no IP address. The project sees totals, such as <em>OptiPlex 3000 Thin Client: 12</em>, never a single<br>

@@ -1,6 +1,6 @@
 # OpenThinRDP: the documentation in one file
 
-Source: https://github.com/OpenThinRdp/openthinrdp (main), release 0.2.20, built 2026-10-23. Every section below is one file of the repository.
+Source: https://github.com/OpenThinRdp/openthinrdp (main), release 0.2.21, built 2026-10-23. Every section below is one file of the repository.
 
 
 ---
@@ -985,7 +985,7 @@ Everything here is one setting, `UPDATE_TO`, written for you in the right file:
 |---|---|---|
 | `latest` | `common.conf` | every device takes each new version as soon as it is in the folder (the default) |
 | a version, e.g. `0.2.0` | `common.conf` | every device stays on that version, or **goes back** to it |
-| `latest` | `<hostname>.conf` | a **pilot device**: it takes the newest version even while the others stay |
+| `latest` | `groups\<group>\_group.conf` | a **pilot group**: its devices take the newest version even while the others stay |
 | a version | `<hostname>.conf` | that device stays on, or goes back to, its own version |
 
 A device installs a version also when it is **older** than its own, FreeRDP included, and installs nothing newer
@@ -994,29 +994,28 @@ applied when the session is over.
 
 ### Try a new version on a few devices
 
-1. **Choose the pilots.** In the header of a device, **Software version...** > *pilot device*. Pick devices that
-   look like the rest of the fleet (the same model, the same kind of user), and users who will tell you when
-   something is odd. The list marks them *(pilot)*.
-2. **Bring the new version in for the pilots only.** **Release from GitHub...** (top bar or Updates page) downloads
-   the latest release, checks its project signature and hash, and asks: *all devices* or ***pilot devices only***.
-   With pilot only, all the other devices are first kept on the version they have (`UPDATE_TO=<that version>` in
-   `common.conf`), and only then the new version goes into the folder.
+1. **Make a group of pilot devices.** On the **Devices** page, **New group** (e.g. *Pilot*), and move into it
+   devices that look like the rest of the fleet (the same model, the same kind of user), with users who will tell
+   you when something is odd.
+2. **Bring the new version in for that group only.** **Release from GitHub...** (top bar or Updates page)
+   downloads the latest release, checks its project signature and hash, and asks: *all devices* or ***only the
+   groups ticked*** (one or more). With some groups, all the other devices are first kept on the version they have
+   (`UPDATE_TO=<that version>` in `common.conf`), the ticked groups get `UPDATE_TO=latest` in their `_group.conf`,
+   and only then the new version goes into the folder. A device follows its own file first, then its group, then
+   `common.conf`; a group left on the newest by an earlier release follows `common.conf` again.
 3. **Watch the pilots** for a few days: their **Summary** and **Events**, and the **History** page.
 
-**Some groups only.** **Release from GitHub...** can also send the new version to the groups you tick (one or more,
-with their pilot devices); every other device stays on the version it has. The ticked groups get `UPDATE_TO=latest`
-in their `_group.conf`, so a device follows its own file first, then its group, then `common.conf`. A group left on the
-newest by an earlier release follows `common.conf` again, so it does not take the new one unasked. **Release to all
-devices** brings everyone along.
-
-**Major updates.** A release with a change to how a session connects or runs is marked **Test first** in its notes
-(and in the [CHANGELOG](../CHANGELOG.md)). The manager says so above the notes, proposes *pilot devices only*, and
-before a major update goes to all devices (from **Release from GitHub...**, **Release to all devices** or **Version
-for all devices...**) it asks once more, with *No* as the default answer.
+**Major updates.** We mark in the release the ones that change how a session connects or runs (**Major update** in
+the [CHANGELOG](../CHANGELOG.md), `major=` in the signed `LATEST.txt`). A device with a management folder never
+installs one by itself, also when it updates straight from GitHub: only once the manager released it to that
+device. **Release from GitHub...** says so above the notes and asks a second time, *No* by default, before it goes
+to all devices or to the groups ticked; then it writes `UPDATE_MAJOR` in `common.conf` or in their `_group.conf`.
+**Release to all devices** and **Version for all devices...** ask the same before the rest of the fleet gets it.
+A device without a management folder asks on its own screen instead ([management.md](management.md#signed-updates)).
 
 ### Release it to the whole fleet
 
-When the pilots are fine: **Updates > Release to all devices**. `common.conf` goes back to `UPDATE_TO=latest`
+When the pilot group is fine: **Updates > Release to all devices**. `common.conf` goes back to `UPDATE_TO=latest`
 and every device takes the new version within 5 minutes, each one when its session is over.
 
 ### Something broke: go back
@@ -2085,6 +2084,11 @@ Every release carries `openthinrdp-manager-<version>.zip`: the files of `managem
 - At every start the manager reads `VERSION` next to it, and in the background (the window does not wait) the
   `LATEST.txt` of the latest GitHub release of `UPDATE_GITHUB`, checked against the project key next to it
   (`openthinrdp-release.asc`). When that release has a newer manager, the top bar shows *Manager X available*.
+- **By itself** (on by default; **Updates > This manager**, *Update the manager by itself*): the check runs at the
+  start and every 6 hours, and a newer manager goes in at once with the steps below, when nothing is being edited
+  and no other window is open (otherwise it tries again every 10 minutes). It starts again on the same folder with
+  the vault still open: the access code passes to the new start in a file protected with DPAPI (this Windows user
+  on this PC only), read once and deleted at once, worth 60 seconds.
 - **Update the manager** (that notice, or **Updates > This manager**) downloads the zip, checks its hash against the
   signed `LATEST.txt`, checks that it holds `OpenThinRDP-Manager.ps1` and `VERSION` of that version, copies the files
   it replaces into `previous\` next to the manager (the copy of the update before goes), puts the new ones in place
@@ -2236,6 +2240,17 @@ copies the latest release into `updates\` (package first, then signature and ind
 `updates\versions\<version>.txt` (+ `.sig`) too: every device checks the signature itself. The 3 newest packages
 stay, and any package a device is kept on (`UPDATE_TO`, below); a package removed takes its `versions\` index with it.
 
+**Major updates.** We mark in the release the ones that change how a session connects or runs: **Major update** in
+the CHANGELOG, and `major=<version>` in the signed `LATEST.txt` of that release and of every later one. A device with
+a management folder (central settings) never installs one by itself, also with `UPDATE_FROM=github`: only once
+`UPDATE_MAJOR` is at that version, written by the manager after a second confirmation, in `common.conf` or in the
+`_group.conf` of the groups it goes to. Until then its status says so.
+
+**A device without a management folder** (the live system from the USB stick, or an image of its own with
+`site.conf` only, without central settings) has nobody else to decide: it takes the updates from GitHub and asks on
+its screen, at the sign-in, with the changes of the new version. A normal update installs after 30 seconds without
+an answer; a major update only with a yes. *Not now* lasts until the next start.
+
 ### Pilot devices and going back
 
 `UPDATE_TO` says which version a device installs: `latest` (the default, the newest published) or a version such as
@@ -2246,11 +2261,11 @@ reads `updates\versions\<version>.txt` and its signature (with `UPDATE_FROM=gith
 same reason a device goes back only to **0.2.0 or later**: an older version would bring back an updater that does
 not know `UPDATE_TO` and goes straight up again. The device refuses it and says so in its status.
 
-- **Pilot devices.** **Software version...** in the header of a device makes it a pilot (`UPDATE_TO=latest` of its
-  own); the list marks it *(pilot)*. **Release from GitHub...** then asks: *all devices*, or *pilot devices only*.
-  Pilot only keeps every other device on the version published now (`UPDATE_TO=<that version>` in `common.conf`,
-  written before the new release is there; a folder published before `versions\` existed gets its index from the
-  current `LATEST.txt` first), and only the pilots take the new one.
+- **Pilot devices are a group.** **Release from GitHub...** asks: *all devices*, or *only the groups ticked* (one
+  or more, e.g. a group *Pilot*). Some groups keeps every other device on the version published now
+  (`UPDATE_TO=<that version>` in `common.conf`, written before the new release is there; a folder published before
+  `versions\` existed gets its index from the current `LATEST.txt` first), and the ticked groups take the new one
+  (`UPDATE_TO=latest` in their `_group.conf`).
 - **Release to all devices** (page **Updates**) puts `common.conf` back to `UPDATE_TO=latest` when the pilots are
   fine. The page shows the newest version, the one all devices are on, the pilot devices, the devices on a version of
   their own and what the devices run now; the status bar too.

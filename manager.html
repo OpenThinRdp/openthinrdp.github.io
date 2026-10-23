@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.20","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.21","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
@@ -30,7 +30,7 @@
 </head>
 <body>
 <header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.20</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.21</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
 <main class="markdown-body">
 <h1 id="the-openthinrdp-manager" dir="auto">The OpenThinRDP manager</h1>
 <p dir="auto">The manager is the one place where you run a fleet of OpenThinRDP devices: one PowerShell script for Windows 10/11,<br>
@@ -150,8 +150,8 @@ the devices kept on a version of their own, the versions you can choose, and wha
 </tr>
 <tr>
 <td><code class="notranslate">latest</code></td>
-<td><code class="notranslate">&lt;hostname&gt;.conf</code></td>
-<td>a <strong>pilot device</strong>: it takes the newest version even while the others stay</td>
+<td><code class="notranslate">groups\&lt;group&gt;\_group.conf</code></td>
+<td>a <strong>pilot group</strong>: its devices take the newest version even while the others stay</td>
 </tr>
 <tr>
 <td>a version</td>
@@ -165,26 +165,26 @@ until the setting changes. As always, an update never interrupts a session: it i
 applied when the session is over.</p>
 <h3 id="try-a-new-version-on-a-few-devices" dir="auto">Try a new version on a few devices</h3>
 <ol dir="auto">
-<li><strong>Choose the pilots.</strong> In the header of a device, <strong>Software version...</strong> &gt; <em>pilot device</em>. Pick devices that<br>
-look like the rest of the fleet (the same model, the same kind of user), and users who will tell you when<br>
-something is odd. The list marks them <em>(pilot)</em>.</li>
-<li><strong>Bring the new version in for the pilots only.</strong> <strong>Release from GitHub...</strong> (top bar or Updates page) downloads<br>
-the latest release, checks its project signature and hash, and asks: <em>all devices</em> or <em><strong>pilot devices only</strong></em>.<br>
-With pilot only, all the other devices are first kept on the version they have (<code class="notranslate">UPDATE_TO=&lt;that version&gt;</code> in<br>
-<code class="notranslate">common.conf</code>), and only then the new version goes into the folder.</li>
+<li><strong>Make a group of pilot devices.</strong> On the <strong>Devices</strong> page, <strong>New group</strong> (e.g. <em>Pilot</em>), and move into it<br>
+devices that look like the rest of the fleet (the same model, the same kind of user), with users who will tell<br>
+you when something is odd.</li>
+<li><strong>Bring the new version in for that group only.</strong> <strong>Release from GitHub...</strong> (top bar or Updates page)<br>
+downloads the latest release, checks its project signature and hash, and asks: <em>all devices</em> or <em><strong>only the<br>
+groups ticked</strong></em> (one or more). With some groups, all the other devices are first kept on the version they have<br>
+(<code class="notranslate">UPDATE_TO=&lt;that version&gt;</code> in <code class="notranslate">common.conf</code>), the ticked groups get <code class="notranslate">UPDATE_TO=latest</code> in their <code class="notranslate">_group.conf</code>,<br>
+and only then the new version goes into the folder. A device follows its own file first, then its group, then<br>
+<code class="notranslate">common.conf</code>; a group left on the newest by an earlier release follows <code class="notranslate">common.conf</code> again.</li>
 <li><strong>Watch the pilots</strong> for a few days: their <strong>Summary</strong> and <strong>Events</strong>, and the <strong>History</strong> page.</li>
 </ol>
-<p dir="auto"><strong>Some groups only.</strong> <strong>Release from GitHub...</strong> can also send the new version to the groups you tick (one or more,<br>
-with their pilot devices); every other device stays on the version it has. The ticked groups get <code class="notranslate">UPDATE_TO=latest</code><br>
-in their <code class="notranslate">_group.conf</code>, so a device follows its own file first, then its group, then <code class="notranslate">common.conf</code>. A group left on the<br>
-newest by an earlier release follows <code class="notranslate">common.conf</code> again, so it does not take the new one unasked. <strong>Release to all<br>
-devices</strong> brings everyone along.</p>
-<p dir="auto"><strong>Major updates.</strong> A release with a change to how a session connects or runs is marked <strong>Test first</strong> in its notes<br>
-(and in the <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/CHANGELOG.md">CHANGELOG</a>). The manager says so above the notes, proposes <em>pilot devices only</em>, and<br>
-before a major update goes to all devices (from <strong>Release from GitHub...</strong>, <strong>Release to all devices</strong> or <strong>Version<br>
-for all devices...</strong>) it asks once more, with <em>No</em> as the default answer.</p>
+<p dir="auto"><strong>Major updates.</strong> We mark in the release the ones that change how a session connects or runs (<strong>Major update</strong> in<br>
+the <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/CHANGELOG.md">CHANGELOG</a>, <code class="notranslate">major=</code> in the signed <code class="notranslate">LATEST.txt</code>). A device with a management folder never<br>
+installs one by itself, also when it updates straight from GitHub: only once the manager released it to that<br>
+device. <strong>Release from GitHub...</strong> says so above the notes and asks a second time, <em>No</em> by default, before it goes<br>
+to all devices or to the groups ticked; then it writes <code class="notranslate">UPDATE_MAJOR</code> in <code class="notranslate">common.conf</code> or in their <code class="notranslate">_group.conf</code>.<br>
+<strong>Release to all devices</strong> and <strong>Version for all devices...</strong> ask the same before the rest of the fleet gets it.<br>
+A device without a management folder asks on its own screen instead (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#signed-updates">management.md</a>).</p>
 <h3 id="release-it-to-the-whole-fleet" dir="auto">Release it to the whole fleet</h3>
-<p dir="auto">When the pilots are fine: <strong>Updates &gt; Release to all devices</strong>. <code class="notranslate">common.conf</code> goes back to <code class="notranslate">UPDATE_TO=latest</code><br>
+<p dir="auto">When the pilot group is fine: <strong>Updates &gt; Release to all devices</strong>. <code class="notranslate">common.conf</code> goes back to <code class="notranslate">UPDATE_TO=latest</code><br>
 and every device takes the new version within 5 minutes, each one when its session is over.</p>
 <h3 id="something-broke-go-back" dir="auto">Something broke: go back</h3>
 <ul dir="auto">

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Hyper-V cluster and Remote Desktop health check &#8211; no agent, no server</title>
+<meta name="description" content="A free health check for Hyper-V hosts, failover clusters and S2D, Remote Desktop Services brokers and session hosts, Active Directory, SQL AlwaysOn and VM backups: one window, no agent, no server, a repair you confirm for each problem.">
+<link rel="canonical" href="https://openthinrdp.github.io/hyper-v-rds-health-check.html">
+
+<link rel="icon" href="https://openthinrdp.github.io/img/icon.png">
+<link rel="alternate" type="text/plain" href="https://openthinrdp.github.io/llms-full.txt" title="The documentation in one text file">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenThinRDP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Free Hyper-V cluster and Remote Desktop health check &#8211; no agent, no server">
+<meta property="og:description" content="A free health check for Hyper-V hosts, failover clusters and S2D, Remote Desktop Services brokers and session hosts, Active Directory, SQL AlwaysOn and VM backups: one window, no agent, no server, a repair you confirm for each problem.">
+<meta property="og:url" content="https://openthinrdp.github.io/hyper-v-rds-health-check.html">
+<meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.23","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
+ "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
+</script>
+
+</head>
+<body>
+<header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.23</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<main class="markdown-body">
+<h1 id="a-free-health-check-for-hyper-v-clusters-and-remote-desktop-without-an-agent" dir="auto">A free health check for Hyper-V clusters and Remote Desktop, without an agent</h1>
+<p dir="auto">Small and mid-size sites run Hyper-V, a failover cluster, Remote Desktop Services and SQL Server on a few hosts, and<br>
+find out what broke when users call: the witness went offline last week, a CSV is almost full, one broker refuses<br>
+every sign-in, a VM is still in saved state after a power cut, the backups of a VM have been crash-consistent for days.<br>
+The monitoring suites that see all of this cost per host and need agents and a server of their own.</p>
+<p dir="auto">The <a href="https://github.com/OpenThinRdp/openthinrdp-manager">OpenThinRDP Manager</a> is a free Windows program that reads all<br>
+of it from your PC, with the account you already use for administration, and shows it in one window. It was built<br>
+for the sites that run <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/README.md">OpenThinRDP</a> thin clients, and it works the same without them.</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/screenshots/manager-health.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/guides/screenshots/manager-health.png" alt="Health Center: Hyper-V hosts and cluster, VMs, domain controllers, SQL and backups in one tree, each problem in one sentence" width="100%" style="max-width: 100%;"></a>
+</p>
+<h2 id="what-it-checks" dir="auto">What it checks</h2>
+<ul dir="auto">
+<li><strong>Hyper-V hosts</strong>: memory, CPU, disks, services, restarts pending, the clock, VMs off, saved, paused or without<br>
+heartbeat, checkpoints left for days, planned VMs left behind by a failed migration, the guardians of the vTPM.</li>
+<li><strong>The failover cluster</strong>: nodes, quorum and witness (and <em>why</em> a file share witness is offline: the server, the<br>
+share or the permissions), the Cluster Shared Volumes and their free space, the Storage Spaces Direct pool, its disks<br>
+and repairs, the networks for live migration, whether the cluster survives one host failing with the VMs it runs.</li>
+<li><strong>Remote Desktop Services</strong>: the connection brokers and their database, the RDP certificates, the session hosts and<br>
+the virtual desktops, <strong>who cannot sign in right now and why</strong>, RD Gateway and RD Web, and a self-repair for a broker<br>
+that starts refusing every sign-in (event 804, <code class="notranslate">0x80070005</code>).</li>
+<li><strong>Active Directory and DNS</strong>: domain controllers, replication, FSMO roles, SYSVOL and NETLOGON, the clock against<br>
+the PDC emulator, ADWS, the DNS zones, missing reverse zones, stale records.</li>
+<li><strong>SQL Server AlwaysOn</strong>: the listener, replicas and synchronisation, suspended databases, logins missing on a<br>
+replica, failed jobs, backups.</li>
+<li><strong>Backups</strong>: the backups of the VMs as Hyper-V sees them (application-consistent or not), and a backup of the VMs to<br>
+a share made by the hosts themselves, without an agent and without moving a VM.</li>
+<li><strong>Hardware</strong>: Dell iDRAC over Redfish (power now and over 24 hours, power supplies, temperatures, fans).</li>
+<li><strong>Your services as their users reach them</strong>: a web page, a TCP port, a SQL query; and your own checks.</li>
+<li><strong>Certificates</strong>: every certificate of every server, what uses it and when it expires, the enterprise CA and its<br>
+revocation list, and which RDP servers present a certificate a client could verify.</li>
+<li><strong>Not only Hyper-V</strong> (new, looking for sites to try them): Proxmox VE, VMware vSphere, Veeam Backup &amp; Replication and<br>
+Citrix Virtual Apps and Desktops, each from its own API, read only.</li>
+</ul>
+<p dir="auto">Every problem is one sentence with its numbers, what it means, and a repair when there is one: you see what it will do<br>
+and confirm. Over time: history and forecast for memory, disks and volumes, notices when a problem comes or goes,<br>
+maintenance per item, and <code class="notranslate">-HealthReport -Json</code> for Task Scheduler or your monitoring system.</p>
+<h2 id="what-it-needs" dir="auto">What it needs</h2>
+<ul dir="auto">
+<li>A Windows PC or server with Windows PowerShell 5.1 (every Windows 10/11 and Windows Server 2016 or later).</li>
+<li>An account that administers the servers, with WinRM (5985) to the hosts, domain controllers, brokers and SQL<br>
+replicas, and Windows authentication on SQL. Without administrator rights, a JEA endpoint can give it only the<br>
+commands it needs.</li>
+<li>Nothing on the servers: no agent, no service, no database. What it runs there is plain PowerShell you can read, in<br>
+<code class="notranslate">commands\</code> and <code class="notranslate">rds\</code> of the manager.</li>
+</ul>
+<h2 id="in-five-minutes" dir="auto">In five minutes</h2>
+<ol dir="auto">
+<li>Download the zip of the <a href="https://github.com/OpenThinRdp/openthinrdp-manager/releases/latest">latest release</a> and<br>
+extract it, on a share if more administrators use it.</li>
+<li>Start <code class="notranslate">OpenThinRDP-Manager.exe</code> and choose <strong>The servers alone</strong>.</li>
+<li><strong>Settings &gt; Health Center</strong>: the Hyper-V hosts (or one node of the cluster), the brokers, the SQL listener, the<br>
+backup share. The first reading takes about half a minute; then <strong>Home</strong> shows everything at a glance.</li>
+</ol>
+<h2 id="what-it-is-not" dir="auto">What it is not</h2>
+<ul dir="auto">
+<li>Not a replacement for a full monitoring suite with alerting on hundreds of servers: it is built for a site with a<br>
+few hosts and the people who run them.</li>
+<li>The manager runs on Windows; the hardware is read over Redfish (Dell, HPE, Lenovo, Supermicro).</li>
+<li>Free for any use, also commercial, but not open source: <a href="https://github.com/OpenThinRdp/openthinrdp-manager/blob/main/LICENSE.md">its license</a>.<br>
+Everything it runs on your servers is readable.</li>
+</ul>
+<p dir="auto">The full guide of the manager: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/manager.md">manager</a>.</p>
+</main>
+<footer class="bar small">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/hyper-v-rds-health-check.md">docs/guides/hyper-v-rds-health-check.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</footer>
+<script data-goatcounter="https://ceschi-ops.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

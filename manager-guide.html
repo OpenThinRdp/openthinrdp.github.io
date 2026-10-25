@@ -1,0 +1,958 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenThinRDP Manager guide &#8211; the Health Center, certificates, platforms and the thin client fleet</title>
+<meta name="description" content="The complete guide of the OpenThinRDP Manager: Home, the Health Center for Hyper-V, Proxmox, vSphere, RDS, Citrix, SQL and Veeam, certificates and the enterprise CA, updates of the thin clients, scheduled jobs, the vault and the command line.">
+<link rel="canonical" href="https://openthinrdp.github.io/manager-guide.html">
+
+<link rel="icon" href="https://openthinrdp.github.io/img/icon.png">
+<link rel="alternate" type="text/plain" href="https://openthinrdp.github.io/llms-full.txt" title="The documentation in one text file">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenThinRDP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="OpenThinRDP Manager guide &#8211; the Health Center, certificates, platforms and the thin client fleet">
+<meta property="og:description" content="The complete guide of the OpenThinRDP Manager: Home, the Health Center for Hyper-V, Proxmox, vSphere, RDS, Citrix, SQL and Veeam, certificates and the enterprise CA, updates of the thin clients, scheduled jobs, the vault and the command line.">
+<meta property="og:url" content="https://openthinrdp.github.io/manager-guide.html">
+<meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.23","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
+ "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
+</script>
+
+</head>
+<body>
+<header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.23</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<main class="markdown-body">
+<h1 id="the-openthinrdp-manager" dir="auto">The OpenThinRDP manager</h1>
+<p dir="auto">The OpenThinRDP Manager is a free program for Windows, in English and Italian, with nothing to install. It is two<br>
+things in one window:</p>
+<ul dir="auto">
+<li><strong>A health center for your Windows infrastructure</strong>, also without any OpenThinRDP device: Hyper-V hosts and failover<br>
+clusters, Remote Desktop Services, domain controllers and DNS, SQL Server AlwaysOn, the backups of the VMs and Dell<br>
+iDRAC. It finds what is wrong, says it in one sentence and repairs it when you confirm. No agent, no server, no<br>
+database; what it runs on your servers is readable. See <a href="https://openthinrdp.github.io/hyper-v-rds-health-check.html">a health check for Hyper-V and Remote Desktop</a>.</li>
+<li><strong>The one place where you run a fleet of OpenThinRDP devices</strong>. It works on the shared folder the devices report<br>
+to: what you see is the files in that folder, and everything you change is a file in that folder too, with a backup<br>
+and a line in the change log.</li>
+</ul>
+<p dir="auto">Download: <a href="https://github.com/OpenThinRdp/openthinrdp-manager/releases/latest">its releases</a> (or the zip in every<br>
+release of OpenThinRDP). Free for any use, closed: <a href="https://github.com/OpenThinRdp/openthinrdp-manager/blob/main/LICENSE.md">its license</a>.</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-devices.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-devices.png" alt="Devices page: every device with its state, user, version and last report; the selected device with its settings" width="100%" style="max-width: 100%;"></a>
+</p>
+<ul dir="auto">
+<li><a href="#what-you-need">What you need</a></li>
+<li><a href="#home-everything-at-a-glance">Home: everything at a glance</a></li>
+<li><a href="#devices-the-whole-fleet-at-a-glance">Devices: the whole fleet at a glance</a></li>
+<li><a href="#peripherals-and-inventory">Peripherals and inventory</a></li>
+<li><a href="#settings-for-all-devices-or-one">Settings for all devices or one</a></li>
+<li><a href="#updates-a-few-devices-first-then-all-and-back-when-something-breaks">Updates: a few devices first, then all, and back when something breaks</a></li>
+<li><a href="#remote-screen">Remote screen</a></li>
+<li><a href="#scheduled-jobs">Scheduled jobs</a></li>
+<li><a href="#history-problems-across-the-fleet-and-every-change">History: problems across the fleet, and every change</a></li>
+<li><a href="#users-and-desktops-sessions-and-experience">Users and desktops: sessions and experience</a></li>
+<li><a href="#health-center-the-whole-infrastructure">Health Center: the whole infrastructure</a></li>
+<li><a href="#vault-keys-and-the-site-key">Vault, keys and the site key</a></li>
+<li><a href="#logo-background-ssh-keys-permissions">Logo, background, SSH keys, permissions</a></li>
+<li><a href="#the-manager-updates-itself">The manager updates itself</a></li>
+<li><a href="#starting-it-and-the-command-line">Starting it, and the command line</a></li>
+</ul>
+<h2 id="what-you-need" dir="auto">What you need</h2>
+<ul dir="auto">
+<li>A <strong>shared folder</strong> (SMB) that the devices can read and write their status to: <code class="notranslate">\\fileserver\thinclients</code>. How<br>
+to create it, its account and its permissions: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#account">management.md</a>.</li>
+<li>A <strong>Windows 10 or 11 PC</strong> of an administrator, with PowerShell 5.1 (it is part of Windows). For the remote screen,<br>
+also the OpenSSH client of Windows (<code class="notranslate">ssh.exe</code>, usually there) and a browser.</li>
+<li><strong>The manager itself</strong>: <code class="notranslate">openthinrdp-manager-&lt;version&gt;.zip</code> from the <a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">latest release</a>,<br>
+unpacked into a folder only the administrators can write (a share works, so that everybody starts the same copy).<br>
+From then on it <a href="#the-manager-updates-itself">updates itself</a>.</li>
+<li>The devices set to that folder: <code class="notranslate">MGMT_SHARE</code> in their settings dialog, or in the image you build.</li>
+</ul>
+<p dir="auto">Start <code class="notranslate">OpenThinRDP-Manager.exe</code> (see <a href="#starting-it-and-the-command-line">Starting it</a>). The access window is on the<br>
+screen at once; the manager loads behind it. The first time without a folder it offers the servers alone, without<br>
+devices: the Health Center, the desktops, the cluster and the backups work the same.</p>
+<p dir="auto">The menu on the left, top to bottom: <strong>Home</strong>, <strong>Devices</strong>, <strong>Users</strong> (sessions and experience), <strong>Infrastructure</strong><br>
+(the Health Center), <strong>Scheduled</strong>, <strong>Updates</strong>, <strong>History</strong>, <strong>Settings</strong>. Each item opens one page; what you do<br>
+with a device is in its page, what you do with a server is in its page, and the settings of all of it are in<br>
+<strong>Settings</strong> (tabs Infrastructure, Manager, Security, Custom checks).</p>
+<h2 id="home-everything-at-a-glance" dir="auto">Home: everything at a glance</h2>
+<p dir="auto"><strong>Home</strong> is the first page: the whole fleet in cards, and one list of what to look at.</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-home.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-home.png" alt="Home: the health of the infrastructure, the cluster, the desktops, the hardware; the devices; what to look at, the worst first; the sign-ins of today in their phases" width="100%" style="max-width: 100%;"></a>
+</p>
+<ul dir="auto">
+<li>On top, when the Health Center reads the infrastructure: its health, the cluster and each host, the desktops, the<br>
+hardware of the iDRACs.</li>
+<li>The devices: how many are on, to look at or off, the versions they run, the problems of 7 days, how many report.</li>
+<li><strong>To look at</strong>, the worst first: the problems of the servers, the devices in error, a required peripheral that is<br>
+gone, slow sign-ins and sessions with a high latency today. A click opens the item, the device or the experience.</li>
+<li><strong>Sign-ins</strong> of today: the median time and its three phases (the broker, the VM made ready, Windows until the<br>
+desktop), the latency of the sessions, dropped and frozen sessions, the slowest one.</li>
+<li><strong>Scheduled</strong> for today: what runs, on how many devices, how far it got.</li>
+<li>The free memory of the hosts over 30 days with its forecast, the services over 30 days, the last 24 hours.</li>
+</ul>
+<p dir="auto">The count on <strong>Home</strong> in the menu is how many things there are to look at, red when one is an error.</p>
+<p dir="auto">The infrastructure takes about half a minute to read. Meanwhile <strong>Home</strong> shows the last reading of this PC at once,<br>
+with its time on top (<em>Data from 13:36, the last this PC read: being updated...</em>), and changes by itself when the new<br>
+one comes. The last readings are kept in your profile on this PC (<code class="notranslate">%LOCALAPPDATA%\OpenThinRDP</code>), never on the share,<br>
+and not shown when older than 3 days.</p>
+<h2 id="devices-the-whole-fleet-at-a-glance" dir="auto">Devices: the whole fleet at a glance</h2>
+<p dir="auto">The <strong>Devices</strong> page lists every device that reports to the folder, with a coloured dot for its state, the user<br>
+signed in, the version it runs and its last report; the search box finds a device by name, address or user. Devices<br>
+report every 5 minutes and at boot, and the list refreshes itself every minute. A device that stopped reporting,<br>
+rejected the central settings or has a failed service stands out in its colour.</p>
+<p dir="auto">Select a device and its header shows its address, version, last report and user, with its actions: <strong>Remote<br>
+screen</strong>, <strong>Logo and background...</strong>, <strong>Software version...</strong>. Under it:</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>Tab</th>
+<th>What it shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Settings</td>
+<td>every setting: the value in use on the device, where it comes from, and the value you set for it</td>
+</tr>
+<tr>
+<td>Summary</td>
+<td>a readable report: session, transport in use (UDP or TCP), network and Wi-Fi, software and FreeRDP, the version it installs, security updates, management, secrets, uptime</td>
+</tr>
+<tr>
+<td>Inventory</td>
+<td>model, serial number, BIOS, addresses and version as the device reports them, and the fields you write: place, inventory number, installation date, notes</td>
+</tr>
+<tr>
+<td>Peripherals</td>
+<td>what is connected now, by kind (printer, scale or serial instrument, card reader, webcam, keyboard...), and which ones are required</td>
+</tr>
+<tr>
+<td>Events</td>
+<td>the event log of the device: sessions, drops with their cause, updates, settings applied or rejected</td>
+</tr>
+<tr>
+<td>Full report</td>
+<td>the status file as the device wrote it</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto"><strong>Export...</strong> over the list writes every device with its state, addresses, hardware, peripherals and inventory to a<br>
+CSV file Excel opens as a table (UTF-8, the list separator of your PC). <strong>Manage groups... &gt; Rules...</strong> places the<br>
+new devices by themselves: a device that is in no group goes to the group of the first rule it matches, by its<br>
+network (<code class="notranslate">192.168.5.0/24</code>), its name (<code class="notranslate">CASSA*</code>) or its model (<code class="notranslate">*OptiPlex 3000*</code>). A device you moved by hand stays<br>
+where it is. The rules are applied by the manager of an administrator, and each move goes to the change log.</p>
+<h2 id="peripherals-and-inventory" dir="auto">Peripherals and inventory</h2>
+<p dir="auto">Each device reports its USB peripherals by kind, and its model, serial number and BIOS (0.2.23 and later). On the<br>
+<strong>Peripherals</strong> tab of a device, select one and choose <strong>Required here</strong> or <strong>Required on the group</strong>: from then on, a<br>
+device that does not have it connected is on Home and in the notices ("TM-T88V not connected"). The required<br>
+peripherals are kept in <code class="notranslate">health\peripherals.json</code> of the folder, the fields of the inventory in<br>
+<code class="notranslate">health\inventory.json</code>: every manager sees the same.</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-pilot.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-pilot.png" alt="A pilot device: the list marks it (pilot), its summary says it installs the newest version" width="100%" style="max-width: 100%;"></a>
+</p>
+<h2 id="settings-for-all-devices-or-one" dir="auto">Settings for all devices or one</h2>
+<p dir="auto"><strong>Settings &gt; Devices</strong> holds the settings for every device (<code class="notranslate">config\common.conf</code>); in a device's <strong>Settings</strong> tab, tick <em>Exception</em><br>
+to give that device a value of its own (<code class="notranslate">config\&lt;hostname&gt;.conf</code>), which wins over the common one. <strong>Edit as text...</strong><br>
+opens the same file as plain text, comments included: it is saved only after the same checks as the page, in the form<br>
+the page would write (a Wi-Fi passphrase becomes its key, a PIN its hash), with the previous file in <code class="notranslate">config\backup\</code>.<br>
+Passwords show as <code class="notranslate">********</code>: leave them to keep them. Every row shows:</p>
+<ul dir="auto">
+<li>the value <strong>in use on the device</strong> (from its last report);</li>
+<li><strong>where it comes from</strong>: the device itself, the common settings, or an exception for this device;</li>
+<li>in orange, <em><strong>on its way</strong></em>: a value you saved that the device has not applied yet. It reads the folder every 5<br>
+minutes; when it stays orange, the device has refused the settings (its state says so).</li>
+</ul>
+<p dir="auto">The help of the selected setting is in full under the list. Before saving, the manager checks every value with the<br>
+same rules as the devices (a device refuses a whole configuration with one wrong value), and before saving the<br>
+common settings it lists the devices that would refuse them. Every save keeps a copy of the file in<br>
+<code class="notranslate">config\backup\</code> and adds a line to <code class="notranslate">config\changes.log</code>.</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-common.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-common.png" alt="Common settings: every setting with its value and the help of the selected one" width="100%" style="max-width: 100%;"></a>
+</p>
+<p dir="auto">All the settings: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md">configuration.md</a>.</p>
+<h2 id="updates-a-few-devices-first-then-all-and-back-when-something-breaks" dir="auto">Updates: a few devices first, then all, and back when something breaks</h2>
+<p dir="auto">The <strong>Updates</strong> page shows the newest version in the folder, the version all devices are on, the pilot devices,<br>
+the devices kept on a version of their own, the versions you can choose, and what the devices run now.</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-updates.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-updates.png" alt="Updates page: newest published version, all devices on 0.2.0, one pilot device on the newest, the versions that can be chosen" width="100%" style="max-width: 100%;"></a>
+</p>
+<p dir="auto">Everything here is one setting, <code class="notranslate">UPDATE_TO</code>, written for you in the right file:</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th><code class="notranslate">UPDATE_TO</code></th>
+<th>where</th>
+<th>means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="notranslate">latest</code></td>
+<td><code class="notranslate">common.conf</code></td>
+<td>every device takes each new version as soon as it is in the folder (the default)</td>
+</tr>
+<tr>
+<td>a version, e.g. <code class="notranslate">0.2.0</code></td>
+<td><code class="notranslate">common.conf</code></td>
+<td>every device stays on that version, or <strong>goes back</strong> to it</td>
+</tr>
+<tr>
+<td><code class="notranslate">latest</code></td>
+<td><code class="notranslate">groups\&lt;group&gt;\_group.conf</code></td>
+<td>a <strong>pilot group</strong>: its devices take the newest version even while the others stay</td>
+</tr>
+<tr>
+<td>a version</td>
+<td><code class="notranslate">&lt;hostname&gt;.conf</code></td>
+<td>that device stays on, or goes back to, its own version</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">A device installs a version also when it is <strong>older</strong> than its own, FreeRDP included, and installs nothing newer<br>
+until the setting changes. As always, an update never interrupts a session: it is installed in the background and<br>
+applied when the session is over.</p>
+<p dir="auto"><strong>Hours of the updates</strong> (<code class="notranslate">UPDATE_HOURS</code>, e.g. <code class="notranslate">02-05</code>, also across midnight: <code class="notranslate">22-06</code>): the devices download a new<br>
+version when it comes, and install it only in those hours. A scheduled job <em>Install updates</em> installs at once.</p>
+<h2 id="scheduled-jobs" dir="auto">Scheduled jobs</h2>
+<p dir="auto"><strong>Scheduled</strong> lists what the devices do at a time: <strong>restart</strong>, <strong>switch off</strong>, show a <strong>message</strong>, <strong>install<br>
+updates</strong>; once, every day or on some days of the week; for all devices, groups or single devices. The devices run<br>
+them by themselves, with the manager closed too (<code class="notranslate">config\jobs.conf</code>, signed with the site key as the settings are;<br>
+read within 5 minutes). For each job the page shows the next time and, for the last one, what each device did:<br>
+done, waiting for the session to end, not done because the session stayed open for 3 hours, cancelled by its<br>
+user, off at the time, or no answer.</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-jobs.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-jobs.png" alt="Scheduled: a night restart, a closing message for the shop, the updates on Sunday; each with its next time and what the devices did the last time" width="100%" style="max-width: 100%;"></a>
+</p>
+<p dir="auto">A restart or a power off waits while a remote session is open (at most 3 hours), unless the job says <em>also with a<br>
+session open</em>: then the user sees a 60 s warning and can cancel it. A device that was off at the time does not do it<br>
+later. <strong>Schedule...</strong> in the power menu of a device opens a new job for it.</p>
+<h3 id="try-a-new-version-on-a-few-devices" dir="auto">Try a new version on a few devices</h3>
+<ol dir="auto">
+<li><strong>Make a group of pilot devices.</strong> On the <strong>Devices</strong> page, <strong>New group</strong> (e.g. <em>Pilot</em>), and move into it<br>
+devices that look like the rest of the fleet (the same model, the same kind of user), with users who will tell<br>
+you when something is odd.</li>
+<li><strong>Bring the new version in for that group only.</strong> <strong>Release from GitHub...</strong> (top bar or Updates page)<br>
+downloads the latest release, checks its project signature and hash, and asks: <em>all devices</em> or <em><strong>only the<br>
+groups ticked</strong></em> (one or more). With some groups, all the other devices are first kept on the version they have<br>
+(<code class="notranslate">UPDATE_TO=&lt;that version&gt;</code> in <code class="notranslate">common.conf</code>), the ticked groups get <code class="notranslate">UPDATE_TO=latest</code> in their <code class="notranslate">_group.conf</code>,<br>
+and only then the new version goes into the folder. A device follows its own file first, then its group, then<br>
+<code class="notranslate">common.conf</code>; a group left on the newest by an earlier release follows <code class="notranslate">common.conf</code> again.</li>
+<li><strong>Watch the pilots</strong> for a few days: their <strong>Summary</strong> and <strong>Events</strong>, and the <strong>History</strong> page.</li>
+</ol>
+<p dir="auto"><strong>Major updates.</strong> We mark in the release the ones that change how a session connects or runs (<strong>Major update</strong> in<br>
+the <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/CHANGELOG.md">CHANGELOG</a>, <code class="notranslate">major=</code> in the signed <code class="notranslate">LATEST.txt</code>). A device with a management folder never<br>
+installs one by itself, also when it updates straight from GitHub: only once the manager released it to that<br>
+device. <strong>Release from GitHub...</strong> says so above the notes and asks a second time, <em>No</em> by default, before it goes<br>
+to all devices or to the groups ticked; then it writes <code class="notranslate">UPDATE_MAJOR</code> in <code class="notranslate">common.conf</code> or in their <code class="notranslate">_group.conf</code>.<br>
+<strong>Release to all devices</strong> and <strong>Version for all devices...</strong> ask the same before the rest of the fleet gets it.<br>
+A device without a management folder asks on its own screen instead (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#signed-updates">management.md</a>).</p>
+<h3 id="release-it-to-the-whole-fleet" dir="auto">Release it to the whole fleet</h3>
+<p dir="auto">When the pilot group is fine: <strong>Updates &gt; Release to all devices</strong>. <code class="notranslate">common.conf</code> goes back to <code class="notranslate">UPDATE_TO=latest</code><br>
+and every device takes the new version within 5 minutes, each one when its session is over.</p>
+<h3 id="something-broke-go-back" dir="auto">Something broke: go back</h3>
+<ul dir="auto">
+<li><strong>The whole fleet:</strong> <strong>Updates &gt; Version for all devices...</strong>, choose the version that worked (newest first, from<br>
+<code class="notranslate">updates\versions\</code>). Every device goes back to it, FreeRDP included, and stays there.</li>
+<li><strong>One device:</strong> <strong>Software version...</strong> in its header &gt; <em>its own version</em>.</li>
+<li><strong>A version that is no longer in the folder:</strong> <strong>Version from GitHub...</strong> fetches it (the release <code class="notranslate">v&lt;version&gt;</code>,<br>
+with the same checks) into the folder, without changing what the others get.</li>
+</ul>
+<p dir="auto">When the fix is out, <strong>Release from GitHub...</strong> again, pilots first, and <strong>Release to all devices</strong>.</p>
+<p dir="auto"><strong>Good to know</strong></p>
+<ul dir="auto">
+<li>Devices go back only to <strong>0.2.0 or later</strong>: older versions do not know <code class="notranslate">UPDATE_TO</code>.</li>
+<li>Devices that still run a version <strong>before 0.2.0</strong> ignore <code class="notranslate">UPDATE_TO</code> and take the newest version in the folder.<br>
+The manager names them before a pilot-only release: the first time, release 0.2.0 to all devices, or update those<br>
+devices first.</li>
+<li>With <code class="notranslate">UPDATE_FROM=github</code> (no management folder for updates) the same setting works: the devices fetch the release<br>
+<code class="notranslate">v&lt;version&gt;</code> from GitHub.</li>
+<li>Every published version keeps its signed index in <code class="notranslate">updates\versions\</code>; the newest 3 packages stay in the folder,<br>
+plus every version a device is kept on. Details: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#pilot-devices-and-going-back">management.md</a>.</li>
+</ul>
+<h2 id="remote-screen" dir="auto">Remote screen</h2>
+<p dir="auto"><strong>Remote screen</strong>, in the header of a device, shows its screen in your browser and lets you use it: to see what a<br>
+user sees, or to sign in once to a web page on a screen with no keyboard.</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/remote-screen.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/remote-screen.png" alt="The screen of a device in the browser, with the notice the device shows" width="80%" style="max-width: 100%;"></a>
+</p>
+<p dir="auto">It goes <strong>through SSH only</strong>, with the key of the manager's vault and a one-time password: nothing new listens on<br>
+the network, and nothing is installed on your PC. The device shows <em>Remote assistance active</em> while it lasts and<br>
+records it in its events; it ends when you close the small window, or by itself after 2 hours. <code class="notranslate">REMOTE_SCREEN=off</code><br>
+turns it off. With <code class="notranslate">REMOTE_CONSENT=ask</code> the device first asks its user, at the top of the screen and over the session<br>
+too; without <em>Allow</em> within a minute it does not start, and the manager says so. How it works:<br>
+<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#remote-screen">management.md</a>.</p>
+<h2 id="history-problems-across-the-fleet-and-every-change" dir="auto">History: problems across the fleet, and every change</h2>
+<p dir="auto">The <strong>History</strong> page reads the event logs of every device together, for today, 24 hours, 7 or 30 days, and groups<br>
+what went wrong: failed sign-ins (by broker), desktops that did not start, sessions dropped (by cause), sessions<br>
+taken over, UDP blocked, failed updates, rejected settings. Each line says how many times, on which devices, for<br>
+which users, first and last time. A line is orange when 3 or more devices had the same problem: that points at a<br>
+server or the network, not at a device. "Six devices could not reach the broker this morning" is one line instead<br>
+of six logs.</p>
+<p dir="auto">The tab <strong>Changes</strong> is the change log of the managers (<code class="notranslate">config\changes.log</code>): who changed what and when, newest first,<br>
+searchable, with <strong>Export...</strong>.</p>
+<h2 id="users-and-desktops-sessions-and-experience" dir="auto">Users and desktops: sessions and experience</h2>
+<p dir="auto"><strong>Users</strong> in the menu has two tabs. <strong>Experience</strong> says how the users live the fleet: how long each sign-in takes,<br>
+split into its phases (the broker, the VM made ready, often started; Windows until the desktop), and how the sessions<br>
+go (the latency to the VM, the bandwidth, drops and frozen sessions). Today in four figures, the median sign-in of<br>
+the last 30 days against the limit, the slowest sign-ins of today, each user over 30 days. The devices measure it<br>
+(0.2.23 and later), the manager keeps it 40 days in <code class="notranslate">health\experience\</code>. Over the limits (<em>Settings &gt;<br>
+Infrastructure &gt; Experience of the users</em>, 60 s and 50 ms by default) a sign-in or a session is on Home and in the<br>
+notices.</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-experience.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-experience.png" alt="Experience: today in four figures, the median sign-in of 30 days against the limit of 60 s, the slowest sign-ins of today in their phases" width="100%" style="max-width: 100%;"></a>
+</p>
+<p dir="auto"><strong>Sessions</strong> is who works where:<br>
+When a user cannot sign in, the cause is often on the Windows side: a broker that fails every request, a host whose<br>
+RDVH agent is stuck, a desktop that is saved or off, a session left disconnected. The desktops are part of the<br>
+<strong>Health Center</strong>: <em>who cannot sign in now</em> opens its headline, each personal desktop (VM) in its tree shows the user,<br>
+the Windows session, the last sign-in and the thin client, with the actions on the session (<em>Shadow</em>, <em>Message</em>,<br>
+<em>Disconnect</em>, <em>Log off</em>) and <em>Personal desktop of the user</em>. <strong>Users &gt; Sessions</strong> shows the whole deployment as one<br>
+table, searchable: user, device, desktop, host, state of the VM, session, last sign-in. It works with Remote Desktop Services and Hyper-V (personal<br>
+desktops, and session hosts when there are some).</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-health-vm.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-health-vm.png" alt="Health Center, a personal desktop selected: the user, the Windows session, the last sign-in, the thin client, every check with OK, and the session actions" width="100%" style="max-width: 100%;"></a>
+</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-desktops.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-desktops.png" alt="Health Center, Distribution: one row per user with the device, the desktop, its host, the state of the VM, the session and the last sign-in" width="100%" style="max-width: 100%;"></a>
+</p>
+<ul dir="auto">
+<li><strong>One row per user and device</strong>: the device, the personal desktop (VM), its Hyper-V host, the state of the VM<br>
+(running, off, saved, not responding), the Windows session (active, idle for how long, disconnected since when) and<br>
+the last sign-in: when, through which broker, and whether it took a second try.</li>
+<li><strong>Who cannot sign in now</strong> is on top, in red, and named in one line above the list with what stops them. A colour<br>
+never comes alone: the state says it in words.</li>
+<li><strong>Select a row</strong>: one sentence says what is wrong, then the desktop, the session, the device and the last sign-ins,<br>
+each with the broker that served or refused it.</li>
+<li><strong>Its actions</strong>: <em>Shadow</em> (the screen of the session, with the user's consent unless the policy of the desktop says<br>
+otherwise), <em>Message...</em>, <em>Disconnect</em>, <em>Start VM</em>, <em>Restart VM</em>, <em>Desktop...</em> (the personal desktop of the user),<br>
+<em>Log off</em>, <em>Shut down VM</em>. The same on the row with a right click or the menu key. A button that cannot be used now<br>
+is grey, and its tooltip says why.</li>
+<li><strong>Filters and search</strong>: problems only, signed in, disconnected, VM off or saved; a user, device, desktop or host.</li>
+<li>The brokers and hosts are read <strong>in the background every 2 minutes</strong> (and with <em>Refresh</em>); the page says when. A<br>
+host that does not answer never holds the window.</li>
+</ul>
+<h3 id="brokers-and-hosts" dir="auto">Brokers and hosts</h3>
+<p dir="auto">The brokers, the shared name the devices use, and the Hyper-V hosts are items of the Health Center tree: one line per<br>
+problem, in one sentence and, when a safe fix exists, with its button; <strong>Show all</strong> adds the healthy ones. When all is<br>
+well it is one green line, <em>Brokers and hosts: all OK</em>. A right click on a broker or a host gives all its actions.</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>It checks</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Each broker</strong>: sign-ins received and failed since midnight (or since its service started), and the last ones. A broker that fails every request it receives is an error even when it receives few: users get in at the second try, through another broker, and nobody reports it. Its known signature (it presents itself to itself without the <code class="notranslate">$</code> of its computer account, event 4648 of <code class="notranslate">tssdis.exe</code>) is named</td>
+<td><strong>Restart</strong>: Tssdis, TScPubRPC and RDMS stop and start again, Tssdis first, with time limits, a hanging process is ended; then its Kerberos tickets are purged</td>
+</tr>
+<tr>
+<td>Its services, also those stuck in <em>StopPending</em></td>
+<td><strong>Restart</strong></td>
+</tr>
+<tr>
+<td>Its database (events 2048, 2072)</td>
+<td></td>
+</tr>
+<tr>
+<td>The <strong>self-repair</strong> task (below)</td>
+<td><strong>Install</strong></td>
+</tr>
+<tr>
+<td>The broker in the AD group of the settings</td>
+<td><strong>Add</strong></td>
+</tr>
+<tr>
+<td><strong>The shared name</strong> (<code class="notranslate">BROKER</code> of the devices): every broker behind it, every address answering on port 3389</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Each host</strong>: every broker in <em>RDS Endpoint Servers</em>, <em>RDS Management Servers</em> and <em>Hyper-V Administrators</em>, directly or through a group (nested groups too). The RDVH agent moves between brokers by itself: a missing permission breaks one broker at random</td>
+<td><strong>Repair</strong>: the AD group of the settings (or the broker's computer account) into the groups that miss it, then the tickets of the brokers</td>
+</tr>
+<tr>
+<td><em>VmHostAgent</em> and <em>vmms</em> stuck, the RDVH agent attached to no broker or with no broker to attach to</td>
+<td><strong>Unblock</strong>: the service stops with a time limit, its process is ended if it hangs, it starts again</td>
+</tr>
+<tr>
+<td>VMs with a vTPM that the cluster would <strong>save</strong> when it stops them (<code class="notranslate">OfflineAction</code> 1): they may not start again</td>
+<td><strong>Correct</strong>: <code class="notranslate">OfflineAction</code> 2, shut down</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h3 id="safe-by-design" dir="auto">Safe by design</h3>
+<ul dir="auto">
+<li>Every action asks first, saying exactly what will happen and to whom (<em>Signed in there: alice. Her open programs<br>
+close without saving</em>; for those, <em>No</em> is the default), and goes into <code class="notranslate">config\changes.log</code> like every other change.</li>
+<li>A broker is restarted only while another one is healthy, and never two at once; one action at a time.</li>
+<li>VMs are shut down (Windows closes inside them), <strong>never saved</strong> and never switched off; a VM of the cluster starts as<br>
+a cluster role.</li>
+<li>What stops or ends something is not offered on data older than 5 minutes: <em>Refresh</em> first.</li>
+<li><code class="notranslate">OTR_MANAGER_VDI_DRYRUN=1</code>: every action says what it would run, and runs nothing.</li>
+</ul>
+<h3 id="what-it-needs" dir="auto">What it needs</h3>
+<ul dir="auto">
+<li>The manager started as an account that administers the brokers and the Hyper-V hosts, with <strong>WinRM</strong> (port 5985)<br>
+open from the PC to them. The sessions are read from the desktops as <code class="notranslate">quser</code> reads them (remote RPC, allowed on a<br>
+Windows 10/11 desktop by <code class="notranslate">AllowRemoteRPC</code>); log off, disconnect and message fall back to WinRM on the desktop.<br>
+Without the rights, the page says so in one sentence and the rest of the manager works as before.</li>
+<li>Nothing to configure in most cases: the brokers come from <code class="notranslate">BROKER</code> and <code class="notranslate">BROKER_FALLBACK</code> of the devices, the active<br>
+management server of the deployment names the other brokers, the hosts and the desktops, the clusters name their<br>
+nodes. <strong>Settings...</strong> on the page (kept for your account on your PC, not in the folder): the <strong>AD group of the<br>
+brokers</strong> (the hosts give their permissions to it, never to single computers), more brokers or hosts if they are not<br>
+found, or the page turned off.</li>
+<li>How it reads them, and why not the RemoteDesktop cmdlets (blind on any server but the active management server):<br>
+<code class="notranslate">commands\vdi-probe.ps1</code> of the manager, readable.</li>
+</ul>
+<h3 id="broker-self-repair" dir="auto">Broker self-repair</h3>
+<p dir="auto">A broker can start failing every sign-in after it leaves and joins the farm again: it presents itself without the <code class="notranslate">$</code>,<br>
+falls back to NTLM, and every request ends with <em>access denied</em> (event 804, <code class="notranslate">0x80070005</code>) until its services start<br>
+again. <code class="notranslate">rds\Broker-SelfRepair.ps1</code> of the manager does that by itself, as a scheduled task started by the event<br>
+of that fault, at most once every 15 minutes. <em>Install the broker self-repair</em> on a broker of the Health Center installs or updates it; by hand:<br>
+<code class="notranslate">Install-BrokerSelfRepair.ps1 -Broker rdcb1.example.com, rdcb2.example.com</code> (<code class="notranslate">-Remove</code> takes it away). A broker that<br>
+already has a self-repair task of its own is left as it is.</p>
+<h2 id="health-center-the-whole-infrastructure" dir="auto">Health Center: the whole infrastructure</h2>
+<p dir="auto">The sessions answer "who works where, and who cannot sign in". The <strong>Health Center</strong> (<strong>Infrastructure</strong> in the<br>
+menu) looks one step further, at what all of it stands on: the Hyper-V hosts and their failover cluster, the storage, the VMs, the<br>
+domain controllers, DNS, an SQL AlwaysOn group, the NAS or the witness, the backups. One page instead of Failover<br>
+Cluster Manager, Hyper-V Manager, Server Manager, SQL Server Management Studio and the event logs.</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-health.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-health.png" alt="Health Center: on the left the tree of the infrastructure with a dot for each item, on the right the selected host with its facts, its checks and their Fix buttons" width="100%" style="max-width: 100%;"></a>
+</p>
+<ul dir="auto">
+<li><strong>On the left a tree</strong>: cluster, its hosts and their VMs (or <em>Hyper-V hosts</em> without a cluster); the domain with its<br>
+DCs and DNS; the SQL listener with its replicas; <em>Remote Desktop</em> with the brokers; the devices; the backups. Each<br>
+item has a dot and a word (<em>Saved with a vTPM</em>, <em>Free memory</em>, <em>to see: 3</em>), never the colour alone.</li>
+<li><strong>On the right the selected item</strong>: what is wrong in one sentence, then <strong>every check it ran with its result</strong><br>
+(<em>OK</em>, <em>Warning</em>, <em>Problem</em>, each with one short line: <em>Memory: 41% free</em>, <em>Clock: 0.2 s from the domain time</em>), its facts (up since, Windows, memory, disks,<br>
+clock, addresses, VMs...), its checks (each: what is wrong, with its numbers, and what it means in plain words) with a<br>
+<strong>Fix</strong> button where a fix exists, and its actions (<em>Drain the node</em>, <em>Resume the node</em>, <em>Start VM</em>, <em>Restart VM</em>,<br>
+<em>Shut down VM</em>, <em>Move all VMs to the other node</em>, <em>Restart the server</em>, <em>Shut down the server</em>, <em>Resynchronise the<br>
+clock</em>, <em>Replicate now</em>, <em>Wake up</em>, <em>Local administrator password (LAPS)</em>, and on a personal desktop the session<br>
+actions...). A button that cannot be used now is grey and its tooltip says why.</li>
+<li><strong>On top</strong> the headline (<em>Everything OK: 2 hosts, 16 VMs, 2 domain controllers</em>, or the problems), when it was read,<br>
+and the mode. Read in the background every 3 minutes from the start: the menu shows the count of problems on any page.</li>
+<li><strong>With the desktops</strong>: the findings of the brokers and hosts show up on the same items (read once, fixed the same<br>
+way); a broker or a host has the actions of the desktops too (restart its services, empty its tickets, install the<br>
+self-repair, unblock the RDVH agent, repair the permissions of the brokers).</li>
+</ul>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-health-cluster.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-health-cluster.png" alt="Health Center, the cluster selected: nodes, witness, shared volume, storage pool, live migration, the VMs with a vTPM it would save and the room left if a node fails" width="100%" style="max-width: 100%;"></a>
+</p>
+<h3 id="what-it-checks" dir="auto">What it checks</h3>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>Item</th>
+<th>Checks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Every server</strong> (host, DC, broker, SQL replica)</td>
+<td>free memory and disk, services stuck in <em>StopPending</em>/<em>StartPending</em>, automatic services stopped with an error, a restart pending (updates), critical events and errors of the last day, the clock against the PDC emulator (SNTP) and where it takes its time from, the secure channel with the domain, active adapters with a 169.254 address</td>
+</tr>
+<tr>
+<td><strong>Hyper-V host</strong></td>
+<td><code class="notranslate">vmms</code>, the cluster service, the RDVH agent (when the Desktops page does not watch it), its state in the cluster (up, paused, down), the guardian keys a VM with a vTPM needs on every node</td>
+</tr>
+<tr>
+<td><strong>Cluster</strong></td>
+<td>nodes up, the witness online (and its share answering), roles and resources failed, CSVs online and their free space, the storage pool, virtual and physical disks (disks in maintenance while a node is paused are said so), storage repair jobs, cluster networks and the ones live migration may use, <em>DrainOnShutdown</em>, VMs with a vTPM it would <strong>save</strong> (<code class="notranslate">OfflineAction</code> 1), room on the other nodes for the VMs of each node</td>
+</tr>
+<tr>
+<td><strong>VM</strong></td>
+<td>state, heartbeat (not responding), saved (a problem with a vTPM), paused, a running VM whose cluster role is offline (not watched), not a role of the cluster, checkpoints older than 3 days, the stop action of a VM outside a cluster, the disks inside when it answers WinRM by its name</td>
+</tr>
+<tr>
+<td><strong>Domain and DCs</strong></td>
+<td>the domain ports from this PC (LDAP, Kerberos, DNS, SMB, global catalog, ADWS), the DC services and their start mode (a <em>disabled</em> one is said so), SYSVOL and NETLOGON, inbound replication, the owners of the FSMO roles answering, 127.0.0.1 first in the DNS servers of a DC, the DCs alike (services, DNS zones)</td>
+</tr>
+<tr>
+<td><strong>DNS</strong></td>
+<td>every DNS server answers and how fast, every server name resolves to one address of its own and back (a storage or APIPA address registered under the name is the classic way of losing seconds at every connection), reverse lookups that are slow, reverse zones for the networks of the servers</td>
+</tr>
+<tr>
+<td><strong>SQL AlwaysOn</strong> (when configured)</td>
+<td>the listener and the primary, every replica connected and healthy, every database synchronized (or synchronizing on an asynchronous replica) and not suspended, the SQL services of every replica, the same active logins and SQL Agent jobs on every replica (AlwaysOn copies databases, not logins), failed jobs of the last 3 days, Windows-only authentication on one replica, the last full backup of every database</td>
+</tr>
+<tr>
+<td><strong>Hyper-V host, more</strong></td>
+<td>network adapters (up, speed, driver and its date; a driver different from the other node is said), the UPS or battery when Windows sees one (on battery = a problem), the cluster volumes reachable from this node, the vTPM guardian keys</td>
+</tr>
+<tr>
+<td><strong>Remote Desktop Gateway, RD Web</strong> (on any server that has them)</td>
+<td>the gateway service, its certificate (found, expired, expiring in 30 days), at least one connection and one resource authorization policy, port 443 answering, the failed connections of the last 24 hours; RD Web: the web server running</td>
+</tr>
+<tr>
+<td><strong>Devices</strong></td>
+<td>ping, the TCP ports given, an SMB share, Wake-on-LAN; a device that is the file share witness of a cluster says so, and the state of the witness</td>
+</tr>
+<tr>
+<td><strong>Custom checks</strong></td>
+<td>your own scripts, on the servers you choose (below)</td>
+</tr>
+<tr>
+<td><strong>Backups</strong> (when configured)</td>
+<td>the newest file of a log folder, or the newest one with the text of a success, not older than the hours given</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h3 id="diagnosis-only-or-diagnosis-and-repair" dir="auto">Diagnosis only, or diagnosis and repair</h3>
+<p dir="auto">The <strong>Mode</strong> on top is for the page; <strong>This item</strong> on the right changes one item and what is under it (a cluster and<br>
+its hosts, the domain and its DCs). In <em>Diagnosis only</em> nothing is changed without a click and a confirmation. In<br>
+<em>Diagnosis and repair</em> the <strong>safe</strong> repairs of the items in that mode run by themselves after each reading, one after<br>
+the other, and each goes into <code class="notranslate">config\changes.log</code> (<code class="notranslate">health: automatic repair: ...: done</code>); the headline says what was<br>
+repaired last. A repair that was tried waits 30 minutes before it is tried again. Turning repair mode on, for the page<br>
+or for an item, first lists what it would repair right now, with <em>No</em> as the default.</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>Safe: runs by itself in repair mode</th>
+<th>Always asks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Start a service a role needs (<code class="notranslate">vmms</code>, the RDVH agent, the cluster service, the DC services, the SQL services of a replica), unless it is <strong>disabled</strong></td>
+<td>Start a disabled service (someone may have disabled it on purpose), or another automatic service that stopped</td>
+</tr>
+<tr>
+<td>Unblock <code class="notranslate">vmms</code>, the RDVH agent or the time service stuck in <em>StopPending</em>: stopped with a time limit, its process ended, started again (never <code class="notranslate">Restart-Service</code>, which waits for ever)</td>
+<td>Unblock any other service; a service of a DC only while another DC is healthy</td>
+</tr>
+<tr>
+<td>Resynchronise a clock; restart Netlogon when the secure channel is broken</td>
+<td>Take the time from the domain again (<code class="notranslate">w32tm /config /syncfromflags:domhier</code>)</td>
+</tr>
+<tr>
+<td>Bring the witness online</td>
+<td>Start a failed cluster role; <em>DrainOnShutdown</em> = 1</td>
+</tr>
+<tr>
+<td><code class="notranslate">OfflineAction</code> 2 for VMs with a vTPM (nothing running is touched)</td>
+<td>Drain a node, resume it</td>
+</tr>
+<tr>
+<td>Wake-on-LAN of a device that does not answer</td>
+<td>Start, restart, shut down or resume a VM; bring its cluster role online; remove its old checkpoints; its stop action</td>
+</tr>
+<tr>
+<td>The safe fixes of the Desktops page: restart the services of a broker (only while another broker is healthy), repair the permissions of the brokers on a host, unblock the RDVH agent</td>
+<td>Replicate AD now; create a reverse DNS zone; resume the data movement of a database</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">Never, by hand or by itself: a VM saved or switched off (a VM is shut down, Windows closes inside it), two DCs, two SQL<br>
+replicas or two brokers acted on within 10 minutes, SQL Server ended or failed over, a server restarted. <strong>Drain the<br>
+node</strong> refuses while another node is not up, the witness is not online (or a two-node cluster has none), a storage<br>
+repair runs, or the other nodes have not the memory for its VMs: then it moves them live and pauses the node, which can<br>
+be restarted; <strong>Resume</strong> puts it back with its VMs. One action at a time on both pages; what stops something is not<br>
+offered on data older than 5 minutes; <code class="notranslate">OTR_MANAGER_VDI_DRYRUN=1</code> makes every action say what it would run.</p>
+<h3 id="settings-and-what-it-needs" dir="auto">Settings and what it needs</h3>
+<p dir="auto"><strong>Settings &gt; Health Center</strong> (the menu entry <em>Settings</em>), kept for your account on your PC (<code class="notranslate">%APPDATA%\OpenThinRDP\manager.json</code>), not in the<br>
+folder. <strong>Nothing is found by itself</strong>: servers can be on other networks or anywhere, so every server is entered by its<br>
+role, one list each, with a note for you (a name, a full name or an IPv4 address; a new line at the bottom of a list<br>
+adds, <em>Remove</em> removes):</p>
+<ul dir="auto">
+<li><strong>Hyper-V hosts</strong>, and whether they are in a <strong>failover cluster</strong> (<em>yes</em> with the name of the cluster: its other<br>
+nodes and all its VMs are read from it, and the actions use the cluster; <em>no</em>: single hosts, each with its own VMs);</li>
+<li><strong>domain controllers</strong> (the FSMO owners are still asked to AD), <strong>DNS servers</strong> besides the DCs;</li>
+<li><strong>RD Connection Brokers</strong> and the <strong>shared broker name</strong> of the devices, <strong>RD Gateway</strong>, <strong>RD Web Access</strong>;</li>
+<li><strong>SQL Server</strong>: the AlwaysOn <strong>listener</strong> (<code class="notranslate">sqlha.example.com</code> or <code class="notranslate">sqlha.example.com,1433</code>) and its <strong>replicas</strong> (the<br>
+group tells its replicas too; those entered are checked even when the listener does not answer), or <strong>single SQL<br>
+servers</strong>;</li>
+<li><strong>file servers</strong> and <strong>other Windows servers</strong> (basic checks);</li>
+<li><strong>devices</strong> (NAS, witness, switches, UPS): the address, the TCP ports to test, an SMB share, a MAC for Wake-on-LAN;</li>
+<li>the <strong>critical VMs</strong> (off = a problem), the <strong>backup log</strong> (a file or a folder, the text of a success, the maximum<br>
+age in hours) and the <strong>thresholds</strong> to change, e.g. <code class="notranslate">DiskPct=10; MemWarnPct=15</code>.</li>
+</ul>
+<p dir="auto">A part with nothing in its list says <em>not configured</em> in the tree, with a button to this tab. The settings of before<br>
+(hosts, DNS servers, servers, devices, and the hosts and brokers of the desktops) move into these lists by themselves,<br>
+the first time. Servers given by IP address need WinRM over HTTPS or the address in the WinRM <em>TrustedHosts</em>.</p>
+<p dir="auto">The settings of the desktops (collections, the group of the brokers) are in the same tab, <em>Desktops (brokers)</em>.</p>
+<h3 id="notices-and-the-health-center-without-the-window" dir="auto">Notices, and the Health Center without the window</h3>
+<p dir="auto"><em>Settings &gt; Health Center &gt; Notices</em>: when the problems change, a message with what came and what went to a webhook (or, ticked, structured JSON)<br>
+(an incoming webhook of Teams or Slack, anything that takes <code class="notranslate">{"text": ...}</code>) and/or a mail through an SMTP relay<br>
+without a password. The last state is kept on the PC (<code class="notranslate">%LOCALAPPDATA%\OpenThinRDP\health-notice.txt</code>): the window and<br>
+a scheduled run on the same PC do not repeat each other.</p>
+<p dir="auto"><code class="notranslate">OpenThinRDP-Manager.exe -HealthReport -Json C:\otr\health.json</code> reads the infrastructure once with the settings of<br>
+your account and writes the problems as JSON: the time, the state, the counts, each problem with its check, where,<br>
+title and text, and the devices with problems in the last 7 days. The exit code is 0 = good, 1 = warnings,<br>
+2 = errors, 3 = the reading failed: for Task Scheduler, Zabbix or Prometheus. The notices go from there too. Custom<br>
+checks need the vault (their signature), so they wait for the window. <strong>Export...</strong> on top of the page writes the<br>
+servers with their state to a CSV file.</p>
+<p dir="auto"><strong>Status page</strong> (<em>Settings &gt; Infrastructure</em>): an HTML file with the state of everything, for a phone. Choose where<br>
+(a folder that IIS or another web server publishes); the window writes it every 5 minutes and <code class="notranslate">-HealthReport</code> at<br>
+each run. It holds no script and nothing from outside, refreshes itself every 5 minutes, and says what to look at<br>
+first, the devices on, the sign-ins and the servers.</p>
+<h3 id="the-summary-and-the-page-of-an-item" dir="auto">The summary and the page of an item</h3>
+<p dir="auto">The summary of the infrastructure is on <strong>Home</strong>, in cards: the overall health (a ring of the<br>
+checks good, to look at and wrong), the cluster with each host (its memory, its VMs, whether it is in maintenance),<br>
+the witness and whether the cluster holds if a node fails; the desktops (in session, disconnected, who cannot sign<br>
+in); the hardware of the iDRACs; the free memory of the hosts over 30 days with its forecast and the line under which<br>
+the VMs of a failed node no longer fit, and how many more desktops like the others there is room for; what to look<br>
+at, the worst first (a click opens it); the services over 30 days, one block a day; the last 24 hours of every part,<br>
+one box an hour. Each item of the tree opens with its path, its state, its actions on top, then <strong>Overview</strong> (tiles with<br>
+its memory, processors, disk, power, each with its trend) and its checks, or <strong>Activity</strong>: what was done on it, from<br>
+<code class="notranslate">config\changes.log</code>. A filter over the tree finds an item by its name.</p>
+<h3 id="maintenance" dir="auto">Maintenance</h3>
+<p dir="auto"><em>Maintenance...</em> on any item: until the time given, its problems and those of what is under it stay in sight, grey,<br>
+but they send no notice and nothing is repaired by itself; at that time it is back by itself. Kept in the management<br>
+folder (<code class="notranslate">health\maintenance.json</code>), so every administrator and the run without the window see it.</p>
+<h3 id="history-and-forecast" dir="auto">History and forecast</h3>
+<p dir="auto">Each reading leaves one line in <code class="notranslate">health\history</code> of the management folder (at most every 10 minutes, 40 days): the<br>
+free memory, disks, shared volumes, the services and the power of the hosts. From the last two weeks the Health<br>
+Center says when a disk, a shared volume or the memory of a host will be full (<em>Running out</em>, within<br>
+<em>Warn when full within (days)</em>, 30 by default). The charts of the summary come from there: a new installation shows<br>
+<em>Collecting</em> for its first days.</p>
+<h3 id="services-as-their-users-reach-them" dir="auto">Services, as their users reach them</h3>
+<p dir="auto"><em>Settings &gt; Health Center &gt; Services</em>: a web address (<code class="notranslate">https://...</code>, with a text the page must contain), a TCP port<br>
+(<code class="notranslate">host:port</code>) or a database (<code class="notranslate">sql://server/database</code>, it connects and runs <code class="notranslate">SELECT 1</code>), read from this PC: <em>Not<br>
+answering</em>, <em>Wrong page</em>, <em>Slow</em> (over <em>Service slow over (ms)</em>, 3000 by default) and the certificate that expires<br>
+within 30 days (an error within 7).</p>
+<h3 id="hardware-redfish-idrac-ilo-xclarity" dir="auto">Hardware (Redfish: iDRAC, iLO, XClarity)</h3>
+<p dir="auto"><em>Settings &gt; Health Center &gt; Hyper-V</em>: the controller of each host (Dell iDRAC, HPE iLO, Lenovo XClarity, Supermicro:<br>
+anything that speaks Redfish); <em>Settings &gt; Manager &gt; Accounts</em>: one account, read only is enough, kept in the vault. The Health Center reads the power supplies and their redundancy,<br>
+the fans, the temperatures, memory, processors and storage, and the power drawn. The certificate of an iDRAC is trusted<br>
+the first time it answers and only that one after: another one refuses the connection before the password is sent.<br>
+Without the vault open the hardware is not read, and the host says so.</p>
+<h3 id="certificates-and-the-enterprise-ca" dir="auto">Certificates and the enterprise CA</h3>
+<p dir="auto">Every server the Health Center reads shows its certificates on its page: for whom, issued by whom, until when, what<br>
+uses them (RDP, HTTPS of IIS, RD Gateway, SQL Server, WinRM over HTTPS, LDAPS on a domain controller) and whether they<br>
+renew by themselves (a template of the CA with auto-enrolment on). A certificate in use warns 30 days before it<br>
+expires and is an error in its last week; a renewal left behind is not counted. The domain shows its enterprise CAs,<br>
+until when they are valid, and their revocation list: a list past its next update makes every certificate of the CA<br>
+fail where revocation is checked.</p>
+<p dir="auto">The Health Center also asks every broker and every running Windows desktop for the certificate it presents on RDP,<br>
+without signing in: whether it comes from a CA this PC trusts and is for its name.</p>
+<p dir="auto"><strong>Settings &gt; Security &gt; Enterprise CA</strong>:</p>
+<ul dir="auto">
+<li><em>Request the signing certificate</em>: a code signing certificate from a template of your CA, into your personal store;<br>
+the manager signs its launcher with it now, after every update, and when the CA renews it (it follows the new one).<br>
+AppLocker and WDAC can then allow the manager by its publisher.</li>
+<li><em>Send the CA to the devices</em>: the certificates of the CAs of your forest go to <code class="notranslate">config\ca</code> of the management folder,<br>
+signed as the settings; the devices (0.2.23 and later) add them to the CAs they trust at their next report.</li>
+<li><em>RDP certificates of the VMs</em>: the way of Microsoft, each step shown before it is done. You choose the template: one<br>
+your CA issues already and fits (Server Authentication, the name from Active Directory, the computers of the domain<br>
+may enroll; <em>Computer</em> first, so nothing new is made in Active Directory), or the template <code class="notranslate">OpenThinRDP-RDP</code> the<br>
+manager creates and publishes on your CA. Then it sets <em>Server authentication certificate template</em> in the GPO of<br>
+the desktops you choose (on the PDC emulator, over WinRM). Every VM gets its certificate at its next policy refresh,<br>
+uses it for RDP and renews it by itself. It needs an administrator of the GPO (and of the enterprise to create a<br>
+template).</li>
+<li><em>Bind the RDP certificates</em>: Windows desktops receive the certificate by auto-enrolment but keep their own<br>
+self-signed one for RDP. On every desktop not ready the manager binds the certificate of the CA to its RDP (over<br>
+WinRM, <code class="notranslate">commands\rdp-bind.ps1</code>); again after a renewal, when the Health Center shows it not ready.</li>
+<li><em>RDP_CERT=verify</em>: on the groups you choose (the pilot ones first), on every device, or back to what it was; it says<br>
+which servers are not ready before.</li>
+<li>What it says: the CA, the signing certificate, whether the devices have the CA, and how many RDP servers are ready<br>
+for <code class="notranslate">RDP_CERT=verify</code> (with the ones that are not, and why: a self-signed certificate, an unknown CA, another name).<br>
+When all are ready, <code class="notranslate">RDP_CERT=verify</code> in the common settings: a device then never connects to a server that cannot<br>
+prove who it is. For the desktops, the GPO <em>Server authentication certificate template</em> (Remote Desktop Services &gt;<br>
+Remote Desktop Session Host &gt; Security) with a template of your CA.</li>
+</ul>
+<h3 id="other-platforms-proxmox-ve-vmware-vsphere-veeam-citrix" dir="auto">Other platforms: Proxmox VE, VMware vSphere, Veeam, Citrix</h3>
+<p dir="auto">New in 0.2.23, each an area of <em>Settings &gt; Health Center</em> with its own list, and a group of the tree:</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>Platform</th>
+<th>How it is read</th>
+<th>What it checks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Proxmox VE</td>
+<td>its API, port 8006, an API token with the role PVEAuditor</td>
+<td>quorum, nodes, memory, storage, HA resources, failed tasks (backups included), failing disks</td>
+</tr>
+<tr>
+<td>VMware vSphere</td>
+<td>the REST API of vCenter (7, 8; 6.7 too), a read-only account</td>
+<td>the health of the appliance, hosts disconnected or off, full datastores</td>
+</tr>
+<tr>
+<td>Veeam Backup &amp; Replication</td>
+<td>its REST API, port 9419 (11, 12), an account with the role Veeam Backup Viewer</td>
+<td>failed jobs, jobs that stopped running, repositories almost full or offline</td>
+</tr>
+<tr>
+<td>Citrix Virtual Apps and Desktops</td>
+<td>its PowerShell on a Delivery Controller, over WinRM</td>
+<td>controllers, unregistered machines, groups without free desktops, licenses in grace period</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">The accounts of Proxmox, vCenter and Veeam are kept in the vault (<em>Settings &gt; Manager &gt; Accounts</em>); the certificate of<br>
+each is trusted the first time it answers and only that one after. Nothing is changed on them: read only. These four<br>
+were built against their documented APIs; if you run one of them, <a href="https://github.com/OpenThinRdp/openthinrdp-manager/issues">tell us how it reads</a>.</p>
+<h3 id="leftovers" dir="auto">Leftovers</h3>
+<p dir="auto">What points to something that is gone: the <strong>planned VMs</strong> a live migration or an import left on a host (<em>Remove the<br>
+planned VMs</em>, refused while a migration runs there; the real VMs are not touched), the <strong>virtual disks</strong> on the<br>
+shared volumes that no VM uses (only when every host of the cluster was read; nothing is deleted), the <strong>computers</strong><br>
+of the domain not seen for 90 days.</p>
+<h3 id="the-baseline" dir="auto">The baseline</h3>
+<p dir="auto">The settings that break things when they change with nobody touching them: the drain on shutdown, the quorum and the<br>
+witness of a cluster; the time source and the enhanced session of a host; the stop and offline actions, memory,<br>
+vTPM and clustering of each VM; the time source and the DNS order of a domain controller. The first reading takes them<br>
+as they are (<code class="notranslate">health\baseline.json</code>); a value that changes is <em>Changed</em>, with before and now: <strong>Put it back</strong> (the<br>
+offline action, the stop action, the drain on shutdown, the enhanced session) or <strong>Approve as it is</strong>.</p>
+<h3 id="custom-commands" dir="auto">Custom commands</h3>
+<p dir="auto"><em>Settings &gt; Health Center &gt; Custom commands</em>: your own actions in the <strong>Commands</strong> menu of the items they are for<br>
+(hosts, DCs, brokers, SQL, servers, VMs, or names): a script run on the server of the item with your rights (it may<br>
+ask one question first, the answer in <code class="notranslate">$Param</code>; what it writes is shown), or a <strong>guide</strong> that is only shown (<code class="notranslate">{name}</code><br>
+= the name of the item). Each says who may run it (operator or admin). Kept in <code class="notranslate">config\health-commands</code>, signed with<br>
+the key of the site like the custom checks (changed after = it does not run), never through JEA.</p>
+<h3 id="backup-of-the-vms" dir="auto">Backup of the VMs</h3>
+<p dir="auto"><em>Back up the VMs...</em> on a cluster or a host: all the VMs or some, onto a share (<code class="notranslate">\\server\share</code>) that the computer<br>
+accounts of the hosts may write. Every host copies its own VMs where they are, none is moved, in a task of its own<br>
+(the copy goes on with the window closed): without their memory first (each VM stops for about a second, a session<br>
+sees <em>Connection lost</em> and comes back), with it when that fails. With them: the settings of the VMs, the certificates<br>
+of their vTPM (the password you give is written next to them: whoever has the share has the disks in clear anyway),<br>
+and <code class="notranslate">README-RESTORE.txt</code> with the four traps of a restore. <em>Logs of the backup</em> shows how far it got. A Linux VM<br>
+cannot give a copy consistent for its applications (no VSS inside): it is copied with its memory, and the log says<br>
+so; before starting it from that copy, <code class="notranslate">Remove-VMSavedState</code>.</p>
+<h3 id="the-witness-and-the-fsmo-roles" dir="auto">The witness and the FSMO roles</h3>
+<p dir="auto">A file share witness that is not online says why, read from this PC: the server does not answer on SMB, the share is<br>
+not there, the account of the cluster is refused, or the logon (1326); a drained node is not shut down while its<br>
+witness is not online. On the domain, <em>FSMO roles: what to do</em> shows who holds them and the commands to move them, or<br>
+to take them when their owner is lost for good, with what to do after.</p>
+<h3 id="without-administrator-rights-on-the-servers-jea" dir="auto">Without administrator rights on the servers (JEA)</h3>
+<p dir="auto">By default the Health Center and the Desktops reach the servers over WinRM with your own account, which must be an<br>
+administrator of each. <em>Settings &gt; Health Center &gt; JEA</em> makes an endpoint called <code class="notranslate">OpenThinRDP</code> instead<br>
+(<a href="https://learn.microsoft.com/powershell/scripting/security/remoting/jea/overview" rel="nofollow">Just Enough Administration</a>):<br>
+it runs only the readings and actions of this manager, copied into it and named by the fingerprint of their text, as<br>
+a virtual account of the server. Two roles, for accounts or groups of the domain:</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>Role</th>
+<th>What it may do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Operators</strong></td>
+<td>the readings, and the safe repairs with their arguments checked: starting the services each role needs (not a disabled one), unblocking the agent of a host or the services of a broker, the broker tickets, the time, the witness online, the local groups 576/577/578 for computer accounts or the group of the brokers only</td>
+</tr>
+<tr>
+<td><strong>Admins</strong></td>
+<td>every action of the manager: restarts, drain, quorum, SQL failover, checkpoints...</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p dir="auto">An account in both lists is admin. <em>Register on the checked</em> copies the endpoint to the servers checked (with your<br>
+rights, once) and restarts WinRM on each 15 seconds later: whatever uses WinRM there drops for a few seconds, so do<br>
+it out of hours. Then tick <em>The Health Center and the Desktops use the endpoint</em>. After a manager update that changed<br>
+its readings or actions, register it again: until then the servers answer that they do not know the action.</p>
+<p dir="auto">Never through the endpoint: the <strong>custom checks</strong> (they run any text, they wait), <strong>LAPS</strong> (on a domain controller the<br>
+virtual account is a Domain Admin, so anyone allowed in would read every password: LAPS keeps the rights of your<br>
+account) and the <strong>actions inside the VMs</strong> (log off, messages: the VMs have no endpoint). On a domain controller<br>
+the endpoint runs as a Domain Admin too: the roles above are what keeps it narrow. Every session is recorded in<br>
+<code class="notranslate">C:\ProgramData\OpenThinRDP\JeaTranscripts</code> on the server.</p>
+<p dir="auto"><strong>A check that is wrong</strong>: right-click it, <em>Report a false positive</em>. The check and what it said, with the names of<br>
+your servers, the domain, your user and the addresses replaced (<code class="notranslate">host1</code>, <code class="notranslate">dc1</code>, <code class="notranslate">domain</code>, <code class="notranslate">ip</code>), are shown to read and<br>
+change; <em>Open on GitHub</em> puts them in a new issue, which you still send yourself.</p>
+<h3 id="custom-checks" dir="auto">Custom checks</h3>
+<p dir="auto"><strong>Settings &gt; Custom checks</strong> adds your own checks, shown in the tree like the others, on the server they ran on.</p>
+<p dir="auto"><strong>Signed.</strong> A custom check runs on the servers with administrator rights, so whoever could change its scripts in<br>
+the folder could run anything there. With a site key in the vault, a check runs only once an administrator signed it:<br>
+saving it here signs it, and <em>Sign</em> signs one after you read its scripts. A script changed in the folder after the<br>
+signature does not run, and the Health Center says which. The signature is checked with the key in the vault, never<br>
+with a file of the folder; with the vault closed none runs. A manager without a site key runs them unsigned and says<br>
+so.</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-settings-custom.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-settings-custom.png" alt="Settings, Custom checks: the list with where each check runs, how often, how its repair runs, and the buttons New check, Change, Open folder, Delete" width="100%" style="max-width: 100%;"></a>
+</p>
+<ul dir="auto">
+<li>a <strong>name</strong>, <strong>where</strong> it runs (<code class="notranslate">hosts</code>, <code class="notranslate">dcs</code>, <code class="notranslate">brokers</code>, <code class="notranslate">sql</code>, <code class="notranslate">servers</code>, or names of servers), <strong>every</strong> how many<br>
+minutes (at least 3), what it means;</li>
+<li>a <strong>diagnostic script</strong>, run on each server over WinRM with the time limits of the Health Center, that returns<br>
+<code class="notranslate">@{ State = 'ok' | 'warn' | 'error'; Text = 'one short line' }</code>;</li>
+<li>an optional <strong>repair script</strong> (done when it returns <code class="notranslate">$true</code>, <code class="notranslate">@{ State = 'ok' }</code> or nothing without an error), and<br>
+whether it is <strong>risky</strong>: a repair that is not risky runs by itself on the items in repair mode, a risky one always<br>
+asks (default <em>No</em>).</li>
+</ul>
+<p dir="auto">They are kept in the management folder, <code class="notranslate">config\health-checks\&lt;id&gt;.json</code>, <code class="notranslate">&lt;id&gt;.check.ps1</code> and <code class="notranslate">&lt;id&gt;.repair.ps1</code>, so<br>
+everyone who opens the folder runs them, with their own rights on the servers: the Health Center says it in red when<br>
+someone other than the administrators can write in that folder. Two examples:</p>
+<div class="highlight highlight-source-powershell" dir="auto"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 1. Print spooler running (where: servers; repair: Start-Service Spooler, not risky)</span>
+<span class="pl-smi">$s</span> <span class="pl-k">=</span> <span class="pl-c1">Get-Service</span> Spooler <span class="pl-k">-</span>ErrorAction SilentlyContinue
+<span class="pl-k">if</span> (<span class="pl-k">-not</span> <span class="pl-smi">$s</span>) { <span class="pl-k">@</span>{ <span class="pl-smi">State</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>ok<span class="pl-pds">'</span></span>; <span class="pl-smi">Text</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>not installed<span class="pl-pds">'</span></span> } }
+<span class="pl-k">elseif</span> (<span class="pl-smi">$s<span class="pl-smi">.Status</span></span> <span class="pl-k">-eq</span> <span class="pl-s"><span class="pl-pds">'</span>Running<span class="pl-pds">'</span></span>) { <span class="pl-k">@</span>{ <span class="pl-smi">State</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>ok<span class="pl-pds">'</span></span>; <span class="pl-smi">Text</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>running<span class="pl-pds">'</span></span> } }
+<span class="pl-k">else</span> { <span class="pl-k">@</span>{ <span class="pl-smi">State</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>error<span class="pl-pds">'</span></span>; <span class="pl-smi">Text</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Spooler is <span class="pl-k"><span class="pl-pse">$</span></span><span class="pl-pse">(</span><span class="pl-smi">$s<span class="pl-smi">.Status</span></span><span class="pl-pse">)</span><span class="pl-pds">"</span></span> } }</pre></div>
+<div class="highlight highlight-source-powershell" dir="auto"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> 2. A web application answers its health page (where: the name of its server)</span>
+<span class="pl-k">try</span> {
+  <span class="pl-smi">$r</span> <span class="pl-k">=</span> <span class="pl-c1">Invoke-WebRequest</span> <span class="pl-k">-</span>Uri <span class="pl-s"><span class="pl-pds">'</span>https://localhost:5001/healthz<span class="pl-pds">'</span></span> <span class="pl-k">-</span>UseBasicParsing <span class="pl-k">-</span>TimeoutSec <span class="pl-c1">10</span>
+  <span class="pl-k">if</span> (<span class="pl-smi">$r<span class="pl-smi">.StatusCode</span></span> <span class="pl-k">-eq</span> <span class="pl-c1">200</span>) { <span class="pl-k">@</span>{ <span class="pl-smi">State</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>ok<span class="pl-pds">'</span></span>; <span class="pl-smi">Text</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>answers<span class="pl-pds">'</span></span> } } <span class="pl-k">else</span> { <span class="pl-k">@</span>{ <span class="pl-smi">State</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>warn<span class="pl-pds">'</span></span>; <span class="pl-smi">Text</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>HTTP <span class="pl-k"><span class="pl-pse">$</span></span><span class="pl-pse">(</span><span class="pl-smi">$r<span class="pl-smi">.StatusCode</span></span><span class="pl-pse">)</span><span class="pl-pds">"</span></span> } }
+} <span class="pl-k">catch</span> { <span class="pl-k">@</span>{ <span class="pl-smi">State</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>error<span class="pl-pds">'</span></span>; <span class="pl-smi">Text</span> <span class="pl-k">=</span> <span class="pl-c1">$_<span class="pl-smi">.Exception.Message</span></span> } }</pre></div>
+<p dir="auto">Which check of the original runbook script is where: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/health-center-coverage.md">health-center-coverage.md</a>.</p>
+<p dir="auto">The manager runs as an account that administers the servers, with <strong>WinRM</strong> (5985) to the hosts, DCs, brokers and SQL<br>
+replicas, NTP (UDP 123) from them to the PDC emulator, and a login on every SQL replica (Windows authentication). The<br>
+probe only reads: <code class="notranslate">Get-*</code> commands, <code class="notranslate">repadmin /showrepl</code>, <code class="notranslate">w32tm /query</code>, <code class="notranslate">SELECT</code> on SQL; how it reads and why:<br>
+<code class="notranslate">commands\health-probe.ps1</code> of the manager, readable, as every command it runs on servers (<code class="notranslate">commands\</code>, <code class="notranslate">rds\</code>).<br>
+Without rights on a server the item says so in one<br>
+sentence and the rest goes on.</p>
+<h2 id="access-by-account-and-levels" dir="auto">Access by account and levels</h2>
+<p dir="auto"><em>Settings &gt; Manager &gt; Access</em> replaces the one code for everybody with one access per person or group:</p>
+<ul dir="auto">
+<li><strong>A user or a group of the domain</strong>: its members open the manager with their Windows account, nothing to type<br>
+(DPAPI-NG: the domain unlocks the vault for them, on any PC of the domain).</li>
+<li><strong>An account of the manager</strong>: a name and a password, for someone outside the domain.</li>
+<li><strong>The emergency code</strong>: the access code of before, kept as an administrator access for when the domain does not<br>
+answer. Keep it offline.</li>
+</ul>
+<p dir="auto">Each access has a <strong>level</strong>: <em>Administrator</em> (everything), <em>Operator</em> (commands to the devices, their remote screen,<br>
+the actions on desktops; no settings, no releases, no vault), <em>Read only</em> (sees everything, changes nothing). The<br>
+levels are inside the encrypted vault, so whoever can write the file cannot raise their own. Removing an access gives<br>
+the content a new key: a copy of the old access opens nothing that comes after (the domain accesses follow by<br>
+themselves, the accounts of the manager get a new password then). <code class="notranslate">config\changes.log</code> names the Windows user and,<br>
+for an account of the manager, that account.</p>
+<p dir="auto"><strong>Rights on the folder</strong> sets them on the management folder for the domain accesses: administrators may change<br>
+<code class="notranslate">config\</code>, <code class="notranslate">updates\</code> and <code class="notranslate">diag\</code>, the others read. Rights from other groups stay as they are: a level is real only<br>
+when nobody below <em>Administrator</em> can write <code class="notranslate">config\</code> some other way.</p>
+<h2 id="vault-keys-and-the-site-key" dir="auto">Vault, keys and the site key</h2>
+<p dir="auto">All of this is in <strong>Settings &gt; Security</strong>, with who opens the manager and at which level. The access window at the<br>
+start opens the vault: once in, it stays open. <strong>Lock</strong> in the top bar closes it and asks for the access again,<br>
+for when you leave the PC; with Windows accounts locking Windows does that, and the button is not there.</p>
+<p dir="auto">Two keys rule the fleet: the SSH key that opens the screen of any device, and the key that signs the update packages<br>
+every device installs. The manager keeps both in <code class="notranslate">vault.otr</code>, next to it, encrypted with an <strong>access code</strong> that only<br>
+the administrators know. Every administrator who starts the same copy opens it with the same code; without the code<br>
+the settings can still be edited, but no screen opens and nothing is signed.</p>
+<p dir="auto"><strong>The access code first.</strong> When a copy of the manager has a vault, it asks the code before anything else: no folder,<br>
+no device, no window behind the question. A wrong code says so and lets you try again (after three, each try waits<br>
+longer: 2, 4, 8, 16, then 30 seconds); <strong>Exit</strong> or the close box ends the manager. With the right code the vault stays<br>
+open for the session: the remote screen and signing do not ask again. A copy without a vault starts as before and offers<br>
+to create one.</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-access-code.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-access-code.png" alt="The access code asked at the start, in a window of its own with the name and the icon of the manager" width="45%" style="max-width: 100%;"></a>
+</p>
+<p dir="auto">The <strong>Vault</strong> page has the vault itself, the key that signs the updates, the SSH key of the manager and, under them,<br>
+the <strong>SSH keys of the devices</strong>: the public keys <code class="notranslate">otradmin</code> accepts on the devices with <code class="notranslate">SSH=on</code> (<code class="notranslate">config\authorized_keys</code>),<br>
+one per line, with <strong>Save</strong>, <strong>Undo changes</strong>, <strong>Add the key of the manager</strong> and <strong>Add a key from a file...</strong>.</p>
+<p align="center" dir="auto">
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-vault.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-vault.png" alt="Vault page: the vault, the key that signs the updates, the SSH key of the manager, and under them the SSH keys of the devices" width="100%" style="max-width: 100%;"></a>
+</p>
+<p dir="auto"><strong>A fleet on its own key.</strong> With <code class="notranslate">UPDATE_KEY=site</code> your devices accept only updates signed by the key of your site,<br>
+which exists only in your vault. The manager checks each GitHub release (project signature and hash) and signs it<br>
+again with your key: a stolen project key installs nothing on your fleet. Set it up step by step:<br>
+<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#a-fleet-on-its-own-key">management.md</a>.</p>
+<h2 id="logo-background-ssh-keys-permissions" dir="auto">Logo, background, SSH keys, permissions</h2>
+<ul dir="auto">
+<li><strong>Logo and background...</strong> (common settings, or a device): any picture, scaled and saved as PNG, for every device<br>
+or one.</li>
+<li><strong>SSH keys of the devices</strong> (on the Vault page): the keys of the administrators, sent to every device (<code class="notranslate">SSH=on</code>);<br>
+<strong>Add the key of the manager</strong> puts the vault's key there for the remote screen.</li>
+<li><strong>Check permissions</strong> tells you what the account of the devices can do in the folder: it needs to write only its<br>
+status, never the settings or the updates.</li>
+<li>The window fits any screen, from a 27" monitor to a laptop with display scaling (down to 860×560).</li>
+</ul>
+<h2 id="the-manager-updates-itself" dir="auto">The manager updates itself</h2>
+<p dir="auto">Every release carries the manager of the same version, under the same signature as the update package. At start,<br>
+in the background, the manager checks the latest release; when there is a newer manager, the top bar shows<br>
+<em><strong>Manager X available</strong></em>. <strong>Update the manager</strong> downloads it, checks signature and hash, keeps the files it<br>
+replaces in <code class="notranslate">previous\</code>, and starts again. Your <code class="notranslate">vault.otr</code>, the launcher and anything that is not part of the<br>
+manager stay as they are; if anything fails, the previous files come back.</p>
+<p dir="auto">Update the copy the administrators start (on a share, from a PC that can write there): everybody who starts it gets<br>
+the new version. The <strong>Updates</strong> page shows the manager's version and has <strong>Check again</strong>. Details:<br>
+<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#the-manager-updates-itself">management.md</a>.</p>
+<h3 id="files-as-the-release-signed-them" dir="auto">Files as the release signed them</h3>
+<p dir="auto">Whoever can write in the folder of the manager could change it to work on your servers with your credentials. From<br>
+0.2.23 the manager of a release carries <code class="notranslate">MANIFEST.txt</code>, the SHA-256 of each of its files, signed with the project<br>
+key. The launcher (<code class="notranslate">OpenThinRDP-Manager.exe</code>) checks it before anything of the manager runs: a file changed or<br>
+missing, or a script, C# source, language file or library added next to them, and the manager does not start, with<br>
+the list of those files. The key is the one written in the launcher, not just any key in the folder.</p>
+<ul dir="auto">
+<li>A copy without <code class="notranslate">MANIFEST.txt</code> (a development copy, a manager you built without the project key) starts as before,<br>
+unless this PC already opened it signed: taking <code class="notranslate">MANIFEST.txt</code> away does not turn the check off. If that is wanted,<br>
+the message names the file to delete in your profile.</li>
+<li>An update brings the new <code class="notranslate">MANIFEST.txt</code>, and moves to <code class="notranslate">previous\</code> the code the new release no longer has.</li>
+<li>The launchers are built again only from signed files.</li>
+<li>The check covers the starts through the launcher. Who can write in the folder can still change the launcher on the<br>
+share itself: start the manager from the copy <code class="notranslate">OpenThinRDP-Manager.exe -Install</code> puts on each PC (on its own disk).</li>
+<li>The manager itself is sealed in <code class="notranslate">OpenThinRDP-Manager.core</code> and runs from memory; what it runs on your servers is in<br>
+<code class="notranslate">commands\</code> and <code class="notranslate">rds\</code>, readable, and checked against <code class="notranslate">MANIFEST.txt</code> before it is loaded.</li>
+</ul>
+<h2 id="power-and-commands-of-a-device" dir="auto">Power and commands of a device</h2>
+<p dir="auto"><strong>Power and commands</strong> in the header of a device:</p>
+<ul dir="auto">
+<li><strong>Power on (Wake-on-LAN)</strong>: the magic packet to the broadcast of the network the device last reported (e.g.<br>
+<code class="notranslate">192.168.1.255</code> for <code class="notranslate">192.168.0.37/23</code>) and to <code class="notranslate">255.255.255.255</code>. It needs Wake-on-LAN in the BIOS; the device<br>
+enables it on its network card at every start.</li>
+<li><strong>Restart</strong>, <strong>Switch off</strong>, <strong>Send its status now</strong>, <strong>Run a command...</strong>: over SSH as <code class="notranslate">otradmin</code> with the key of<br>
+the vault (SSH on for the device). Restart and switch off warn when someone is working on the device; a command<br>
+shows its output and exit code (<code class="notranslate">sudo</code> in front for root). Every action goes to the change log.</li>
+</ul>
+<h2 id="settings--manager-language-and-local-copy" dir="auto">Settings &gt; Manager: language and local copy</h2>
+<ul dir="auto">
+<li>
+<p dir="auto"><strong>Code signing</strong>: where only signed programs run (AppLocker, WDAC), <em>Sign the manager</em> signs its launcher with a code<br>
+signing certificate of yours (Current user &gt; Personal, from the CA of the site), again after every update. The<br>
+manager does not run from script files, so AllSigned does not stop it.</p>
+</li>
+<li>
+<p dir="auto"><strong>Management folder &gt; Name it in the domain</strong> (<a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="5941153985" data-permission-text="Title is private" data-url="https://github.com/OpenThinRdp/openthinrdp/issues/82" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/82/hovercard" href="https://github.com/OpenThinRdp/openthinrdp/issues/82">#82</a>): writes <code class="notranslate">&lt;account&gt;=&lt;folder&gt;</code> into<br>
+<code class="notranslate">\\&lt;domain&gt;\NETLOGON\OpenThinRDP\folders.conf</code>, for the account of the devices (<code class="notranslate">MGMT_USER</code> of the common<br>
+settings). A device with that account and <strong>no folder of its own</strong> finds the folder there at every report: a new<br>
+device needs only domain, account and password. NETLOGON is on every DC and every domain account reads it over the<br>
+SMB the device uses anyway; no LDAP on the device (LDAP signing, or a domain without an LDAPS certificate, would<br>
+refuse it). The last folder found is kept for when no DC answers. Writing NETLOGON needs a domain administrator.</p>
+</li>
+<li>
+<p dir="auto"><strong>Management folder &gt; Move the folder...</strong>: copies everything to a new network path, points <code class="notranslate">MGMT_SHARE</code> to it in<br>
+every <code class="notranslate">.conf</code> of both copies (and adds it to the old <code class="notranslate">common.conf</code>), updates the domain entry when there is one, and<br>
+goes on working on the new folder. Every device moves at its next report, those switched off when they start; the<br>
+old folder stays until no device reports there any more.</p>
+</li>
+<li>
+<p dir="auto"><strong>Language</strong>: the language of the window for your Windows user (<em>Language of Windows</em> = as today); it applies from<br>
+the next start. <code class="notranslate">-Language</code> on the command line still wins.</p>
+</li>
+<li>
+<p dir="auto"><strong>Local copy of the management folder</strong>: choose a folder on this PC and the manager mirrors the management folder<br>
+there in the background at every start (and with <em>Update the copy now</em>), without the packages of the old versions.<br>
+When the file server is down, the manager offers to open the local copy, so the Health Center works when it is<br>
+needed most; <em>Open the local copy</em> opens it by hand, or start with <code class="notranslate">-Folder &lt;local copy&gt;</code>. The title says <em>(LOCAL<br>
+COPY)</em>: what is changed there stays there and does not reach the file server.</p>
+</li>
+<li>
+<p dir="auto"><strong>The manager updates itself</strong>: its block is on the Updates page, under the updates of the devices.</p>
+</li>
+</ul>
+<h2 id="starting-it-and-the-command-line" dir="auto">Starting it, and the command line</h2>
+<ul dir="auto">
+<li><code class="notranslate">OpenThinRDP-Manager.exe</code> starts it: the access window at once, the manager loading behind it.<br>
+<code class="notranslate">OpenThinRDP-Manager.exe -Install [-Name &lt;name&gt;] [-Folder &lt;folder&gt;] [-Language en|it]</code> puts a copy on this PC with a<br>
+shortcut on the desktop, that starts the manager on the share (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#central-settings">details</a>). An<br>
+update brings a newer launcher in place of the older ones by itself; the <code class="notranslate">.cmd</code> and <code class="notranslate">.vbs</code> of the releases before<br>
+0.2.23 go.</li>
+<li><code class="notranslate">OpenThinRDP-Manager.exe -Folder \\fileserver\thinclients -Language en|it</code>: the folder and the language (by default<br>
+the Windows display language).</li>
+<li><code class="notranslate">OpenThinRDP-Manager.exe -Sign &lt;folder&gt;\LATEST.txt</code>: signs an update package you built with <code class="notranslate">make-update.sh</code>, with<br>
+the key in the vault (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#signed-updates">Signed updates</a>).</li>
+<li><code class="notranslate">OpenThinRDP-Manager.exe -UpdateManager</code>: updates the manager without a window (exit code 0 = updated, 1 = error,<br>
+2 = nothing to do).</li>
+<li><code class="notranslate">OpenThinRDP-Manager.exe -HealthReport -Json &lt;file&gt;</code>: the Health Center once, without a window<br>
+(<a href="#notices-and-the-health-center-without-the-window">details</a>). With these three the launcher waits for the manager<br>
+and gives back its exit code and its output, for Task Scheduler and scripts.</li>
+<li>The manager is free for any use, closed, under <a href="https://github.com/OpenThinRdp/openthinrdp-manager/blob/main/LICENSE.md">its own license</a>; its releases and issues<br>
+are on <a href="https://github.com/OpenThinRdp/openthinrdp-manager">its project</a>.</li>
+</ul>
+<p dir="auto">What is in the folder, file by file, and how the devices use it: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md">management.md</a>.</p>
+</main>
+<footer class="bar small">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/manager.md">docs/manager.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</footer>
+<script data-goatcounter="https://ceschi-ops.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

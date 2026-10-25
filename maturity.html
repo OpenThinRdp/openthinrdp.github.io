@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.22","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.23","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
@@ -30,7 +30,7 @@
 </head>
 <body>
 <header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.22</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.23</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
 <main class="markdown-body">
 <h1 id="production-readiness-what-is-covered-what-is-not-yet" dir="auto">Production readiness: what is covered, what is not yet</h1>
 <p dir="auto">A short, verifiable answer to "can I run this in production?", area by area: what exists today with the evidence,<br>
@@ -60,7 +60,7 @@ update packages change only OpenThinRDP and FreeRDP, Debian security updates com
 <code class="notranslate">tests/run-tests.sh</code>, about 240 checks): settings validation, central settings and their layers, updates with<br>
 signature checks, pilot devices and <strong>rollback</strong>, interrupted and repeated installs, USB classification, secrets<br>
 in a simulated TPM, language files.</li>
-<li>Manager tests (<code class="notranslate">tests/windows</code>, about 240 checks in Windows PowerShell 5.1): save plans, the configuration as text,<br>
+<li>Manager tests (in its own repository, about 400 checks in Windows PowerShell 5.1, at every change): save plans, the configuration as text,<br>
 permissions, the Health Center model, actions in dry-run mode.</li>
 <li>At every release the ISO boots in QEMU/KVM with Secure Boot; the UDP transport has a reproducible lossy-line bench<br>
 (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/tests/udp-bench/README.md">tests/udp-bench</a>); 802.1X has a lab with hostapd and FreeRADIUS (<code class="notranslate">tests/lab-8021x</code>).</li>
@@ -163,7 +163,7 @@ on HP thin clients).</p>
 devices) helps everyone.</p>
 <h2 id="long-term-maintainability" dir="auto">Long-term maintainability</h2>
 <p dir="auto"><strong>Covered</strong>: documentation for users and administrators (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md">configuration</a>,<br>
-<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md">management</a>, <a href="https://openthinrdp.github.io/manager.html">manager</a>, <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/security.md">security</a>, <a href="https://openthinrdp.github.io/faq.html">FAQ</a>); build instructions<br>
+<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md">management</a>, <a href="https://openthinrdp.github.io/manager-guide.html">manager</a>, <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/security.md">security</a>, <a href="https://openthinrdp.github.io/faq.html">FAQ</a>); build instructions<br>
 (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/building.md">building.md</a>); what to do when something goes wrong (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/status.md#when-something-goes-wrong">status.md</a>);<br>
 the whole client is shell scripts in <code class="notranslate">rootfs/opt/openthinrdp</code>, on Debian, with no proprietary part; GPLv3 keeps every<br>
 copy open.</p>

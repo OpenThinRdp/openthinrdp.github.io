@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.22","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.23","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
@@ -30,7 +30,7 @@
 </head>
 <body>
 <header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.22</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.23</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
 <main class="markdown-body">
 <h1 id="privacy-the-anonymous-counts" dir="auto">Privacy: the anonymous counts</h1>
 <p dir="auto">OpenThinRDP sends a few anonymous counts to the project once a week. They tell us which computers it runs on, which<br>
@@ -141,7 +141,8 @@ version and once with the model of the computer. A week with no problem sends <c
 code and the name of a program leave the device, never the text of a message: those hold user and server names.</p>
 <p dir="auto"><code class="notranslate">sudo /opt/openthinrdp/stats.sh --print</code> on a device prints exactly what it would send, and sends nothing.</p>
 <h2 id="what-the-manager-sends" dir="auto">What the manager sends</h2>
-<p dir="auto">Half a minute after it starts the first time, then once a week:</p>
+<p dir="auto">Its first start shows, once, what the manager and the devices send and where each is switched off. Half a minute<br>
+after it starts the first time, then once a week:</p>
 <markdown-accessiblity-table><table role="table">
 <thead>
 <tr>
@@ -172,6 +173,12 @@ code and the name of a program leave the device, never the text of a message: th
 <p dir="auto">The name of a device or of a computer, IP or MAC addresses, user names, passwords, the domain, the names or addresses<br>
 of servers and brokers, settings, the text of logs and error messages, anything typed on a device, anything shown in<br>
 a session.</p>
+<h2 id="what-stays-at-your-site" dir="auto">What stays at your site</h2>
+<p dir="auto">Not sent anywhere, but worth knowing: to show the <em>experience</em> (0.2.23), each device writes in its event log how long<br>
+each sign-in took (with the user name) and the latency and bandwidth of each session, and the manager keeps these<br>
+40 days in <code class="notranslate">health\experience\</code> of the management folder. They are technical data of the service, readable by whoever<br>
+reads that folder; in some countries measuring the work of employees has rules of its own (in Italy art. 4 of the<br>
+Statuto dei lavoratori): tell the users, as for the other logs of the fleet.</p>
 <h2 id="where-it-goes" dir="auto">Where it goes</h2>
 <p dir="auto">Each value is one count on <a href="https://www.goatcounter.com/" rel="nofollow">GoatCounter</a>, an open-source web counter that sets no<br>
 cookies and keeps no IP address. The project sees totals, such as <em>OptiPlex 3000 Thin Client: 12</em>, never a single<br>

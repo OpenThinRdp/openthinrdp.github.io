@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.22","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.23","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
@@ -30,13 +30,50 @@
 </head>
 <body>
 <header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.22</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.23</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
 <main class="markdown-body">
 <h1 id="changelog" dir="auto">Changelog</h1>
 <p dir="auto">Every release, newest first. <strong>Security</strong> marks what every device should get at once. A <em>Major update</em> (in bold at<br>
 the start of an entry, and in the file MAJOR of the repository) changes how a session connects or runs: a device<br>
 with a management folder installs it only once the manager released it, one without asks on its screen.<br>
 Downloads and signed update packages: <a href="https://github.com/OpenThinRdp/openthinrdp/releases">releases</a>.</p>
+<h2 id="0223-2026-10-25" dir="auto">0.2.23 (2026-10-25)</h2>
+<ul dir="auto">
+<li><strong>The manager is a project of its own</strong>: <a href="https://github.com/OpenThinRdp/openthinrdp-manager">openthinrdp-manager</a>,<br>
+free for any use, also commercial, and closed from this release. What it runs on your servers stays readable<br>
+(<code class="notranslate">commands\</code>, <code class="notranslate">rds\</code>), and it shows what it will do before you confirm. The manager of the releases up to 0.2.22<br>
+stays under the GNU GPL. The thin client does not change: GPLv3, open.</li>
+<li><strong>It works without devices too</strong>: the first start offers the servers alone, a Health Center for Hyper-V, clusters,<br>
+Remote Desktop, SQL and backups.</li>
+<li><strong>A new Home</strong>: the infrastructure, the devices, one list of what to look at, the sign-ins of today in their phases,<br>
+the jobs of today, 30 days of memory with a forecast. It shows the last reading of your PC at once, with its time,<br>
+while the new one comes (the infrastructure takes about half a minute).</li>
+<li><strong>Experience</strong>: how long each sign-in takes (broker, VM, Windows), the latency of the sessions, dropped and frozen<br>
+ones, per user and device, kept 40 days. Tell your users: see <a href="https://openthinrdp.github.io/privacy.html">privacy</a>.</li>
+<li><strong>Scheduled jobs</strong>: restart, switch off, a message or an update, once, daily or weekly, on devices or groups; each<br>
+device reports how it went.</li>
+<li><strong>Certificates and the enterprise CA</strong>: every certificate of every server on its page (what uses it, when it<br>
+expires, whether it renews by itself), the CA and its revocation list, and which RDP servers present a certificate a<br>
+device could verify. <em>Security &gt; Enterprise CA</em> requests the signing certificate of the manager from your CA and<br>
+follows its renewals, sends the CA to the devices, which trust it from their next report, and gives the desktops<br>
+their RDP certificate from your CA (a template and the GPO, renewed by themselves): the way to <code class="notranslate">RDP_CERT=verify</code>,<br>
+the pilot groups first.</li>
+<li><strong>Not only Hyper-V</strong>: Proxmox VE, VMware vSphere, Veeam Backup &amp; Replication and Citrix Virtual Apps and Desktops in<br>
+the Health Center, each from its own API, read only; the hardware of HPE iLO, Lenovo XClarity and Supermicro too.</li>
+<li><strong>Peripherals and inventory</strong>: model, serial number, BIOS and the USB devices of each device; a required peripheral<br>
+that is gone is shown to look at. Rules per group, an inventory to export, a status page in HTML.</li>
+<li><strong>Health Center</strong>: maintenance per item, notices when a problem comes or goes, history and forecast, the services<br>
+as their users reach them, leftovers, a baseline to come back to, iDRAC (power, supplies, temperatures), custom<br>
+checks and commands, backup of the VMs to a share (a Linux VM is copied with its memory), the witness and the FSMO<br>
+roles, administration without administrator rights (JEA), and <code class="notranslate">-HealthReport -Json</code> for Task Scheduler.</li>
+<li><strong>The manager starts at once</strong>: its launcher draws the access window in a fraction of a second while the manager<br>
+loads behind it; the menu and the titles come first, each page whole after. <code class="notranslate">OpenThinRDP-Manager.cmd</code> and <code class="notranslate">.vbs</code> go:<br>
+start <code class="notranslate">OpenThinRDP-Manager.exe</code> (<code class="notranslate">-Install</code> for a shortcut on each PC).</li>
+<li><strong>The manager refuses changed files</strong>: the files of a release are signed (<code class="notranslate">MANIFEST.txt</code>, the project key); a file<br>
+changed, missing or added stops the start with their list.</li>
+<li><strong>Remote screen with consent</strong>: <code class="notranslate">REMOTE_CONSENT=ask</code> asks the user of the device before the screen is shared.</li>
+<li>Note: Microsoft Defender with old signatures may hold the manager back; update its signatures.</li>
+</ul>
 <h2 id="0222-2026-10-23" dir="auto">0.2.22 (2026-10-23)</h2>
 <ul dir="auto">
 <li><strong>Diagnostics of a device in one file</strong>: the events, the log of the last session and of the frozen ones, the<br>
@@ -292,7 +329,7 @@ waits longer); Exit ends the manager; the right code keeps the vault open for th
 SSH keys page any more. Same list, same buttons, same file (<code class="notranslate">config\authorized_keys</code>).</li>
 <li><strong>Manager: Health Center, the health of the whole Hyper-V and RDS infrastructure</strong><br>
 (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/78" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/78/hovercard">#78</a>). A page under Desktops; details in<br>
-<a href="https://openthinrdp.github.io/manager.html#health-center-the-whole-infrastructure">docs/manager.md</a>.</li>
+<a href="https://openthinrdp.github.io/manager-guide.html#health-center-the-whole-infrastructure">docs/manager.md</a>.</li>
 <li><strong>Health Center: every check with its result.</strong> Each item lists every check it ran, OK ones included, with one short<br>
 line; new checks: RD Gateway and RD Web (service, certificate, policies, port 443, failed connections), network<br>
 adapters and their drivers, UPS, the cluster volumes from each node, the witness on its device; new actions: move all<br>
@@ -337,7 +374,7 @@ backup log); hosts, cluster nodes, VMs, DCs and brokers are found by themselves.
 </ul>
 </li>
 <li><strong>Manager: the Windows side of the desktops</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/74" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/74/hovercard">#74</a>).<br>
-For Remote Desktop Services with Hyper-V; details in <a href="https://openthinrdp.github.io/manager.html#desktops-brokers-and-hyper-v-hosts">docs/manager.md</a>.
+For Remote Desktop Services with Hyper-V; details in <a href="https://openthinrdp.github.io/manager-guide.html#desktops-brokers-and-hyper-v-hosts">docs/manager.md</a>.
 <ul dir="auto">
 <li>A <strong>Desktops</strong> page: each user with the device, the personal desktop, its Hyper-V host, the state of the VM, the<br>
 Windows session (active, idle, disconnected) and the last sign-in (which broker, ok or failed, second try). Who<br>
@@ -419,7 +456,7 @@ ThinOS, Stratodesk, ThinStation and openthinclient.</li>
 </ul>
 </li>
 <li><strong>Docs: a page of its own for the manager</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/56" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/56/hovercard">#56</a>):<br>
-<a href="https://openthinrdp.github.io/manager.html">docs/manager.md</a>, and screenshots of the 0.2.0 manager.</li>
+<a href="https://openthinrdp.github.io/manager-guide.html">docs/manager.md</a>, and screenshots of the 0.2.0 manager.</li>
 <li><strong>The manager names the devices a pilot-only release cannot hold back</strong><br>
 (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/57" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/57/hovercard">#57</a>). Devices before 0.2.0 do not know <code class="notranslate">UPDATE_TO</code> and take<br>
 the newest version in the folder anyway.</li>

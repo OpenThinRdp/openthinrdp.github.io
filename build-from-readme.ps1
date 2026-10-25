@@ -25,9 +25,16 @@ $site_pages = @(
   @{ Doc = 'docs/guides/getting-started.md'; Url = 'getting-started.html'; Lang = 'en'
      Title = "Getting started with OpenThinRDP $dash from a USB stick to a managed thin client fleet"
      Desc = 'Step by step: try OpenThinRDP live with its hardware test, install it, set up the management folder and the Windows manager, and set up every new thin client with only a domain account.' }
-  @{ Doc = 'docs/manager.md'; Url = 'manager.html'; Lang = 'en'
-     Title = "OpenThinRDP manager $dash the whole thin client fleet from one window"
-     Desc = 'The OpenThinRDP manager for Windows: every thin client at a glance, central settings, a new version on pilot devices first, going back to an earlier version for the whole fleet, remote screen, signed updates. No server.' }
+  # the page that sells the manager: the page of its own project (Repo), its questions as FAQPage
+  @{ Doc = 'README.md'; Repo = 'OpenThinRdp/openthinrdp-manager'; Url = 'manager.html'; Lang = 'en'; Faq = $true
+     Title = "Free Hyper-V, Proxmox and Remote Desktop health check $dash OpenThinRDP Manager"
+     Desc = 'Find what is broken in your Hyper-V cluster, Proxmox, vSphere, Remote Desktop, Citrix, Veeam and certificates before your users call. One free Windows app, no agent, no server: plain-English findings and repairs you confirm.' }
+  @{ Doc = 'docs/manager.md'; Url = 'manager-guide.html'; Lang = 'en'
+     Title = "OpenThinRDP Manager guide $dash the Health Center, certificates, platforms and the thin client fleet"
+     Desc = 'The complete guide of the OpenThinRDP Manager: Home, the Health Center for Hyper-V, Proxmox, vSphere, RDS, Citrix, SQL and Veeam, certificates and the enterprise CA, updates of the thin clients, scheduled jobs, the vault and the command line.' }
+  @{ Doc = 'docs/guides/hyper-v-rds-health-check.md'; Url = 'hyper-v-rds-health-check.html'; Lang = 'en'
+     Title = "Free Hyper-V cluster and Remote Desktop health check $dash no agent, no server"
+     Desc = 'A free health check for Hyper-V hosts, failover clusters and S2D, Remote Desktop Services brokers and session hosts, Active Directory, SQL AlwaysOn and VM backups: one window, no agent, no server, a repair you confirm for each problem.' }
   @{ Doc = 'docs/faq.md'; Url = 'faq.html'; Lang = 'en'; Faq = $true
      Title = "OpenThinRDP FAQ $dash hardware, drivers, RDP over UDP, Azure, PXE, 802.1X"
      Desc = 'Questions and answers about OpenThinRDP, the free thin client OS for Microsoft Remote Desktop: which hardware, drivers, RDP over UDP, RDS and VDI, Azure Virtual Desktop, management without a server, updates and rollback, PXE, 802.1X.' }
@@ -56,7 +63,7 @@ $site_pages = @(
      Title = "OpenThinRDP changelog $dash what changed in every release"
      Desc = 'Every release of OpenThinRDP, newest first: new features, fixes, security updates and major updates of the thin client OS and of its Windows manager.' }
 )
-$pages = @{}; foreach ($p in $site_pages) { $pages[$p.Doc] = $p.Url }
+$pages = @{}; foreach ($p in $site_pages) { if (-not $p.ContainsKey('Repo')) { $pages[$p.Doc] = $p.Url } }
 # the documents an AI assistant should read whole, in llms-full.txt, in this order
 $fullDocs = 'README.md', 'docs/guides/getting-started.md', 'docs/faq.md', 'docs/alternatives.md', 'docs/hardware.md', 'docs/status.md', 'docs/manager.md',
   'docs/guides/replace-dell-thinos.md', 'docs/guides/old-pc-thin-client.md', 'docs/configuration.md', 'docs/management.md',
@@ -147,8 +154,8 @@ $alt
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${site}style.css">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"$ver","license":"https://github.com/$repo/blob/main/LICENSE",
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"$(if ($p.ContainsKey('Repo')) { 'OpenThinRDP Manager' } else { 'OpenThinRDP' })","applicationCategory":"$(if ($p.ContainsKey('Repo')) { 'UtilitiesApplication' } else { 'OperatingSystem' })",
+ "operatingSystem":"$(if ($p.ContainsKey('Repo')) { 'Windows' } else { 'Debian 13 (Linux)' })","softwareVersion":"$ver","license":"https://github.com/$repo/blob/main/$(if ($p.ContainsKey('Repo')) { 'LICENSE.md' } else { 'LICENSE' })",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"$site",
  "downloadUrl":"https://github.com/$repo/releases/latest","codeRepository":"https://github.com/$repo"}
 </script>
@@ -171,7 +178,12 @@ $body
   "${file}: $doc, release $ver, $([math]::Round($html.Length/1KB)) KB"
 }
 
-foreach ($p in $site_pages) { Build-Page $p }
+foreach ($p in $site_pages) {
+  # a page of another repository (the manager): its text, links, downloads and version from there
+  if ($p.ContainsKey('Repo')) { $keep = $repo, $blob, $raw, $ver; $script:repo = $p.Repo; $script:blob = "https://github.com/$($p.Repo)/blob/main"; $script:raw = "https://raw.githubusercontent.com/$($p.Repo)/main"; $script:ver = (& $gh api "repos/$($p.Repo)/releases/latest" --jq .tag_name) -replace '^v', '' }
+  Build-Page $p
+  if ($p.ContainsKey('Repo')) { $script:repo, $script:blob, $script:raw, $script:ver = $keep }
+}
 # the home page is the designed landing (landing.html + landing.css), with the facts of the README; the README itself
 # stays the source of every other page
 $land = [IO.File]::ReadAllText((Join-Path $here 'landing.html')).Replace('{{SITE}}', $site).Replace('{{VER}}', $ver)

@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.24","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.25","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
@@ -30,13 +30,35 @@
 </head>
 <body>
 <header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.24</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.25</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
 <main class="markdown-body">
 <h1 id="changelog" dir="auto">Changelog</h1>
 <p dir="auto">Every release, newest first. <strong>Security</strong> marks what every device should get at once. A <em>Major update</em> (in bold at<br>
 the start of an entry, and in the file MAJOR of the repository) changes how a session connects or runs: a device<br>
 with a management folder installs it only once the manager released it, one without asks on its screen.<br>
 Downloads and signed update packages: <a href="https://github.com/OpenThinRdp/openthinrdp/releases">releases</a>.</p>
+<h2 id="0225-2026-10-26" dir="auto">0.2.25 (2026-10-26)</h2>
+<ul dir="auto">
+<li><strong>The manager is signed with Authenticode</strong>: <code class="notranslate">OpenThinRDP-Manager.exe</code> carries the signature of the project<br>
+(<code class="notranslate">CN=OpenThinRDP Project</code>, with a timestamp). An EDR or antivirus that held the manager back (SentinelOne,<br>
+<a href="https://github.com/OpenThinRdp/openthinrdp/issues/133" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/133/hovercard">#133</a>) is told once to allow it by signer, and every next<br>
+release passes: <a href="https://github.com/OpenThinRdp/openthinrdp-manager/blob/main/docs/code-signing.md">how</a>. Your own<br>
+code signing certificate still works too (<em>Settings &gt; Security &gt; Code signing</em>).</li>
+<li><strong>The right time after the change of the clock</strong>: Windows takes the time zone of the device only when a session<br>
+opens, so a session open across the change to or from daylight saving time showed the time one hour off until it<br>
+was opened again. The device now opens it again by itself when the clock changes: a few seconds, the programs stay<br>
+open.</li>
+<li><strong>A new release is said where you look</strong>: Home lists <em>New version for the devices</em> (or of the manager) with<br>
+what the folder publishes now, and the menu counts it on <em>Updates</em>. In 0.2.24 the window checked GitHub but showed<br>
+it nowhere.</li>
+<li><strong>Readings that end</strong>: the iDRACs are read in parallel, firmware, memory modules and processors only every 6<br>
+hours, and the next reading starts 3 minutes after the end of the last one (a reading longer than 3 minutes ran<br>
+back to back). Each step and each part of a controller keeps how long it took.</li>
+<li><strong>Rings in proportion</strong>: memory, disks and the other rings of the manager were drawn full or empty, never in between.</li>
+<li><strong>A narrow window</strong> puts the cards of a row two by two, then one under the other, instead of a scroll to the side.</li>
+<li><strong>Charts</strong> keep their words straight (they were stretched with the drawing), the days of the scheduled jobs come in<br>
+the language of the manager, and the hints that still named the settings of 0.2.23 lead to the line of the server.</li>
+</ul>
 <h2 id="0224-2026-10-26" dir="auto">0.2.24 (2026-10-26)</h2>
 <ul dir="auto">
 <li><strong>A new window for the manager</strong>: every page and every dialog drawn on the WebView2 of Windows (the installer of<br>

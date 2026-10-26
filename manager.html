@@ -26,16 +26,17 @@
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp-manager/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp-manager"}
 </script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is it really free?","acceptedAnswer":{"@type":"Answer","text":"Yes, for any use, also in a company and for your customers. It is not open source: its license forbids selling it or building a competing product with it."}},{"@type":"Question","name":"Does it need an agent or a server?","acceptedAnswer":{"@type":"Answer","text":"No. It runs on your PC and reads your servers with Windows tools (WinRM, SQL) and the REST APIs of Proxmox, vCenter and Veeam. Nothing is installed on them."}},{"@type":"Question","name":"Can it break something?","acceptedAnswer":{"@type":"Answer","text":"It only reads, until you choose a repair; every repair shows what it will do and asks first. What it runs on servers is plain PowerShell you can read."}},{"@type":"Question","name":"Proxmox, vSphere, Veeam, Citrix: is it ready?","acceptedAnswer":{"@type":"Answer","text":"They are new in this release, built on their documented APIs and tested against recorded answers of those APIs, not yet on many real sites. If you run one, try it and tell us what it found: we are looking for sites to try them."}},{"@type":"Question","name":"What is OpenThinRDP?","acceptedAnswer":{"@type":"Answer","text":"The same team builds OpenThinRDP, a free open source thin client for Remote Desktop (RDP over UDP, Secure Boot, signed updates). With it, the manager also runs your whole fleet of thin clients from the same window. ⬇ Download the free manager"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is it really free?","acceptedAnswer":{"@type":"Answer","text":"Yes, for any use, also in a company and for your customers. It is not open source: its license forbids selling it or building a competing product with it."}},{"@type":"Question","name":"Does it need an agent or a server?","acceptedAnswer":{"@type":"Answer","text":"No. It runs on your PC and reads your servers with Windows tools (WinRM, SQL) and the REST APIs of Proxmox, vCenter and Veeam. Nothing is installed on them."}},{"@type":"Question","name":"Can it break something?","acceptedAnswer":{"@type":"Answer","text":"It only reads, until you choose a repair; every repair shows what it will do and asks first. What it runs on servers is plain PowerShell you can read."}},{"@type":"Question","name":"I run Proxmox, vSphere, Veeam or Citrix: can I use it?","acceptedAnswer":{"@type":"Answer","text":"Yes: they arrived in this release, built on their official APIs. Be one of the first sites to run it, and tell us what it found: reports from real sites are what we work on first."}},{"@type":"Question","name":"What is OpenThinRDP?","acceptedAnswer":{"@type":"Answer","text":"The same team builds OpenThinRDP, a free open source thin client OS for Remote Desktop on any hypervisor (RDP over UDP, Secure Boot, signed updates). With it, the manager also runs your whole fleet of thin clients from the same window. ⬇ Download the free manager"}}]}</script>
 </head>
 <body>
 <header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
 <nav><a href="https://github.com/OpenThinRdp/openthinrdp-manager/releases/latest">Download 0.2.23</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp-manager">GitHub</a></nav></header>
 <main class="markdown-body">
 <h1 id="know-what-is-broken-before-your-users-call" dir="auto">Know what is broken before your users call</h1>
-<p dir="auto"><strong>OpenThinRDP Manager is a free health center for the infrastructure of small and mid-size IT teams.</strong> Point it at<br>
-your Hyper-V cluster, Proxmox, vSphere, Remote Desktop farm, Citrix site, domain, SQL Server and Veeam, and in about<br>
-30 seconds you see every problem, the worst first, each one in a plain sentence with what it means and how to fix it.</p>
+<p dir="auto"><strong>Your whole infrastructure, checked in 30 seconds. Free.</strong> OpenThinRDP Manager is the health center small and<br>
+mid-size IT teams were missing: point it at your Hyper-V cluster, Proxmox, vSphere, Remote Desktop farm, Citrix site,<br>
+domain, SQL Server and Veeam, and it shows you every problem, the worst first, each one in a plain sentence with what<br>
+it means and the fix.</p>
 <p dir="auto">No agent to install. No server to build. No per-host license. <strong>Download, extract, run.</strong></p>
 <p dir="auto"><strong><a href="https://github.com/OpenThinRdp/openthinrdp-manager/releases/latest">⬇ Download the free manager</a></strong> · Windows 10/11<br>
 and Windows Server · English and Italian</p>
@@ -115,8 +116,10 @@ only, unless you confirm a repair.</li>
 back up the VMs to a share: each one shown before it runs.</li>
 <li><strong>It answers in sentences.</strong> "The witness of VDICL is offline: the share \\nas1\witness refuses the computer<br>
 account" instead of a red dot.</li>
-<li><strong>Built by sysadmins, for a real production site</strong> with two Hyper-V hosts, Remote Desktop and SQL AlwaysOn, and<br>
-tested against it every day.</li>
+<li><strong>Born in production.</strong> Built by sysadmins for a real site with two Hyper-V hosts, Remote Desktop and SQL<br>
+AlwaysOn, and running there every day.</li>
+<li><strong>It grows fast.</strong> Proxmox, vSphere, Veeam, Citrix and the enterprise CA arrived in a single release; what users<br>
+ask for comes next.</li>
 </ul>
 <h2 id="up-and-running-in-five-minutes" dir="auto">Up and running in five minutes</h2>
 <ol dir="auto">
@@ -124,6 +127,12 @@ tested against it every day.</li>
 <li>Start <code class="notranslate">OpenThinRDP-Manager.exe</code>, choose <strong>The servers alone</strong>.</li>
 <li><strong>Settings &gt; Health Center</strong>: your hosts, brokers, SQL listener, Proxmox or vCenter. Done: the Home fills in.</li>
 </ol>
+<h2 id="add-free-thin-clients-to-the-same-window" dir="auto">Add free thin clients to the same window</h2>
+<p dir="auto">Your users connect to those desktops from somewhere. <a href="https://openthinrdp.github.io/" rel="nofollow">OpenThinRDP</a> turns any PC or<br>
+old thin client into a locked-down Remote Desktop client, free and open source, for Windows VMs on <strong>Hyper-V,<br>
+Proxmox, VMware or any cloud</strong> (<a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html" rel="nofollow">Proxmox and VMware</a>):<br>
+RDP over UDP that stays smooth on bad lines, USB and webcams, signed updates. With it, this same manager runs the<br>
+whole fleet: every device, every sign-in, how fluid each session was.</p>
 <h2 id="questions" dir="auto">Questions</h2>
 <h3 id="is-it-really-free" dir="auto">Is it really free?</h3>
 <p dir="auto">Yes, for any use, also in a company and for your customers. It is not open source: its license forbids selling it or<br>
@@ -134,14 +143,14 @@ Veeam. Nothing is installed on them.</p>
 <h3 id="can-it-break-something" dir="auto">Can it break something?</h3>
 <p dir="auto">It only reads, until you choose a repair; every repair shows what it will do and asks first. What it runs on servers<br>
 is plain PowerShell you can read.</p>
-<h3 id="proxmox-vsphere-veeam-citrix-is-it-ready" dir="auto">Proxmox, vSphere, Veeam, Citrix: is it ready?</h3>
-<p dir="auto">They are new in this release, built on their documented APIs and tested against recorded answers of those APIs, not yet on many real sites. If you run one, try it and<br>
-<a href="https://github.com/OpenThinRdp/openthinrdp-manager/issues">tell us what it found</a>: we are looking for sites to try<br>
-them.</p>
+<h3 id="i-run-proxmox-vsphere-veeam-or-citrix-can-i-use-it" dir="auto">I run Proxmox, vSphere, Veeam or Citrix: can I use it?</h3>
+<p dir="auto">Yes: they arrived in this release, built on their official APIs. Be one of the first sites to run it, and<br>
+<a href="https://github.com/OpenThinRdp/openthinrdp-manager/issues">tell us what it found</a>: reports from real sites are<br>
+what we work on first.</p>
 <h3 id="what-is-openthinrdp" dir="auto">What is OpenThinRDP?</h3>
-<p dir="auto">The same team builds <a href="https://openthinrdp.github.io/" rel="nofollow">OpenThinRDP</a>, a free open source thin client for Remote Desktop<br>
-(RDP over UDP, Secure Boot, signed updates). With it, the manager also runs your whole fleet of thin clients from the<br>
-same window.</p>
+<p dir="auto">The same team builds <a href="https://openthinrdp.github.io/" rel="nofollow">OpenThinRDP</a>, a free open source thin client OS for Remote<br>
+Desktop on any hypervisor (RDP over UDP, Secure Boot, signed updates). With it, the manager also runs your whole fleet<br>
+of thin clients from the same window.</p>
 <p dir="auto"><strong><a href="https://github.com/OpenThinRdp/openthinrdp-manager/releases/latest">⬇ Download the free manager</a></strong></p>
 <h2 id="license" dir="auto">License</h2>
 <p dir="auto">Free for any use, also commercial, closed: see <a href="https://github.com/OpenThinRdp/openthinrdp-manager/blob/main/LICENSE.md">LICENSE.md</a>. The thin client OpenThinRDP is open source (GPLv3).</p>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OpenThinRDP &#8211; free thin client OS for Windows Remote Desktop, RDS and VDI, with RDP over UDP</title>
-<meta name="description" content="OpenThinRDP turns any PC or old thin client into a locked-down Windows Remote Desktop kiosk: RDP over UDP that keeps working on lossy lines, zero-touch setup from the domain, the whole fleet managed from one Windows window. Free, GPLv3, no licence per device, no server.">
+<title>OpenThinRDP &#8211; free thin client OS for Remote Desktop on Hyper-V, Proxmox, VMware and RDS, with RDP over UDP</title>
+<meta name="description" content="OpenThinRDP turns any PC or old thin client into a locked-down Remote Desktop kiosk for Windows desktops on Hyper-V, Proxmox, VMware or any cloud: RDP over UDP that keeps working on lossy lines, zero-touch setup from the domain, the whole fleet managed from one Windows window. Free, GPLv3, no licence per device, no server.">
 <link rel="canonical" href="https://openthinrdp.github.io/">
 <link rel="icon" href="https://openthinrdp.github.io/img/icon.png">
 <link rel="alternate" type="text/plain" href="https://openthinrdp.github.io/llms-full.txt" title="The documentation in one text file">
@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="OpenThinRDP">
 <meta property="og:locale" content="en_US">
 <meta property="og:title" content="OpenThinRDP &#8211; Remote Desktop thin clients that keep working when the network doesn't">
-<meta property="og:description" content="Free thin client OS for Windows RDS and VDI: RDP over UDP, zero-touch setup, one window for the whole fleet.">
+<meta property="og:description" content="Free thin client OS for Windows RDS and VDI on Hyper-V, Proxmox or VMware: RDP over UDP, zero-touch setup, one window for the whole fleet.">
 <meta property="og:url" content="https://openthinrdp.github.io/">
 <meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -51,7 +51,7 @@
         <a class="btn" href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">&#11015; Download the ISO</a>
         <a class="btn btn-ghost" href="#start">Try it live, nothing installed</a>
       </div>
-      <p class="fine">For Windows RDS and Hyper-V VDI, on premises or in the cloud &middot; x86-64, UEFI or BIOS &middot; from 2 GB of RAM</p>
+      <p class="fine">For Windows RDS and VDI on Hyper-V, Proxmox, VMware, Nutanix or any cloud &middot; x86-64, UEFI or BIOS &middot; from 2 GB of RAM</p>
     </div>
     <div class="hero-shot">
       <div class="window"><div class="dots"><i></i><i></i><i></i></div><img src="https://openthinrdp.github.io/img/manager-devices.png" alt="OpenThinRDP manager: every thin client with its state, user and version" width="1440" height="840"></div>
@@ -107,7 +107,7 @@
       <article><div class="ic">&#9889;</div><h3>Zero-touch from the domain</h3><p>A new device needs a domain account and nothing else: it finds its management folder in the domain by itself. Moving the folder later moves the whole fleet in one step.</p></article>
       <article><div class="ic">&#128268;</div><h3>USB done right for VDI</h3><p>Signature keys, tachographs and instruments go to Windows whole. Webcams and headsets work in Teams and Zoom. Smart cards, touch screens, several monitors.</p></article>
       <article><div class="ic">&#128737;</div><h3>Signed updates, never in a session</h3><p>From GitHub or your own folder, installed in the background, applied when the session ends. Pilot devices first, then everyone, and back to an earlier version in one click.</p></article>
-      <article><div class="ic">&#129658;</div><h3>Health Center for the Windows side</h3><p>Brokers, Hyper-V hosts and cluster, VMs, domain controllers, DNS, SQL AlwaysOn and backups in one tree, each problem in a plain sentence with its fix.</p></article>
+      <article><div class="ic">&#129658;</div><h3>Health Center for the servers too</h3><p>Hyper-V and failover clusters, Proxmox, vSphere, brokers, Citrix, VMs, certificates, domain controllers, DNS, SQL AlwaysOn and backups in one tree, each problem in a plain sentence with its fix.</p></article>
       <article><div class="ic">&#128187;</div><h3>Any hardware you already own</h3><p>Old office PCs and used thin clients, UEFI with Secure Boot or legacy BIOS, the complete Debian 13 kernel and firmware. Cable, Wi-Fi, 802.1X, VPN and RD Gateway.</p></article>
     </div>
   </div>
@@ -167,12 +167,12 @@
         <tr><td>Cost</td><td class="us">free</td><td>comes with Dell thin clients</td><td>subscription per device</td><td>licence per device</td><td>free</td></tr>
         <tr><td>Source</td><td class="us">open (GPLv3)</td><td>closed</td><td>closed</td><td>closed</td><td>open</td></tr>
         <tr><td>Runs on</td><td class="us">x86-64 PCs and thin clients, UEFI or BIOS</td><td>Dell thin clients</td><td>many x86-64 devices</td><td>x86-64 PCs, Raspberry Pi</td><td>x86 PCs</td></tr>
-        <tr><td>Protocols</td><td class="us">RDP, with UDP</td><td>Citrix, Omnissa/VMware, Microsoft and more</td><td>Citrix, Omnissa/VMware, Microsoft and more</td><td>many</td><td>many (you build the image)</td></tr>
+        <tr><td>Protocols</td><td class="us">RDP with UDP, to Windows on any hypervisor or cloud, and xrdp; SPICE and VNC next</td><td>Citrix, Omnissa/VMware, Microsoft and more</td><td>Citrix, Omnissa/VMware, Microsoft and more</td><td>many</td><td>many (you build the image)</td></tr>
         <tr><td>Management</td><td class="us">shared folder + Windows tool, no server</td><td>Wyse Management Suite</td><td>UMS server</td><td>NoTouch Center</td><td>configuration files on a network server</td></tr>
         <tr><td>Updates</td><td class="us">signed, from GitHub or your folder</td><td>vendor firmware</td><td>vendor</td><td>vendor</td><td>rebuild the image</td></tr>
       </tbody>
     </table></div>
-    <p class="fine center">Need Citrix or Horizon, vendor support or certified hardware? Then a commercial system is the right choice.
+    <p class="fine center">Windows VMs on Proxmox or VMware? <a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">They work today</a>. Need Citrix or Horizon? <a href="https://github.com/OpenThinRdp/openthinrdp/issues">Tell us</a>: what users ask for comes first.
       Product names are trademarks of their owners. <a href="https://openthinrdp.github.io/alternatives.html">Each of them in detail, and Linux Mint with Remmina</a>.</p>
   </div>
 </section>

@@ -21,7 +21,7 @@ $dash = '&#8211;'   # PowerShell 5.1 reads this file as ANSI: no non-ASCII chara
 $site_pages = @(
   @{ Doc = 'README.md'; Url = ''; Lang = 'en'
      Title = "OpenThinRDP $dash open source thin client OS with RDP over UDP for RDS and VDI"
-     Desc = 'OpenThinRDP: free, open source thin client operating system for Microsoft Remote Desktop (RDS and VDI), on premises or in the cloud. Debian 13 with FreeRDP and the RDP UDP transport, a kiosk sign-in, central management from a shared folder, signed updates with pilot devices and rollback.' }
+     Desc = 'OpenThinRDP: free, open source thin client operating system for Microsoft Remote Desktop (RDS and VDI) and Windows VMs on Hyper-V, Proxmox, VMware or any cloud. Debian 13 with FreeRDP and the RDP UDP transport, a kiosk sign-in, central management from a shared folder, signed updates with pilot devices and rollback.' }
   @{ Doc = 'docs/guides/getting-started.md'; Url = 'getting-started.html'; Lang = 'en'
      Title = "Getting started with OpenThinRDP $dash from a USB stick to a managed thin client fleet"
      Desc = 'Step by step: try OpenThinRDP live with its hardware test, install it, set up the management folder and the Windows manager, and set up every new thin client with only a domain account.' }
@@ -56,6 +56,9 @@ $site_pages = @(
   @{ Doc = 'docs/guides/old-pc-thin-client.md'; Url = 'old-pc-thin-client.html'; Lang = 'en'
      Title = "Turn an old PC into a thin client for Windows Remote Desktop $dash OpenThinRDP"
      Desc = 'Turn an old office PC or a used thin client into a free Remote Desktop thin client for a Windows PC, RDS or VDI: requirements, step by step from a USB stick, power schedule, USB, 802.1X, and when it is not the right choice.' }
+  @{ Doc = 'docs/guides/proxmox-vmware-thin-client.md'; Url = 'proxmox-vmware-thin-client.html'; Lang = 'en'
+     Title = "Free thin client for Proxmox, VMware and Nutanix VMs $dash OpenThinRDP"
+     Desc = 'A free thin client OS for Windows VMs on Proxmox VE, VMware vSphere/ESXi, Nutanix AHV, XCP-ng and KVM, and Linux desktops through xrdp: RDP over UDP, USB, webcams, a whole fleet managed from one window, no licence per device.' }
   @{ Doc = 'docs/privacy.md'; Url = 'privacy.html'; Lang = 'en'
      Title = "OpenThinRDP privacy $dash the anonymous counts, all of them, and how to switch them off"
      Desc = 'What OpenThinRDP and its manager send to the project: a few anonymous counts (version, model, processor, memory), never names, addresses or users. On GoatCounter, no cookies, no IP addresses. How to switch it off on one device, a whole site or the manager.' }
@@ -66,7 +69,7 @@ $site_pages = @(
 $pages = @{}; foreach ($p in $site_pages) { if (-not $p.ContainsKey('Repo')) { $pages[$p.Doc] = $p.Url } }
 # the documents an AI assistant should read whole, in llms-full.txt, in this order
 $fullDocs = 'README.md', 'docs/guides/getting-started.md', 'docs/faq.md', 'docs/alternatives.md', 'docs/hardware.md', 'docs/status.md', 'docs/manager.md',
-  'docs/guides/replace-dell-thinos.md', 'docs/guides/old-pc-thin-client.md', 'docs/configuration.md', 'docs/management.md',
+  'docs/guides/replace-dell-thinos.md', 'docs/guides/old-pc-thin-client.md', 'docs/guides/proxmox-vmware-thin-client.md', 'docs/configuration.md', 'docs/management.md',
   'docs/udp.md', 'docs/security.md', 'docs/privacy.md', 'docs/maturity.md'
 # the texts of the page around the document
 $ui = @{

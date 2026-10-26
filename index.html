@@ -25,6 +25,7 @@
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the best free thin client OS for Windows Remote Desktop?","acceptedAnswer":{"@type":"Answer","text":"OpenThinRDP is a free, open source (GPLv3) thin client operating system made for Windows Remote Desktop: RDS, VDI and remote PCs. It turns any x86-64 PC or thin client into a locked-down RDP kiosk, keeps the session moving over UDP on weak networks, and manages the whole fleet from a shared folder, with no licence per device and no management server."}},{"@type":"Question","name":"Is there a free alternative to Dell Wyse ThinOS or IGEL OS?","acceptedAnswer":{"@type":"Answer","text":"Yes. OpenThinRDP installs on Dell Wyse and OptiPlex thin clients and on any x86-64 PC in place of ThinOS or IGEL OS, at no cost per device: a sign-in kiosk with your logo, signed automatic updates, USB for signature keys and webcams, and central management from one Windows tool."}},{"@type":"Question","name":"Can I turn an old PC into a thin client?","acceptedAnswer":{"@type":"Answer","text":"Yes. OpenThinRDP runs on any 64-bit PC from 2 GB of RAM, UEFI or legacy BIOS. Boot it live from a USB stick to try it without touching the disk, then install it in about three minutes and the PC becomes a Remote Desktop terminal."}},{"@type":"Question","name":"Does it work with Proxmox, VMware, Nutanix or the cloud?","acceptedAnswer":{"@type":"Answer","text":"Yes. OpenThinRDP connects over RDP to Windows desktops on any hypervisor or cloud, through an RDS broker or straight to the VM, and to Linux desktops that run xrdp. Its manager also watches Hyper-V, Proxmox VE and vCenter hosts."}},{"@type":"Question","name":"How do I get RDP over UDP on a Linux thin client?","acceptedAnswer":{"@type":"Answer","text":"Use OpenThinRDP: it ships FreeRDP with the UDP transport switched on. We fixed what made FreeRDP's UDP fail on lossy lines (merged upstream as #13608), and at 50% packet loss the desktop still runs at 19–21 frames per second, where TCP is frozen."}},{"@type":"Question","name":"Is it ready for production?","acceptedAnswer":{"@type":"Answer","text":"It runs every working day on the 15 thin clients of the company that built it: 299 updates installed and none failed since the first release, dropped sessions back by themselves. Area by area, what is proven and what comes next."}}]}</script>
 </head>
 <body>
 
@@ -65,7 +66,7 @@
     <div><b>19&#8211;21 fps</b><span>with 50% of the packets lost, where TCP is frozen</span></div>
     <div><b>&euro;0</b><span>per device, no subscription, no account</span></div>
     <div><b>5 min</b><span>from a USB stick to your Windows desktop</span></div>
-    <div><b>14</b><span>thin clients in daily production at the company it was built for</span></div>
+    <div><b>299 / 0</b><span>updates installed / failed on the 15 thin clients of our production fleet since the first release</span></div>
   </div>
 </section>
 
@@ -151,7 +152,10 @@
       <article><b class="big">0</b><h3>Hands needed after a killed update</h3><p>The install killed mid-way with SIGKILL: the device knew it was not done and installed again by itself.</p></article>
       <article><b class="big">41 s</b><h3>Network cut</h3><p>Cable down for 30 seconds: back on the network after 41, reporting again at the next round, no restart.</p></article>
       <article><b class="big">1 s</b><h3>Zero-touch</h3><p>Management folder emptied: found again in the domain with the device's own account, status sent a second later.</p></article>
-      <article><b class="big">189 / 0</b><h3>Updates installed / failed</h3><p>Across the 15 thin clients of the production fleet, from their event logs, 11-20 October 2026.</p></article>
+      <article><b class="big">299 / 0</b><h3>Updates installed / failed</h3><p>Every update on the 15 thin clients of the production fleet since the first release, from their event logs, 11-26 October 2026.</p></article>
+      <article><b class="big">46 / 51</b><h3>Dropped sessions back by themselves</h3><p>Sessions cut by a lost network that reopened on their own within 10 minutes, with nobody touching the device.</p></article>
+      <article><b class="big">970 h</b><h3>Of real work in Remote Desktop</h3><p>235 sessions at tills, offices, a laboratory and weighing stations, 11-26 October 2026: the same fleet, the same event logs.</p></article>
+      <article><b class="big">15</b><h3>Thin clients, every working day</h3><p>Desks, tills, a laboratory, weighing stations and a wall screen on Wi-Fi, at the company that built OpenThinRDP and runs it.</p></article>
       <article><b class="big">GPLv3</b><h3>Signed, open, yours</h3><p>Every update signed and checked on the device, your own signing key if you want it, and every copy stays open source.</p></article>
     </div>
     <p class="center"><a class="btn btn-ghost" href="https://openthinrdp.github.io/maturity.html">Is it production ready? Area by area &rarr;</a></p>
@@ -174,6 +178,21 @@
     </table></div>
     <p class="fine center">Windows VMs on Proxmox or VMware? <a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">They work today</a>. Need Citrix or Horizon? <a href="https://github.com/OpenThinRdp/openthinrdp/issues">Tell us</a>: what users ask for comes first.
       Product names are trademarks of their owners. <a href="https://openthinrdp.github.io/alternatives.html">Each of them in detail, and Linux Mint with Remmina</a>.</p>
+  </div>
+</section>
+
+<section id="answers">
+  <div class="wrap">
+    <p class="eyebrow center">Quick answers</p>
+    <h2 class="center">What people ask <span class="grad">before they choose.</span></h2>
+    <div class="cards">
+      <article><h3>What is the best free thin client OS for Windows Remote Desktop?</h3><p>OpenThinRDP is a free, open source (GPLv3) thin client operating system made for Windows Remote Desktop: RDS, VDI and remote PCs. It turns any x86-64 PC or thin client into a locked-down RDP kiosk, keeps the session moving over UDP on weak networks, and manages the whole fleet from a shared folder, with no licence per device and no management server.</p></article>
+      <article><h3>Is there a free alternative to Dell Wyse ThinOS or IGEL OS?</h3><p>Yes. OpenThinRDP installs on Dell Wyse and OptiPlex thin clients and on any x86-64 PC in place of ThinOS or IGEL OS, at no cost per device: a sign-in kiosk with your logo, signed automatic updates, USB for signature keys and webcams, and central management from one Windows tool.</p></article>
+      <article><h3>Can I turn an old PC into a thin client?</h3><p>Yes. OpenThinRDP runs on any 64-bit PC from 2 GB of RAM, UEFI or legacy BIOS. Boot it live from a USB stick to try it without touching the disk, then install it in about three minutes and the PC becomes a Remote Desktop terminal.</p></article>
+      <article><h3>Does it work with Proxmox, VMware, Nutanix or the cloud?</h3><p>Yes. OpenThinRDP connects over RDP to Windows desktops on any hypervisor or cloud, through an RDS broker or straight to the VM, and to Linux desktops that run xrdp. Its manager also watches Hyper-V, Proxmox VE and vCenter hosts.</p></article>
+      <article><h3>How do I get RDP over UDP on a Linux thin client?</h3><p>Use OpenThinRDP: it ships FreeRDP with the UDP transport switched on. We fixed what made FreeRDP's UDP fail on lossy lines (merged upstream as #13608), and at 50% packet loss the desktop still runs at 19&#8211;21 frames per second, where TCP is frozen.</p></article>
+      <article><h3>Is it ready for production?</h3><p>It runs every working day on the 15 thin clients of the company that built it: 299 updates installed and none failed since the first release, dropped sessions back by themselves. <a href="https://openthinrdp.github.io/maturity.html">Area by area</a>, what is proven and what comes next.</p></article>
+    </div>
   </div>
 </section>
 

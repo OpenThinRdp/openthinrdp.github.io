@@ -37,6 +37,23 @@
 the start of an entry, and in the file MAJOR of the repository) changes how a session connects or runs: a device<br>
 with a management folder installs it only once the manager released it, one without asks on its screen.<br>
 Downloads and signed update packages: <a href="https://github.com/OpenThinRdp/openthinrdp/releases">releases</a>.</p>
+<h2 id="0224-not-released-yet" dir="auto">0.2.24 (not released yet)</h2>
+<ul dir="auto">
+<li>
+<p dir="auto"><strong>A USB device as a drive, also when the others go whole</strong>: <code class="notranslate">USB_LOCAL</code> (VID:PID) keeps it on the device in every<br>
+mode, its storage a drive in Windows; the manager sets it, or <code class="notranslate">USB_REDIRECT</code>, from the peripherals of a device, for<br>
+that device, its group or all, and plugs a device in again from there.</p>
+</li>
+<li>
+<p dir="auto"><strong>The time zone from a list</strong> in the settings of the device: every zone of tzdata, with a search while typing<br>
+("rome" finds Europe/Rome) instead of the exact name to type (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/154" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/154/hovercard">#154</a>).</p>
+</li>
+<li>
+<p dir="auto"><strong>Anonymous counts from the devices really leave now</strong>: they were sent with curl, which is not in the image, so<br>
+no device ever sent one; now python3, already in the image, sends them. Nothing else changes: the same counts, the<br>
+same <code class="notranslate">ANON_STATS=off</code> to switch them off (<a href="https://openthinrdp.github.io/privacy.html">privacy</a>).</p>
+</li>
+</ul>
 <h2 id="0223-2026-10-25" dir="auto">0.2.23 (2026-10-25)</h2>
 <ul dir="auto">
 <li><strong>The manager is a project of its own</strong>: <a href="https://github.com/OpenThinRdp/openthinrdp-manager">openthinrdp-manager</a>,<br>

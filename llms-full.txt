@@ -2108,6 +2108,7 @@ RDP_GATEWAY=rdgateway.example.com
 |---|---|---|
 | `USB_MODE` | `all` | `all` = every device except keyboard, mouse, touch screen, hub, Bluetooth adapter, network adapter, smart card reader, webcam and USB headset goes to Windows as a whole device (RemoteFX USB redirection). `disks` = USB sticks stay on the thin client, are mounted there and appear in Windows as redirected drives (`\\tsclient`), also when plugged in during a session (since 0.1.7). `auto` = device by device: a device that is only storage (every interface mass storage: a stick, a card reader, a disk) as a drive, as with `disks`; a device with storage and something else (an instrument with a serial port, a key with its own Windows driver) whole, as with `all`, so that its driver gets all of it. Plugged in during a session, `auto` works as `disks`: FreeRDP's filter sees a class on any interface |
 | `USB_REDIRECT` | | `VID:PID` list always passed whole, in every mode (smart card readers excepted: they always go through the smart card channel) |
+| `USB_LOCAL` | | `VID:PID` list never passed whole, in every mode: their storage appears in Windows as a drive (a stick that should be a drive while `USB_MODE=all`). Wins over `USB_REDIRECT`. The manager sets it from the peripherals of a device |
 
 A USB stick passed whole (`USB_MODE=all`) gets its drive letter from Windows inside the session of the user it is
 redirected to, as on a physical PC. That letter is not visible to services or to other sessions, so a tool running
@@ -3076,7 +3077,9 @@ on by default, it is easy to switch off, and this page lists everything it sends
 ## What a device sends
 
 About a minute after it starts the first time, then once a week (`stats.sh`, started by `report.sh`). A live system
-that keeps nothing between starts sends at each start.
+that keeps nothing between starts sends at each start. A new device sends its first counts with its own settings,
+before it takes the central settings of its site: so we learn which computers OpenThinRDP is tried on. From then on
+it follows the central settings.
 
 | Count | Example |
 |---|---|
@@ -3149,8 +3152,8 @@ device: each count carries no number or name that would tell two devices apart.
 - **Every device of a site**: the same setting in the manager, last in the *Settings* of the site (or of a group), or
   `ANON_STATS=off` in `common.conf`.
 - **Before the first start**: `ANON_STATS=off` in `image/site/site.conf` of your own image, and nothing is ever sent.
-  A managed device reads the central settings before its first send, so `ANON_STATS=off` in `common.conf` also
-  holds for a new device that reaches the management folder.
+  `ANON_STATS=off` in `common.conf` holds from the moment a device has taken the central settings: a new device
+  sends its first counts before that, a device that already has them sends nothing, also after an update.
 - **The manager**: *Settings > Manager > Anonymous counts for the project*, untick.
 
 When it is off, nothing is sent. A device with no internet sends nothing and tries again at its next report.
@@ -3200,15 +3203,17 @@ and what is still missing. It is updated when something changes. What runs where
 ## Reliability in the field
 
 **Covered**: one production fleet since October 2026, 15 Dell OptiPlex 3000 Thin Clients (desks, tills, a
-laboratory, weighing stations, a wall screen on Wi-Fi). From the event logs the devices keep (11-20 October 2026):
+laboratory, weighing stations, a wall screen on Wi-Fi). From the event logs the devices keep, since the first release
+(11-26 October 2026):
 
 | | |
 |---|---|
-| software updates installed | 189 |
+| software updates installed | 299 |
 | software updates failed | 0 |
-| sessions opened | 175 |
-| automatic reconnections | 57 |
-| starts of the kiosk | 261 |
+| sessions opened | 235 |
+| hours in session | 970 |
+| sessions dropped by a lost network, reopened by themselves within 10 minutes | 46 of 51 |
+| starts of the kiosk | 388 |
 
 **Not yet**: months of data, and fleets other than ours; the hardware test of the live system (0.2.8) lets anyone
 send a hardware report from their own devices. The numbers will be updated here as they grow; a fleet

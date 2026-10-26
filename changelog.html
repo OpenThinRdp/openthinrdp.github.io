@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.25","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.26","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
@@ -30,13 +30,27 @@
 </head>
 <body>
 <header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.25</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.26</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
 <main class="markdown-body">
 <h1 id="changelog" dir="auto">Changelog</h1>
 <p dir="auto">Every release, newest first. <strong>Security</strong> marks what every device should get at once. A <em>Major update</em> (in bold at<br>
 the start of an entry, and in the file MAJOR of the repository) changes how a session connects or runs: a device<br>
 with a management folder installs it only once the manager released it, one without asks on its screen.<br>
 Downloads and signed update packages: <a href="https://github.com/OpenThinRdp/openthinrdp/releases">releases</a>.</p>
+<h2 id="0226-2026-10-26" dir="auto">0.2.26 (2026-10-26)</h2>
+<ul dir="auto">
+<li><strong>Webcams that keep up</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/165" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/165/hovercard">#165</a>): a webcam that compresses<br>
+to H.264 by itself sent that H.264 to Windows as it was, and those frames cannot be dropped: a late one held the<br>
+next and the picture fell behind. The webcam is now read in MJPEG and encoded by the device, which drops a late<br>
+frame and keeps up, on the <strong>video engine of the processor</strong> (Intel Quick Sync, VA-API) so the processor stays<br>
+free: 30 fps at 1080p on an OptiPlex 3000 Thin Client, the processor 89% idle. And Windows is offered at most<br>
+<strong>1080p</strong> (720p on a device without such a video engine), where it picked the largest a 2K webcam had. Three<br>
+settings change it: <code class="notranslate">CAMERA_H264</code>, <code class="notranslate">CAMERA_HWACCEL</code>, <code class="notranslate">CAMERA_MAX</code>, in the manager too.</li>
+<li>FreeRDP <a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/freerdp-fb0198dbe">fb0198dbe</a>: the options of the<br>
+camera channel (<code class="notranslate">h264</code>, <code class="notranslate">hwaccel</code>, <code class="notranslate">maxres</code>), built with VA-API.</li>
+<li>Tip: in a dark room many webcams lengthen their exposure and give half the frames (10 fps instead of 20-30). More<br>
+light, or a webcam with a fixed frame rate, helps more than any setting.</li>
+</ul>
 <h2 id="0225-2026-10-26" dir="auto">0.2.25 (2026-10-26)</h2>
 <ul dir="auto">
 <li><strong>The manager is signed with Authenticode</strong>: <code class="notranslate">OpenThinRDP-Manager.exe</code> carries the signature of the project<br>

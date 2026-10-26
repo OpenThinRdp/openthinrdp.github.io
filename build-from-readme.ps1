@@ -13,6 +13,10 @@ $repo = 'OpenThinRdp/openthinrdp'; $blob = "https://github.com/$repo/blob/main";
 $site = 'https://openthinrdp.github.io/'
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ver = (& $gh api "repos/$repo/releases/latest" --jq .tag_name) -replace '^v', ''
+# the ISO: in the newest release that has one (not every release is built again as an ISO: an installed device
+# updates itself), else the latest release
+$iso = try { @((@(& $gh api "repos/$repo/releases?per_page=50") -join "`n" | ConvertFrom-Json) | Where-Object { @($_.assets | Where-Object { $_.name -like '*.iso' }).Count })[0].html_url } catch { $null }
+if (-not $iso) { $iso = "https://github.com/$repo/releases/latest" }
 $today = Get-Date -Format 'yyyy-MM-dd'
 $dash = '&#8211;'   # PowerShell 5.1 reads this file as ANSI: no non-ASCII characters in it
 
@@ -189,7 +193,7 @@ foreach ($p in $site_pages) {
 }
 # the home page is the designed landing (landing.html + landing.css), with the facts of the README; the README itself
 # stays the source of every other page
-$land = [IO.File]::ReadAllText((Join-Path $here 'landing.html')).Replace('{{SITE}}', $site).Replace('{{VER}}', $ver)
+$land = [IO.File]::ReadAllText((Join-Path $here 'landing.html')).Replace('{{SITE}}', $site).Replace('{{VER}}', $ver).Replace('{{ISO}}', $iso)
 [IO.File]::WriteAllText((Join-Path $here 'index.html'), $land, $utf8); "index.html: landing, release $ver"
 
 # llms-full.txt: the documents whole (llmstxt.org), for assistants that read one file instead of crawling

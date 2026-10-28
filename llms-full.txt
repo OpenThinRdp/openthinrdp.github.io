@@ -28,7 +28,7 @@ RDP over UDP that keeps working where TCP freezes, and a whole fleet managed fro
 **Turn any PC or old thin client into a locked-down Remote Desktop kiosk in five minutes.** It boots straight into
 a sign-in form and connects to Windows: through an RD Connection Broker to the user's desktop or VM, or straight to
 a session host or any Windows PC, **on premises or in the cloud**. No licence per device, no management server, no
-agent, no cloud service to depend on: a shared folder and a small Windows manager are all it takes.
+agent, no cloud service to depend on: a shared folder and the free [OpenThinRDP Manager](https://openthinrdp.github.io/manager.html) for Windows are all it takes.
 
 | | |
 |---|---|
@@ -194,12 +194,12 @@ What the device needs: [Requirements](#requirements). The whole path, from the U
 <img src="docs/screenshots/update.png" alt="Software update in progress" width="32%">
 </p>
 
-## The manager: the whole fleet from one window
+## The manager: the fleet and the servers behind it, from one window
 
 The [OpenThinRDP Manager](https://github.com/OpenThinRdp/openthinrdp-manager) is a free program for Windows 10/11 and
 Windows Server (English and Italian, nothing to install) that works on the shared folder the devices report to. No
 server, no agent, no database: what you see is the files in the folder. It also works alone, without devices, as a
-health center for Hyper-V, clusters, Remote Desktop, SQL and backups.
+health center for Hyper-V, clusters, Remote Desktop, SQL and backups. It is not a script that edits configuration files: it is a Windows application with [releases of its own](https://github.com/OpenThinRdp/openthinrdp-manager/releases) (1.0.0 from 28 October 2026) that updates itself, signed with the project key ([its page](https://openthinrdp.github.io/manager.html)).
 
 <p align="center">
 <img src="docs/screenshots/manager-devices.png" alt="Manager: every device, its state, user and version, and its settings" width="49%">
@@ -418,9 +418,9 @@ installs on the first internal disk, never on a USB disk. For many devices, *Una
 ## 5. The manager (on your Windows PC)
 
 1. Download `openthinrdp-manager-<version>.zip` from the
-   [latest release](https://github.com/OpenThinRdp/openthinrdp/releases/latest) and unpack it where only
+   [latest release of the manager](https://github.com/OpenThinRdp/openthinrdp-manager/releases/latest) and unpack it where only
    administrators can write (a share works: everybody starts the same copy). It updates itself from then on.
-2. Extract `openthinrdp-manager-<version>.zip` of the release into a folder (a share all administrators reach), start
+2. Start
    `OpenThinRDP-Manager.exe` and choose the management folder. `OpenThinRDP-Manager.exe -Install` on each PC puts a
    shortcut with the icon on its desktop.
 3. **Check permissions** (top bar): it lists what is wrong for the devices' account and offers to correct it.
@@ -464,6 +464,17 @@ VDI collections behind an RD Connection Broker, or any Windows PC or VM with Rem
 Proxmox, VMware, Nutanix or any cloud. It is Debian 13 with a
 locked-down kiosk on FreeRDP, the RDP UDP transport built in, and a Windows manager that runs the whole fleet from a
 shared folder.
+
+### What is the OpenThinRDP Manager?
+
+A free Windows application (Windows 10/11 and Windows Server, English and Italian, nothing to install) with two parts
+in one window: a **health center for the Windows infrastructure**, also without any OpenThinRDP device (Hyper-V hosts
+and failover clusters, Remote Desktop, domain controllers and DNS, SQL Server AlwaysOn, backups, Dell iDRAC and other
+Redfish controllers, Proxmox, vSphere, Veeam, Citrix, certificates: what is wrong, in a sentence, and the repair after
+you confirm), and **the management of an OpenThinRDP fleet** from the shared folder the devices report to. It is not a
+PowerShell script that edits configuration files, as it was in its first weeks: since 1.0.0 (28 October 2026) it is a
+project of its own with [its own releases](https://github.com/OpenThinRdp/openthinrdp-manager/releases), signed with
+the project key, and it updates itself. Its page: [openthinrdp.github.io/manager.html](https://openthinrdp.github.io/manager.html).
 
 ### Is it free?
 
@@ -564,7 +575,7 @@ Yes:
 
 ### Do I need a server to manage the devices?
 
-No. The devices report to a shared folder (SMB) and read their settings from it; a PowerShell manager for Windows
+No. The devices report to a shared folder (SMB) and read their settings from it; the free [OpenThinRDP Manager](https://openthinrdp.github.io/manager.html) for Windows
 shows the whole fleet, changes settings for all devices or one, and opens the screen of any device in your browser.
 No agent, no database, no management server ([the manager](manager.md)).
 
@@ -2656,7 +2667,7 @@ was used revokes those keys and brings back the image ones.
 
 Two keys give power over the whole fleet: the SSH key that opens the screen of any device, and the OpenPGP key
 that signs the update packages every device installs. The manager keeps both in `vault.otr`, next to
-`OpenThinRDP-Manager.ps1`, encrypted with an **access code**:
+`OpenThinRDP-Manager.exe`, encrypted with an **access code**:
 
 - At the first start the manager asks for the code (at least 8 characters) and creates the vault, with a new SSH
   key inside (`openthinrdp-manager`) that it adds to the **SSH keys of the devices** on the Vault page: Save there,

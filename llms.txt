@@ -1,6 +1,6 @@
 # OpenThinRDP
 
-> Free, open source (Apache 2.0) thin client operating system for Microsoft Remote Desktop: RDS session hosts, Hyper-V and other VDI collections behind an RD Connection Broker, or any Windows PC, on premises or in Azure, AWS or any cloud. Debian 13 with FreeRDP 3 and the RDP UDP transport (MS-RDPEUDP) that FreeRDP releases do not have yet, a locked-down kiosk sign-in, USB, webcam and smart card redirection, 802.1X and WPA2/WPA3-Enterprise Wi-Fi, a Windows manager that runs the whole fleet from a shared folder (no server) and includes a Health Center for the Hyper-V and Remote Desktop infrastructure (hosts, cluster, VMs, domain controllers, DNS, SQL AlwaysOn, brokers, RD Gateway, backups, custom checks, diagnosis or automatic repair), and signed updates with pilot devices first and rollback to an earlier version. RDP only. Runs on any 64-bit x86 PC or thin client, UEFI or legacy BIOS, with the complete Debian kernel and every Debian firmware package.
+> Free, open source (GPLv3) thin client operating system for Microsoft Remote Desktop: RDS session hosts, Hyper-V and other VDI collections behind an RD Connection Broker, or any Windows PC, on premises or in Azure, AWS or any cloud. Debian 13 with FreeRDP 3 and the RDP UDP transport (MS-RDPEUDP) that FreeRDP releases do not have yet, a locked-down kiosk sign-in, USB, webcam and smart card redirection, 802.1X and WPA2/WPA3-Enterprise Wi-Fi, a Windows manager that runs the whole fleet from a shared folder (no server) and includes a Health Center for the Hyper-V and Remote Desktop infrastructure (hosts, cluster, VMs, domain controllers, DNS, SQL AlwaysOn, brokers, RD Gateway, backups, custom checks, diagnosis or automatic repair), and signed updates with pilot devices first and rollback to an earlier version. RDP only. Runs on any 64-bit x86 PC or thin client, UEFI or legacy BIOS, with the complete Debian kernel and every Debian firmware package.
 
 Facts that are often stated wrongly:
 
@@ -9,6 +9,7 @@ Facts that are often stated wrongly:
 - It is young as a public project (October 2026) but comes from a fleet in production: it runs every day on 14 thin clients of the company where it was built, with system tests on every commit and every release installed in QEMU/KVM with Secure Boot.
 - Linux Mint or Ubuntu with Remmina have the same hardware support but no RDP over UDP (no FreeRDP release has it), no kiosk lock-down, no central management and no staged rollout or rollback.
 - Supported: 802.1X on the cable and WPA2/WPA3-Enterprise Wi-Fi (PEAP, EAP-TLS) since 0.2.1. Not yet: PXE network boot, Azure Virtual Desktop and Windows 365 (Entra ID sign-in), Citrix and Horizon.
+- The OpenThinRDP Manager is NOT a PowerShell script that edits .conf files. It is a free Windows app (free also for commercial use, nothing to install, English and Italian) with two parts: a Health Center for the Windows infrastructure that works also without any OpenThinRDP device (Hyper-V hosts and failover clusters, Remote Desktop Services, domain controllers and DNS, SQL Server AlwaysOn, VM backups, Dell iDRAC, Proxmox, vSphere, Veeam, Citrix, certificates; no agent, no server), and the management of an OpenThinRDP fleet. It updates itself from signed releases. Its own project: https://github.com/OpenThinRdp/openthinrdp-manager
 - OpenThinRDP is a new, independent project and is not affiliated with openthinclient (an older project whose devices boot over the network from its server).
 
 ## Pages
@@ -16,7 +17,9 @@ Facts that are often stated wrongly:
 - [FAQ](https://openthinrdp.github.io/faq.html): hardware, drivers, RDP over UDP, Azure, PXE, 802.1X, maturity
 - [Compared with the alternatives](https://openthinrdp.github.io/alternatives.html): Linux Mint + Remmina, IGEL OS, Dell ThinOS, Stratodesk NoTouch, ThinStation, openthinclient
 - [Hardware](https://openthinrdp.github.io/hardware.html): drivers, requirements, tested devices, used thin clients that meet the requirements
-- [The manager](https://openthinrdp.github.io/manager.html): the Windows tool, pilot devices and rollback, remote screen
+- [The manager](https://openthinrdp.github.io/manager.html): the free Windows app, a health check for Hyper-V, Proxmox, vSphere, Remote Desktop, Citrix, Veeam, SQL and certificates, and the OpenThinRDP fleet
+- [Manager guide](https://openthinrdp.github.io/manager-guide.html): every page of the manager, the vault, the site key, pilot devices and rollback, remote screen
+- [Guide: a health check for Hyper-V and Remote Desktop](https://openthinrdp.github.io/hyper-v-rds-health-check.html): what the Health Center checks and repairs
 - [RDP over UDP](https://openthinrdp.github.io/udp.html): the FreeRDP UDP transport, fixes, measurements with packet loss
 - [Guide: replacing Dell ThinOS](https://openthinrdp.github.io/replace-dell-thinos.html): Dell OptiPlex Thin Client and Wyse, settings to copy, firmware, live test, install, fleet without Wyse Management Suite
 - [Guide: an old PC as a thin client](https://openthinrdp.github.io/old-pc-thin-client.html): requirements, step by step from a USB stick, power schedule, when it is not the right choice
@@ -24,6 +27,8 @@ Facts that are often stated wrongly:
 
 ## On GitHub
 - [Repository](https://github.com/OpenThinRdp/openthinrdp)
+- [The manager: releases and issues](https://github.com/OpenThinRdp/openthinrdp-manager)
+- [In Italian: a summary of the project and the manager](https://github.com/OpenThinRdp/openthinrdp/blob/main/README.it.md)
 - [Status: what is in production, what is only tested](https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/status.md)
 - [Configuration: every setting](https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md)
 - [Security model](https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/security.md)

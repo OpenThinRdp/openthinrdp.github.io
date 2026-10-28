@@ -202,12 +202,18 @@ foreach ($d in $fullDocs) { $full += "`n`n---`n`n<!-- $blob/$d -->`n`n" + (Get-D
 [IO.File]::WriteAllText((Join-Path $here 'llms-full.txt'), $full, $utf8)
 "llms-full.txt: $($fullDocs.Count) documents, $([math]::Round($full.Length/1KB)) KB"
 
-# sitemap.xml: every page, today, with its other language
+# sitemap.xml: every page with the day its document last changed on GitHub (today on every page at every build told
+# Google the dates mean nothing), with its other language
+function Get-DocDate($p) {
+  $r = if ($p.ContainsKey('Repo')) { $p.Repo } else { 'OpenThinRdp/openthinrdp' }
+  $d = try { [string](& $gh api "repos/$r/commits?path=$($p.Doc)&per_page=1" --jq '.[0].commit.committer.date') } catch { '' }
+  if ($d -match '^\d{4}-\d\d-\d\d') { $Matches[0] } else { $today }
+}
 $urls = foreach ($p in $site_pages) {
-  $pr = if ($p.Url -eq '' -or $p.Url -eq 'it/') { '1.0' } else { '0.8' }
+  $pr = if ($p.Url -eq '' -or $p.Url -eq 'manager.html') { '1.0' } else { '0.8' }
   $x = ''; if ($p.ContainsKey('Alt')) { $o = $site_pages | Where-Object { $_.Url -eq $p.Alt } | Select-Object -First 1
     if ($o) { $x = "<xhtml:link rel=`"alternate`" hreflang=`"$($p.Lang)`" href=`"$site$($p.Url)`"/><xhtml:link rel=`"alternate`" hreflang=`"$($o.Lang)`" href=`"$site$($o.Url)`"/>" } }
-  "  <url><loc>$site$($p.Url)</loc>$x<lastmod>$today</lastmod><priority>$pr</priority></url>"
+  "  <url><loc>$site$($p.Url)</loc>$x<lastmod>$(Get-DocDate $p)</lastmod><priority>$pr</priority></url>"
 }
 $urls += "  <url><loc>${site}llms-full.txt</loc><lastmod>$today</lastmod><priority>0.3</priority></url>"
 [IO.File]::WriteAllText((Join-Path $here 'sitemap.xml'), "<?xml version=`"1.0`" encoding=`"UTF-8`"?>`n<urlset xmlns=`"http://www.sitemaps.org/schemas/sitemap/0.9`" xmlns:xhtml=`"http://www.w3.org/1999/xhtml`">`n" + ($urls -join "`n") + "`n</urlset>`n", $utf8)

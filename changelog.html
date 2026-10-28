@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.26","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.27","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
@@ -30,13 +30,31 @@
 </head>
 <body>
 <header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.26</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.27</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
 <main class="markdown-body">
 <h1 id="changelog" dir="auto">Changelog</h1>
 <p dir="auto">Every release, newest first. <strong>Security</strong> marks what every device should get at once. A <em>Major update</em> (in bold at<br>
 the start of an entry, and in the file MAJOR of the repository) changes how a session connects or runs: a device<br>
 with a management folder installs it only once the manager released it, one without asks on its screen.<br>
 Downloads and signed update packages: <a href="https://github.com/OpenThinRdp/openthinrdp/releases">releases</a>.</p>
+<h2 id="0227-2026-10-28" dir="auto">0.2.27 (2026-10-28)</h2>
+<ul dir="auto">
+<li><strong>The anonymous counts get out</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/167" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/167/hovercard">#167</a>): a device started<br>
+them in the background of its report, which runs as a oneshot service, and systemd stopped them when the report<br>
+ended, before anything was sent, on every device. They now run in a unit of their own (<code class="notranslate">systemd-run</code>): seen on an<br>
+OptiPlex 3000 Thin Client, they reach the counter within a minute. What is sent does not change<br>
+(<a href="https://openthinrdp.github.io/privacy.html">privacy</a>), and <code class="notranslate">ANON_STATS=off</code> still turns them off.</li>
+<li><strong>Manager: no more <code class="notranslate">-EncodedCommand</code></strong>: the launcher started Windows PowerShell with the manager as a Base64 command<br>
+line, which EDRs such as SentinelOne report as suspicious. It now starts <code class="notranslate">OpenThinRDP-Manager.start.ps1</code>, a fixed<br>
+script of a few lines signed with the release, and hands it the manager on its standard input: nothing of the<br>
+manager goes on a command line or to the disk. After the update the manager starts once more through the launcher<br>
+of before; from the next start on, through the new one.</li>
+<li><strong>Manager: the site key reaches every device by itself</strong>: a device that was off when the site key was sent, or was<br>
+installed again, took no update from the folder any more (<code class="notranslate">UPDATE_KEY=site</code>: "invalid signature"). The manager, open<br>
+with the vault, now sends the key to such a device as soon as it is on (SSH), and notes it in <code class="notranslate">changes.log</code>.</li>
+<li><strong>Manager: it opens again after updating itself</strong>: after an update of 0.2.24-0.2.26 it could close instead of<br>
+starting again (the new start found the one still closing and gave way to it). It now waits for it.</li>
+</ul>
 <h2 id="0226-2026-10-26" dir="auto">0.2.26 (2026-10-26)</h2>
 <ul dir="auto">
 <li><strong>Webcams that keep up</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/165" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/165/hovercard">#165</a>): a webcam that compresses<br>

@@ -1,6 +1,6 @@
 # OpenThinRDP: the documentation in one file
 
-Source: https://github.com/OpenThinRdp/openthinrdp (main), release 0.2.27, built 2026-10-28. Every section below is one file of the repository.
+Source: https://github.com/OpenThinRdp/openthinrdp (main), release 0.2.28, built 2026-10-28. Every section below is one file of the repository.
 
 
 ---
@@ -998,7 +998,7 @@ release of OpenThinRDP). Free for any use, closed: [its license](https://github.
   to create it, its account and its permissions: [management.md](management.md#account).
 - A **Windows 10 or 11 PC** of an administrator, with PowerShell 5.1 (it is part of Windows). For the remote screen,
   also the OpenSSH client of Windows (`ssh.exe`, usually there) and a browser.
-- **The manager itself**: `openthinrdp-manager-<version>.zip` from the [latest release](https://github.com/OpenThinRdp/openthinrdp/releases/latest),
+- **The manager itself**: `openthinrdp-manager-<version>.zip` from the [latest release of the manager](https://github.com/OpenThinRdp/openthinrdp-manager/releases/latest),
   unpacked into a folder only the administrators can write (a share works, so that everybody starts the same copy).
   From then on it [updates itself](#the-manager-updates-itself).
 - The devices set to that folder: `MGMT_SHARE` in their settings dialog, or in the image you build.
@@ -1713,8 +1713,10 @@ again with your key: a stolen project key installs nothing on your fleet. Set it
 
 ## The manager updates itself
 
-Every release carries the manager of the same version, under the same signature as the update package. At start,
-in the background, the manager checks the latest release; when there is a newer manager, the top bar shows
+Since 1.0.0 the manager has [releases of its own](https://github.com/OpenThinRdp/openthinrdp-manager/releases),
+numbered apart from the devices and signed with the same project key (up to 0.2.27 it came with each release of the
+devices, with their number). At start, in the background, the manager checks its latest release; when there is a
+newer manager, the top bar shows
 ***Manager X available***. **Update the manager** downloads it, checks signature and hash, keeps the files it
 replaces in `previous\`, and starts again. Your `vault.otr`, the launcher and anything that is not part of the
 manager stay as they are; if anything fails, the previous files come back.
@@ -2577,15 +2579,18 @@ Nothing goes to the project unless you send it.
 
 ### The manager updates itself
 
-Every release carries `openthinrdp-manager-<version>.zip`: the manager (`OpenThinRDP-Manager.exe`, the manager itself
-sealed in `OpenThinRDP-Manager.core`, the commands it runs on servers in `commands\` and `rds\`, its languages),
-`VERSION` and `MANIFEST.txt`, the SHA-256 of each file signed with the project key, which the launcher checks before
-the manager starts. Its name and SHA-256 are in the release's `LATEST.txt` (`manager=`, `manager_sha256=`), under the
-same project signature as the update package.
+Since 1.0.0 the manager has releases of its own on [its repository](https://github.com/OpenThinRdp/openthinrdp-manager/releases),
+numbered apart from the devices (up to 0.2.27 it came with each release of the devices, with their number). Each one
+carries `openthinrdp-manager-<version>.zip`: the manager (`OpenThinRDP-Manager.exe`, the manager itself sealed in
+`OpenThinRDP-Manager.core`, the commands it runs on servers in `commands\` and `rds\`, its languages), `VERSION` and
+`MANIFEST.txt`, the SHA-256 of each file signed with the project key, which the launcher checks before the manager
+starts. Its name and SHA-256 are in the `LATEST.txt` of that release (`version=`, `manager=`, `manager_sha256=`),
+signed with the project key.
 
 - At every start the manager reads `VERSION` next to it, and in the background (the window does not wait) the
-  `LATEST.txt` of the latest GitHub release of `UPDATE_GITHUB`, checked against the project key next to it
-  (`openthinrdp-release.asc`). When that release has a newer manager, the top bar shows *Manager X available*.
+  `LATEST.txt` of the latest release of the manager, checked against the project key next to it
+  (`openthinrdp-release.asc`). When it is a newer manager, the top bar shows *Manager X available*. The latest release
+  of the devices (`UPDATE_GITHUB`) is read apart, for **Release from GitHub**.
 - **By itself** (on by default; **Updates > This manager**, *Update the manager by itself*): the check runs at the
   start and every 6 hours, and a newer manager goes in at once with the steps below, when nothing is being edited
   and no other window is open (otherwise it tries again every 10 minutes). It starts again on the same folder with
@@ -3074,7 +3079,7 @@ Report security problems privately to the maintainers (GitHub security advisorie
 
 # Privacy: the anonymous counts
 
-OpenThinRDP sends a few anonymous counts to the project once a week. They tell us which computers it runs on, which
+OpenThinRDP sends a few anonymous counts to the project: once a week from a device, once a day from the manager. They tell us which computers it runs on, which
 versions are in use and how many devices a manager looks after, so we know what to test and what to support. It is
 on by default, it is easy to switch off, and this page lists everything it sends.
 
@@ -3118,10 +3123,18 @@ code and the name of a program leave the device, never the text of a message: th
 
 `sudo /opt/openthinrdp/stats.sh --print` on a device prints exactly what it would send, and sends nothing.
 
+## One count per send
+
+The counter tells visitors apart by internet address and program, so the devices of a site, which all leave from the
+same address, would count as one. Each send therefore carries a random number made for that send only, at the end of
+its program name (for example `OpenThinRDP/0.2.28 (s 3f9a2c1d)`). It is kept nowhere, it is taken from nothing of the
+device or of you, and the next send has another: it tells sends apart, never devices over time.
+
 ## What the manager sends
 
 Its first start shows, once, what the manager and the devices send and where each is switched off. Half a minute
-after it starts the first time, then once a week:
+after it starts the first time, then once a day while it is used (its version, its Windows and how many devices it
+looks after change more often than a device does):
 
 | Count | Example |
 |---|---|

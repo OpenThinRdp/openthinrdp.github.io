@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.27","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.28","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
@@ -30,10 +30,10 @@
 </head>
 <body>
 <header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.27</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.28</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
 <main class="markdown-body">
 <h1 id="privacy-the-anonymous-counts" dir="auto">Privacy: the anonymous counts</h1>
-<p dir="auto">OpenThinRDP sends a few anonymous counts to the project once a week. They tell us which computers it runs on, which<br>
+<p dir="auto">OpenThinRDP sends a few anonymous counts to the project: once a week from a device, once a day from the manager. They tell us which computers it runs on, which<br>
 versions are in use and how many devices a manager looks after, so we know what to test and what to support. It is<br>
 on by default, it is easy to switch off, and this page lists everything it sends.</p>
 <h2 id="what-a-device-sends" dir="auto">What a device sends</h2>
@@ -142,9 +142,15 @@ it follows the central settings.</p>
 version and once with the model of the computer. A week with no problem sends <code class="notranslate">none</code>. Only the kind, the number of a<br>
 code and the name of a program leave the device, never the text of a message: those hold user and server names.</p>
 <p dir="auto"><code class="notranslate">sudo /opt/openthinrdp/stats.sh --print</code> on a device prints exactly what it would send, and sends nothing.</p>
+<h2 id="one-count-per-send" dir="auto">One count per send</h2>
+<p dir="auto">The counter tells visitors apart by internet address and program, so the devices of a site, which all leave from the<br>
+same address, would count as one. Each send therefore carries a random number made for that send only, at the end of<br>
+its program name (for example <code class="notranslate">OpenThinRDP/0.2.28 (s 3f9a2c1d)</code>). It is kept nowhere, it is taken from nothing of the<br>
+device or of you, and the next send has another: it tells sends apart, never devices over time.</p>
 <h2 id="what-the-manager-sends" dir="auto">What the manager sends</h2>
 <p dir="auto">Its first start shows, once, what the manager and the devices send and where each is switched off. Half a minute<br>
-after it starts the first time, then once a week:</p>
+after it starts the first time, then once a day while it is used (its version, its Windows and how many devices it<br>
+looks after change more often than a device does):</p>
 <markdown-accessiblity-table><table role="table">
 <thead>
 <tr>

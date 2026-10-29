@@ -1,0 +1,15 @@
+https://openthinrdp.github.io/
+https://openthinrdp.github.io/getting-started.html
+https://openthinrdp.github.io/manager.html
+https://openthinrdp.github.io/manager-guide.html
+https://openthinrdp.github.io/hyper-v-rds-health-check.html
+https://openthinrdp.github.io/faq.html
+https://openthinrdp.github.io/alternatives.html
+https://openthinrdp.github.io/hardware.html
+https://openthinrdp.github.io/maturity.html
+https://openthinrdp.github.io/udp.html
+https://openthinrdp.github.io/replace-dell-thinos.html
+https://openthinrdp.github.io/old-pc-thin-client.html
+https://openthinrdp.github.io/proxmox-vmware-thin-client.html
+https://openthinrdp.github.io/privacy.html
+https://openthinrdp.github.io/changelog.html

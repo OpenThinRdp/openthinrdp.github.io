@@ -1,6 +1,6 @@
 # OpenThinRDP: the documentation in one file
 
-Source: https://github.com/OpenThinRdp/openthinrdp (main), release 0.2.28, built 2026-10-28. Every section below is one file of the repository.
+Source: https://github.com/OpenThinRdp/openthinrdp (main), release 0.2.28, built 2026-10-29. Every section below is one file of the repository.
 
 
 ---

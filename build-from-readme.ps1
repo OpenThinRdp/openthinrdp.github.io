@@ -218,3 +218,7 @@ $urls = foreach ($p in $site_pages) {
 $urls += "  <url><loc>${site}llms-full.txt</loc><lastmod>$today</lastmod><priority>0.3</priority></url>"
 [IO.File]::WriteAllText((Join-Path $here 'sitemap.xml'), "<?xml version=`"1.0`" encoding=`"UTF-8`"?>`n<urlset xmlns=`"http://www.sitemaps.org/schemas/sitemap/0.9`" xmlns:xhtml=`"http://www.w3.org/1999/xhtml`">`n" + ($urls -join "`n") + "`n</urlset>`n", $utf8)
 'sitemap.xml written'
+# sitemap.txt too, the same pages one per line: Google often cannot fetch the sitemap.xml of a site on GitHub Pages
+# (Couldn't fetch, for weeks), and a plain text sitemap was read where the XML one was not (29/10/2026)
+[IO.File]::WriteAllText((Join-Path $here 'sitemap.txt'), (($site_pages | ForEach-Object { "$site$($_.Url)" }) -join "`n") + "`n", $utf8)
+'sitemap.txt written'

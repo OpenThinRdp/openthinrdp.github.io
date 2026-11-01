@@ -1,5 +1,6 @@
 https://openthinrdp.github.io/
 https://openthinrdp.github.io/getting-started.html
+https://openthinrdp.github.io/home.html
 https://openthinrdp.github.io/manager.html
 https://openthinrdp.github.io/manager-guide.html
 https://openthinrdp.github.io/hyper-v-rds-health-check.html

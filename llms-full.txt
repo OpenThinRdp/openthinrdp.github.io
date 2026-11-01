@@ -1,6 +1,6 @@
 # OpenThinRDP: the documentation in one file
 
-Source: https://github.com/OpenThinRdp/openthinrdp (main), release 0.2.28, built 2026-10-29. Every section below is one file of the repository.
+Source: https://github.com/OpenThinRdp/openthinrdp (main), release 0.3.1, built 2026-11-01. Every section below is one file of the repository.
 
 
 ---
@@ -9,8 +9,8 @@ Source: https://github.com/OpenThinRdp/openthinrdp (main), release 0.2.28, built
 
 <p align="center"><img src="docs/logo.png" alt="OpenThinRDP" width="480"></p>
 
-<p align="center"><b>The free thin client OS for Windows Remote Desktop, RDS and VDI, on Hyper-V, Proxmox, VMware or any cloud.<br>
-RDP over UDP that keeps working where TCP freezes, and a whole fleet managed from one Windows window.</b></p>
+<p align="center"><b>The free Remote Desktop thin client: one Windows PC at home, or a whole office on a domain.<br>
+RDP over UDP that keeps working where TCP freezes, on Hyper-V, Proxmox, VMware, any cloud or the PC in your study.</b></p>
 
 <p align="center">
 <a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest"><b>⬇ Download the ISO (latest release)</b></a>
@@ -25,18 +25,27 @@ RDP over UDP that keeps working where TCP freezes, and a whole fleet managed fro
 <img src="docs/screenshots/settings.png" alt="Settings of the device" width="32%">
 </p>
 
-**Turn any PC or old thin client into a locked-down Remote Desktop kiosk in five minutes.** It boots straight into
-a sign-in form and connects to Windows: through an RD Connection Broker to the user's desktop or VM, or straight to
-a session host or any Windows PC, **on premises or in the cloud**. No licence per device, no management server, no
-agent, no cloud service to depend on: a shared folder and the free [OpenThinRDP Manager](https://openthinrdp.github.io/manager.html) for Windows are all it takes.
+**Turn any PC, old laptop or thin client into a Remote Desktop terminal in five minutes.** It boots straight into
+a sign-in form and connects to Windows. The first start asks one question:
+
+- **At home, or one computer** (*Workgroup*): your Windows PC or virtual machine, found on the network, signed in by
+  itself at power on and woken up if it is off; from anywhere with Tailscale. Try it from a USB stick that keeps your
+  settings, or install it next to Windows. **[OpenThinRDP at home](docs/guides/home.md)**
+- **In the office, on a domain**: RD Connection Brokers, session collections and VDI, devices that set themselves up
+  from the domain, a whole fleet managed from a shared folder. **[Getting started](docs/guides/getting-started.md)**
+
+No licence per device, no management server, no agent, no cloud service to depend on. Behind a fleet, the free
+[OpenThinRDP Manager](https://openthinrdp.github.io/manager.html) for Windows watches the infrastructure (Hyper-V,
+Remote Desktop, SQL Server, iDRAC and more) and manages the devices too.
 
 | | |
 |---|---|
+| **At home** | an old laptop, a mini PC or a Raspberry Pi as a terminal for your PC: password remembered, Wake-on-LAN, more than one computer, Bluetooth headsets, Tailscale from outside, a live USB stick that keeps its settings, install alongside Windows ([at home](docs/guides/home.md)) |
 | **Any hypervisor, any cloud** | Windows desktops and VMs on **Hyper-V, Proxmox VE, VMware vSphere/ESXi, Nutanix AHV, XCP-ng, KVM**, Azure, AWS or Google Cloud, physical PCs, and Linux desktops through xrdp: RDP is spoken by the machine you connect to, so what runs underneath does not matter ([Proxmox and VMware](docs/guides/proxmox-vmware-thin-client.md)) |
 | **Smooth on bad lines** | RDP over UDP: on a line losing half of the packets the desktop still runs at 19-21 frames per second, where TCP has already frozen ([numbers below](#rdp-over-udp-that-keeps-going-on-a-bad-line)) |
 | **Zero-touch setup** | a new device needs a domain account and nothing else: it finds its management folder in the domain by itself ([how](docs/manager.md#settings--manager-language-and-local-copy)) |
-| **The whole fleet in one window** | state of every device, central settings, signed updates with pilot devices and rollback, power on (Wake-on-LAN), restart, remote screen |
-| **The Windows side too** | Health Center: brokers, Hyper-V hosts and cluster, VMs, DCs, DNS, SQL AlwaysOn and backups, with a plain sentence and a fix for each problem |
+| **A free manager for the infrastructure** | the [OpenThinRDP Manager](https://openthinrdp.github.io/manager.html): a Health Center for Hyper-V hosts and clusters, Storage Spaces Direct, RD Connection Brokers, VMs, DCs, DNS, SQL Server Always On and backups, Dell iDRAC, Proxmox, vSphere, Veeam, Citrix and certificates, with a plain sentence and a repair you confirm for each problem; tools for everyday work (a new VM from an ISO, checkpoints, planned restarts) |
+| **And the whole fleet** | in the same manager: state of every device, central settings, signed updates with pilot devices and rollback, power on (Wake-on-LAN), restart, remote screen |
 | **Any x86-64 hardware** | UEFI with Secure Boot or legacy BIOS, complete Debian 13 kernel and firmware, from 2 GB of RAM |
 | **Free** | the client is GPLv3, every copy stays open source (Debian underneath, every client script readable in `rootfs/opt/openthinrdp`); the [Windows manager](https://github.com/OpenThinRdp/openthinrdp-manager) is free for any use, closed, with every command it runs on your servers readable |
 
@@ -376,6 +385,8 @@ Step by step, in the order that works: try it on one device, install it, then se
 manager, and from then on every new device needs only a domain account. About an hour for the whole path, most of
 it on the Windows side.
 
+**One computer at home?** You do not need this path: [OpenThinRDP at home](home.md) takes two minutes and no domain.
+
 **What you need**: a Windows Remote Desktop target (an RD Connection Broker with session hosts or a Hyper-V VDI
 collection, or a single Windows PC or server), a domain account to sign in with, one 64-bit x86 PC or thin client
 with 2 GB of RAM, and a USB stick.
@@ -459,11 +470,16 @@ readiness area by area: [maturity.md](../maturity.md).
 
 ### What is OpenThinRDP?
 
-An open source operating system for thin clients that connect to Windows with Remote Desktop: RDS session hosts,
-VDI collections behind an RD Connection Broker, or any Windows PC or VM with Remote Desktop on, on Hyper-V,
-Proxmox, VMware, Nutanix or any cloud. It is Debian 13 with a
-locked-down kiosk on FreeRDP, the RDP UDP transport built in, and a Windows manager that runs the whole fleet from a
-shared folder.
+An open source operating system that turns a PC, an old laptop or a thin client into a Remote Desktop terminal, for
+one Windows PC at home or a whole office on a domain: any Windows PC or VM with Remote Desktop on, RDS session hosts,
+VDI collections behind an RD Connection Broker, on Hyper-V, Proxmox, VMware, Nutanix or any cloud. It is Debian 13
+with a locked-down kiosk on FreeRDP and the RDP UDP transport built in.
+
+### Can I use it at home, with one PC?
+
+Yes: at the first start choose *Workgroup*, pick your PC from the list and sign in. The password can be remembered,
+a PC that is off is woken up, Tailscale reaches it from outside, and a USB stick keeps your settings. No domain, no
+server, no manager needed: [OpenThinRDP at home](guides/home.md).
 
 ### What is the OpenThinRDP Manager?
 
@@ -474,7 +490,8 @@ Redfish controllers, Proxmox, vSphere, Veeam, Citrix, certificates: what is wron
 you confirm), and **the management of an OpenThinRDP fleet** from the shared folder the devices report to. It is not a
 PowerShell script that edits configuration files, as it was in its first weeks: since 1.0.0 (28 October 2026) it is a
 project of its own with [its own releases](https://github.com/OpenThinRdp/openthinrdp-manager/releases), signed with
-the project key, and it updates itself. Its page: [openthinrdp.github.io/manager.html](https://openthinrdp.github.io/manager.html).
+the project key, and it updates itself. One computer at home does not need it. Its page:
+[openthinrdp.github.io/manager.html](https://openthinrdp.github.io/manager.html).
 
 ### Is it free?
 

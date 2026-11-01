@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OpenThinRDP &#8211; free thin client OS for Remote Desktop on Hyper-V, Proxmox, VMware and RDS, with RDP over UDP</title>
-<meta name="description" content="OpenThinRDP turns any PC or old thin client into a locked-down Remote Desktop kiosk for Windows desktops on Hyper-V, Proxmox, VMware or any cloud: RDP over UDP that keeps working on lossy lines, zero-touch setup from the domain, the whole fleet managed from one Windows window. Free, GPLv3, no licence per device, no server.">
+<title>OpenThinRDP &#8211; free Remote Desktop thin client, for one PC at home or a whole office on a domain</title>
+<meta name="description" content="Turn an old laptop, a mini PC or a thin client into a Remote Desktop terminal. At home: your Windows PC or VM in two fields, from anywhere with Tailscale. In the office: zero-touch setup from the domain, RDP over UDP, and a free Windows manager with a health center for Hyper-V, Remote Desktop, SQL and more. GPLv3, no licence per device.">
 <link rel="canonical" href="{{SITE}}">
 <link rel="icon" href="{{SITE}}img/icon.png">
 <link rel="alternate" type="text/plain" href="{{SITE}}llms-full.txt" title="The documentation in one text file">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OpenThinRDP">
 <meta property="og:locale" content="en_US">
-<meta property="og:title" content="OpenThinRDP &#8211; Remote Desktop thin clients that keep working when the network doesn't">
-<meta property="og:description" content="Free thin client OS for Windows RDS and VDI on Hyper-V, Proxmox or VMware: RDP over UDP, zero-touch setup, one window for the whole fleet.">
+<meta property="og:title" content="OpenThinRDP &#8211; your Windows desktop on any old computer, at home or across the office">
+<meta property="og:description" content="Free Remote Desktop thin client: one PC at home in two fields, or a whole office on a domain with RDP over UDP and a free health center for the servers behind it.">
 <meta property="og:url" content="{{SITE}}">
 <meta property="og:image" content="{{SITE}}img/social.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -25,7 +25,7 @@
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"{{SITE}}",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the best free thin client OS for Windows Remote Desktop?","acceptedAnswer":{"@type":"Answer","text":"OpenThinRDP is a free, open source (GPLv3) thin client operating system made for Windows Remote Desktop: RDS, VDI and remote PCs. It turns any x86-64 PC or thin client into a locked-down RDP kiosk, keeps the session moving over UDP on weak networks, and manages the whole fleet from a shared folder, with no licence per device and no management server."}},{"@type":"Question","name":"Is there a free alternative to Dell Wyse ThinOS or IGEL OS?","acceptedAnswer":{"@type":"Answer","text":"Yes. OpenThinRDP installs on Dell Wyse and OptiPlex thin clients and on any x86-64 PC in place of ThinOS or IGEL OS, at no cost per device: a sign-in kiosk with your logo, signed automatic updates, USB for signature keys and webcams, and central management from one Windows tool."}},{"@type":"Question","name":"Can I turn an old PC into a thin client?","acceptedAnswer":{"@type":"Answer","text":"Yes. OpenThinRDP runs on any 64-bit PC from 2 GB of RAM, UEFI or legacy BIOS. Boot it live from a USB stick to try it without touching the disk, then install it in about three minutes and the PC becomes a Remote Desktop terminal."}},{"@type":"Question","name":"Does it work with Proxmox, VMware, Nutanix or the cloud?","acceptedAnswer":{"@type":"Answer","text":"Yes. OpenThinRDP connects over RDP to Windows desktops on any hypervisor or cloud, through an RDS broker or straight to the VM, and to Linux desktops that run xrdp. Its manager also watches Hyper-V, Proxmox VE and vCenter hosts."}},{"@type":"Question","name":"How do I get RDP over UDP on a Linux thin client?","acceptedAnswer":{"@type":"Answer","text":"Use OpenThinRDP: it ships FreeRDP with the UDP transport switched on. We fixed what made FreeRDP's UDP fail on lossy lines (merged upstream as #13608), and at 50% packet loss the desktop still runs at 19–21 frames per second, where TCP is frozen."}},{"@type":"Question","name":"Is it ready for production?","acceptedAnswer":{"@type":"Answer","text":"It runs every working day on the 15 thin clients of the company that built it: 299 updates installed and none failed since the first release, dropped sessions back by themselves. Area by area, what is proven and what comes next."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I use OpenThinRDP at home with one Windows PC?","acceptedAnswer":{"@type":"Answer","text":"Yes. At the first start choose Workgroup, pick your PC from the list and sign in. The password can be remembered, a PC that is off is woken up with Wake-on-LAN, Tailscale reaches it from outside, and a live USB stick keeps your settings. No domain, no server and no manager are needed."}},{"@type":"Question","name":"What is the best free thin client OS for Windows Remote Desktop?","acceptedAnswer":{"@type":"Answer","text":"OpenThinRDP is a free, open source (GPLv3) thin client operating system made for Windows Remote Desktop: RDS, VDI and remote PCs. It turns any x86-64 PC or thin client into a locked-down RDP kiosk, keeps the session moving over UDP on weak networks, and manages the whole fleet from a shared folder, with no licence per device and no management server."}},{"@type":"Question","name":"Is there a free alternative to Dell Wyse ThinOS or IGEL OS?","acceptedAnswer":{"@type":"Answer","text":"Yes. OpenThinRDP installs on Dell Wyse and OptiPlex thin clients and on any x86-64 PC in place of ThinOS or IGEL OS, at no cost per device: a sign-in kiosk with your logo, signed automatic updates, USB for signature keys and webcams, and central management from one Windows tool."}},{"@type":"Question","name":"Can I turn an old PC into a thin client?","acceptedAnswer":{"@type":"Answer","text":"Yes. OpenThinRDP runs on any 64-bit PC from 2 GB of RAM, UEFI or legacy BIOS. Boot it live from a USB stick to try it without touching the disk, then install it in about three minutes and the PC becomes a Remote Desktop terminal."}},{"@type":"Question","name":"Does it work with Proxmox, VMware, Nutanix or the cloud?","acceptedAnswer":{"@type":"Answer","text":"Yes. OpenThinRDP connects over RDP to Windows desktops on any hypervisor or cloud, through an RDS broker or straight to the VM, and to Linux desktops that run xrdp. Its manager also watches Hyper-V, Proxmox VE and vCenter hosts."}},{"@type":"Question","name":"How do I get RDP over UDP on a Linux thin client?","acceptedAnswer":{"@type":"Answer","text":"Use OpenThinRDP: it ships FreeRDP with the UDP transport switched on. We fixed what made FreeRDP's UDP fail on lossy lines (merged upstream as #13608), and at 50% packet loss the desktop still runs at 19–21 frames per second, where TCP is frozen."}},{"@type":"Question","name":"Is it ready for production?","acceptedAnswer":{"@type":"Answer","text":"It runs every working day on the 15 thin clients of the company that built it: 299 updates installed and none failed since the first release, dropped sessions back by themselves. Area by area, what is proven and what comes next."}}]}</script>
 </head>
 <body>
 
@@ -44,19 +44,30 @@
   <div class="wrap hero-in">
     <div class="hero-text">
       <p class="eyebrow">Free &middot; Open source (GPLv3) &middot; In production every day</p>
-      <h1>Remote Desktop thin clients that keep working <span class="grad">when the network doesn't.</span></h1>
-      <p class="lead">OpenThinRDP turns any PC or old thin client into a locked-down Windows Remote Desktop kiosk in five minutes.
-        RDP over UDP, zero-touch setup from your domain, and your whole fleet managed from one Windows window.
-        No licence per device. No management server.</p>
+      <h1>Your Windows desktop on any old computer, <span class="grad">at home or across the office.</span></h1>
+      <p class="lead">OpenThinRDP turns a PC, an old laptop or a thin client into a Remote Desktop terminal in five minutes.
+        One Windows PC at home in two fields, or a whole office on a domain with RDP over UDP that keeps working when the network doesn't.
+        No licence per device. No server.</p>
       <div class="ctas">
         <a class="btn" href="{{ISO}}">&#11015; Download the ISO</a>
-        <a class="btn btn-ghost" href="#start">Try it live, nothing installed</a>
+        <a class="btn btn-ghost" href="#ways">At home or on a domain?</a>
       </div>
-      <p class="fine">For Windows RDS and VDI on Hyper-V, Proxmox, VMware, Nutanix or any cloud &middot; x86-64, UEFI or BIOS &middot; from 2 GB of RAM</p>
+      <p class="fine">Any Windows PC or VM, RDS and VDI on Hyper-V, Proxmox, VMware or any cloud &middot; x86-64 or Raspberry Pi &middot; from 2 GB of RAM</p>
     </div>
     <div class="hero-shot">
       <div class="window"><div class="dots"><i></i><i></i><i></i></div><img src="{{SITE}}img/m-home.png" alt="OpenThinRDP manager home: health score, Hyper-V cluster, remote desktops, server hardware, device versions, what to look at first and today's sign-ins" width="1616" height="841"></div>
       <div class="device"><img src="{{SITE}}img/sign-in.png" alt="The sign-in screen of an OpenThinRDP thin client"></div>
+    </div>
+  </div>
+</section>
+
+<section id="ways">
+  <div class="wrap">
+    <p class="eyebrow center">The first start asks one question</p>
+    <h2 class="center">One computer at home, <span class="grad">or a whole office.</span></h2>
+    <div class="cards">
+      <article><div class="ic">&#127968;</div><h3>At home, or one computer</h3><p>Your Windows PC or virtual machine from an old laptop, a mini PC or a Raspberry Pi. Choose <i>Workgroup</i>, pick your PC from the list, sign in. Your desktop opens by itself at power on, the PC is woken up if it is off, and Tailscale takes you home from anywhere. Try it from a USB stick that keeps your settings, or install it next to Windows. No domain, no server, no manager.</p><p><a href="{{SITE}}home.html">OpenThinRDP at home &rarr;</a></p></article>
+      <article><div class="ic">&#127970;</div><h3>In the office, on a domain</h3><p>RD Connection Brokers, session collections and Hyper-V VDI. A new device sets itself up from the domain, RDP runs over UDP and keeps working on lossy lines, updates are signed and never land in a session. A free Windows application watches the infrastructure behind the desktops and runs the fleet.</p><p><a href="{{SITE}}getting-started.html">Getting started &rarr;</a> &nbsp; <a href="{{SITE}}manager.html">The manager &rarr;</a></p></article>
     </div>
   </div>
 </section>
@@ -117,8 +128,8 @@
 <section id="manager" class="band">
   <div class="wrap">
     <p class="eyebrow center">The manager</p>
-    <h2 class="center">Your whole fleet, and the servers behind it, <span class="grad">in one window.</span></h2>
-    <p class="center narrow">One PowerShell tool for Windows 10/11, nothing to install, working on the shared folder the devices report to. No server, no agent, no database.</p>
+    <h2 class="center">A free health center for the servers behind your desktops, <span class="grad">and the fleet too.</span></h2>
+    <p class="center narrow">A free Windows application for Windows 10/11 and Windows Server, nothing to install, no agent, no server, no database. It reads Hyper-V clusters and Storage Spaces Direct, Remote Desktop brokers, SQL Server Always On, domain controllers, Dell iDRAC, Proxmox, vSphere, Veeam, Citrix and certificates, says in plain words what is wrong and offers the repair you confirm. Tools for everyday work are there too: a new VM from an ISO, checkpoints, planned restarts. And it runs the OpenThinRDP devices, from the shared folder they report to.</p>
     <div class="gallery">
       <figure><img src="{{SITE}}img/m-health.png" alt="Health Center: a Hyper-V host with memory, disk and power, each problem in a plain sentence with its fix" loading="lazy"><figcaption><b>Health Center</b> Hosts, cluster, VMs, DCs, DNS, SQL and backups: each problem in a plain sentence, with a fix you confirm.</figcaption></figure>
       <figure><img src="{{SITE}}img/m-hardware.png" alt="Server hardware from the iDRAC: the state of every part, disks, power supplies, fans, temperatures" loading="lazy"><figcaption><b>Server hardware</b> What the iDRAC says of every part, disk by disk with its remaining life, RAID, memory, firmware and log.</figcaption></figure>

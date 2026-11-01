@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.2.28","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.3.1","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
@@ -30,13 +30,67 @@
 </head>
 <body>
 <header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.2.28</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.3.1</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
 <main class="markdown-body">
 <h1 id="changelog" dir="auto">Changelog</h1>
 <p dir="auto">Every release, newest first. <strong>Security</strong> marks what every device should get at once. A <em>Major update</em> (in bold at<br>
 the start of an entry, and in the file MAJOR of the repository) changes how a session connects or runs: a device<br>
 with a management folder installs it only once the manager released it, one without asks on its screen.<br>
 Downloads and signed update packages: <a href="https://github.com/OpenThinRdp/openthinrdp/releases">releases</a>.</p>
+<h2 id="031-2026-11-01" dir="auto">0.3.1 (2026-11-01)</h2>
+<ul dir="auto">
+<li><strong>A lighter image: what only some devices use is installed where it is used, the first time</strong> (Internet needed<br>
+then; on a live stick with its settings partition it stays on the stick). About 430 MB less on every device that<br>
+does not use it:
+<ul dir="auto">
+<li><strong>No browser</strong> in the image. A device gets one only when its settings have a web page (web button or kiosk<br>
+page), and only the one chosen: Chromium, or Firefox ESR, Brave, Chrome, Edge (Chromium is then removed). No web<br>
+page: no browser at all, also on the devices that had one.</li>
+<li><strong>Tailscale</strong>: installed when turned on, kept up to date with the security updates, removed with its repository<br>
+when turned off (signing in again is then needed). In 0.3.0 a device updated from an older version had none.</li>
+<li><strong>Bluetooth</strong>: the first time the Bluetooth page is opened. <strong>Smart cards</strong> (pcscd and its drivers): when a reader<br>
+is first plugged in; sessions open as before without them. <strong>WireGuard, OpenVPN</strong>: when that VPN is chosen.</li>
+<li>Devices already installed keep what they have (but the browsers, as above).</li>
+<li><code class="notranslate">INCLUDE_BROWSER=yes</code> in <code class="notranslate">build.conf</code> keeps Chromium in an image of your own, for devices that never reach the<br>
+Internet.</li>
+</ul>
+</li>
+</ul>
+<h2 id="030-2026-11-01" dir="auto">0.3.0 (2026-11-01)</h2>
+<ul dir="auto">
+<li><strong>Domain or workgroup</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/174" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/174/hovercard">#174</a>): the first start asks for<br>
+the environment of the device, <em>Active Directory domain</em> (brokers, collections, central management) or <em>Workgroup</em><br>
+(one computer or virtual machine, a local or Microsoft account), and the settings show only what applies<br>
+(<code class="notranslate">SETUP</code>). Devices already set up keep what they have: the environment is inferred from their settings.</li>
+<li><strong>Password remembered</strong> (<code class="notranslate">REMEMBER_PASSWORD</code>): the password of the default user stays on the device, sealed in the<br>
+TPM when there is one; at power on the desktop opens by itself. Removed as soon as Windows rejects it.</li>
+<li><strong>Wake-on-LAN of the remote computer</strong>: its MAC address is learnt after the first connection (or set in<br>
+<code class="notranslate">WAKE_MAC</code>); a computer that does not answer is woken up, with a wait screen (<code class="notranslate">WAKE_WAIT</code>).</li>
+<li><strong>Computers found on the network</strong>: in a workgroup, the computer field offers the computers of the network with<br>
+Remote Desktop on. <strong>Several computers</strong> (<code class="notranslate">CONNECTIONS</code>): the sign-in screen offers the choice.</li>
+<li><strong>Tailscale</strong> (<code class="notranslate">VPN=tailscale</code>): the computer at home reached from outside, no server to set up; the device shows a<br>
+sign-in link to open on a phone.</li>
+<li><strong>Bluetooth</strong>: headsets, keyboards and mice paired from the settings of the device; audio through PipeWire.</li>
+<li><strong>The browser of your choice</strong> (<code class="notranslate">BROWSER</code>, <a href="https://github.com/OpenThinRdp/openthinrdp/issues/133" data-hovercard-type="issue" data-hovercard-url="/OpenThinRdp/openthinrdp/issues/133/hovercard">#133</a>):<br>
+Chromium, Firefox ESR, Brave, Google Chrome or Microsoft Edge, installed only on the devices that choose it, from its<br>
+maker's signed repository, kept up to date with the security updates, with the same rules for all of them.</li>
+<li><strong>The live system keeps its settings</strong> (<code class="notranslate">LIVE_PERSISTENCE</code>): started from a USB stick with free space, it makes a<br>
+partition there at the first start; from the next start settings, updates and Wi-Fi stay, as on other live<br>
+distributions. A stick written with an older image gets there with this update, without writing it again: the<br>
+update changes its partition table (nothing of the image moves, BIOS and UEFI start as before), the settings<br>
+partition is made at the next start and used from the one after. The image is now laid out as Debian's own (an<br>
+MBR, the image mountable from partition 1, the EFI partition after it): the old layout let live-boot mount only<br>
+the whole stick, and then no partition of it could be used.</li>
+<li><strong>Install alongside Windows</strong>: a new entry of the installer uses the free space of the disk (shrink Windows first)<br>
+and leaves Windows and its partitions as they are; the boot menu offers both (OpenThinRDP first, 5 seconds).<br>
+The installer asks which way to partition with "the largest continuous free space" already chosen, then shows<br>
+the partitions it is going to make and asks before writing, as before.</li>
+<li>Help for Microsoft accounts: in a workgroup a refused password says that the account's email address and password<br>
+are needed, the Windows Hello PIN is not accepted by Remote Desktop.</li>
+<li>The hardware test of the live system shows once per stick that keeps its settings, not at every start.</li>
+<li>The ISO of this release is needed only for a new stick or an install: a stick in use gets everything with the<br>
+update, the settings partition included.</li>
+</ul>
 <h2 id="0228-2026-10-28" dir="auto">0.2.28 (2026-10-28)</h2>
 <ul dir="auto">
 <li><strong>The manager has releases of its own, from 1.0.0</strong>: numbered apart from the devices, on<br>

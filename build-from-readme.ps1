@@ -24,11 +24,14 @@ $dash = '&#8211;'   # PowerShell 5.1 reads this file as ANSI: no non-ASCII chara
 # the other language; Faq = FAQPage structured data from its "### question" sections
 $site_pages = @(
   @{ Doc = 'README.md'; Url = ''; Lang = 'en'
-     Title = "OpenThinRDP $dash open source thin client OS with RDP over UDP for RDS and VDI"
+     Title = "OpenThinRDP $dash free Remote Desktop thin client, for one PC at home or a whole office on a domain"
      Desc = 'OpenThinRDP: free, open source thin client operating system for Microsoft Remote Desktop (RDS and VDI) and Windows VMs on Hyper-V, Proxmox, VMware or any cloud. Debian 13 with FreeRDP and the RDP UDP transport, a kiosk sign-in, central management from a shared folder, signed updates with pilot devices and rollback.' }
   @{ Doc = 'docs/guides/getting-started.md'; Url = 'getting-started.html'; Lang = 'en'
      Title = "Getting started with OpenThinRDP $dash from a USB stick to a managed thin client fleet"
      Desc = 'Step by step: try OpenThinRDP live with its hardware test, install it, set up the management folder and the Windows manager, and set up every new thin client with only a domain account.' }
+  @{ Doc = 'docs/guides/home.md'; Url = 'home.html'; Lang = 'en'
+     Title = "OpenThinRDP at home $dash an old laptop as a Remote Desktop terminal for your Windows PC"
+     Desc = 'Free and open source: sign in to your Windows PC or virtual machine from an old laptop, a mini PC or a Raspberry Pi, at home or from outside with Tailscale. No domain, no server: choose Workgroup and fill in two fields.' }
   # the page that sells the manager: the page of its own project (Repo), its questions as FAQPage
   @{ Doc = 'README.md'; Repo = 'OpenThinRdp/openthinrdp-manager'; Url = 'manager.html'; Lang = 'en'; Faq = $true
      Title = "Free Hyper-V, Proxmox and Remote Desktop health check $dash OpenThinRDP Manager"

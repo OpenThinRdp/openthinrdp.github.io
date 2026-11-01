@@ -18,8 +18,11 @@
 <meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://openthinrdp.github.io/landing.css">
 <link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://openthinrdp.github.io/"},{"@type":"ListItem","position":2,"name":"For companies","item":"https://openthinrdp.github.io/business.html"},{"@type":"ListItem","position":3,"name":"Free thin client for Proxmox, VMware and Nutanix VMs","item":"https://openthinrdp.github.io/proxmox-vmware-thin-client.html"}]}</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
  "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.3.1","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
@@ -28,50 +31,57 @@
 </script>
 
 </head>
-<body>
-<header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.3.1</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<body class="doc">
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
+    <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
+    <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.1</a>
+    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.1</a></nav></details>
+  </div>
+</header>
+<div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="https://openthinrdp.github.io/">Home</a> <span>&#8250;</span> <a href="https://openthinrdp.github.io/business.html">For companies</a> <span>&#8250;</span> <span>Free thin client for Proxmox, VMware and Nutanix VMs</span></nav></div>
 <main class="markdown-body">
-<h1 id="a-free-thin-client-for-proxmox-vmware-and-nutanix-vms" dir="auto">A free thin client for Proxmox, VMware and Nutanix VMs</h1>
-<p dir="auto">Your Windows desktops run on <strong>Proxmox VE, VMware vSphere/ESXi, Nutanix AHV, XCP-ng or KVM</strong>? OpenThinRDP connects<br>
-to them today. Remote Desktop is spoken by Windows inside the VM, so the hypervisor underneath does not matter: the<br>
+<div class="markdown-heading"><h1 class="heading-element">A free thin client for Proxmox, VMware and Nutanix VMs</h1><a id="a-free-thin-client-for-proxmox-vmware-and-nutanix-vms" class="anchor" aria-label="Permalink: A free thin client for Proxmox, VMware and Nutanix VMs" href="#a-free-thin-client-for-proxmox-vmware-and-nutanix-vms"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Your Windows desktops run on <strong>Proxmox VE, VMware vSphere/ESXi, Nutanix AHV, XCP-ng or KVM</strong>? OpenThinRDP connects
+to them today. Remote Desktop is spoken by Windows inside the VM, so the hypervisor underneath does not matter: the
 same client, the same features, the same five-minute setup as on Hyper-V.</p>
-<ul dir="auto">
+<ul>
 <li>
-<p dir="auto"><strong>RDP over UDP</strong>: the desktop keeps moving on a lossy Wi-Fi or VPN where TCP freezes<br>
+<p><strong>RDP over UDP</strong>: the desktop keeps moving on a lossy Wi-Fi or VPN where TCP freezes
 (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/udp.md#on-a-lossy-line">the numbers</a>).</p>
 </li>
 <li>
-<p dir="auto"><strong>Everything a desk needs</strong>: USB sticks and signature keys, webcams and headsets for Teams, smart cards, serial<br>
+<p><strong>Everything a desk needs</strong>: USB sticks and signature keys, webcams and headsets for Teams, smart cards, serial
 instruments, several monitors.</p>
 </li>
 <li>
-<p dir="auto"><strong>Any PC becomes a thin client</strong>: old office PCs and used thin clients, UEFI or BIOS, from 2 GB of RAM, no licence<br>
+<p><strong>Any PC becomes a thin client</strong>: old office PCs and used thin clients, UEFI or BIOS, from 2 GB of RAM, no licence
 per device.</p>
 </li>
 <li>
-<p dir="auto"><strong>The whole fleet from one window</strong>: central settings, signed updates with pilot devices, power on, remote screen,<br>
+<p><strong>The whole fleet from one window</strong>: central settings, signed updates with pilot devices, power on, remote screen,
 without a management server.</p>
 </li>
 <li>
-<p dir="auto"><strong>And the servers too</strong>: the <a href="https://openthinrdp.github.io/manager.html" rel="nofollow">manager</a> checks Proxmox (quorum, storage,<br>
+<p><strong>And the servers too</strong>: the <a href="https://openthinrdp.github.io/manager.html" rel="nofollow">manager</a> checks Proxmox (quorum, storage,
 backups, failing disks) and vSphere (hosts, datastores) next to your Windows side, free.</p>
 </li>
 <li>
-<p dir="auto"><a href="#three-ways-to-connect">Three ways to connect</a></p>
+<p><a href="#three-ways-to-connect">Three ways to connect</a></p>
 </li>
 <li>
-<p dir="auto"><a href="#step-by-step">Step by step</a></p>
+<p><a href="#step-by-step">Step by step</a></p>
 </li>
 <li>
-<p dir="auto"><a href="#linux-desktops-through-xrdp">Linux desktops through xrdp</a></p>
+<p><a href="#linux-desktops-through-xrdp">Linux desktops through xrdp</a></p>
 </li>
 <li>
-<p dir="auto"><a href="#next-native-proxmox-sessions">Next: native Proxmox sessions</a></p>
+<p><a href="#next-native-proxmox-sessions">Next: native Proxmox sessions</a></p>
 </li>
 </ul>
-<h2 id="three-ways-to-connect" dir="auto">Three ways to connect</h2>
-<markdown-accessiblity-table><table role="table">
+<div class="markdown-heading"><h2 class="heading-element">Three ways to connect</h2><a id="three-ways-to-connect" class="anchor" aria-label="Permalink: Three ways to connect" href="#three-ways-to-connect"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<table>
 <thead>
 <tr>
 <th>You have</th>
@@ -81,46 +91,68 @@ backups, failing disks) and vSphere (hosts, datastores) next to your Windows sid
 </thead>
 <tbody>
 <tr>
-<td><strong>One Windows VM per desk</strong> (a reception desk, a till, a lab PC moved into a VM)</td>
-<td><code class="notranslate">BROKER</code> = the name of the VM</td>
+<td>
+<strong>One Windows VM per desk</strong> (a reception desk, a till, a lab PC moved into a VM)</td>
+<td>
+<code>BROKER</code> = the name of the VM</td>
 <td>signs in and lands on that VM, full screen</td>
 </tr>
 <tr>
-<td><strong>An RDS farm</strong> whose session hosts are VMs on Proxmox or VMware</td>
-<td><code class="notranslate">BROKER</code> = the RD Connection Broker, <code class="notranslate">LOAD_BALANCE_INFO</code> = the collection</td>
+<td>
+<strong>An RDS farm</strong> whose session hosts are VMs on Proxmox or VMware</td>
+<td>
+<code>BROKER</code> = the RD Connection Broker, <code>LOAD_BALANCE_INFO</code> = the collection</td>
 <td>the broker sends each user to a session host</td>
 </tr>
 <tr>
-<td><strong>A Windows PC or server</strong> anywhere, also in a cloud</td>
-<td><code class="notranslate">BROKER</code> = its name, with the <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/configuration.md#rd-gateway">RD Gateway</a> or a <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/configuration.md#vpn">VPN</a> from outside</td>
+<td>
+<strong>A Windows PC or server</strong> anywhere, also in a cloud</td>
+<td>
+<code>BROKER</code> = its name, with the <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/configuration.md#rd-gateway">RD Gateway</a> or a <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/configuration.md#vpn">VPN</a> from outside</td>
 <td>the same</td>
 </tr>
 </tbody>
-</table></markdown-accessiblity-table>
-<p dir="auto">The VM needs only what Windows needs for any Remote Desktop client: Remote Desktop on (Windows Pro, Enterprise or<br>
+</table>
+<p>The VM needs only what Windows needs for any Remote Desktop client: Remote Desktop on (Windows Pro, Enterprise or
 Server) and the users in <em>Remote Desktop Users</em>. Nothing to install on Proxmox, vCenter or in the VM.</p>
-<h2 id="step-by-step" dir="auto">Step by step</h2>
-<ol dir="auto">
-<li><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download the ISO</a>, write it to a USB stick and start<br>
+<div class="markdown-heading"><h2 class="heading-element">Step by step</h2><a id="step-by-step" class="anchor" aria-label="Permalink: Step by step" href="#step-by-step"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>
+<a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download the ISO</a>, write it to a USB stick and start
 the device from it: try it live, nothing is installed (<a href="https://openthinrdp.github.io/getting-started.html">getting started</a>).</li>
-<li>In the settings of the device (the gear on the sign-in form): the name of the VM or the broker, the domain, the<br>
+<li>In the settings of the device (the gear on the sign-in form): the name of the VM or the broker, the domain, the
 keyboard. Sign in: the desktop opens.</li>
 <li>Install it on the device from the boot menu when you like what you see.</li>
-<li>For a fleet, one file each: the management folder holds <code class="notranslate">config\common.conf</code> for what all devices share and<br>
-<code class="notranslate">config\&lt;device&gt;.conf</code> with <code class="notranslate">BROKER=&lt;its VM&gt;</code> for each desk; the<br>
-<a href="https://openthinrdp.github.io/manager.html" rel="nofollow">manager</a> writes them for you<br>
+<li>For a fleet, one file each: the management folder holds <code>config\common.conf</code> for what all devices share and
+<code>config\&lt;device&gt;.conf</code> with <code>BROKER=&lt;its VM&gt;</code> for each desk; the
+<a href="https://openthinrdp.github.io/manager.html" rel="nofollow">manager</a> writes them for you
 (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/management.md">management</a>).</li>
 </ol>
-<h2 id="linux-desktops-through-xrdp" dir="auto">Linux desktops through xrdp</h2>
-<p dir="auto">A Linux VM with <a href="https://www.xrdp.org/" rel="nofollow">xrdp</a> is a Remote Desktop server too: set its name as <code class="notranslate">BROKER</code> and the<br>
-device opens the Linux desktop. xrdp speaks RDP over TCP; with <code class="notranslate">TRANSPORT=auto</code>, the default, the device uses TCP by<br>
+<div class="markdown-heading"><h2 class="heading-element">Linux desktops through xrdp</h2><a id="linux-desktops-through-xrdp" class="anchor" aria-label="Permalink: Linux desktops through xrdp" href="#linux-desktops-through-xrdp"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>A Linux VM with <a href="https://www.xrdp.org/" rel="nofollow">xrdp</a> is a Remote Desktop server too: set its name as <code>BROKER</code> and the
+device opens the Linux desktop. xrdp speaks RDP over TCP; with <code>TRANSPORT=auto</code>, the default, the device uses TCP by
 itself. Running it? <a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Tell us how it goes</a>.</p>
-<h2 id="next-native-proxmox-sessions" dir="auto">Next: native Proxmox sessions</h2>
-<p dir="auto">On the roadmap: sessions over <strong>SPICE</strong>, Proxmox's own protocol, with the VM chosen in Proxmox itself for each user,<br>
-Linux VMs and the VM console included, and <strong>VNC</strong>. Want it first, or something else, such as Citrix or Horizon?<br>
+<div class="markdown-heading"><h2 class="heading-element">Next: native Proxmox sessions</h2><a id="next-native-proxmox-sessions" class="anchor" aria-label="Permalink: Next: native Proxmox sessions" href="#next-native-proxmox-sessions"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>On the roadmap: sessions over <strong>SPICE</strong>, Proxmox's own protocol, with the VM chosen in Proxmox itself for each user,
+Linux VMs and the VM console included, and <strong>VNC</strong>. Want it first, or something else, such as Citrix or Horizon?
 <a href="https://github.com/OpenThinRdp/openthinrdp/issues">Open an issue</a>: what users ask for comes first.</p>
+<p class="source">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/proxmox-vmware-thin-client.md">docs/guides/proxmox-vmware-thin-client.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</p>
 </main>
-<footer class="bar small">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/proxmox-vmware-thin-client.md">docs/guides/proxmox-vmware-thin-client.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</footer>
+<section class="related"><div class="wrap"><p class="eyebrow">Read next</p><div class="rel"><a href="https://openthinrdp.github.io/business.html"><b>Free thin clients for Remote Desktop Services and VDI</b><span>A free thin client OS for RDS session hosts, VDI behind an RD Connection Broker and Windows VMs on Hyper-V, Proxmox or VMware:</span></a><a href="https://openthinrdp.github.io/manager.html"><b>Free Hyper-V, Proxmox and Remote Desktop health check</b><span>Find what is broken in your Hyper-V cluster, Proxmox, vSphere, Remote Desktop, Citrix, Veeam and certificates before your users call.</span></a><a href="https://openthinrdp.github.io/getting-started.html"><b>Getting started with OpenThinRDP</b><span>Step by step:</span></a></div></div></section>
+<section class="final"><div class="wrap center"><h2>Try it live. Nothing is installed.</h2><p class="fine">Write the ISO to a USB stick, start a PC from it, sign in to your Windows desktop.</p><div class="ctas center"><a class="btn" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">&#11015; Download the ISO</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/home.html">At home</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/business.html">For companies</a></div></div></section>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div><a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
+      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release 0.3.1.</p></div>
+    <div class="foot-cols">
+      <nav aria-label="For you"><b>For you</b><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/windows-10-end-of-support.html">Windows 10 end of support</a><a href="https://openthinrdp.github.io/used-thin-client.html">Used thin clients</a><a href="https://openthinrdp.github.io/old-pc-thin-client.html">Old PC as a thin client</a><a href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">Raspberry Pi</a></nav>
+      <nav aria-label="Product"><b>Product</b><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/udp.html">RDP over UDP</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/linux-rdp-client.html">RDP from Linux</a><a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">Proxmox and VMware</a></nav>
+      <nav aria-label="Manager"><b>Manager</b><a href="https://openthinrdp.github.io/manager.html">The manager</a><a href="https://openthinrdp.github.io/hyper-v-rds-health-check.html">Hyper-V and RDS health check</a><a href="https://openthinrdp.github.io/manager-guide.html">Manager guide</a><a href="https://openthinrdp.github.io/replace-dell-thinos.html">Replace Dell ThinOS</a></nav>
+      <nav aria-label="Resources"><b>Resources</b><a href="https://openthinrdp.github.io/getting-started.html">Getting started</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/maturity.html">Production readiness</a><a href="https://openthinrdp.github.io/privacy.html">Privacy</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
+    </div>
+    <p class="fine">Windows and Remote Desktop are trademarks of Microsoft. OpenThinRDP is not affiliated with Microsoft, with openthinclient or with any vendor named here.</p>
+  </div>
+</footer>
 <script data-goatcounter="https://ceschi-ops.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>

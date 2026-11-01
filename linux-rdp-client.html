@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Remote Desktop from Linux to Windows &#8211; FreeRDP, Remmina or a thin client OS</title>
+<meta name="description" content="FreeRDP, Remmina or a thin client OS to open Windows from Linux: what each is for, why Remote Desktop is slow from Linux and how RDP over UDP fixes it, Windows Home, two monitors, sound, webcam and USB.">
+<link rel="canonical" href="https://openthinrdp.github.io/linux-rdp-client.html">
+
+<link rel="icon" href="https://openthinrdp.github.io/img/icon.png">
+<link rel="alternate" type="text/plain" href="https://openthinrdp.github.io/llms-full.txt" title="The documentation in one text file">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenThinRDP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Remote Desktop from Linux to Windows &#8211; FreeRDP, Remmina or a thin client OS">
+<meta property="og:description" content="FreeRDP, Remmina or a thin client OS to open Windows from Linux: what each is for, why Remote Desktop is slow from Linux and how RDP over UDP fixes it, Windows Home, two monitors, sound, webcam and USB.">
+<meta property="og:url" content="https://openthinrdp.github.io/linux-rdp-client.html">
+<meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://openthinrdp.github.io/landing.css">
+<link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://openthinrdp.github.io/"},{"@type":"ListItem","position":2,"name":"At home","item":"https://openthinrdp.github.io/home.html"},{"@type":"ListItem","position":3,"name":"Remote Desktop from Linux to Windows","item":"https://openthinrdp.github.io/linux-rdp-client.html"}]}</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.3.1","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
+ "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
+</script>
+
+</head>
+<body class="doc">
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
+    <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
+    <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.1</a>
+    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.1</a></nav></details>
+  </div>
+</header>
+<div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="https://openthinrdp.github.io/">Home</a> <span>&#8250;</span> <a href="https://openthinrdp.github.io/home.html">At home</a> <span>&#8250;</span> <span>Remote Desktop from Linux to Windows</span></nav></div>
+<main class="markdown-body">
+<div class="markdown-heading"><h1 class="heading-element">Remote Desktop from Linux to Windows: FreeRDP, Remmina or a thin client OS</h1><a id="remote-desktop-from-linux-to-windows-freerdp-remmina-or-a-thin-client-os" class="anchor" aria-label="Permalink: Remote Desktop from Linux to Windows: FreeRDP, Remmina or a thin client OS" href="#remote-desktop-from-linux-to-windows-freerdp-remmina-or-a-thin-client-os"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>To open a Windows desktop from a Linux computer there are three ways. They share the same engine, FreeRDP; what
+changes is how much is done for you.</p>
+<ul>
+<li><a href="#freerdp-remmina-or-a-thin-client-os">FreeRDP, Remmina or a thin client OS?</a></li>
+<li><a href="#why-is-remote-desktop-slow-from-linux">Why is Remote Desktop slow from Linux?</a></li>
+<li><a href="#can-i-connect-to-windows-home">Can I connect to Windows Home?</a></li>
+<li><a href="#two-monitors-sound-webcam-usb">Two monitors, sound, webcam, USB</a></li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">FreeRDP, Remmina or a thin client OS?</h2><a id="freerdp-remmina-or-a-thin-client-os" class="anchor" aria-label="Permalink: FreeRDP, Remmina or a thin client OS?" href="#freerdp-remmina-or-a-thin-client-os"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>FreeRDP (<code>xfreerdp</code>, <code>sdl-freerdp</code>)</th>
+<th>Remmina</th>
+<th>OpenThinRDP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What it is</td>
+<td>the RDP client itself, from the command line</td>
+<td>a desktop application with saved connections, on FreeRDP</td>
+<td>a whole system that starts straight into the Windows sign-in, on FreeRDP</td>
+</tr>
+<tr>
+<td>For</td>
+<td>one Linux user who wants control</td>
+<td>a Linux desktop that sometimes opens Windows</td>
+<td>computers whose only job is Windows: terminals, thin clients, old PCs</td>
+</tr>
+<tr>
+<td>RDP over UDP</td>
+<td>not in the released versions (merged on 20 October 2026, see <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/udp.md">UDP</a>)</td>
+<td>as its FreeRDP</td>
+<td>built in, falls back to TCP</td>
+</tr>
+<tr>
+<td>RD Connection Broker, RDS, VDI</td>
+<td>by hand, with options</td>
+<td>partly</td>
+<td>built in: broker, collections, Kerberos, RD Gateway</td>
+</tr>
+<tr>
+<td>Locked down for users</td>
+<td>no</td>
+<td>no</td>
+<td>kiosk: no desktop, no terminal</td>
+</tr>
+<tr>
+<td>Many computers</td>
+<td>set up one by one</td>
+<td>set up one by one</td>
+<td>one shared folder, signed updates with pilot devices and a way back</td>
+</tr>
+</tbody>
+</table>
+<p>On a Linux PC you use for other things too, <strong>Remmina</strong> is the simple choice. On a computer that should only open
+Windows, a desktop with Remmina has to be locked down and kept up to date by hand; that is what OpenThinRDP does
+for you (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/alternatives.md#linux-mint-ubuntu-or-debian-with-remmina">the alternatives</a>).</p>
+<div class="markdown-heading"><h2 class="heading-element">Why is Remote Desktop slow from Linux?</h2><a id="why-is-remote-desktop-slow-from-linux" class="anchor" aria-label="Permalink: Why is Remote Desktop slow from Linux?" href="#why-is-remote-desktop-slow-from-linux"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The most common causes, in order:</p>
+<ol>
+<li>
+<strong>TCP on a line that loses packets</strong> (Wi-Fi, VPN, a busy link). Windows' own client switches to UDP; Linux clients
+based on a released FreeRDP stay on TCP, and TCP stops at every lost packet. With UDP, on a line losing 50% of
+its packets we measured 19-21 frames per second, where TCP was down to 0.6 at 20% (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/udp.md#on-a-lossy-line">measurements</a>).</li>
+<li>
+<strong>Graphics mode</strong>: without the GFX pipeline (<code>/gfx</code>) the screen is sent as plain bitmaps. OpenThinRDP uses it by
+default, with the progressive codec that keeps text sharp on servers without a GPU (<code>RDP_GFX</code>).</li>
+<li>
+<strong>The packaging</strong>: a Flatpak or Snap of Remmina can be slower than the native package on some systems.</li>
+<li>
+<strong>The server</strong>: a busy session host or VM is slow from any client; the
+<a href="https://openthinrdp.github.io/hyper-v-rds-health-check.html" rel="nofollow">manager's health check</a> shows it.</li>
+</ol>
+<div class="markdown-heading"><h2 class="heading-element">Can I connect to Windows Home?</h2><a id="can-i-connect-to-windows-home" class="anchor" aria-label="Permalink: Can I connect to Windows Home?" href="#can-i-connect-to-windows-home"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>No: Windows Home can connect to others but cannot be connected to with Remote Desktop, from any client. Windows
+Pro, Enterprise, Education and Windows Server can (<em>Settings &gt; System &gt; Remote Desktop</em>). A Windows virtual machine
+on Hyper-V, Proxmox or VMware usually runs Pro or Server and can. Upgrading Home to Pro is done from <em>Settings &gt;
+System &gt; Activation</em>.</p>
+<div class="markdown-heading"><h2 class="heading-element">Two monitors, sound, webcam, USB</h2><a id="two-monitors-sound-webcam-usb" class="anchor" aria-label="Permalink: Two monitors, sound, webcam, USB" href="#two-monitors-sound-webcam-usb"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>With OpenThinRDP:</p>
+<ul>
+<li>
+<strong>Several monitors</strong> become one Windows desktop across all of them.</li>
+<li>
+<strong>Sound and microphone</strong> through the RDP audio channels; <strong>webcams</strong> through the RDP camera channel, seen by
+Teams, Zoom and the browser in the session.</li>
+<li>
+<strong>USB sticks</strong> appear in Windows as drives; signature keys and special devices are passed whole; <strong>smart card
+readers</strong> through the smart card channel.</li>
+<li>
+<strong>Printers</strong>: a network printer is used by Windows directly; a USB printer can be passed whole to Windows.</li>
+</ul>
+<p>Try it from a USB stick, live, without touching the disk: <a href="https://openthinrdp.github.io/getting-started.html">getting started</a>.</p>
+<p class="source">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/linux-rdp-client.md">docs/guides/linux-rdp-client.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</p>
+</main>
+<section class="related"><div class="wrap"><p class="eyebrow">Read next</p><div class="rel"><a href="https://openthinrdp.github.io/udp.html"><b>Remote Desktop slow on Wi-Fi or VPN? RDP over UDP on Linux</b><span>Remote Desktop laggy or freezing on Wi-Fi, a VPN or a busy line?</span></a><a href="https://openthinrdp.github.io/alternatives.html"><b>Free alternative to IGEL OS and Dell ThinOS</b><span>A free alternative to IGEL OS, Dell ThinOS, Stratodesk NoTouch, ThinStation and openthinclient for Windows Remote Desktop, and why not just Linux M...</span></a><a href="https://openthinrdp.github.io/home.html"><b>OpenThinRDP at home</b><span>Free and open source:</span></a></div></div></section>
+<section class="final"><div class="wrap center"><h2>Try it live. Nothing is installed.</h2><p class="fine">Write the ISO to a USB stick, start a PC from it, sign in to your Windows desktop.</p><div class="ctas center"><a class="btn" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">&#11015; Download the ISO</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/home.html">At home</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/business.html">For companies</a></div></div></section>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div><a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
+      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release 0.3.1.</p></div>
+    <div class="foot-cols">
+      <nav aria-label="For you"><b>For you</b><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/windows-10-end-of-support.html">Windows 10 end of support</a><a href="https://openthinrdp.github.io/used-thin-client.html">Used thin clients</a><a href="https://openthinrdp.github.io/old-pc-thin-client.html">Old PC as a thin client</a><a href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">Raspberry Pi</a></nav>
+      <nav aria-label="Product"><b>Product</b><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/udp.html">RDP over UDP</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/linux-rdp-client.html">RDP from Linux</a><a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">Proxmox and VMware</a></nav>
+      <nav aria-label="Manager"><b>Manager</b><a href="https://openthinrdp.github.io/manager.html">The manager</a><a href="https://openthinrdp.github.io/hyper-v-rds-health-check.html">Hyper-V and RDS health check</a><a href="https://openthinrdp.github.io/manager-guide.html">Manager guide</a><a href="https://openthinrdp.github.io/replace-dell-thinos.html">Replace Dell ThinOS</a></nav>
+      <nav aria-label="Resources"><b>Resources</b><a href="https://openthinrdp.github.io/getting-started.html">Getting started</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/maturity.html">Production readiness</a><a href="https://openthinrdp.github.io/privacy.html">Privacy</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
+    </div>
+    <p class="fine">Windows and Remote Desktop are trademarks of Microsoft. OpenThinRDP is not affiliated with Microsoft, with openthinclient or with any vendor named here.</p>
+  </div>
+</footer>
+<script data-goatcounter="https://ceschi-ops.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

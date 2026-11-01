@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Windows 10 end of support: keep old PCs as Remote Desktop terminals &#8211; OpenThinRDP</title>
+<meta name="description" content="PCs that cannot run Windows 11 do not have to be thrown away or left unpatched: turn them into free, self-updating terminals for an up-to-date Windows 11 PC, Windows Server or virtual desktop, at home or in the office.">
+<link rel="canonical" href="https://openthinrdp.github.io/windows-10-end-of-support.html">
+
+<link rel="icon" href="https://openthinrdp.github.io/img/icon.png">
+<link rel="alternate" type="text/plain" href="https://openthinrdp.github.io/llms-full.txt" title="The documentation in one text file">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenThinRDP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Windows 10 end of support: keep old PCs as Remote Desktop terminals &#8211; OpenThinRDP">
+<meta property="og:description" content="PCs that cannot run Windows 11 do not have to be thrown away or left unpatched: turn them into free, self-updating terminals for an up-to-date Windows 11 PC, Windows Server or virtual desktop, at home or in the office.">
+<meta property="og:url" content="https://openthinrdp.github.io/windows-10-end-of-support.html">
+<meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://openthinrdp.github.io/landing.css">
+<link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://openthinrdp.github.io/"},{"@type":"ListItem","position":2,"name":"At home","item":"https://openthinrdp.github.io/home.html"},{"@type":"ListItem","position":3,"name":"Windows 10 end of support: keep old PCs as Remote Desktop terminals","item":"https://openthinrdp.github.io/windows-10-end-of-support.html"}]}</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.3.1","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
+ "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
+</script>
+
+</head>
+<body class="doc">
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
+    <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
+    <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.1</a>
+    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.1</a></nav></details>
+  </div>
+</header>
+<div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="https://openthinrdp.github.io/">Home</a> <span>&#8250;</span> <a href="https://openthinrdp.github.io/home.html">At home</a> <span>&#8250;</span> <span>Windows 10 end of support: keep old PCs as Remote Desktop terminals</span></nav></div>
+<main class="markdown-body">
+<div class="markdown-heading"><h1 class="heading-element">Windows 10 end of support: keep the old PCs as Remote Desktop terminals</h1><a id="windows-10-end-of-support-keep-the-old-pcs-as-remote-desktop-terminals" class="anchor" aria-label="Permalink: Windows 10 end of support: keep the old PCs as Remote Desktop terminals" href="#windows-10-end-of-support-keep-the-old-pcs-as-remote-desktop-terminals"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Windows 10 support ended on 14 October 2025, and the extended security updates for home users ended a year later.
+Many PCs cannot run Windows 11 (no TPM 2.0, a CPU older than the list). They still work, but connecting them to the
+Internet without security updates is a risk.</p>
+<p>There is a third way between throwing them away and keeping them unpatched: turn them into <strong>terminals for a
+Windows that is up to date</strong>. OpenThinRDP replaces Windows 10 on the old PC with a small, locked-down system that is
+kept up to date by itself and opens a Windows 11 or Windows Server desktop over Remote Desktop. The work, the
+programs and the data stay on the up-to-date computer; the old PC only shows the screen.</p>
+<ul>
+<li><a href="#does-it-fit-my-case">Does it fit my case?</a></li>
+<li><a href="#what-you-need">What you need</a></li>
+<li><a href="#how-to-do-it">How to do it</a></li>
+<li><a href="#what-it-saves">What it saves</a></li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">Does it fit my case?</h2><a id="does-it-fit-my-case" class="anchor" aria-label="Permalink: Does it fit my case?" href="#does-it-fit-my-case"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<table>
+<thead>
+<tr>
+<th>You have</th>
+<th>Connect the old PCs to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<strong>At home</strong>: one newer PC with Windows 11 Pro, and an old laptop</td>
+<td>that PC: the laptop becomes a second screen of it, in another room or from outside (<a href="https://openthinrdp.github.io/home.html">at home</a>)</td>
+</tr>
+<tr>
+<td>
+<strong>A small office</strong>: one Windows Server or a few Windows 11 Pro PCs</td>
+<td>Remote Desktop Services on the server, or each user's PC</td>
+</tr>
+<tr>
+<td>
+<strong>A company with a domain</strong>: RDS or VDI on Hyper-V, Proxmox or VMware</td>
+<td>the RD Connection Broker: the old PCs become a managed fleet of thin clients (<a href="https://openthinrdp.github.io/getting-started.html">getting started</a>)</td>
+</tr>
+</tbody>
+</table>
+<p>It does not fit when the old PC must run programs on its own with no other Windows to connect to: then the
+options are Windows 11 on supported hardware, or a Linux desktop.</p>
+<div class="markdown-heading"><h2 class="heading-element">What you need</h2><a id="what-you-need" class="anchor" aria-label="Permalink: What you need" href="#what-you-need"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>The old PC: 64-bit x86, 2 GB of RAM, 8 GB of disk; nearly every PC that ran Windows 10 qualifies
+(<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/hardware.md">hardware</a>).</li>
+<li>A Windows that accepts Remote Desktop: Windows 11 Pro, Enterprise or Education, Windows Server, or a Windows
+virtual machine. Windows Home cannot be connected to.</li>
+<li>In a company: the Remote Desktop licences (RDS CALs) your server already needs for any client; OpenThinRDP adds
+no licence of its own.</li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">How to do it</h2><a id="how-to-do-it" class="anchor" aria-label="Permalink: How to do it" href="#how-to-do-it"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>Write the <a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">ISO</a> to a USB stick and start the old
+PC from it. It runs live: nothing is written to the disk.</li>
+<li>Choose <em>Workgroup</em> (home, small office) or <em>Domain</em>, set the computer or the broker to connect to, and sign in.</li>
+<li>Happy with it? <em>Install</em> replaces Windows 10 on the disk, or <em>Install alongside Windows</em> keeps it on a laptop
+that still has room.</li>
+</ol>
+<p>Step by step: <a href="https://openthinrdp.github.io/old-pc-thin-client.html">turning an old PC into a thin client</a>.</p>
+<div class="markdown-heading"><h2 class="heading-element">What it saves</h2><a id="what-it-saves" class="anchor" aria-label="Permalink: What it saves" href="#what-it-saves"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>New hardware</strong>: the old PCs keep working for years; a terminal needs far less than a full Windows PC.</li>
+<li>
+<strong>Updates on every PC</strong>: Windows, programs and antivirus are updated in one place, on the server or the main PC.
+The terminals update themselves, with signed packages and a way back.</li>
+<li>
+<strong>Licences</strong>: no cost per device, no subscription, no account (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/faq.md#is-it-free">is it free?</a>).</li>
+</ul>
+<p class="source">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/windows-10-end-of-support.md">docs/guides/windows-10-end-of-support.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</p>
+</main>
+<section class="related"><div class="wrap"><p class="eyebrow">Read next</p><div class="rel"><a href="https://openthinrdp.github.io/old-pc-thin-client.html"><b>Turn an old PC into a thin client for Windows Remote Desktop</b><span>Turn an old office PC or a used thin client into a free Remote Desktop thin client for a Windows PC, RDS or VDI:</span></a><a href="https://openthinrdp.github.io/home.html"><b>OpenThinRDP at home</b><span>Free and open source:</span></a><a href="https://openthinrdp.github.io/used-thin-client.html"><b>Which OS for a used thin client? Dell Wyse 5070, HP t630, t640, Fujitsu Futro S740</b><span>A free thin client OS for used Dell Wyse 5070, 5060, 3040, HP t630, t640, t620 and Fujitsu Futro S740:</span></a></div></div></section>
+<section class="final"><div class="wrap center"><h2>Try it live. Nothing is installed.</h2><p class="fine">Write the ISO to a USB stick, start a PC from it, sign in to your Windows desktop.</p><div class="ctas center"><a class="btn" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">&#11015; Download the ISO</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/home.html">At home</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/business.html">For companies</a></div></div></section>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div><a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
+      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release 0.3.1.</p></div>
+    <div class="foot-cols">
+      <nav aria-label="For you"><b>For you</b><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/windows-10-end-of-support.html">Windows 10 end of support</a><a href="https://openthinrdp.github.io/used-thin-client.html">Used thin clients</a><a href="https://openthinrdp.github.io/old-pc-thin-client.html">Old PC as a thin client</a><a href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">Raspberry Pi</a></nav>
+      <nav aria-label="Product"><b>Product</b><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/udp.html">RDP over UDP</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/linux-rdp-client.html">RDP from Linux</a><a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">Proxmox and VMware</a></nav>
+      <nav aria-label="Manager"><b>Manager</b><a href="https://openthinrdp.github.io/manager.html">The manager</a><a href="https://openthinrdp.github.io/hyper-v-rds-health-check.html">Hyper-V and RDS health check</a><a href="https://openthinrdp.github.io/manager-guide.html">Manager guide</a><a href="https://openthinrdp.github.io/replace-dell-thinos.html">Replace Dell ThinOS</a></nav>
+      <nav aria-label="Resources"><b>Resources</b><a href="https://openthinrdp.github.io/getting-started.html">Getting started</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/maturity.html">Production readiness</a><a href="https://openthinrdp.github.io/privacy.html">Privacy</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
+    </div>
+    <p class="fine">Windows and Remote Desktop are trademarks of Microsoft. OpenThinRDP is not affiliated with Microsoft, with openthinclient or with any vendor named here.</p>
+  </div>
+</footer>
+<script data-goatcounter="https://ceschi-ops.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -18,8 +18,11 @@
 <meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://openthinrdp.github.io/landing.css">
 <link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://openthinrdp.github.io/"},{"@type":"ListItem","position":2,"name":"For companies","item":"https://openthinrdp.github.io/business.html"},{"@type":"ListItem","position":3,"name":"Turn an old PC into a thin client for Windows Remote Desktop","item":"https://openthinrdp.github.io/old-pc-thin-client.html"}]}</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
  "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.3.1","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
@@ -28,23 +31,31 @@
 </script>
 
 </head>
-<body>
-<header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.3.1</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<body class="doc">
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
+    <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
+    <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.1</a>
+    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.1</a></nav></details>
+  </div>
+</header>
+<div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="https://openthinrdp.github.io/">Home</a> <span>&#8250;</span> <a href="https://openthinrdp.github.io/business.html">For companies</a> <span>&#8250;</span> <span>Turn an old PC into a thin client for Windows Remote Desktop</span></nav></div>
 <main class="markdown-body">
-<h1 id="turning-an-old-pc-into-a-thin-client-for-windows-remote-desktop" dir="auto">Turning an old PC into a thin client for Windows Remote Desktop</h1>
-<p dir="auto">An office PC that is too slow for Windows 11, or a used thin client bought for little, makes a good Remote Desktop<br>
-client. OpenThinRDP turns it into a kiosk that starts straight into a sign-in form and opens the user's Windows<br>
+<div class="markdown-heading"><h1 class="heading-element">Turning an old PC into a thin client for Windows Remote Desktop</h1><a id="turning-an-old-pc-into-a-thin-client-for-windows-remote-desktop" class="anchor" aria-label="Permalink: Turning an old PC into a thin client for Windows Remote Desktop" href="#turning-an-old-pc-into-a-thin-client-for-windows-remote-desktop"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>An office PC that cannot run Windows 11 now that Windows 10 support has ended
+(<a href="https://openthinrdp.github.io/windows-10-end-of-support.html">what to do with it</a>), or a used thin client bought for little
+(<a href="https://openthinrdp.github.io/used-thin-client.html">which one</a>), makes a good Remote Desktop client. OpenThinRDP turns it into a kiosk that starts straight into a sign-in form and opens the user's Windows
 desktop in full screen. Nothing is installed on the Windows side and there is no licence per device.</p>
-<ul dir="auto">
+<ul>
 <li><a href="#what-the-pc-needs">What the PC needs</a></li>
 <li><a href="#what-it-connects-to">What it connects to</a></li>
 <li><a href="#step-by-step">Step by step</a></li>
 <li><a href="#making-it-a-good-thin-client">Making it a good thin client</a></li>
 <li><a href="#when-it-is-not-the-right-choice">When it is not the right choice</a></li>
 </ul>
-<h2 id="what-the-pc-needs" dir="auto">What the PC needs</h2>
-<markdown-accessiblity-table><table role="table">
+<div class="markdown-heading"><h2 class="heading-element">What the PC needs</h2><a id="what-the-pc-needs" class="anchor" aria-label="Permalink: What the PC needs" href="#what-the-pc-needs"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<table>
 <thead>
 <tr>
 <th></th>
@@ -73,53 +84,81 @@ desktop in full screen. Nothing is installed on the Windows side and there is no
 <td>its own card or Wi-Fi; a USB Ethernet adapter works too</td>
 </tr>
 </tbody>
-</table></markdown-accessiblity-table>
-<p dir="auto">Drivers are not a worry: the system is Debian 13 with its complete kernel and every firmware package<br>
-(<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/hardware.md">hardware</a>). The quickest test is to start it live from a stick: if the settings dialog shows an<br>
+</table>
+<p>Drivers are not a worry: the system is Debian 13 with its complete kernel and every firmware package
+(<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/hardware.md">hardware</a>). The quickest test is to start it live from a stick: if the settings dialog shows an
 address, the network works.</p>
-<h2 id="what-it-connects-to" dir="auto">What it connects to</h2>
-<ul dir="auto">
-<li><strong>A Windows PC with Remote Desktop on</strong>, e.g. the user's office PC (Windows Pro or Enterprise: Home cannot be a<br>
+<div class="markdown-heading"><h2 class="heading-element">What it connects to</h2><a id="what-it-connects-to" class="anchor" aria-label="Permalink: What it connects to" href="#what-it-connects-to"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>A Windows PC with Remote Desktop on</strong>, e.g. the user's office PC (Windows Pro or Enterprise: Home cannot be a
 Remote Desktop host). Set its name as the broker.</li>
-<li><strong>A Windows Server with Remote Desktop Services</strong>: session hosts or a VDI collection behind an RD Connection<br>
+<li>
+<strong>A Windows Server with Remote Desktop Services</strong>: session hosts or a VDI collection behind an RD Connection
 Broker. Set the broker and the collection.</li>
-<li><strong>The same, in the cloud</strong> (Azure, AWS or any provider), through an RD Gateway or a VPN<br>
+<li>
+<strong>The same, in the cloud</strong> (Azure, AWS or any provider), through an RD Gateway or a VPN
 (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/configuration.md#desktops-in-the-cloud">desktops in the cloud</a>).</li>
 </ul>
-<h2 id="step-by-step" dir="auto">Step by step</h2>
-<ol dir="auto">
-<li><strong>Download</strong> the <a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">ISO</a> and write it to a USB stick<br>
-with Rufus (DD mode), balenaEtcher or <code class="notranslate">dd</code>.</li>
-<li><strong>Start the PC from the stick.</strong> It is usually F12, F11, F9 or Esc at power on; enable USB boot in the firmware<br>
+<div class="markdown-heading"><h2 class="heading-element">Step by step</h2><a id="step-by-step" class="anchor" aria-label="Permalink: Step by step" href="#step-by-step"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>
+<strong>Download</strong> the <a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">ISO</a> and write it to a USB stick
+with Rufus (DD mode), balenaEtcher or <code>dd</code>.</li>
+<li>
+<strong>Start the PC from the stick.</strong> It is usually F12, F11, F9 or Esc at power on; enable USB boot in the firmware
 setup if the stick is not in the list. Turn off "fast boot" if the PC never shows the boot menu.</li>
 <li>The <strong>live system</strong> starts by itself after 10 seconds. It runs from the stick and writes nothing to the disk.</li>
-<li>In the <strong>settings dialog</strong> set the broker (or the name of the Windows PC) and the domain. Save, then sign in with<br>
+<li>In the <strong>settings dialog</strong> set the broker (or the name of the Windows PC) and the domain. Save, then sign in with
 a Windows account.</li>
-<li>Happy with it? Restart from the stick and choose <strong>Install</strong>. It shows the disk it is going to erase and asks,<br>
+<li>Happy with it? Restart from the stick and choose <strong>Install</strong>. It shows the disk it is going to erase and asks,
 then takes about three minutes. From then on the PC starts straight into the sign-in form, in a few seconds.</li>
 </ol>
-<h2 id="making-it-a-good-thin-client" dir="auto">Making it a good thin client</h2>
-<ul dir="auto">
-<li><strong>One place for all devices.</strong> Put the settings in a shared folder and use the <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/manager.md">manager</a>, with<br>
+<div class="markdown-heading"><h2 class="heading-element">Making it a good thin client</h2><a id="making-it-a-good-thin-client" class="anchor" aria-label="Permalink: Making it a good thin client" href="#making-it-a-good-thin-client"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>One place for all devices.</strong> Put the settings in a shared folder and use the <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/manager.md">manager</a>, with
 updates for a few pilot devices first and a way back.</li>
-<li><strong>Power.</strong> Set a schedule (<code class="notranslate">POWER_ON_TIME</code>, <code class="notranslate">POWER_OFF_TIME</code>, <code class="notranslate">POWER_ON_DAYS</code>), and set the device to switch off<br>
-when the session ends (<code class="notranslate">SHUTDOWN_SECS</code>). Wake-on-LAN needs the firmware option on<br>
+<li>
+<strong>Power.</strong> Set a schedule (<code>POWER_ON_TIME</code>, <code>POWER_OFF_TIME</code>, <code>POWER_ON_DAYS</code>), and set the device to switch off
+when the session ends (<code>SHUTDOWN_SECS</code>). Wake-on-LAN needs the firmware option on
 (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/configuration.md">configuration</a>).</li>
-<li><strong>The PIN.</strong> A PIN on the settings dialog (⚙) keeps users out of the settings.</li>
-<li><strong>USB.</strong> Sticks appear in Windows as drives; signature keys and special devices are passed whole; webcams and<br>
+<li>
+<strong>The PIN.</strong> A PIN on the settings dialog (⚙) keeps users out of the settings.</li>
+<li>
+<strong>USB.</strong> Sticks appear in Windows as drives; signature keys and special devices are passed whole; webcams and
 headsets work in Teams.</li>
-<li><strong>Company networks.</strong> 802.1X on the cable and WPA2/WPA3-Enterprise Wi-Fi are supported.</li>
+<li>
+<strong>Company networks.</strong> 802.1X on the cable and WPA2/WPA3-Enterprise Wi-Fi are supported.</li>
 </ul>
-<h2 id="when-it-is-not-the-right-choice" dir="auto">When it is not the right choice</h2>
-<ul dir="auto">
-<li><strong>The user also needs local programs</strong>: a normal Linux desktop with a Remote Desktop client is better.</li>
-<li><strong>Citrix or Omnissa Horizon</strong>: OpenThinRDP does RDP only.</li>
-<li><strong>Azure Virtual Desktop or Windows 365</strong>: not supported yet.</li>
+<div class="markdown-heading"><h2 class="heading-element">When it is not the right choice</h2><a id="when-it-is-not-the-right-choice" class="anchor" aria-label="Permalink: When it is not the right choice" href="#when-it-is-not-the-right-choice"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>The user also needs local programs</strong>: a normal Linux desktop with a Remote Desktop client is better.</li>
+<li>
+<strong>Citrix or Omnissa Horizon</strong>: OpenThinRDP does RDP only.</li>
+<li>
+<strong>Azure Virtual Desktop or Windows 365</strong>: not supported yet.</li>
 </ul>
-<p dir="auto">Questions: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/faq.md">FAQ</a>. Compared with Linux Mint + Remmina and the thin client systems:<br>
+<p>Questions: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/faq.md">FAQ</a>. Compared with Linux Mint + Remmina and the thin client systems:
 <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/alternatives.md">alternatives</a>.</p>
+<p class="source">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/old-pc-thin-client.md">docs/guides/old-pc-thin-client.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</p>
 </main>
-<footer class="bar small">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/old-pc-thin-client.md">docs/guides/old-pc-thin-client.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</footer>
+<section class="related"><div class="wrap"><p class="eyebrow">Read next</p><div class="rel"><a href="https://openthinrdp.github.io/used-thin-client.html"><b>Which OS for a used thin client? Dell Wyse 5070, HP t630, t640, Fujitsu Futro S740</b><span>A free thin client OS for used Dell Wyse 5070, 5060, 3040, HP t630, t640, t620 and Fujitsu Futro S740:</span></a><a href="https://openthinrdp.github.io/windows-10-end-of-support.html"><b>Windows 10 end of support: keep old PCs as Remote Desktop terminals</b><span>PCs that cannot run Windows 11 do not have to be thrown away or left unpatched:</span></a><a href="https://openthinrdp.github.io/getting-started.html"><b>Getting started with OpenThinRDP</b><span>Step by step:</span></a></div></div></section>
+<section class="final"><div class="wrap center"><h2>Try it live. Nothing is installed.</h2><p class="fine">Write the ISO to a USB stick, start a PC from it, sign in to your Windows desktop.</p><div class="ctas center"><a class="btn" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">&#11015; Download the ISO</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/home.html">At home</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/business.html">For companies</a></div></div></section>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div><a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
+      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release 0.3.1.</p></div>
+    <div class="foot-cols">
+      <nav aria-label="For you"><b>For you</b><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/windows-10-end-of-support.html">Windows 10 end of support</a><a href="https://openthinrdp.github.io/used-thin-client.html">Used thin clients</a><a href="https://openthinrdp.github.io/old-pc-thin-client.html">Old PC as a thin client</a><a href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">Raspberry Pi</a></nav>
+      <nav aria-label="Product"><b>Product</b><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/udp.html">RDP over UDP</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/linux-rdp-client.html">RDP from Linux</a><a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">Proxmox and VMware</a></nav>
+      <nav aria-label="Manager"><b>Manager</b><a href="https://openthinrdp.github.io/manager.html">The manager</a><a href="https://openthinrdp.github.io/hyper-v-rds-health-check.html">Hyper-V and RDS health check</a><a href="https://openthinrdp.github.io/manager-guide.html">Manager guide</a><a href="https://openthinrdp.github.io/replace-dell-thinos.html">Replace Dell ThinOS</a></nav>
+      <nav aria-label="Resources"><b>Resources</b><a href="https://openthinrdp.github.io/getting-started.html">Getting started</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/maturity.html">Production readiness</a><a href="https://openthinrdp.github.io/privacy.html">Privacy</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
+    </div>
+    <p class="fine">Windows and Remote Desktop are trademarks of Microsoft. OpenThinRDP is not affiliated with Microsoft, with openthinclient or with any vendor named here.</p>
+  </div>
+</footer>
 <script data-goatcounter="https://ceschi-ops.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>

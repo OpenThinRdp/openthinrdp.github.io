@@ -11,6 +11,12 @@ https://openthinrdp.github.io/maturity.html
 https://openthinrdp.github.io/udp.html
 https://openthinrdp.github.io/replace-dell-thinos.html
 https://openthinrdp.github.io/old-pc-thin-client.html
+https://openthinrdp.github.io/used-thin-client.html
+https://openthinrdp.github.io/windows-10-end-of-support.html
+https://openthinrdp.github.io/linux-rdp-client.html
+https://openthinrdp.github.io/raspberry-pi-thin-client.html
 https://openthinrdp.github.io/proxmox-vmware-thin-client.html
 https://openthinrdp.github.io/privacy.html
 https://openthinrdp.github.io/changelog.html
+https://openthinrdp.github.io/business.html
+https://openthinrdp.github.io/features.html

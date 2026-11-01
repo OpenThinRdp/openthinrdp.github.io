@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Raspberry Pi as a Remote Desktop thin client for Windows &#8211; OpenThinRDP</title>
+<meta name="description" content="A Raspberry Pi 4 as an RDP thin client for Windows, RDS and VDI: the same OpenThinRDP system as on a PC, its experimental status said plainly, how to try it, and a Pi compared with a used x86 thin client.">
+<link rel="canonical" href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">
+
+<link rel="icon" href="https://openthinrdp.github.io/img/icon.png">
+<link rel="alternate" type="text/plain" href="https://openthinrdp.github.io/llms-full.txt" title="The documentation in one text file">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenThinRDP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Raspberry Pi as a Remote Desktop thin client for Windows &#8211; OpenThinRDP">
+<meta property="og:description" content="A Raspberry Pi 4 as an RDP thin client for Windows, RDS and VDI: the same OpenThinRDP system as on a PC, its experimental status said plainly, how to try it, and a Pi compared with a used x86 thin client.">
+<meta property="og:url" content="https://openthinrdp.github.io/raspberry-pi-thin-client.html">
+<meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://openthinrdp.github.io/landing.css">
+<link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://openthinrdp.github.io/"},{"@type":"ListItem","position":2,"name":"At home","item":"https://openthinrdp.github.io/home.html"},{"@type":"ListItem","position":3,"name":"Raspberry Pi as a Remote Desktop thin client for Windows","item":"https://openthinrdp.github.io/raspberry-pi-thin-client.html"}]}</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.3.1","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
+ "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
+</script>
+
+</head>
+<body class="doc">
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
+    <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
+    <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.1</a>
+    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.1</a></nav></details>
+  </div>
+</header>
+<div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="https://openthinrdp.github.io/">Home</a> <span>&#8250;</span> <a href="https://openthinrdp.github.io/home.html">At home</a> <span>&#8250;</span> <span>Raspberry Pi as a Remote Desktop thin client for Windows</span></nav></div>
+<main class="markdown-body">
+<div class="markdown-heading"><h1 class="heading-element">Raspberry Pi as a Remote Desktop thin client</h1><a id="raspberry-pi-as-a-remote-desktop-thin-client" class="anchor" aria-label="Permalink: Raspberry Pi as a Remote Desktop thin client" href="#raspberry-pi-as-a-remote-desktop-thin-client"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>A Raspberry Pi 4 costs little, uses a few watts and is silent: a natural terminal for a Windows desktop. OpenThinRDP
+builds as an SD card image for it, the same system as on a PC: the Windows sign-in at power on, RDP over UDP,
+sound, USB and the same central management.</p>
+<p><strong>Status, said plainly: experimental.</strong> The image is built and tested in emulation (QEMU), not yet on a real board.
+If you have a Pi 4 and an hour, your report is what moves it forward.</p>
+<ul>
+<li><a href="#what-works-and-what-to-check">What works and what to check</a></li>
+<li><a href="#try-it">Try it</a></li>
+<li><a href="#a-pi-or-a-used-thin-client">A Pi or a used thin client?</a></li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">What works and what to check</h2><a id="what-works-and-what-to-check" class="anchor" aria-label="Permalink: What works and what to check" href="#what-works-and-what-to-check"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>Boards</strong>: Raspberry Pi 4 Model B with 2 GB or more, the Pi 400 and the CM4. The Pi 5 is not supported yet.</li>
+<li>
+<strong>The same system as on a PC</strong>: kiosk, settings dialog, management folder, signed updates, FreeRDP with UDP, on
+Debian 13 arm64 with Debian's own kernel.</li>
+<li>
+<strong>No installer</strong>: the image is written to an SD card or a USB disk and boots as an installed system.</li>
+<li>
+<strong>Browsers</strong>: Chromium, Firefox or Brave for the web page buttons; Chrome and Edge do not exist for ARM Linux.</li>
+<li>
+<strong>To check on a real board</strong>: video output on both HDMI ports, sound over HDMI and USB, Wi-Fi and Bluetooth, and
+smoothness of video in the session. The list: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/arm.md#first-test-on-a-board">arm.md</a>.</li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">Try it</h2><a id="try-it" class="anchor" aria-label="Permalink: Try it" href="#try-it"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>Download the image from the <a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/rpi-test-1">pre-release</a>.</li>
+<li>Write it to an SD card with Raspberry Pi Imager (<em>Use custom</em>), balenaEtcher or <code>dd</code>.</li>
+<li>Start the Pi, set your Windows PC or your RD Connection Broker, sign in.</li>
+<li>Tell us what worked in the <a href="https://github.com/OpenThinRdp/openthinrdp/discussions">discussions</a>.</li>
+</ol>
+<div class="markdown-heading"><h2 class="heading-element">A Pi or a used thin client?</h2><a id="a-pi-or-a-used-thin-client" class="anchor" aria-label="Permalink: A Pi or a used thin client?" href="#a-pi-or-a-used-thin-client"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Raspberry Pi 4</th>
+<th>Used x86 thin client (Wyse 5070, HP t630, Futro S740)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Status with OpenThinRDP</td>
+<td>experimental</td>
+<td>supported: x86 is what runs in production</td>
+</tr>
+<tr>
+<td>Price</td>
+<td>the board plus power supply, case and SD card</td>
+<td>often less, with case, power supply and storage included</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>SD card (slower, wears out) or USB disk</td>
+<td>eMMC or M.2</td>
+</tr>
+<tr>
+<td>Video decoding in the session</td>
+<td>to be checked</td>
+<td>proven on x86</td>
+</tr>
+</tbody>
+</table>
+<p>For an office today, a used x86 thin client is the safer choice (<a href="https://openthinrdp.github.io/used-thin-client.html">which one</a>). For a test at
+home, or to help the project, the Pi is welcome.</p>
+<p class="source">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/raspberry-pi-thin-client.md">docs/guides/raspberry-pi-thin-client.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</p>
+</main>
+<section class="related"><div class="wrap"><p class="eyebrow">Read next</p><div class="rel"><a href="https://openthinrdp.github.io/used-thin-client.html"><b>Which OS for a used thin client? Dell Wyse 5070, HP t630, t640, Fujitsu Futro S740</b><span>A free thin client OS for used Dell Wyse 5070, 5060, 3040, HP t630, t640, t620 and Fujitsu Futro S740:</span></a><a href="https://openthinrdp.github.io/hardware.html"><b>Which PCs and thin clients run OpenThinRDP</b><span>Hardware for OpenThinRDP:</span></a><a href="https://openthinrdp.github.io/home.html"><b>OpenThinRDP at home</b><span>Free and open source:</span></a></div></div></section>
+<section class="final"><div class="wrap center"><h2>Try it live. Nothing is installed.</h2><p class="fine">Write the ISO to a USB stick, start a PC from it, sign in to your Windows desktop.</p><div class="ctas center"><a class="btn" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">&#11015; Download the ISO</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/home.html">At home</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/business.html">For companies</a></div></div></section>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div><a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
+      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release 0.3.1.</p></div>
+    <div class="foot-cols">
+      <nav aria-label="For you"><b>For you</b><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/windows-10-end-of-support.html">Windows 10 end of support</a><a href="https://openthinrdp.github.io/used-thin-client.html">Used thin clients</a><a href="https://openthinrdp.github.io/old-pc-thin-client.html">Old PC as a thin client</a><a href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">Raspberry Pi</a></nav>
+      <nav aria-label="Product"><b>Product</b><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/udp.html">RDP over UDP</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/linux-rdp-client.html">RDP from Linux</a><a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">Proxmox and VMware</a></nav>
+      <nav aria-label="Manager"><b>Manager</b><a href="https://openthinrdp.github.io/manager.html">The manager</a><a href="https://openthinrdp.github.io/hyper-v-rds-health-check.html">Hyper-V and RDS health check</a><a href="https://openthinrdp.github.io/manager-guide.html">Manager guide</a><a href="https://openthinrdp.github.io/replace-dell-thinos.html">Replace Dell ThinOS</a></nav>
+      <nav aria-label="Resources"><b>Resources</b><a href="https://openthinrdp.github.io/getting-started.html">Getting started</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/maturity.html">Production readiness</a><a href="https://openthinrdp.github.io/privacy.html">Privacy</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
+    </div>
+    <p class="fine">Windows and Remote Desktop are trademarks of Microsoft. OpenThinRDP is not affiliated with Microsoft, with openthinclient or with any vendor named here.</p>
+  </div>
+</footer>
+<script data-goatcounter="https://ceschi-ops.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

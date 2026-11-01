@@ -141,3 +141,30 @@ tr:last-child td { border-bottom: 0; }
 .proof article { text-align: left; }
 .big { display: block; font-size: 38px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
+
+/* menu on phones and tablets: the same links behind a button */
+.menu { display: none; position: relative; }
+.menu summary { list-style: none; cursor: pointer; font-size: 24px; line-height: 1; padding: 6px 10px; border: 1px solid var(--line); border-radius: 10px; color: var(--text); }
+.menu summary::-webkit-details-marker { display: none; }
+.menu nav { position: absolute; right: 0; top: 48px; min-width: 230px; display: flex; flex-direction: column; gap: 4px; padding: 12px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 20px 50px rgba(0, 0, 0, .5); }
+.menu nav a { color: var(--text); padding: 8px 10px; border-radius: 8px; }
+.menu nav a:hover { background: #18233d; text-decoration: none; }
+@media (max-width: 960px) { .menu { display: block; } .nav .btn-sm { margin-left: auto; } }
+@media (max-width: 480px) { .nav .btn-sm { display: none; } .menu { margin-left: auto; } }
+
+/* footer in columns */
+.foot-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.foot-cols nav { display: flex; flex-direction: column; gap: 8px; }
+.foot-cols b { color: var(--text); font-size: 14px; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 4px; }
+@media (max-width: 960px) { .foot-cols { grid-template-columns: 1fr 1fr; } }
+
+/* will my computer work */
+.fit { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 40px; }
+.fit article { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
+.fit .ok { color: #3ddc97; font-weight: 700; font-size: 14px; letter-spacing: .04em; text-transform: uppercase; }
+.fit .try { color: #ffc24b; font-weight: 700; font-size: 14px; letter-spacing: .04em; text-transform: uppercase; }
+.fit .no { color: #ff7b7b; font-weight: 700; font-size: 14px; letter-spacing: .04em; text-transform: uppercase; }
+.fit p { color: var(--muted); font-size: 15.5px; margin: 8px 0 0; }
+@media (max-width: 960px) { .fit { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .fit { grid-template-columns: 1fr; } }

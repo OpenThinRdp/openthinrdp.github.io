@@ -18,8 +18,11 @@
 <meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://openthinrdp.github.io/landing.css">
 <link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://openthinrdp.github.io/"},{"@type":"ListItem","position":2,"name":"Free Hyper-V, Proxmox and Remote Desktop health check","item":"https://openthinrdp.github.io/manager.html"}]}</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP Manager","applicationCategory":"UtilitiesApplication",
  "operatingSystem":"Windows","softwareVersion":"1.1.0","license":"https://github.com/OpenThinRdp/openthinrdp-manager/blob/main/LICENSE.md",
@@ -28,35 +31,47 @@
 </script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is it a PowerShell script that edits configuration files?","acceptedAnswer":{"@type":"Answer","text":"No. That was the first manager of OpenThinRDP, in its first weeks (up to 0.2.22). Today it is a Windows application with releases of its own (1.0.0 from 28 October 2026), signed with the project key, that updates itself; the health center works also without any thin client. The commands it runs on your servers stay plain PowerShell you can read."}},{"@type":"Question","name":"Is it really free?","acceptedAnswer":{"@type":"Answer","text":"Yes, for any use, also in a company and for your customers. It is not open source: its license forbids selling it or building a competing product with it."}},{"@type":"Question","name":"Does it need an agent or a server?","acceptedAnswer":{"@type":"Answer","text":"No. It runs on your PC and reads your servers with Windows tools (WinRM, SQL) and the REST APIs of Proxmox, vCenter and Veeam. Nothing is installed on them."}},{"@type":"Question","name":"Can it break something?","acceptedAnswer":{"@type":"Answer","text":"It only reads, until you choose a repair; every repair shows what it will do and asks first. What it runs on servers is plain PowerShell you can read."}},{"@type":"Question","name":"I run Proxmox, vSphere, Veeam or Citrix: can I use it?","acceptedAnswer":{"@type":"Answer","text":"Yes: they arrived in this release, built on their official APIs. Be one of the first sites to run it, and tell us what it found: reports from real sites are what we work on first."}},{"@type":"Question","name":"What is OpenThinRDP?","acceptedAnswer":{"@type":"Answer","text":"The same team builds OpenThinRDP, a free open source thin client OS for Remote Desktop on any hypervisor (RDP over UDP, Secure Boot, signed updates). With it, the manager also runs your whole fleet of thin clients from the same window. ⬇ Download the free manager"}}]}</script>
 </head>
-<body>
-<header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp-manager/releases/latest">Download 0.3.1</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp-manager">GitHub</a></nav></header>
+<body class="doc">
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
+    <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
+    <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.1</a>
+    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.1</a></nav></details>
+  </div>
+</header>
+<div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="https://openthinrdp.github.io/">Home</a> <span>&#8250;</span> <span>Free Hyper-V, Proxmox and Remote Desktop health check</span></nav></div>
 <main class="markdown-body">
-<h1 id="know-what-is-broken-before-your-users-call" dir="auto">Know what is broken before your users call</h1>
-<p dir="auto"><strong>Your whole infrastructure, checked in 30 seconds. Free.</strong> OpenThinRDP Manager is the health center small and<br>
-mid-size IT teams were missing: point it at your Hyper-V cluster, Proxmox, vSphere, Remote Desktop farm, Citrix site,<br>
-domain, SQL Server and Veeam, and it shows you every problem, the worst first, each one in a plain sentence with what<br>
+<div class="markdown-heading"><h1 class="heading-element">Know what is broken before your users call</h1><a id="know-what-is-broken-before-your-users-call" class="anchor" aria-label="Permalink: Know what is broken before your users call" href="#know-what-is-broken-before-your-users-call"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>Your whole infrastructure, checked in 30 seconds. Free.</strong> OpenThinRDP Manager is the health center small and
+mid-size IT teams were missing: point it at your Hyper-V cluster, Proxmox, vSphere, Remote Desktop farm, Citrix site,
+domain, SQL Server and Veeam, and it shows you every problem, the worst first, each one in a plain sentence with what
 it means and the fix.</p>
-<p dir="auto">No agent to install. No server to build. No per-host license. <strong>Download, extract, run.</strong></p>
-<p dir="auto"><strong><a href="https://github.com/OpenThinRdp/openthinrdp-manager/releases/latest">⬇ Download the free manager</a></strong> · Windows 10/11<br>
-and Windows Server · English and Italian · <strong>1.0.0</strong>, it updates itself · <a href="https://openthinrdp.github.io/manager.html" rel="nofollow">its page</a></p>
-<p align="center" dir="auto">
+<p>No agent to install. No server to build. No per-host license. <strong>Download, extract, run.</strong></p>
+<p><strong><a href="https://github.com/OpenThinRdp/openthinrdp-manager/releases/latest">⬇ Download the free manager</a></strong> · Windows 10/11
+and Windows Server · English and Italian · it updates itself · <a href="https://openthinrdp.github.io/manager.html" rel="nofollow">its page</a></p>
+<p align="center">
 <a target="_blank" rel="noopener noreferrer nofollow" href="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-home.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-home.png" alt="OpenThinRDP Manager home: health score, Hyper-V cluster, remote desktops, hardware, the problems to look at first, today's sign-ins" width="100%" style="max-width: 100%;"></a>
 </p>
-<h2 id="the-calls-it-saves-you" dir="auto">The calls it saves you</h2>
-<ul dir="auto">
-<li><em>"Nobody can sign in."</em> It shows <strong>who cannot sign in right now, and why</strong>: the broker refusing, the VM in saved<br>
+<div class="markdown-heading"><h2 class="heading-element">The calls it saves you</h2><a id="the-calls-it-saves-you" class="anchor" aria-label="Permalink: The calls it saves you" href="#the-calls-it-saves-you"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<em>"Nobody can sign in."</em> It shows <strong>who cannot sign in right now, and why</strong>: the broker refusing, the VM in saved
 state, the desktop that will not start. Then the repair, one click, after you read it.</li>
-<li><em>"The cluster went down when we patched one host."</em> It tells you <strong>before</strong>: the witness is offline, one host<br>
+<li>
+<em>"The cluster went down when we patched one host."</em> It tells you <strong>before</strong>: the witness is offline, one host
 cannot carry the VMs of the other, a CSV is almost full.</li>
-<li><em>"The backup failed last week and nobody noticed."</em> Failed Veeam jobs, Proxmox backups that did not run, VMs whose<br>
+<li>
+<em>"The backup failed last week and nobody noticed."</em> Failed Veeam jobs, Proxmox backups that did not run, VMs whose
 Hyper-V backups are only crash-consistent: on the first page, every morning.</li>
-<li><em>"The certificate expired on Saturday."</em> <strong>Every certificate of every server</strong>, what uses it, when it expires,<br>
+<li>
+<em>"The certificate expired on Saturday."</em> <strong>Every certificate of every server</strong>, what uses it, when it expires,
 whether it renews by itself; your CA and its revocation list.</li>
-<li><em>"A disk died and the RAID was degraded for a month."</em> <strong>What the iDRAC says of every part</strong>: each disk with its remaining life and a failure it predicts, RAID and its battery, memory module by module, power supplies, fans, temperatures, the hardware log and every firmware version.</li>
+<li>
+<em>"A disk died and the RAID was degraded for a month."</em> <strong>What the iDRAC says of every part</strong>: each disk with its remaining life and a failure it predicts, RAID and its battery, memory module by module, power supplies, fans, temperatures, the hardware log and every firmware version.</li>
 </ul>
-<h2 id="everything-you-run-one-window" dir="auto">Everything you run, one window</h2>
-<markdown-accessiblity-table><table role="table">
+<div class="markdown-heading"><h2 class="heading-element">Everything you run, one window</h2><a id="everything-you-run-one-window" class="anchor" aria-label="Permalink: Everything you run, one window" href="#everything-you-run-one-window"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<table>
 <thead>
 <tr>
 <th></th>
@@ -105,9 +120,9 @@ whether it renews by itself; your CA and its revocation list.</li>
 <td>a web page, a port, a SQL query, your scripts</td>
 </tr>
 </tbody>
-</table></markdown-accessiblity-table>
-<h2 id="see-it" dir="auto">See it</h2>
-<markdown-accessiblity-table><table role="table">
+</table>
+<div class="markdown-heading"><h2 class="heading-element">See it</h2><a id="see-it" class="anchor" aria-label="Permalink: See it" href="#see-it"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<table>
 <thead>
 <tr>
 <th></th>
@@ -116,73 +131,103 @@ whether it renews by itself; your CA and its revocation list.</li>
 </thead>
 <tbody>
 <tr>
-<td><a target="_blank" rel="noopener noreferrer nofollow" href="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-health.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-health.png" alt="Health Center: each problem in a plain sentence with its fix" style="max-width: 100%;"></a><br><strong>Health Center</strong>: each problem in a plain sentence, with a fix you confirm</td>
-<td><a target="_blank" rel="noopener noreferrer nofollow" href="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-hardware.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-hardware.png" alt="Server hardware from the iDRAC, part by part" style="max-width: 100%;"></a><br><strong>Server hardware</strong>: what the iDRAC says of every part, disk by disk</td>
+<td>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-health.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-health.png" alt="Health Center: each problem in a plain sentence with its fix" style="max-width: 100%;"></a><br><strong>Health Center</strong>: each problem in a plain sentence, with a fix you confirm</td>
+<td>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-hardware.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-hardware.png" alt="Server hardware from the iDRAC, part by part" style="max-width: 100%;"></a><br><strong>Server hardware</strong>: what the iDRAC says of every part, disk by disk</td>
 </tr>
 <tr>
-<td><a target="_blank" rel="noopener noreferrer nofollow" href="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-users.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-users.png" alt="Users: who cannot sign in right now and why" style="max-width: 100%;"></a><br><strong>Users</strong>: who cannot sign in right now, and why</td>
-<td><a target="_blank" rel="noopener noreferrer nofollow" href="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-experience.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-experience.png" alt="Experience: sign-in time over 30 days" style="max-width: 100%;"></a><br><strong>Experience</strong>: how long each sign-in takes, for 30 days</td>
+<td>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-users.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-users.png" alt="Users: who cannot sign in right now and why" style="max-width: 100%;"></a><br><strong>Users</strong>: who cannot sign in right now, and why</td>
+<td>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-experience.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-experience.png" alt="Experience: sign-in time over 30 days" style="max-width: 100%;"></a><br><strong>Experience</strong>: how long each sign-in takes, for 30 days</td>
 </tr>
 <tr>
-<td><a target="_blank" rel="noopener noreferrer nofollow" href="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-devices.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-devices.png" alt="Devices: every thin client with state, session and version" style="max-width: 100%;"></a><br><strong>Devices</strong>: every thin client, its state, user and version</td>
-<td><a target="_blank" rel="noopener noreferrer nofollow" href="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-settings.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-settings.png" alt="Settings: each server with its own account and a Test button" style="max-width: 100%;"></a><br><strong>Settings</strong>: each server with its own account and a Test</td>
+<td>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-devices.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-devices.png" alt="Devices: every thin client with state, session and version" style="max-width: 100%;"></a><br><strong>Devices</strong>: every thin client, its state, user and version</td>
+<td>
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-settings.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp-manager/main/docs/m-settings.png" alt="Settings: each server with its own account and a Test button" style="max-width: 100%;"></a><br><strong>Settings</strong>: each server with its own account and a Test</td>
 </tr>
 </tbody>
-</table></markdown-accessiblity-table>
-<h2 id="why-it-teams-pick-it" dir="auto">Why IT teams pick it</h2>
-<ul dir="auto">
-<li><strong>Free for any use, also commercial.</strong> No trial, no account, no "per socket".</li>
-<li><strong>Nothing to install on your servers.</strong> It reads them over WinRM, REST and SQL with an account you choose; read<br>
+</table>
+<div class="markdown-heading"><h2 class="heading-element">Why IT teams pick it</h2><a id="why-it-teams-pick-it" class="anchor" aria-label="Permalink: Why IT teams pick it" href="#why-it-teams-pick-it"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>Free for any use, also commercial.</strong> No trial, no account, no "per socket".</li>
+<li>
+<strong>Nothing to install on your servers.</strong> It reads them over WinRM, REST and SQL with an account you choose; read
 only, unless you confirm a repair.</li>
-<li><strong>You can read every command it runs</strong> on your servers: they ship as plain PowerShell next to it.</li>
-<li><strong>Fixes, not only alarms.</strong> Restart the stuck service, bring the role online, sync the clock, resume the database,<br>
+<li>
+<strong>You can read every command it runs</strong> on your servers: they ship as plain PowerShell next to it.</li>
+<li>
+<strong>Fixes, not only alarms.</strong> Restart the stuck service, bring the role online, sync the clock, resume the database,
 back up the VMs to a share: each one shown before it runs.</li>
-<li><strong>It answers in sentences.</strong> "The witness of VDICL is offline: the share \\nas1\witness refuses the computer<br>
+<li>
+<strong>It answers in sentences.</strong> "The witness of VDICL is offline: the share \\nas1\witness refuses the computer
 account" instead of a red dot.</li>
-<li><strong>Born in production.</strong> Built by sysadmins for a real site with two Hyper-V hosts, Remote Desktop and SQL<br>
+<li>
+<strong>Born in production.</strong> Built by sysadmins for a real site with two Hyper-V hosts, Remote Desktop and SQL
 AlwaysOn, and running there every day.</li>
-<li><strong>It grows fast.</strong> Proxmox, vSphere, Veeam, Citrix and the enterprise CA arrived in a single release; what users<br>
+<li>
+<strong>It grows fast.</strong> Proxmox, vSphere, Veeam, Citrix and the enterprise CA arrived in a single release; what users
 ask for comes next.</li>
 </ul>
-<h2 id="up-and-running-in-five-minutes" dir="auto">Up and running in five minutes</h2>
-<ol dir="auto">
-<li><a href="https://github.com/OpenThinRdp/openthinrdp-manager/releases/latest">Download the zip</a> and extract it.</li>
-<li>Start <code class="notranslate">OpenThinRDP-Manager.exe</code>, choose <strong>The servers alone</strong>.</li>
-<li><strong>Settings &gt; Health Center</strong>: your hosts, brokers, SQL listener, Proxmox or vCenter. Done: the Home fills in.</li>
+<div class="markdown-heading"><h2 class="heading-element">Up and running in five minutes</h2><a id="up-and-running-in-five-minutes" class="anchor" aria-label="Permalink: Up and running in five minutes" href="#up-and-running-in-five-minutes"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>
+<a href="https://github.com/OpenThinRdp/openthinrdp-manager/releases/latest">Download the zip</a> and extract it.</li>
+<li>Start <code>OpenThinRDP-Manager.exe</code>, choose <strong>The servers alone</strong>.</li>
+<li>
+<strong>Settings &gt; Health Center</strong>: your hosts, brokers, SQL listener, Proxmox or vCenter. Done: the Home fills in.</li>
 </ol>
-<h2 id="add-free-thin-clients-to-the-same-window" dir="auto">Add free thin clients to the same window</h2>
-<p dir="auto">Your users connect to those desktops from somewhere. <a href="https://openthinrdp.github.io/" rel="nofollow">OpenThinRDP</a> turns any PC or<br>
-old thin client into a locked-down Remote Desktop client, free and open source, for Windows VMs on <strong>Hyper-V,<br>
-Proxmox, VMware or any cloud</strong> (<a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html" rel="nofollow">Proxmox and VMware</a>):<br>
-RDP over UDP that stays smooth on bad lines, USB and webcams, signed updates. With it, this same manager runs the<br>
+<div class="markdown-heading"><h2 class="heading-element">Add free thin clients to the same window</h2><a id="add-free-thin-clients-to-the-same-window" class="anchor" aria-label="Permalink: Add free thin clients to the same window" href="#add-free-thin-clients-to-the-same-window"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Your users connect to those desktops from somewhere. <a href="https://openthinrdp.github.io/" rel="nofollow">OpenThinRDP</a> turns any PC or
+old thin client into a locked-down Remote Desktop client, free and open source, for Windows VMs on <strong>Hyper-V,
+Proxmox, VMware or any cloud</strong> (<a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html" rel="nofollow">Proxmox and VMware</a>):
+RDP over UDP that stays smooth on bad lines, USB and webcams, signed updates. With it, this same manager runs the
 whole fleet: every device, every sign-in, how fluid each session was.</p>
-<h2 id="questions" dir="auto">Questions</h2>
-<h3 id="is-it-a-powershell-script-that-edits-configuration-files" dir="auto">Is it a PowerShell script that edits configuration files?</h3>
-<p dir="auto">No. That was the first manager of OpenThinRDP, in its first weeks (up to 0.2.22). Today it is a Windows application with<br>
-releases of its own (1.0.0 from 28 October 2026), signed with the project key, that updates itself; the health center<br>
+<div class="markdown-heading"><h2 class="heading-element">Questions</h2><a id="questions" class="anchor" aria-label="Permalink: Questions" href="#questions"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">Is it a PowerShell script that edits configuration files?</h3><a id="is-it-a-powershell-script-that-edits-configuration-files" class="anchor" aria-label="Permalink: Is it a PowerShell script that edits configuration files?" href="#is-it-a-powershell-script-that-edits-configuration-files"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>No. That was the first manager of OpenThinRDP, in its first weeks (up to 0.2.22). Today it is a Windows application with
+releases of its own (1.0.0 from 28 October 2026), signed with the project key, that updates itself; the health center
 works also without any thin client. The commands it runs on your servers stay plain PowerShell you can read.</p>
-<h3 id="is-it-really-free" dir="auto">Is it really free?</h3>
-<p dir="auto">Yes, for any use, also in a company and for your customers. It is not open source: its license forbids selling it or<br>
+<div class="markdown-heading"><h3 class="heading-element">Is it really free?</h3><a id="is-it-really-free" class="anchor" aria-label="Permalink: Is it really free?" href="#is-it-really-free"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Yes, for any use, also in a company and for your customers. It is not open source: its license forbids selling it or
 building a competing product with it.</p>
-<h3 id="does-it-need-an-agent-or-a-server" dir="auto">Does it need an agent or a server?</h3>
-<p dir="auto">No. It runs on your PC and reads your servers with Windows tools (WinRM, SQL) and the REST APIs of Proxmox, vCenter and<br>
+<div class="markdown-heading"><h3 class="heading-element">Does it need an agent or a server?</h3><a id="does-it-need-an-agent-or-a-server" class="anchor" aria-label="Permalink: Does it need an agent or a server?" href="#does-it-need-an-agent-or-a-server"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>No. It runs on your PC and reads your servers with Windows tools (WinRM, SQL) and the REST APIs of Proxmox, vCenter and
 Veeam. Nothing is installed on them.</p>
-<h3 id="can-it-break-something" dir="auto">Can it break something?</h3>
-<p dir="auto">It only reads, until you choose a repair; every repair shows what it will do and asks first. What it runs on servers<br>
+<div class="markdown-heading"><h3 class="heading-element">Can it break something?</h3><a id="can-it-break-something" class="anchor" aria-label="Permalink: Can it break something?" href="#can-it-break-something"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>It only reads, until you choose a repair; every repair shows what it will do and asks first. What it runs on servers
 is plain PowerShell you can read.</p>
-<h3 id="i-run-proxmox-vsphere-veeam-or-citrix-can-i-use-it" dir="auto">I run Proxmox, vSphere, Veeam or Citrix: can I use it?</h3>
-<p dir="auto">Yes: they arrived in this release, built on their official APIs. Be one of the first sites to run it, and<br>
-<a href="https://github.com/OpenThinRdp/openthinrdp-manager/issues">tell us what it found</a>: reports from real sites are<br>
+<div class="markdown-heading"><h3 class="heading-element">I run Proxmox, vSphere, Veeam or Citrix: can I use it?</h3><a id="i-run-proxmox-vsphere-veeam-or-citrix-can-i-use-it" class="anchor" aria-label="Permalink: I run Proxmox, vSphere, Veeam or Citrix: can I use it?" href="#i-run-proxmox-vsphere-veeam-or-citrix-can-i-use-it"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Yes: they arrived in this release, built on their official APIs. Be one of the first sites to run it, and
+<a href="https://github.com/OpenThinRdp/openthinrdp-manager/issues">tell us what it found</a>: reports from real sites are
 what we work on first.</p>
-<h3 id="what-is-openthinrdp" dir="auto">What is OpenThinRDP?</h3>
-<p dir="auto">The same team builds <a href="https://openthinrdp.github.io/" rel="nofollow">OpenThinRDP</a>, a free open source thin client OS for Remote<br>
-Desktop on any hypervisor (RDP over UDP, Secure Boot, signed updates). With it, the manager also runs your whole fleet<br>
+<div class="markdown-heading"><h3 class="heading-element">What is OpenThinRDP?</h3><a id="what-is-openthinrdp" class="anchor" aria-label="Permalink: What is OpenThinRDP?" href="#what-is-openthinrdp"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The same team builds <a href="https://openthinrdp.github.io/" rel="nofollow">OpenThinRDP</a>, a free open source thin client OS for Remote
+Desktop on any hypervisor (RDP over UDP, Secure Boot, signed updates). With it, the manager also runs your whole fleet
 of thin clients from the same window.</p>
-<p dir="auto"><strong><a href="https://github.com/OpenThinRdp/openthinrdp-manager/releases/latest">⬇ Download the free manager</a></strong></p>
-<h2 id="license" dir="auto">License</h2>
-<p dir="auto">Free for any use, also commercial, closed: see <a href="https://github.com/OpenThinRdp/openthinrdp-manager/blob/main/LICENSE.md">LICENSE.md</a>. The thin client OpenThinRDP is open source (GPLv3).</p>
+<p><strong><a href="https://github.com/OpenThinRdp/openthinrdp-manager/releases/latest">⬇ Download the free manager</a></strong></p>
+<div class="markdown-heading"><h2 class="heading-element">License</h2><a id="license" class="anchor" aria-label="Permalink: License" href="#license"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Free for any use, also commercial, closed: see <a href="https://github.com/OpenThinRdp/openthinrdp-manager/blob/main/LICENSE.md">LICENSE.md</a>. The thin client OpenThinRDP is open source (GPLv3).</p>
+<p class="source">This page is <a href="https://github.com/OpenThinRdp/openthinrdp-manager/blob/main/README.md">README.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp-manager">GitHub</a>, where the documentation, the releases and the discussions are.</p>
 </main>
-<footer class="bar small">This page is <a href="https://github.com/OpenThinRdp/openthinrdp-manager/blob/main/README.md">README.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp-manager">GitHub</a>, where the documentation, the releases and the discussions are.</footer>
+<section class="related"><div class="wrap"><p class="eyebrow">Read next</p><div class="rel"><a href="https://openthinrdp.github.io/hyper-v-rds-health-check.html"><b>Free Hyper-V cluster and Remote Desktop health check</b><span>A free health check for Hyper-V hosts, failover clusters and S2D, Remote Desktop Services brokers and session hosts, Active Directory, SQL AlwaysOn...</span></a><a href="https://openthinrdp.github.io/manager-guide.html"><b>OpenThinRDP Manager guide</b><span>The complete guide of the OpenThinRDP Manager:</span></a><a href="https://openthinrdp.github.io/business.html"><b>Free thin clients for Remote Desktop Services and VDI</b><span>A free thin client OS for RDS session hosts, VDI behind an RD Connection Broker and Windows VMs on Hyper-V, Proxmox or VMware:</span></a></div></div></section>
+<section class="final"><div class="wrap center"><h2>Know what is broken before your users call.</h2><p class="fine">Free, nothing to install, no agent: download, extract, run.</p><div class="ctas center"><a class="btn" href="https://github.com/OpenThinRdp/openthinrdp-manager/releases/latest">&#11015; Download the manager</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/manager-guide.html">The guide</a></div></div></section>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div><a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
+      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release 0.3.1.</p></div>
+    <div class="foot-cols">
+      <nav aria-label="For you"><b>For you</b><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/windows-10-end-of-support.html">Windows 10 end of support</a><a href="https://openthinrdp.github.io/used-thin-client.html">Used thin clients</a><a href="https://openthinrdp.github.io/old-pc-thin-client.html">Old PC as a thin client</a><a href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">Raspberry Pi</a></nav>
+      <nav aria-label="Product"><b>Product</b><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/udp.html">RDP over UDP</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/linux-rdp-client.html">RDP from Linux</a><a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">Proxmox and VMware</a></nav>
+      <nav aria-label="Manager"><b>Manager</b><a href="https://openthinrdp.github.io/manager.html">The manager</a><a href="https://openthinrdp.github.io/hyper-v-rds-health-check.html">Hyper-V and RDS health check</a><a href="https://openthinrdp.github.io/manager-guide.html">Manager guide</a><a href="https://openthinrdp.github.io/replace-dell-thinos.html">Replace Dell ThinOS</a></nav>
+      <nav aria-label="Resources"><b>Resources</b><a href="https://openthinrdp.github.io/getting-started.html">Getting started</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/maturity.html">Production readiness</a><a href="https://openthinrdp.github.io/privacy.html">Privacy</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
+    </div>
+    <p class="fine">Windows and Remote Desktop are trademarks of Microsoft. OpenThinRDP is not affiliated with Microsoft, with openthinclient or with any vendor named here.</p>
+  </div>
+</footer>
 <script data-goatcounter="https://ceschi-ops.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>

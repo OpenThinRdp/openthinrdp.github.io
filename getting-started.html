@@ -18,8 +18,11 @@
 <meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://openthinrdp.github.io/landing.css">
 <link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://openthinrdp.github.io/"},{"@type":"ListItem","position":2,"name":"For companies","item":"https://openthinrdp.github.io/business.html"},{"@type":"ListItem","position":3,"name":"Getting started with OpenThinRDP","item":"https://openthinrdp.github.io/getting-started.html"}]}</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
  "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.3.1","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
@@ -28,83 +31,113 @@
 </script>
 
 </head>
-<body>
-<header class="bar"><a class="home" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="30" height="30"> <span>OpenThin<b>RDP</b></span></a>
-<nav><a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">Download 0.3.1</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav></header>
+<body class="doc">
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
+    <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
+    <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.1</a>
+    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.1</a></nav></details>
+  </div>
+</header>
+<div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="https://openthinrdp.github.io/">Home</a> <span>&#8250;</span> <a href="https://openthinrdp.github.io/business.html">For companies</a> <span>&#8250;</span> <span>Getting started with OpenThinRDP</span></nav></div>
 <main class="markdown-body">
-<h1 id="getting-started-from-a-usb-stick-to-a-managed-fleet" dir="auto">Getting started: from a USB stick to a managed fleet</h1>
-<p dir="auto">Step by step, in the order that works: try it on one device, install it, then set up the management folder and the<br>
-manager, and from then on every new device needs only a domain account. About an hour for the whole path, most of<br>
+<div class="markdown-heading"><h1 class="heading-element">Getting started: from a USB stick to a managed fleet</h1><a id="getting-started-from-a-usb-stick-to-a-managed-fleet" class="anchor" aria-label="Permalink: Getting started: from a USB stick to a managed fleet" href="#getting-started-from-a-usb-stick-to-a-managed-fleet"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Step by step, in the order that works: try it on one device, install it, then set up the management folder and the
+manager, and from then on every new device needs only a domain account. About an hour for the whole path, most of
 it on the Windows side.</p>
-<p dir="auto"><strong>One computer at home?</strong> You do not need this path: <a href="https://openthinrdp.github.io/home.html">OpenThinRDP at home</a> takes two minutes and no domain.</p>
-<p dir="auto"><strong>What you need</strong>: a Windows Remote Desktop target (an RD Connection Broker with session hosts or a Hyper-V VDI<br>
-collection, or a single Windows PC or server), a domain account to sign in with, one 64-bit x86 PC or thin client<br>
+<p><strong>One computer at home?</strong> You do not need this path: <a href="https://openthinrdp.github.io/home.html">OpenThinRDP at home</a> takes two minutes and no domain.</p>
+<p><strong>What you need</strong>: a Windows Remote Desktop target (an RD Connection Broker with session hosts or a Hyper-V VDI
+collection, or a single Windows PC or server), a domain account to sign in with, one 64-bit x86 PC or thin client
 with 2 GB of RAM, and a USB stick.</p>
-<h2 id="1-try-it-live-10-minutes-nothing-installed" dir="auto">1. Try it live (10 minutes, nothing installed)</h2>
-<ol dir="auto">
-<li>Download <code class="notranslate">openthinrdp-&lt;version&gt;.iso</code> from the <a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">latest release</a><br>
-and write it to a USB stick (Rufus in DD mode, balenaEtcher or <code class="notranslate">dd</code>).</li>
+<div class="markdown-heading"><h2 class="heading-element">1. Try it live (10 minutes, nothing installed)</h2><a id="1-try-it-live-10-minutes-nothing-installed" class="anchor" aria-label="Permalink: 1. Try it live (10 minutes, nothing installed)" href="#1-try-it-live-10-minutes-nothing-installed"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>Download <code>openthinrdp-&lt;version&gt;.iso</code> from the <a href="https://github.com/OpenThinRdp/openthinrdp/releases/latest">latest release</a>
+and write it to a USB stick (Rufus in DD mode, balenaEtcher or <code>dd</code>).</li>
 <li>Boot the device from the stick. The menu starts the live system after 10 seconds; it never writes to the disk.</li>
-<li>The <strong>hardware test</strong> runs by itself: processor, memory, disk, graphics, firmware, network, sound, USB, TPM.<br>
-Read it, and if you like, <em>Send to the OpenThinRDP project</em> opens a ready-made hardware report on GitHub that you<br>
+<li>The <strong>hardware test</strong> runs by itself: processor, memory, disk, graphics, firmware, network, sound, USB, TPM.
+Read it, and if you like, <em>Send to the OpenThinRDP project</em> opens a ready-made hardware report on GitHub that you
 send with your own account (nothing in it identifies the device or the network).</li>
-<li>The settings open: set the <strong>broker</strong> (or the Windows PC) and the <strong>domain</strong> (its full DNS name, e.g.<br>
-<code class="notranslate">example.local</code>). If your DHCP does not hand out the DNS servers of the domain, put your domain controllers in<br>
+<li>The settings open: set the <strong>broker</strong> (or the Windows PC) and the <strong>domain</strong> (its full DNS name, e.g.
+<code>example.local</code>). If your DHCP does not hand out the DNS servers of the domain, put your domain controllers in
 <strong>Primary DNS</strong> and <strong>Secondary DNS</strong>. Save, sign in with your own account: your Windows desktop opens.</li>
 </ol>
-<p dir="auto">Not working? <em>Diagnostics</em> (the ℹ button on the sign-in screen) shows what the device sees; the<br>
+<p>Not working? <em>Diagnostics</em> (the ℹ button on the sign-in screen) shows what the device sees; the
 <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/faq.md">FAQ</a> has the common cases.</p>
-<h2 id="2-install-it-3-minutes" dir="auto">2. Install it (3 minutes)</h2>
-<p dir="auto">Restart from the stick and choose <strong>Install</strong>: it shows the disk it will erase and asks before writing. It<br>
+<div class="markdown-heading"><h2 class="heading-element">2. Install it (3 minutes)</h2><a id="2-install-it-3-minutes" class="anchor" aria-label="Permalink: 2. Install it (3 minutes)" href="#2-install-it-3-minutes"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Restart from the stick and choose <strong>Install</strong>: it shows the disk it will erase and asks before writing. It
 installs on the first internal disk, never on a USB disk. For many devices, <em>Unattended install</em> skips the question.</p>
-<h2 id="3-the-windows-side-once" dir="auto">3. The Windows side (once)</h2>
-<ul dir="auto">
-<li><strong>UDP</strong>: nothing to install. The session hosts accept RDP over UDP by default; keep the Group Policy <em>Select RDP<br>
-transport protocols</em> not configured or on "Use both UDP and TCP", and UDP port 3389 open towards the session hosts<br>
+<div class="markdown-heading"><h2 class="heading-element">3. The Windows side (once)</h2><a id="3-the-windows-side-once" class="anchor" aria-label="Permalink: 3. The Windows side (once)" href="#3-the-windows-side-once"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>UDP</strong>: nothing to install. The session hosts accept RDP over UDP by default; keep the Group Policy <em>Select RDP
+transport protocols</em> not configured or on "Use both UDP and TCP", and UDP port 3389 open towards the session hosts
 (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/udp.md#server-side">details</a>).</li>
-<li><strong>Outside the office</strong>: an RD Gateway or a VPN (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/configuration.md#rd-gateway">configuration</a>).</li>
+<li>
+<strong>Outside the office</strong>: an RD Gateway or a VPN (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/configuration.md#rd-gateway">configuration</a>).</li>
 </ul>
-<h2 id="4-the-management-folder-once" dir="auto">4. The management folder (once)</h2>
-<ol dir="auto">
-<li>Create a share on any file server, e.g. <code class="notranslate">\\fileserver\thinclients</code>.</li>
-<li>Create a <strong>domain account only for the devices</strong>, e.g. <code class="notranslate">svc-thinclient</code>, never a person's account: every device<br>
+<div class="markdown-heading"><h2 class="heading-element">4. The management folder (once)</h2><a id="4-the-management-folder-once" class="anchor" aria-label="Permalink: 4. The management folder (once)" href="#4-the-management-folder-once"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>Create a share on any file server, e.g. <code>\\fileserver\thinclients</code>.</li>
+<li>Create a <strong>domain account only for the devices</strong>, e.g. <code>svc-thinclient</code>, never a person's account: every device
 keeps its password.</li>
-<li>Permissions: the account reads the folder and writes only in <code class="notranslate">status\</code>; administrators have full control. The<br>
+<li>Permissions: the account reads the folder and writes only in <code>status\</code>; administrators have full control. The
 manager checks this and, after asking, sets it (step 5). The rules and why: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/management.md#account">management.md</a>.</li>
 </ol>
-<h2 id="5-the-manager-on-your-windows-pc" dir="auto">5. The manager (on your Windows PC)</h2>
-<ol dir="auto">
-<li>Download <code class="notranslate">openthinrdp-manager-&lt;version&gt;.zip</code> from the<br>
-<a href="https://github.com/OpenThinRdp/openthinrdp-manager/releases/latest">latest release of the manager</a> and unpack it where only<br>
+<div class="markdown-heading"><h2 class="heading-element">5. The manager (on your Windows PC)</h2><a id="5-the-manager-on-your-windows-pc" class="anchor" aria-label="Permalink: 5. The manager (on your Windows PC)" href="#5-the-manager-on-your-windows-pc"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>Download <code>openthinrdp-manager-&lt;version&gt;.zip</code> from the
+<a href="https://github.com/OpenThinRdp/openthinrdp-manager/releases/latest">latest release of the manager</a> and unpack it where only
 administrators can write (a share works: everybody starts the same copy). It updates itself from then on.</li>
-<li>Start<br>
-<code class="notranslate">OpenThinRDP-Manager.exe</code> and choose the management folder. <code class="notranslate">OpenThinRDP-Manager.exe -Install</code> on each PC puts a<br>
+<li>Start
+<code>OpenThinRDP-Manager.exe</code> and choose the management folder. <code>OpenThinRDP-Manager.exe -Install</code> on each PC puts a
 shortcut with the icon on its desktop.</li>
-<li><strong>Check permissions</strong> (top bar): it lists what is wrong for the devices' account and offers to correct it.</li>
-<li><strong>Settings &gt; Devices</strong>: the settings for every device, at least the <strong>broker</strong> and the <strong>domain</strong> (and the DNS<br>
-servers if your DHCP does not give the domain's). Each one is checked before it is saved; <em>Edit as text...</em><br>
+<li>
+<strong>Check permissions</strong> (top bar): it lists what is wrong for the devices' account and offers to correct it.</li>
+<li>
+<strong>Settings &gt; Devices</strong>: the settings for every device, at least the <strong>broker</strong> and the <strong>domain</strong> (and the DNS
+servers if your DHCP does not give the domain's). Each one is checked before it is saved; <em>Edit as text...</em>
 shows the same file as plain text.</li>
-<li><strong>Settings &gt; Manager &gt; Management folder &gt; Name it in the domain</strong>: as a domain administrator, this writes the<br>
-folder for the devices' account in <code class="notranslate">\\&lt;domain&gt;\NETLOGON\OpenThinRDP\folders.conf</code>.</li>
-<li>Optional: the <strong>vault</strong> (the key for the remote screen and for signing updates with your own key), logo and<br>
+<li>
+<strong>Settings &gt; Manager &gt; Management folder &gt; Name it in the domain</strong>: as a domain administrator, this writes the
+folder for the devices' account in <code>\\&lt;domain&gt;\NETLOGON\OpenThinRDP\folders.conf</code>.</li>
+<li>Optional: the <strong>vault</strong> (the key for the remote screen and for signing updates with your own key), logo and
 background, the <strong>Health Center</strong> for the servers behind the desktops (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/manager.md">manager.md</a>).</li>
 </ol>
-<h2 id="6-every-new-device-from-now-on" dir="auto">6. Every new device from now on</h2>
-<p dir="auto">Install it (step 2). In the settings at the first start leave the <strong>management folder empty</strong> and fill in only the<br>
-<strong>domain</strong>, the <strong>devices' account</strong> and its <strong>password</strong> (and the DNS servers if your DHCP does not hand them out).<br>
-Within five minutes the device finds its folder in the domain, takes the broker and every other setting from<br>
-<code class="notranslate">common.conf</code>, and appears in the manager. Its event log says <code class="notranslate">management folder from the domain</code>.</p>
-<h2 id="7-run-it" dir="auto">7. Run it</h2>
-<ul dir="auto">
-<li><strong>Updates</strong>: <em>Release from GitHub</em> in the manager, first on <strong>pilot devices</strong>, then <em>Release to all devices</em>;<br>
+<div class="markdown-heading"><h2 class="heading-element">6. Every new device from now on</h2><a id="6-every-new-device-from-now-on" class="anchor" aria-label="Permalink: 6. Every new device from now on" href="#6-every-new-device-from-now-on"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Install it (step 2). In the settings at the first start leave the <strong>management folder empty</strong> and fill in only the
+<strong>domain</strong>, the <strong>devices' account</strong> and its <strong>password</strong> (and the DNS servers if your DHCP does not hand them out).
+Within five minutes the device finds its folder in the domain, takes the broker and every other setting from
+<code>common.conf</code>, and appears in the manager. Its event log says <code>management folder from the domain</code>.</p>
+<div class="markdown-heading"><h2 class="heading-element">7. Run it</h2><a id="7-run-it" class="anchor" aria-label="Permalink: 7. Run it" href="#7-run-it"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>Updates</strong>: <em>Release from GitHub</em> in the manager, first on <strong>pilot devices</strong>, then <em>Release to all devices</em>;
 something broke, <em>go back</em> to the previous version in one click (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/manager.md#updates-a-few-devices-first-then-all-and-back-when-something-breaks">manager.md</a>).</li>
-<li><strong>Power and commands</strong>: power on with Wake-on-LAN, restart, switch off or run a command on a device.</li>
-<li><strong>Moving the folder later</strong>: <em>Settings &gt; Manager &gt; Move the folder...</em> moves the whole fleet in one step.</li>
+<li>
+<strong>Power and commands</strong>: power on with Wake-on-LAN, restart, switch off or run a command on a device.</li>
+<li>
+<strong>Moving the folder later</strong>: <em>Settings &gt; Manager &gt; Move the folder...</em> moves the whole fleet in one step.</li>
 </ul>
-<p dir="auto">What is in production, what is only tested and what does not exist yet: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/status.md">status.md</a>; production<br>
+<p>What is in production, what is only tested and what does not exist yet: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/status.md">status.md</a>; production
 readiness area by area: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/maturity.md">maturity.md</a>.</p>
+<p class="source">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/getting-started.md">docs/guides/getting-started.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</p>
 </main>
-<footer class="bar small">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/getting-started.md">docs/guides/getting-started.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</footer>
+<section class="related"><div class="wrap"><p class="eyebrow">Read next</p><div class="rel"><a href="https://openthinrdp.github.io/business.html"><b>Free thin clients for Remote Desktop Services and VDI</b><span>A free thin client OS for RDS session hosts, VDI behind an RD Connection Broker and Windows VMs on Hyper-V, Proxmox or VMware:</span></a><a href="https://openthinrdp.github.io/manager-guide.html"><b>OpenThinRDP Manager guide</b><span>The complete guide of the OpenThinRDP Manager:</span></a><a href="https://openthinrdp.github.io/hardware.html"><b>Which PCs and thin clients run OpenThinRDP</b><span>Hardware for OpenThinRDP:</span></a></div></div></section>
+<section class="final"><div class="wrap center"><h2>Try it live. Nothing is installed.</h2><p class="fine">Write the ISO to a USB stick, start a PC from it, sign in to your Windows desktop.</p><div class="ctas center"><a class="btn" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">&#11015; Download the ISO</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/home.html">At home</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/business.html">For companies</a></div></div></section>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div><a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
+      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release 0.3.1.</p></div>
+    <div class="foot-cols">
+      <nav aria-label="For you"><b>For you</b><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/windows-10-end-of-support.html">Windows 10 end of support</a><a href="https://openthinrdp.github.io/used-thin-client.html">Used thin clients</a><a href="https://openthinrdp.github.io/old-pc-thin-client.html">Old PC as a thin client</a><a href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">Raspberry Pi</a></nav>
+      <nav aria-label="Product"><b>Product</b><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/udp.html">RDP over UDP</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/linux-rdp-client.html">RDP from Linux</a><a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">Proxmox and VMware</a></nav>
+      <nav aria-label="Manager"><b>Manager</b><a href="https://openthinrdp.github.io/manager.html">The manager</a><a href="https://openthinrdp.github.io/hyper-v-rds-health-check.html">Hyper-V and RDS health check</a><a href="https://openthinrdp.github.io/manager-guide.html">Manager guide</a><a href="https://openthinrdp.github.io/replace-dell-thinos.html">Replace Dell ThinOS</a></nav>
+      <nav aria-label="Resources"><b>Resources</b><a href="https://openthinrdp.github.io/getting-started.html">Getting started</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/maturity.html">Production readiness</a><a href="https://openthinrdp.github.io/privacy.html">Privacy</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
+    </div>
+    <p class="fine">Windows and Remote Desktop are trademarks of Microsoft. OpenThinRDP is not affiliated with Microsoft, with openthinclient or with any vendor named here.</p>
+  </div>
+</footer>
 <script data-goatcounter="https://ceschi-ops.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>

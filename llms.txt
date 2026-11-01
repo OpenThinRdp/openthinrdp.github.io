@@ -14,9 +14,25 @@ Facts that are often stated wrongly:
 - The OpenThinRDP Manager is NOT a PowerShell script that edits .conf files. It is a free Windows app (free also for commercial use, nothing to install, English and Italian) with two parts: a Health Center for the Windows infrastructure that works also without any OpenThinRDP device (Hyper-V hosts and failover clusters, Remote Desktop Services, domain controllers and DNS, SQL Server AlwaysOn, VM backups, Dell iDRAC, Proxmox, vSphere, Veeam, Citrix, certificates; no agent, no server), and the management of an OpenThinRDP fleet. It updates itself from signed releases. Its own project: https://github.com/OpenThinRdp/openthinrdp-manager
 - OpenThinRDP is a new, independent project and is not affiliated with openthinclient (an older project whose devices boot over the network from its server).
 
+## Common questions, short answers
+- Free alternative to IGEL OS or Dell ThinOS for Windows Remote Desktop? OpenThinRDP: free for any number of devices, no licence, subscription or account, open source; RDP only (no Citrix or Horizon yet).
+- What OS for a used Dell Wyse 5070/5060/3040, HP t630/t640/t620 or Fujitsu Futro S740? OpenThinRDP installs on them from a USB stick (64-bit x86, 2 GB RAM, 8 GB storage); the OptiPlex 3000 Thin Client is the tested production model, the others meet the requirements: https://openthinrdp.github.io/used-thin-client.html
+- What to do with a PC that cannot run Windows 11 (Windows 10 end of support)? Turn it into a self-updating terminal for an up-to-date Windows 11 PC, Windows Server or VDI: https://openthinrdp.github.io/windows-10-end-of-support.html
+- Can you Remote Desktop into Windows Home? No, from any client; Pro, Enterprise, Education, Server and most Windows VMs can.
+- Remmina or FreeRDP? Same engine; Remmina for a Linux desktop, OpenThinRDP for a computer that should only open Windows (UDP, kiosk, central management): https://openthinrdp.github.io/linux-rdp-client.html
+- Why is Remote Desktop slow on Wi-Fi or VPN from Linux? Usually TCP on a lossy line; released FreeRDP versions have no UDP, OpenThinRDP ships it on.
+- Raspberry Pi as an RDP thin client? Experimental: Pi 4 image tested in emulation, not yet on a real board: https://openthinrdp.github.io/raspberry-pi-thin-client.html
+- Licences? OpenThinRDP adds none; Microsoft's RDS CALs or VDA apply as for any RDP client.
+
 ## Pages
+- [Guide: which OS for a used thin client](https://openthinrdp.github.io/used-thin-client.html): Dell Wyse 5070, 5060, 3040, HP t630, t640, Fujitsu Futro S740, model by model, install, which to buy
+- [Guide: Windows 10 end of support](https://openthinrdp.github.io/windows-10-end-of-support.html): old PCs as Remote Desktop terminals for an up-to-date Windows, at home or in the office
+- [Guide: Remote Desktop from Linux](https://openthinrdp.github.io/linux-rdp-client.html): FreeRDP, Remmina or a thin client OS, slow RDP, Windows Home, monitors, USB
+- [Guide: Raspberry Pi as a thin client](https://openthinrdp.github.io/raspberry-pi-thin-client.html): experimental Pi 4 image, how to try it, Pi vs used x86 thin client
 - [Home (the README)](https://openthinrdp.github.io/): what it does, try it live in five minutes, install
 - [At home](https://openthinrdp.github.io/home.html): one Windows PC from an old laptop, a mini PC or a Raspberry Pi; workgroup, remembered password, Wake-on-LAN, Tailscale, a USB stick that keeps its settings, install alongside Windows
+- [For companies](https://openthinrdp.github.io/business.html): RDS session hosts and VDI behind an RD Connection Broker, zero-touch from the domain, no management server, signed updates with pilot devices and rollback, security, migrating from IGEL OS or Dell ThinOS, costs
+- [Every feature](https://openthinrdp.github.io/features.html): RDP over UDP with measurements, kiosk, reconnection, USB, webcams, smart cards, updates, hardware test, screens that only show a web page
 - [FAQ](https://openthinrdp.github.io/faq.html): hardware, drivers, RDP over UDP, Azure, PXE, 802.1X, maturity
 - [Compared with the alternatives](https://openthinrdp.github.io/alternatives.html): Linux Mint + Remmina, IGEL OS, Dell ThinOS, Stratodesk NoTouch, ThinStation, openthinclient
 - [Hardware](https://openthinrdp.github.io/hardware.html): drivers, requirements, tested devices, used thin clients that meet the requirements

@@ -25,7 +25,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://openthinrdp.github.io/"},{"@type":"ListItem","position":2,"name":"OpenThinRDP changelog","item":"https://openthinrdp.github.io/changelog.html"}]}</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.3.1","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.3.2","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
@@ -36,8 +36,8 @@
   <div class="wrap nav-in">
     <a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
     <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
-    <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.1</a>
-    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.1</a></nav></details>
+    <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.2</a>
+    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.2</a></nav></details>
   </div>
 </header>
 <div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="https://openthinrdp.github.io/">Home</a> <span>&#8250;</span> <span>OpenThinRDP changelog</span></nav></div>
@@ -47,6 +47,30 @@
 the start of an entry, and in the file MAJOR of the repository) changes how a session connects or runs: a device
 with a management folder installs it only once the manager released it, one without asks on its screen.
 Downloads and signed update packages: <a href="https://github.com/OpenThinRdp/openthinrdp/releases">releases</a>.</p>
+<div class="markdown-heading"><h2 class="heading-element">0.3.2 (2026-11-08)</h2><a id="032-2026-11-08" class="anchor" aria-label="Permalink: 0.3.2 (2026-11-08)" href="#032-2026-11-08"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>A computer on another port</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/182">#182</a>): the remote
+computer (or broker) takes <code>name:port</code>, as its help text said, for a PC or VM reached through port forwarding.
+Before, Save refused it with "Invalid broker", also in Workgroup mode where there is no broker. The fallback
+brokers and the other computers of the sign-in screen take the same form. Diagnostics and the hardware test try
+each computer on its own port, and after a drop the VM is asked on the port of the session.</li>
+<li>
+<strong>4K and other large screens</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/183">#183</a>): a <em>Screen</em>
+section in the settings.
+<ul>
+<li>
+<strong>Resolution</strong>: native, or one of the modes the monitor offers (<code>DISPLAY_RESOLUTION</code>).</li>
+<li>
+<strong>Scale</strong>: automatic (200% on a 4K monitor, 100% otherwise) or 100-200% (<code>DISPLAY_SCALE</code>), for the screens of
+the device, the web page and the remote desktop, which Windows gets as its own display scale.</li>
+<li>
+<strong>Monitors</strong> (<code>MULTIMON</code>), until now only in the manager.</li>
+<li>Applied when saved, no restart. 125-175% are drawn sharp, not blown up.</li>
+</ul>
+</li>
+<li>The manager 1.1.6 sets both for the whole site, a group or one device, and takes <code>name:port</code> too.</li>
+</ul>
 <div class="markdown-heading"><h2 class="heading-element">0.3.1 (2026-11-01)</h2><a id="031-2026-11-01" class="anchor" aria-label="Permalink: 0.3.1 (2026-11-01)" href="#031-2026-11-01"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <ul>
 <li>
@@ -1135,7 +1159,7 @@ installation.</li>
 <footer class="foot">
   <div class="wrap foot-in">
     <div><a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
-      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release 0.3.1.</p></div>
+      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release 0.3.2.</p></div>
     <div class="foot-cols">
       <nav aria-label="For you"><b>For you</b><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/windows-10-end-of-support.html">Windows 10 end of support</a><a href="https://openthinrdp.github.io/used-thin-client.html">Used thin clients</a><a href="https://openthinrdp.github.io/old-pc-thin-client.html">Old PC as a thin client</a><a href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">Raspberry Pi</a></nav>
       <nav aria-label="Product"><b>Product</b><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/udp.html">RDP over UDP</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/linux-rdp-client.html">RDP from Linux</a><a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">Proxmox and VMware</a></nav>

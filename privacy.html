@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OpenThinRDP privacy &#8211; the anonymous counts, all of them, and how to switch them off</title>
-<meta name="description" content="What OpenThinRDP and its manager send to the project: a few anonymous counts (version, model, processor, memory), never names, addresses or users. On GoatCounter, no cookies, no IP addresses. How to switch it off on one device, a whole site or the manager.">
+<meta name="description" content="What OpenThinRDP and its manager send to the project: anonymous data at three levels (full, errors only, off), never names, addresses or users. To PostHog in the EU, no IP addresses kept. How to choose the level on one device, a whole site or the manager.">
 <link rel="canonical" href="https://openthinrdp.github.io/privacy.html">
 
 <link rel="icon" href="https://openthinrdp.github.io/img/icon.png">
@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="OpenThinRDP">
 <meta property="og:locale" content="en_US">
 <meta property="og:title" content="OpenThinRDP privacy &#8211; the anonymous counts, all of them, and how to switch them off">
-<meta property="og:description" content="What OpenThinRDP and its manager send to the project: a few anonymous counts (version, model, processor, memory), never names, addresses or users. On GoatCounter, no cookies, no IP addresses. How to switch it off on one device, a whole site or the manager.">
+<meta property="og:description" content="What OpenThinRDP and its manager send to the project: anonymous data at three levels (full, errors only, off), never names, addresses or users. To PostHog in the EU, no IP addresses kept. How to choose the level on one device, a whole site or the manager.">
 <meta property="og:url" content="https://openthinrdp.github.io/privacy.html">
 <meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -25,7 +25,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://openthinrdp.github.io/"},{"@type":"ListItem","position":2,"name":"OpenThinRDP privacy","item":"https://openthinrdp.github.io/privacy.html"}]}</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.3.2","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.3.3","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
@@ -36,101 +36,172 @@
   <div class="wrap nav-in">
     <a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
     <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
-    <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.2</a>
-    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.2</a></nav></details>
+    <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.3</a>
+    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.1">Download 0.3.3</a></nav></details>
   </div>
 </header>
 <div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="https://openthinrdp.github.io/">Home</a> <span>&#8250;</span> <span>OpenThinRDP privacy</span></nav></div>
 <main class="markdown-body">
-<div class="markdown-heading"><h1 class="heading-element">Privacy: the anonymous counts</h1><a id="privacy-the-anonymous-counts" class="anchor" aria-label="Permalink: Privacy: the anonymous counts" href="#privacy-the-anonymous-counts"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
-<p>OpenThinRDP sends a few anonymous counts to the project: once a week from a device, once a day from the manager. They tell us which computers it runs on, which
-versions are in use and how many devices a manager looks after, so we know what to test and what to support. It is
-on by default, it is easy to switch off, and this page lists everything it sends.</p>
-<div class="markdown-heading"><h2 class="heading-element">What a device sends</h2><a id="what-a-device-sends" class="anchor" aria-label="Permalink: What a device sends" href="#what-a-device-sends"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
-<p>About a minute after it starts the first time, then once a week (<code>stats.sh</code>, started by <code>report.sh</code>). A live system
-that keeps nothing between starts sends at each start. A new device sends its first counts with its own settings,
-before it takes the central settings of its site: so we learn which computers OpenThinRDP is tried on. From then on
-it follows the central settings.</p>
+<div class="markdown-heading"><h1 class="heading-element">Privacy: the anonymous data</h1><a id="privacy-the-anonymous-data" class="anchor" aria-label="Permalink: Privacy: the anonymous data" href="#privacy-the-anonymous-data"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>OpenThinRDP is free, and anonymous data is how we learn which computers it runs on, how it is set up and used, how
+well it runs and what goes wrong, so we know what to fix and what to support first. You choose how much is sent, and
+this page lists all of it, item by item. Nothing on it can tell who you are, where you are or what you do in a session.</p>
+<div class="markdown-heading"><h2 class="heading-element">Three levels</h2><a id="three-levels" class="anchor" aria-label="Permalink: Three levels" href="#three-levels"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <table>
 <thead>
 <tr>
-<th>Count</th>
+<th>Level</th>
+<th>What is sent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<strong>Full</strong> (the default)</td>
+<td>Once a week what the device is, how it is set up and used, how well it runs, and what went wrong</td>
+</tr>
+<tr>
+<td><strong>Errors only</strong></td>
+<td>Only in a week when something went wrong: what went wrong, on which version and computer</td>
+</tr>
+<tr>
+<td><strong>Off</strong></td>
+<td>Nothing</td>
+</tr>
+</tbody>
+</table>
+<p>A new device asks at its first start, with <em>Full</em> ready and the three levels explained on the screen; nothing leaves
+it before the answer. Later: <em>Anonymous data for the project</em>, the last setting of the device, or <code>ANON_STATS</code> (<code>full</code>,
+<code>errors</code>, <code>off</code>) for a whole site or group from the manager. The manager has the same three levels for itself
+(<em>Settings &gt; Manager</em>). Devices and managers that sent anonymous counts before 0.3.3 and manager 1.1.7 send <em>Full</em>.</p>
+<p><code>sudo /opt/openthinrdp/stats.sh --print</code> on a device prints exactly what it would send now, and sends nothing.</p>
+<div class="markdown-heading"><h2 class="heading-element">What a device sends</h2><a id="what-a-device-sends" class="anchor" aria-label="Permalink: What a device sends" href="#what-a-device-sends"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Once a week (<code>stats.sh</code>, started by <code>report.sh</code>); the first time once its level is chosen.</p>
+<p><strong>The week</strong> (<code>otr_week</code>, <em>Full</em> only):</p>
+<table>
+<thead>
+<tr>
+<th>What</th>
 <th>Example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>OpenThinRDP version</td>
-<td><code>0.2.16</code></td>
-</tr>
-<tr>
-<td>Maker and model of the computer</td>
-<td><code>Dell Inc. OptiPlex 3000 Thin Client</code></td>
-</tr>
-<tr>
-<td>Processor</td>
-<td><code>Intel(R) Celeron(R) N5105 @ 2.00GHz</code></td>
-</tr>
-<tr>
-<td>Memory, rounded to whole GB</td>
-<td><code>8 GB</code></td>
-</tr>
-<tr>
-<td>FreeRDP version</td>
-<td><code>3.33.0</code></td>
-</tr>
-<tr>
-<td>Transport setting</td>
+<td>OpenThinRDP and FreeRDP versions</td>
 <td>
-<code>auto</code>, <code>udp</code> or <code>tcp</code>
+<code>0.3.3</code>, <code>3.33.0</code>
 </td>
 </tr>
 <tr>
-<td>Language</td>
-<td><code>it</code></td>
+<td>Maker and model, processor, memory in GB, architecture</td>
+<td>
+<code>HP t530 Thin Client</code>, <code>AMD GX-215JJ</code>, <code>4</code>, <code>amd64</code>
+</td>
 </tr>
 <tr>
-<td>Live system or installed</td>
-<td><code>installed</code></td>
+<td>Live system or installed, language</td>
+<td>
+<code>live</code>, <code>it</code>
+</td>
 </tr>
 <tr>
-<td>A Wi-Fi adapter present</td>
+<td>First send of this device</td>
 <td>
 <code>yes</code> / <code>no</code>
 </td>
 </tr>
 <tr>
-<td>A TPM present</td>
+<td>Wi-Fi adapter, TPM, managed from a management folder</td>
 <td>
 <code>yes</code> / <code>no</code>
 </td>
 </tr>
 <tr>
-<td>Managed from a management folder</td>
+<td>Domain or workgroup; a broker or one computer</td>
+<td>
+<code>workgroup</code>, <code>pc</code>
+</td>
+</tr>
+<tr>
+<td>RD Gateway; kind of VPN; where updates come from; transport</td>
+<td>
+<code>no</code>, <code>tailscale</code>, <code>github</code>, <code>auto</code>
+</td>
+</tr>
+<tr>
+<td>Password remembered, Wake-on-LAN, a Bluetooth device paired</td>
+<td>
+<code>on</code>, <code>yes</code>, <code>no</code>
+</td>
+</tr>
+<tr>
+<td>Connected by cable or Wi-Fi</td>
+<td><code>cable</code></td>
+</tr>
+<tr>
+<td>Web button and the browser chosen</td>
+<td>
+<code>app</code>, <code>firefox</code>
+</td>
+</tr>
+<tr>
+<td>Screens: how many, class of the widest, resolution and scale chosen</td>
+<td>
+<code>2</code>, <code>4k</code>, <code>native</code>, <code>auto</code>
+</td>
+</tr>
+<tr>
+<td>Kinds of USB devices plugged in (never which ones)</td>
+<td>
+<code>camera</code>, <code>smart-card</code>, <code>audio</code>, <code>storage</code>, <code>printer</code>
+</td>
+</tr>
+<tr>
+<td>Installed alongside Windows; a live stick that keeps its settings</td>
 <td>
 <code>yes</code> / <code>no</code>
 </td>
+</tr>
+<tr>
+<td>Sessions, days used, hours in session, sessions over UDP and over TCP</td>
+<td>
+<code>12</code>, <code>5</code>, <code>31.5</code>, <code>10</code>, <code>2</code>
+</td>
+</tr>
+<tr>
+<td>Seconds from power on to the sign-in screen; sign-in in seconds, by step (broker, virtual machine, Windows)</td>
+<td>
+<code>38</code>, <code>4.2</code>
+</td>
+</tr>
+<tr>
+<td>Latency of the sessions (median, ms)</td>
+<td><code>12.5</code></td>
+</tr>
+<tr>
+<td>How many kinds of problems</td>
+<td><code>0</code></td>
 </tr>
 </tbody>
 </table>
-<p>And what went wrong since the last send, so we can see which versions and which computers have problems:</p>
+<p><strong>What went wrong</strong> (<code>otr_errors</code>, <em>Full</em> and <em>Errors only</em>, only in a week with something wrong): the version,
+model, processor, memory, FreeRDP, live or installed and language as above, and</p>
 <table>
 <thead>
 <tr>
-<th>Count</th>
+<th>What</th>
 <th>Example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>A session that froze and was ended by the watchdog</td>
-<td>
-<code>session-frozen</code>, 2-5 times</td>
+<td><code>session-frozen</code></td>
 </tr>
 <tr>
 <td>A session that dropped, with the exit code of FreeRDP</td>
 <td>
-<code>session-dropped</code>, code <code>145</code>
+<code>session-dropped</code>, code <code>147</code>
 </td>
 </tr>
 <tr>
@@ -140,8 +211,16 @@ it follows the central settings.</p>
 </td>
 </tr>
 <tr>
-<td>A software update that failed</td>
-<td><code>update-failed</code></td>
+<td>A UDP transport that stalled; a power off with a session open</td>
+<td>
+<code>udp-stalled</code>, <code>switched-off-in-session</code>
+</td>
+</tr>
+<tr>
+<td>A software update that failed; the settings screen that failed</td>
+<td>
+<code>update-failed</code>, <code>screen-failed</code>
+</td>
 </tr>
 <tr>
 <td>A program that crashed, by its name</td>
@@ -160,43 +239,45 @@ it follows the central settings.</p>
 <td><code>stopped-without-shutdown</code></td>
 </tr>
 <tr>
-<td>The hardware test found problems</td>
-<td><code>hardware-test-problems</code></td>
+<td>A check of the hardware test that failed, by its name</td>
+<td>
+<code>hardware-test-fail</code>, <code>ip-address</code>
+</td>
+</tr>
+<tr>
+<td>No graphics driver or no sound card, from the same test</td>
+<td>
+<code>hardware-test-warn</code>, <code>sound</code>
+</td>
+</tr>
+<tr>
+<td>A firmware file the computer asked for and the system lacks, by its file name</td>
+<td>
+<code>missing-firmware</code>, <code>iwlwifi-8265-36.ucode</code>
+</td>
 </tr>
 </tbody>
 </table>
-<p>Each kind is sent once, with how many times it happened in ranges (1, 2-5, 6-20, more than 20), and once with the
-version and once with the model of the computer. A week with no problem sends <code>none</code>. Only the kind, the number of a
-code and the name of a program leave the device, never the text of a message: those hold user and server names.</p>
-<p><code>sudo /opt/openthinrdp/stats.sh --print</code> on a device prints exactly what it would send, and sends nothing.</p>
-<div class="markdown-heading"><h2 class="heading-element">One count per send</h2><a id="one-count-per-send" class="anchor" aria-label="Permalink: One count per send" href="#one-count-per-send"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
-<p>The counter tells visitors apart by internet address and program, so the devices of a site, which all leave from the
-same address, would count as one. Each send therefore carries a random number made for that send only, at the end of
-its program name (for example <code>OpenThinRDP/0.2.28 (s 3f9a2c1d)</code>). It is kept nowhere, it is taken from nothing of the
-device or of you, and the next send has another: it tells sends apart, never devices over time.</p>
+<p>Each kind with how many times it happened since the last send. Only the kind, the number of a code, the name of a
+program, the name of a check of the hardware test and the name of a firmware file leave the device, never the text of
+a message: those hold user and server names.</p>
 <div class="markdown-heading"><h2 class="heading-element">What the manager sends</h2><a id="what-the-manager-sends" class="anchor" aria-label="Permalink: What the manager sends" href="#what-the-manager-sends"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
-<p>Its first start shows, once, what the manager and the devices send and where each is switched off. Half a minute
-after it starts the first time, then once a day while it is used (its version, its Windows and how many devices it
-looks after change more often than a device does):</p>
+<p>Its first start shows, once, what the manager and the devices send and where each is set. Half a minute after it
+starts the first time, then once a day while it is used.</p>
+<p><strong>The day</strong> (<code>manager_day</code>, <em>Full</em> only):</p>
 <table>
 <thead>
 <tr>
-<th>Count</th>
+<th>What</th>
 <th>Example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Manager version</td>
-<td><code>0.2.16</code></td>
-</tr>
-<tr>
-<td>Windows version</td>
-<td><code>Windows Server 2025 Datacenter</code></td>
-</tr>
-<tr>
-<td>Language of the window</td>
-<td><code>it</code></td>
+<td>Manager version, Windows, language of the window</td>
+<td>
+<code>1.1.7</code>, <code>Windows Server 2025 Datacenter</code>, <code>it</code>
+</td>
 </tr>
 <tr>
 <td>How many devices it manages, in ranges</td>
@@ -204,61 +285,56 @@ looks after change more often than a device does):</p>
 <code>1-5</code>, <code>6-20</code>, <code>21-100</code>, <code>more than 100</code>
 </td>
 </tr>
-</tbody>
-</table>
-<div class="markdown-heading"><h3 class="heading-element">Feedback (manager 1.1.2)</h3><a id="feedback-manager-112" class="anchor" aria-label="Permalink: Feedback (manager 1.1.2)" href="#feedback-manager-112"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
-<p>Once a week, until it is sent, the manager asks how it is going (also from <em>Settings &gt; Manager &gt; Send feedback</em>).
-Only when you press <em>Send</em>, and only these, go as two anonymous counts like the ones above:</p>
-<table>
-<thead>
 <tr>
-<th>Count</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>The vote</td>
+<td>The size of what it reads, as counts: hosts, VMs, clusters, domain controllers, servers, brokers, SQL replicas, iDRAC, Proxmox, vCenter, Veeam, Citrix, custom checks</td>
 <td>
-<code>4</code> (1 to 5)</td>
+<code>2</code>, <code>22</code>, <code>1</code>, <code>2</code>
+</td>
 </tr>
 <tr>
-<td>What it is used for, if chosen</td>
+<td>The pages opened and the actions used since the last send, by their fixed names, with how many times</td>
 <td>
-<code>home</code>, <code>office</code>, <code>trying</code>
+<code>health: 3</code>, <code>vm.start: 1</code>
 </td>
 </tr>
 </tbody>
 </table>
-<p>The words you write are not sent by the manager: it opens a discussion on GitHub already written, in your browser,
-and you decide whether to post it (with your GitHub account, in public). <em>Later</em> asks again in a week.</p>
+<p><strong>What went wrong</strong> (<code>manager_errors</code>, <em>Full</em> and <em>Errors only</em>, only on a day with errors): version, Windows,
+language and devices as above, and how many errors the manager and its window wrote in their logs. Never what they say.</p>
+<p><strong>Feedback</strong> (<code>manager_feedback</code>): once a week, until it is sent, the manager asks how it is going (also from
+<em>Settings &gt; Manager &gt; Send feedback</em>). Only when you press <em>Send</em>, and only these: the vote (1 to 5) and what it is
+used for, if chosen (<code>home</code>, <code>office</code>, <code>trying</code>). The words you write are not sent by the manager: it opens a
+discussion on GitHub already written, in your browser, and you decide whether to post it (with your GitHub account, in
+public). <em>Later</em> asks again in a week. Nothing when the anonymous data are off.</p>
 <div class="markdown-heading"><h2 class="heading-element">What is never sent</h2><a id="what-is-never-sent" class="anchor" aria-label="Permalink: What is never sent" href="#what-is-never-sent"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The name of a device or of a computer, IP or MAC addresses, user names, passwords, the domain, the names or addresses
 of servers and brokers, settings, the text of logs and error messages, anything typed on a device, anything shown in
 a session.</p>
+<div class="markdown-heading"><h2 class="heading-element">Where it goes</h2><a id="where-it-goes" class="anchor" aria-label="Permalink: Where it goes" href="#where-it-goes"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>To <a href="https://posthog.com/" rel="nofollow">PostHog</a> in its European cloud (Frankfurt). The project is set to keep no IP address; each
+send carries a random identifier made for it alone, kept nowhere and taken from nothing of the device or of you, no
+person profile and no place from the address. The project sees totals and averages, such as <em>HP t530: 12 devices,
+sign-in 4.2 s</em>, never a device followed over time. Devices before 0.3.3 and managers before 1.1.7 sent fewer counts
+to GoatCounter, also without any IP address.</p>
 <div class="markdown-heading"><h2 class="heading-element">What stays at your site</h2><a id="what-stays-at-your-site" class="anchor" aria-label="Permalink: What stays at your site" href="#what-stays-at-your-site"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Not sent anywhere, but worth knowing: to show the <em>experience</em> (0.2.23), each device writes in its event log how long
 each sign-in took (with the user name) and the latency and bandwidth of each session, and the manager keeps these
 40 days in <code>health\experience\</code> of the management folder. They are technical data of the service, readable by whoever
 reads that folder; in some countries measuring the work of employees has rules of its own (in Italy art. 4 of the
 Statuto dei lavoratori): tell the users, as for the other logs of the fleet.</p>
-<div class="markdown-heading"><h2 class="heading-element">Where it goes</h2><a id="where-it-goes" class="anchor" aria-label="Permalink: Where it goes" href="#where-it-goes"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
-<p>Each value is one count on <a href="https://www.goatcounter.com/" rel="nofollow">GoatCounter</a>, an open-source web counter that sets no
-cookies and keeps no IP address. The project sees totals, such as <em>OptiPlex 3000 Thin Client: 12</em>, never a single
-device: each count carries no number or name that would tell two devices apart.</p>
-<div class="markdown-heading"><h2 class="heading-element">Switching it off</h2><a id="switching-it-off" class="anchor" aria-label="Permalink: Switching it off" href="#switching-it-off"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">Choosing or switching it off</h2><a id="choosing-or-switching-it-off" class="anchor" aria-label="Permalink: Choosing or switching it off" href="#choosing-or-switching-it-off"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <ul>
 <li>
-<strong>One device</strong>: <em>Anonymous counts for the project</em> = off, the last setting of the device.</li>
+<strong>One device</strong>: <em>Anonymous data for the project</em>, the last setting of the device: <em>Full</em>, <em>Errors only</em> or <em>Off</em>.</li>
 <li>
 <strong>Every device of a site</strong>: the same setting in the manager, last in the <em>Settings</em> of the site (or of a group), or
-<code>ANON_STATS=off</code> in <code>common.conf</code>.</li>
+<code>ANON_STATS=off</code> (or <code>errors</code>) in <code>common.conf</code>.</li>
 <li>
-<strong>Before the first start</strong>: <code>ANON_STATS=off</code> in <code>image/site/site.conf</code> of your own image, and nothing is ever sent.
-<code>ANON_STATS=off</code> in <code>common.conf</code> holds from the moment a device has taken the central settings: a new device
-sends its first counts before that, a device that already has them sends nothing, also after an update.</li>
+<strong>Before the first start</strong>: <code>ANON_STATS=off</code> in <code>image/site/site.conf</code> of your own image: the question is not asked
+and nothing is ever sent. <code>ANON_STATS</code> in <code>common.conf</code> holds from the moment a device has taken the central
+settings: a new device sends its first data, with the level chosen on its screen, before that.</li>
 <li>
-<strong>The manager</strong>: <em>Settings &gt; Manager &gt; Anonymous counts for the project</em>, untick.</li>
+<strong>The manager</strong>: <em>Settings &gt; Manager &gt; Anonymous data for the project</em>.</li>
 </ul>
 <p>When it is off, nothing is sent. A device with no internet sends nothing and tries again at its next report.</p>
 <p class="source">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/privacy.md">docs/privacy.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</p>
@@ -268,7 +344,7 @@ sends its first counts before that, a device that already has them sends nothing
 <footer class="foot">
   <div class="wrap foot-in">
     <div><a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
-      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release 0.3.2.</p></div>
+      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release 0.3.3.</p></div>
     <div class="foot-cols">
       <nav aria-label="For you"><b>For you</b><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/windows-10-end-of-support.html">Windows 10 end of support</a><a href="https://openthinrdp.github.io/used-thin-client.html">Used thin clients</a><a href="https://openthinrdp.github.io/old-pc-thin-client.html">Old PC as a thin client</a><a href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">Raspberry Pi</a></nav>
       <nav aria-label="Product"><b>Product</b><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/udp.html">RDP over UDP</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/linux-rdp-client.html">RDP from Linux</a><a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">Proxmox and VMware</a></nav>

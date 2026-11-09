@@ -81,7 +81,7 @@ $site_pages = @(
      Desc = 'A free thin client OS for Windows VMs on Proxmox VE, VMware vSphere/ESXi, Nutanix AHV, XCP-ng and KVM, and Linux desktops through xrdp: RDP over UDP, USB, webcams, a whole fleet managed from one window, no licence per device.' }
   @{ Doc = 'docs/privacy.md'; Url = 'privacy.html'; Lang = 'en'
      Title = "OpenThinRDP privacy $dash the anonymous counts, all of them, and how to switch them off"
-     Desc = 'What OpenThinRDP and its manager send to the project: a few anonymous counts (version, model, processor, memory), never names, addresses or users. On GoatCounter, no cookies, no IP addresses. How to switch it off on one device, a whole site or the manager.' }
+     Desc = 'What OpenThinRDP and its manager send to the project: anonymous data at three levels (full, errors only, off), never names, addresses or users. To PostHog in the EU, no IP addresses kept. How to choose the level on one device, a whole site or the manager.' }
   @{ Doc = 'CHANGELOG.md'; Url = 'changelog.html'; Lang = 'en'
      Title = "OpenThinRDP changelog $dash what changed in every release"
      Desc = 'Every release of OpenThinRDP, newest first: new features, fixes, security updates and major updates of the thin client OS and of its Windows manager.' }

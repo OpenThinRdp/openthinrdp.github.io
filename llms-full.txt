@@ -1,6 +1,6 @@
 # OpenThinRDP: the documentation in one file
 
-Source: https://github.com/OpenThinRdp/openthinrdp (main), release 0.3.3, built 2026-11-09. Every section below is one file of the repository.
+Source: https://github.com/OpenThinRdp/openthinrdp (main), release 0.3.4, built 2026-11-10. Every section below is one file of the repository.
 
 
 ---
@@ -968,6 +968,10 @@ emulation, not yet on a real board. What is different from a PC and what to chec
 - **Wake-on-LAN**: enable "Wake on LAN" and **disable "Deep Sleep Control"**. With deep sleep in S4/S5 the
   network card is off and the magic packet never arrives. The same setting blocks the RTC alarm used by
   `POWER_ON_TIME`.
+- **AC Recovery** (Power Management): **On** for a device with `POWER_ON_TIME`. With Off (the default) a device
+  that loses power stays off when it comes back, and the alarm of `POWER_ON_TIME` goes with the power: it does not
+  wake the next morning. With On it starts when the power comes back; outside its hours OpenThinRDP warns for 60 s
+  (with Cancel) and switches off, with the alarm set again. The report of the device says it (`FW_AC_RECOVERY`).
 - **USB boot** must be enabled to install from a stick (Integrated Devices).
 - On Linux the settings can be changed without entering the setup screen, through `dell-wmi-sysman`
   (`/sys/class/firmware-attributes/dell-wmi-sysman/`), with the BIOS admin password if one is set.
@@ -2806,7 +2810,7 @@ own to test on. Reports are welcome in the [Discussions](https://github.com/Open
 | Key | Default | Meaning |
 |---|---|---|
 | `POWER_ON_TIME` | | `hh:mm`, RTC wake alarm (firmware support needed, see [hardware.md](hardware.md)) |
-| `POWER_OFF_TIME` | | `hh:mm`, with a 60 s warning that can be cancelled; waits for an open session to end |
+| `POWER_OFF_TIME` | | `hh:mm`, with a 60 s warning that can be cancelled; waits for an open session to end. With both times set, a device that starts outside its hours (the power came back, see *AC Recovery* in [hardware.md](hardware.md)) gets the same warning and switches off |
 | `POWER_ON_DAYS` | `1234567` | 1 = Monday ... 7 = Sunday |
 
 ## Look and language

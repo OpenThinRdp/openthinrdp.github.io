@@ -25,7 +25,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://openthinrdp.github.io/"},{"@type":"ListItem","position":2,"name":"OpenThinRDP changelog","item":"https://openthinrdp.github.io/changelog.html"}]}</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.3.5","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.3.6","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
@@ -36,8 +36,8 @@
   <div class="wrap nav-in">
     <a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
     <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
-    <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.5">Download 0.3.5</a>
-    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.5">Download 0.3.5</a></nav></details>
+    <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a>
+    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a></nav></details>
   </div>
 </header>
 <div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="https://openthinrdp.github.io/">Home</a> <span>&#8250;</span> <span>OpenThinRDP changelog</span></nav></div>
@@ -47,6 +47,92 @@
 the start of an entry, and in the file MAJOR of the repository) changes how a session connects or runs: a device
 with a management folder installs it only once the manager released it, one without asks on its screen.
 Downloads and signed update packages: <a href="https://github.com/OpenThinRdp/openthinrdp/releases">releases</a>.</p>
+<div class="markdown-heading"><h2 class="heading-element">0.3.6 (2026-11-16)</h2><a id="036-2026-11-16" class="anchor" aria-label="Permalink: 0.3.6 (2026-11-16)" href="#036-2026-11-16"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>The new logo</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/206">#206</a>), everywhere: boot, sign-in screen,
+dialogs, the boot menu of the ISO, the manager, the site. On the devices it is transparent on the dark background
+colours (the default) and on its own dark card when a site chooses light ones (<code>BG_TOP</code>, <code>BG_BOTTOM</code>); with light
+colours the clock, the date, the buttons and the icons on the background turn dark as well, by the same rule. A
+device still showing the previous project picture gets the new one with the update; the pictures of a site stay.</li>
+<li>
+<strong>One saved value no longer valid blocked every save</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/201">#201</a>).
+A save checks again the values it does not change. One of them no longer valid made every save fail, and nothing in
+the settings could clear it. The typical case is Wi-Fi on with its password no longer readable on the device (the
+copy kept in the TPM): <em>Wi-Fi password missing for the network</em> at every save, a restart did not help. Now, from
+the settings and the Wi-Fi page, such a value goes back to its default and the rest is saved, and a message says
+which one. With the Wi-Fi password lost, the other settings are saved, the Wi-Fi is left as it is (the connection
+still running is not cut) and the message says to connect again from the Wi-Fi page. A value typed now and not valid
+is still refused, and the central settings stay strict: one not valid is refused and reported to the manager.</li>
+<li>The Wi-Fi page checks the settings it will save <strong>before</strong> it stops the Wi-Fi of now: a save refused after the try
+left the device without Wi-Fi at every attempt (#201).</li>
+<li>
+<strong>A secret the TPM does not give back at one start is no longer thrown away</strong> (#201). It was set aside for good at
+the first start where the TPM did not answer in time (a firmware TPM still busy at power on): the Wi-Fi key was lost,
+and from then on every save was refused. Now three tries at each start, and a secret is given up only after three
+starts in a row.</li>
+<li>
+<strong>Simplified Chinese</strong>, and a set of fixes, by @soso192 (zhouqi) (#201). Thank you!
+<ul>
+<li>The screens in Simplified Chinese (<code>LANGUAGE=zh</code>, <code>lang/zh.sh</code>), with a Chinese font in every image
+(<code>fonts-wqy-microhei</code>, 5 MB). The language list of the settings knew only English and Italian: a device set to
+Dutch (or Chinese) was turned back to English at the first <em>Save</em>.</li>
+<li>The device file holds only what differs from <code>site.conf</code> and the defaults: the first <em>Save</em> froze them all on the
+device for good, and an old copy is now dropped. A value a choice list does not know stays as it is (it was
+replaced by the first item of the list).</li>
+<li>The settings already stored are read without a process substitution (where <code>/dev/fd</code> is missing the device file
+was rewritten with only the keys of that save), and a write that fails says so instead of "settings saved".</li>
+<li>
+<code>/etc/network/interfaces</code> is written atomically, <code>apply.sh</code> always brings an adapter up again after a restart, and
+a power off waits for <code>apply.sh</code> and syncs: a device that switches off after a session came back with a
+half-written file. After <em>Save</em> the Wi-Fi page no longer restarts the adapter while <code>apply.sh</code> does.</li>
+<li>A computer or broker may be an IPv6 address (<code>fd00::1</code>, <code>[fd00::1]:3390</code>) or a name with the trailing dot; the
+message of a value refused names it; a backslash or <code>-n</code> in a value no longer cuts or empties the messages; spaces
+around a value in <code>site.conf</code> no longer turn a setting off. The Wi-Fi page accepts a 64-digit key, and a 32-byte
+network name whose halves are equal.</li>
+<li>Building the image: <code>MIRROR</code> and <code>MIRROR_SECURITY</code> in <code>build.conf</code>; the two Broadcom firmware installers, which
+download from the internet during the build, are left out; an image built in Chinese has its locale (<code>docs/building.md</code>).</li>
+</ul>
+</li>
+<li>
+<strong>More Wi-Fi networks</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/208">#208</a>). The Wi-Fi page adds a
+network to the networks of the device (up to 10) instead of replacing the main one, marks the saved ones in the list
+(also when they are not around) and forgets the device's own ones (<em>Forget</em>). Up to three more networks for every
+device from the settings and the manager (<code>WIFI_SSID_2..4</code>, <code>WIFI_PSK_2..4</code>), e.g. two buildings. The device joins
+whichever is around, the strongest when more are, and the one chosen on the page at once. The keys stay in the TPM;
+the status file names the networks, never a key; the anonymous data only counts them.</li>
+<li>
+<strong>Closing the session from the device</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/209">#209</a>), both off
+by default: FreeRDP's bar at the top of the session (<code>SESSION_BAR</code>) and a key combination of your choice
+(<code>SESSION_CLOSE_KEY</code>, e.g. Ctrl+Alt+Q). Either ends like <em>Disconnect</em> in Windows: the session stays open on the
+computer. Ctrl+Alt+Enter no longer takes the session out of full screen (out of it, the X of the window closed the
+session and an installed device switched off; <code>RDP_EXTRA=+toggle-fullscreen</code> gives it back), and a minimized session
+comes back by itself.</li>
+<li>The error after the last attempt names the computer of this connection (the one chosen in the list, not always the
+first), with words that fit a broker and a single PC.</li>
+<li>
+<strong>The Wi-Fi page said <em>busy</em> at every try after the first one</strong>, until a restart: the <code>wpa_supplicant</code> it started
+kept its lock. The status line of the settings said <em>Wi-Fi: not connected</em> on a connected Wi-Fi (<code>iw</code> is outside the
+path of the kiosk user) (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/202">#202</a>).</li>
+<li>
+<strong>The first start installs the newest version first</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/203">#203</a>).
+At the first start of a device without a management folder (nothing set up yet: the ISO someone is trying, a new
+install), with a network, OpenThinRDP looks for a newer version and installs it before the hardware test and the
+setup, without a question (on the test bench 7 s, from the check to the setup on the new version). On Wi-Fi, as soon
+as the Wi-Fi page connects. Every other start stays as fast as in 0.3.5.</li>
+<li>
+<strong>Anonymous data: what went wrong, as soon as it happens</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/204">#204</a>).
+Errors are sent at the next report (at most one send every 10 minutes), the week every 7 days and at once after an
+update. Before, everything once a week: an error reached the project up to 7 days late, and a device updated from
+0.3.2 or earlier sent nothing for a week. What is sent does not change (<a href="https://openthinrdp.github.io/privacy.html">privacy</a>).</li>
+<li>
+<strong>The live system on a USB stick</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/205">#205</a>). No countdown at
+the end of a session: <em>Shut down</em>, <em>Back to sign-in</em> or <em>Connect</em>, as the person chooses. Power off shows <em>Saving the
+settings on the USB stick</em> and writes them before the screen goes dark (the first time, the settings partition made
+at this start is filled then). A stick that cannot keep the settings (Ventoy or another boot manager, a CD, no room)
+is said on the sign-in screen, with how to write the ISO so that it does. Installed devices and devices with a
+management folder do as before.</li>
+</ul>
 <div class="markdown-heading"><h2 class="heading-element">0.3.5 (2026-11-13)</h2><a id="035-2026-11-13" class="anchor" aria-label="Permalink: 0.3.5 (2026-11-13)" href="#035-2026-11-13"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <ul>
 <li>
@@ -1225,11 +1311,11 @@ installation.</li>
 <p class="source">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/CHANGELOG.md">CHANGELOG.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</p>
 </main>
 <section class="related"><div class="wrap"><p class="eyebrow">Read next</p><div class="rel"><a href="https://openthinrdp.github.io/maturity.html"><b>Is OpenThinRDP production ready?</b><span>Production readiness of OpenThinRDP area by area:</span></a><a href="https://openthinrdp.github.io/features.html"><b>OpenThinRDP features</b><span>Every feature of the OpenThinRDP thin client:</span></a><a href="https://openthinrdp.github.io/faq.html"><b>Thin client FAQ</b><span>Free alternative to IGEL OS or Dell ThinOS?</span></a></div></div></section>
-<section class="final"><div class="wrap center"><h2>Try it live. Nothing is installed.</h2><p class="fine">Write the ISO to a USB stick, start a PC from it, sign in to your Windows desktop.</p><div class="ctas center"><a class="btn" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.5">&#11015; Download the ISO</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/home.html">At home</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/business.html">For companies</a></div></div></section>
+<section class="final"><div class="wrap center"><h2>Try it live. Nothing is installed.</h2><p class="fine">Write the ISO to a USB stick, start a PC from it, sign in to your Windows desktop.</p><div class="ctas center"><a class="btn" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">&#11015; Download the ISO</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/home.html">At home</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/business.html">For companies</a></div></div></section>
 <footer class="foot">
   <div class="wrap foot-in">
     <div><a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
-      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release 0.3.5.</p></div>
+      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release 0.3.6.</p></div>
     <div class="foot-cols">
       <nav aria-label="For you"><b>For you</b><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/windows-10-end-of-support.html">Windows 10 end of support</a><a href="https://openthinrdp.github.io/used-thin-client.html">Used thin clients</a><a href="https://openthinrdp.github.io/old-pc-thin-client.html">Old PC as a thin client</a><a href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">Raspberry Pi</a></nav>
       <nav aria-label="Product"><b>Product</b><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/udp.html">RDP over UDP</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/linux-rdp-client.html">RDP from Linux</a><a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">Proxmox and VMware</a></nav>

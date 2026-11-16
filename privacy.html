@@ -25,7 +25,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://openthinrdp.github.io/"},{"@type":"ListItem","position":2,"name":"OpenThinRDP privacy","item":"https://openthinrdp.github.io/privacy.html"}]}</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
- "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.3.5","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.3.6","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
@@ -36,8 +36,8 @@
   <div class="wrap nav-in">
     <a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
     <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
-    <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.5">Download 0.3.5</a>
-    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.5">Download 0.3.5</a></nav></details>
+    <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a>
+    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a></nav></details>
   </div>
 </header>
 <div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="https://openthinrdp.github.io/">Home</a> <span>&#8250;</span> <span>OpenThinRDP privacy</span></nav></div>
@@ -58,11 +58,11 @@ this page lists all of it, item by item. Nothing on it can tell who you are, whe
 <tr>
 <td>
 <strong>Full</strong> (the default)</td>
-<td>Once a week what the device is, how it is set up and used, how well it runs, and what went wrong</td>
+<td>Once a week what the device is, how it is set up and used and how well it runs; what went wrong as soon as it happens</td>
 </tr>
 <tr>
 <td><strong>Errors only</strong></td>
-<td>Only in a week when something went wrong: what went wrong, on which version and computer</td>
+<td>Only what went wrong, as soon as it happens, on which version and computer</td>
 </tr>
 <tr>
 <td><strong>Off</strong></td>
@@ -76,7 +76,8 @@ it before the answer. Later: <em>Anonymous data for the project</em>, the last s
 (<em>Settings &gt; Manager</em>). Devices and managers that sent anonymous counts before 0.3.3 and manager 1.1.7 send <em>Full</em>.</p>
 <p><code>sudo /opt/openthinrdp/stats.sh --print</code> on a device prints exactly what it would send now, and sends nothing.</p>
 <div class="markdown-heading"><h2 class="heading-element">What a device sends</h2><a id="what-a-device-sends" class="anchor" aria-label="Permalink: What a device sends" href="#what-a-device-sends"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
-<p>Once a week (<code>stats.sh</code>, started by <code>report.sh</code>); the first time once its level is chosen.</p>
+<p>The week once a week, and at once after an update; what went wrong as soon as it happens (at most one send every 10
+minutes). <code>stats.sh</code>, started by <code>report.sh</code>; the first time once its level is chosen.</p>
 <p><strong>The week</strong> (<code>otr_week</code>, <em>Full</em> only):</p>
 <table>
 <thead>
@@ -115,6 +116,10 @@ it before the answer. Later: <em>Anonymous data for the project</em>, the last s
 <td>
 <code>yes</code> / <code>no</code>
 </td>
+</tr>
+<tr>
+<td>How many Wi-Fi networks it knows (a number, never their names)</td>
+<td><code>2</code></td>
 </tr>
 <tr>
 <td>Domain or workgroup; a broker or one computer</td>
@@ -340,11 +345,11 @@ settings: a new device sends its first data, with the level chosen on its screen
 <p class="source">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/privacy.md">docs/privacy.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</p>
 </main>
 <section class="related"><div class="wrap"><p class="eyebrow">Read next</p><div class="rel"><a href="https://openthinrdp.github.io/maturity.html"><b>Is OpenThinRDP production ready?</b><span>Production readiness of OpenThinRDP area by area:</span></a><a href="https://openthinrdp.github.io/faq.html"><b>Thin client FAQ</b><span>Free alternative to IGEL OS or Dell ThinOS?</span></a><a href="https://openthinrdp.github.io/features.html"><b>OpenThinRDP features</b><span>Every feature of the OpenThinRDP thin client:</span></a></div></div></section>
-<section class="final"><div class="wrap center"><h2>Try it live. Nothing is installed.</h2><p class="fine">Write the ISO to a USB stick, start a PC from it, sign in to your Windows desktop.</p><div class="ctas center"><a class="btn" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.5">&#11015; Download the ISO</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/home.html">At home</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/business.html">For companies</a></div></div></section>
+<section class="final"><div class="wrap center"><h2>Try it live. Nothing is installed.</h2><p class="fine">Write the ISO to a USB stick, start a PC from it, sign in to your Windows desktop.</p><div class="ctas center"><a class="btn" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">&#11015; Download the ISO</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/home.html">At home</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/business.html">For companies</a></div></div></section>
 <footer class="foot">
   <div class="wrap foot-in">
     <div><a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
-      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release 0.3.5.</p></div>
+      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release 0.3.6.</p></div>
     <div class="foot-cols">
       <nav aria-label="For you"><b>For you</b><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/windows-10-end-of-support.html">Windows 10 end of support</a><a href="https://openthinrdp.github.io/used-thin-client.html">Used thin clients</a><a href="https://openthinrdp.github.io/old-pc-thin-client.html">Old PC as a thin client</a><a href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">Raspberry Pi</a></nav>
       <nav aria-label="Product"><b>Product</b><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/udp.html">RDP over UDP</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/linux-rdp-client.html">RDP from Linux</a><a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">Proxmox and VMware</a></nav>

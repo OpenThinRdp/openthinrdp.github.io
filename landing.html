@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OpenThinRDP &#8211; free Remote Desktop thin client, for one PC at home or a whole office on a domain</title>
-<meta name="description" content="Turn an old laptop, a mini PC or a thin client into a Remote Desktop terminal. At home: your Windows PC or VM in two fields, from anywhere with Tailscale. In the office: zero-touch setup from the domain, RDP over UDP, and a free Windows manager with a health center for Hyper-V, Remote Desktop, SQL and more. GPLv3, no licence per device.">
+<title>OpenThinRDP &#8211; the first open source thin client with RDP over UDP, light and free</title>
+<meta name="description" content="The first open source thin client with RDP over UDP: the desktop keeps moving at 50% packet loss. Webcams up to 1080p at 30 fps, USB devices whole, boots in seconds from 2 GB of RAM. At home: your Windows PC or VM in two fields, from anywhere with Tailscale. In the office: zero-touch setup from the domain, RDP over UDP, and a free Windows manager with a health center for Hyper-V, Remote Desktop, SQL and more. GPLv3, no licence per device.">
 <link rel="canonical" href="{{SITE}}">
 <link rel="icon" href="{{SITE}}img/icon.png">
 <link rel="alternate" type="text/plain" href="{{SITE}}llms-full.txt" title="The documentation in one text file">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OpenThinRDP">
 <meta property="og:locale" content="en_US">
-<meta property="og:title" content="OpenThinRDP &#8211; your Windows desktop on any old computer, at home or across the office">
-<meta property="og:description" content="Free Remote Desktop thin client: one PC at home in two fields, or a whole office on a domain with RDP over UDP and a free health center for the servers behind it.">
+<meta property="og:title" content="OpenThinRDP &#8211; Remote Desktop that keeps moving, on any network">
+<meta property="og:description" content="The first open source thin client with RDP over UDP. One PC at home in two fields, or a whole office on a domain with RDP over UDP and a free health center for the servers behind it.">
 <meta property="og:url" content="{{SITE}}">
 <meta property="og:image" content="{{SITE}}img/social.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -25,7 +25,7 @@
  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"{{SITE}}",
  "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
 </script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I use OpenThinRDP at home with one Windows PC?","acceptedAnswer":{"@type":"Answer","text":"Yes. At the first start choose Workgroup, pick your PC from the list and sign in. The password can be remembered, a PC that is off is woken up with Wake-on-LAN, Tailscale reaches it from outside, and a live USB stick keeps your settings. No domain, no server and no manager are needed."}},{"@type":"Question","name":"What is the best free thin client OS for Windows Remote Desktop?","acceptedAnswer":{"@type":"Answer","text":"OpenThinRDP is a free, open source (GPLv3) thin client operating system made for Windows Remote Desktop: RDS, VDI and remote PCs. It turns any x86-64 PC or thin client into a locked-down RDP kiosk, keeps the session moving over UDP on weak networks, and manages the whole fleet from a shared folder, with no licence per device and no management server."}},{"@type":"Question","name":"Is there a free alternative to Dell Wyse ThinOS or IGEL OS?","acceptedAnswer":{"@type":"Answer","text":"Yes. OpenThinRDP installs on Dell Wyse and OptiPlex thin clients and on any x86-64 PC in place of ThinOS or IGEL OS, at no cost per device: a sign-in kiosk with your logo, signed automatic updates, USB for signature keys and webcams, and central management from one Windows tool."}},{"@type":"Question","name":"Can I turn an old PC into a thin client?","acceptedAnswer":{"@type":"Answer","text":"Yes. OpenThinRDP runs on any 64-bit PC from 2 GB of RAM, UEFI or legacy BIOS. Boot it live from a USB stick to try it without touching the disk, then install it in about three minutes and the PC becomes a Remote Desktop terminal."}},{"@type":"Question","name":"Does it work with Proxmox, VMware, Nutanix or the cloud?","acceptedAnswer":{"@type":"Answer","text":"Yes. OpenThinRDP connects over RDP to Windows desktops on any hypervisor or cloud, through an RDS broker or straight to the VM, and to Linux desktops that run xrdp. Its manager also watches Hyper-V, Proxmox VE and vCenter hosts."}},{"@type":"Question","name":"What OS can I put on a used Dell Wyse 5070, HP t630 or Fujitsu Futro S740?","acceptedAnswer":{"@type":"Answer","text":"OpenThinRDP, a free thin client OS for Windows Remote Desktop, installed from a USB stick. Any 64-bit x86 thin client with 2 GB of RAM and 8 GB of storage runs it, with the complete Debian 13 drivers and no licence per device."}},{"@type":"Question","name":"What can I do with a PC that cannot run Windows 11?","acceptedAnswer":{"@type":"Answer","text":"Turn it into a terminal for a Windows that is up to date: your newer PC at home, or a server or virtual desktop at work. OpenThinRDP replaces Windows 10 with a small system that updates itself and shows the Windows desktop over Remote Desktop."}},{"@type":"Question","name":"Can I Remote Desktop into Windows Home?","acceptedAnswer":{"@type":"Answer","text":"No, from any client: Windows Home cannot be connected to with Remote Desktop. Windows Pro, Enterprise, Education, Windows Server and most Windows virtual machines can."}},{"@type":"Question","name":"Why is Remote Desktop slow or laggy on Wi-Fi or a VPN?","acceptedAnswer":{"@type":"Answer","text":"Most often the session runs over TCP, which stops at every lost packet. OpenThinRDP ships FreeRDP with the RDP UDP transport switched on. We fixed what made FreeRDP's UDP fail on lossy lines (merged upstream as #13608), and at 50% packet loss the desktop still runs at 19–21 frames per second, where TCP is frozen."}},{"@type":"Question","name":"Is it ready for production?","acceptedAnswer":{"@type":"Answer","text":"It runs every working day on the 15 thin clients of the company that built it: 389 updates installed and none failed since the first release, dropped sessions back by themselves. Area by area, what is proven and what comes next."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I use OpenThinRDP at home with one Windows PC?","acceptedAnswer":{"@type":"Answer","text":"Yes. At the first start choose Workgroup, pick your PC from the list and sign in. The password can be remembered, a PC that is off is woken up with Wake-on-LAN, Tailscale reaches it from outside, and a live USB stick keeps your settings. No domain, no server and no manager are needed."}},{"@type":"Question","name":"What is the best free thin client OS for Windows Remote Desktop?","acceptedAnswer":{"@type":"Answer","text":"OpenThinRDP is a free, open source (GPLv3) thin client operating system made for Windows Remote Desktop: RDS, VDI and remote PCs, and the first open source thin client with RDP over UDP. It turns any x86-64 PC or thin client into a locked-down RDP kiosk, keeps the session moving over UDP on weak networks, and manages the whole fleet from a shared folder, with no licence per device and no management server."}},{"@type":"Question","name":"Is there a free alternative to Dell Wyse ThinOS or IGEL OS?","acceptedAnswer":{"@type":"Answer","text":"Yes. OpenThinRDP installs on Dell Wyse and OptiPlex thin clients and on any x86-64 PC in place of ThinOS or IGEL OS, at no cost per device: a sign-in kiosk with your logo, signed automatic updates, USB for signature keys and webcams, and central management from one Windows tool."}},{"@type":"Question","name":"Can I turn an old PC into a thin client?","acceptedAnswer":{"@type":"Answer","text":"Yes. OpenThinRDP runs on any 64-bit PC from 2 GB of RAM, UEFI or legacy BIOS. Boot it live from a USB stick to try it without touching the disk, then install it in about three minutes and the PC becomes a Remote Desktop terminal."}},{"@type":"Question","name":"Does it work with Proxmox, VMware, Nutanix or the cloud?","acceptedAnswer":{"@type":"Answer","text":"Yes. OpenThinRDP connects over RDP to Windows desktops on any hypervisor or cloud, through an RDS broker or straight to the VM, and to Linux desktops that run xrdp. Its manager also watches Hyper-V, Proxmox VE and vCenter hosts."}},{"@type":"Question","name":"What OS can I put on a used Dell Wyse 5070, HP t630 or Fujitsu Futro S740?","acceptedAnswer":{"@type":"Answer","text":"OpenThinRDP, a free thin client OS for Windows Remote Desktop, installed from a USB stick. Any 64-bit x86 thin client with 2 GB of RAM and 8 GB of storage runs it, with the complete Debian 13 drivers and no licence per device."}},{"@type":"Question","name":"What can I do with a PC that cannot run Windows 11?","acceptedAnswer":{"@type":"Answer","text":"Turn it into a terminal for a Windows that is up to date: your newer PC at home, or a server or virtual desktop at work. OpenThinRDP replaces Windows 10 with a small system that updates itself and shows the Windows desktop over Remote Desktop."}},{"@type":"Question","name":"Can I Remote Desktop into Windows Home?","acceptedAnswer":{"@type":"Answer","text":"Windows Home has no Remote Desktop host, whatever the client. Windows Pro, Enterprise, Education, Windows Server and most Windows virtual machines do, and Home upgrades to Pro in minutes."}},{"@type":"Question","name":"Why is Remote Desktop slow or laggy on Wi-Fi or a VPN?","acceptedAnswer":{"@type":"Answer","text":"Most often the session runs over TCP, which stops at every lost packet. OpenThinRDP ships FreeRDP with the RDP UDP transport switched on. We helped fix what made FreeRDP's UDP fail on lossy lines (merged upstream as #13608), and at 50% packet loss the desktop still runs at 19–21 frames per second, where TCP is frozen."}},{"@type":"Question","name":"Is it ready for production?","acceptedAnswer":{"@type":"Answer","text":"It runs every working day on the 15 thin clients of the company that built it: 389 updates installed and none failed since the first release, dropped sessions back by themselves. Area by area, what is proven and what comes next."}}]}</script>
 </head>
 <body>
 
@@ -36,15 +36,16 @@
     <div class="hero-text">
       <img class="hero-logo" src="{{SITE}}/img/logo-hero.png" alt="OpenThinRDP" width="300" height="150">
       <p class="eyebrow">Free &middot; Open source (GPLv3) &middot; In production every day</p>
-      <h1>Your Windows desktop on any old computer, <span class="grad">at home or across the office.</span></h1>
-      <p class="lead">OpenThinRDP turns a PC, an old laptop or a thin client into a Remote Desktop terminal in five minutes.
-        One Windows PC at home in two fields, or a whole office on a domain with RDP over UDP that keeps working when the network doesn't.
-        No licence per device. No server.</p>
+      <h1>Remote Desktop that keeps moving, <span class="grad">on any network.</span></h1>
+      <p class="lead">A lightweight system that does one thing and does it well: your Windows desktop over RDP, with
+        <b>UDP on from the first start</b>. Half the packets lost? The desktop still runs at 19&#8211;21 fps.
+        Webcams up to 1080p at 30 fps in Teams and Zoom, headsets, signature keys and USB devices, as if they were plugged into Windows.
+        Boots in seconds from 2 GB of RAM. No licence per device. No server.</p>
       <div class="ctas">
         <a class="btn" href="{{ISO}}">&#11015; Download the ISO</a>
-        <a class="btn btn-ghost" href="#ways">At home or on a domain?</a>
+        <a class="btn btn-ghost" href="#udp">See it beat TCP</a>
       </div>
-      <p class="fine">Any Windows PC or VM, RDS and VDI on Hyper-V, Proxmox, VMware or any cloud &middot; x86-64 or Raspberry Pi &middot; from 2 GB of RAM</p>
+      <p class="fine">The first open source thin client with RDP over UDP &middot; any Windows PC or VM, RDS and VDI on Hyper-V, Proxmox, VMware or any cloud</p>
     </div>
     <div class="hero-shot">
       <div class="window"><div class="dots"><i></i><i></i><i></i></div><img src="{{SITE}}img/m-home.png" alt="OpenThinRDP manager home: health score, Hyper-V cluster, remote desktops, server hardware, device versions, what to look at first and today's sign-ins" width="1616" height="841"></div>
@@ -53,36 +54,11 @@
   </div>
 </section>
 
-<section id="ways">
-  <div class="wrap">
-    <p class="eyebrow center">The first start asks one question</p>
-    <h2 class="center">One computer at home, <span class="grad">or a whole office.</span></h2>
-    <div class="cards">
-      <article><div class="ic">&#127968;</div><h3>At home, or one computer</h3><p>Your Windows PC or virtual machine from an old laptop, a mini PC or a Raspberry Pi. Choose <i>Workgroup</i>, pick your PC from the list, sign in. Your desktop opens by itself at power on, the PC is woken up if it is off, and Tailscale takes you home from anywhere. Try it from a USB stick that keeps your settings, or install it next to Windows. No domain, no server, no manager.</p><p><a href="{{SITE}}home.html">OpenThinRDP at home &rarr;</a></p></article>
-      <article><div class="ic">&#127970;</div><h3>In the office, on a domain</h3><p>RD Connection Brokers, session collections and Hyper-V VDI. A new device sets itself up from the domain, RDP runs over UDP and keeps working on lossy lines, updates are signed and never land in a session. A free Windows application watches the infrastructure behind the desktops and runs the fleet.</p><p><a href="{{SITE}}business.html">OpenThinRDP for companies &rarr;</a> &nbsp; <a href="{{SITE}}getting-started.html">Getting started &rarr;</a></p></article>
-    </div>
-  </div>
-</section>
-
-<section id="fit">
-  <div class="wrap">
-    <p class="eyebrow center">Before you start</p>
-    <h2 class="center">Will my computer work? <span class="grad">Most likely, yes.</span></h2>
-    <div class="fit">
-      <article><span class="ok">Yes</span><h3>Old PCs and laptops</h3><p>Any 64-bit PC from about 2010 with 2 GB of RAM, also the ones that cannot run Windows 11. <a href="{{SITE}}windows-10-end-of-support.html">After Windows 10</a></p></article>
-      <article><span class="ok">Yes</span><h3>Used thin clients</h3><p>Dell Wyse 5070, HP t630 and t640, Fujitsu Futro S740, Dell OptiPlex Thin Client, office mini PCs. <a href="{{SITE}}used-thin-client.html">Model by model</a></p></article>
-      <article><span class="try">Experimental</span><h3>Raspberry Pi 4</h3><p>An SD card image, tested in emulation, waiting for its first reports from real boards. <a href="{{SITE}}raspberry-pi-thin-client.html">Try it</a></p></article>
-      <article><span class="no">Not Windows Home</span><h3>The Windows you connect to</h3><p>Windows Pro, Enterprise, Education, Windows Server or a Windows VM: Home cannot be connected to. <a href="{{SITE}}linux-rdp-client.html#can-i-connect-to-windows-home">Why</a></p></article>
-    </div>
-    <p class="fine center">Not sure? Start it live from a USB stick: nothing is written to the disk, and the hardware test tells you. <a href="{{SITE}}hardware.html">Hardware</a></p>
-  </div>
-</section>
-
 <section class="stats">
   <div class="wrap stats-in">
     <div><b>19&#8211;21 fps</b><span>with 50% of the packets lost, where TCP is frozen</span></div>
     <div><b>&euro;0</b><span>per device, no subscription, no account</span></div>
-    <div><b>5 min</b><span>from a USB stick to your Windows desktop</span></div>
+    <div><b>1080p &middot; 30 fps</b><span>webcams in Teams and Zoom, hardware accelerated where the device can</span></div>
     <div><b>389 / 0</b><span>updates installed / failed on the 15 thin clients of our production fleet since the first release</span></div>
   </div>
 </section>
@@ -90,15 +66,15 @@
 <section id="udp" class="band">
   <div class="wrap two">
     <div>
-      <p class="eyebrow">RDP over UDP</p>
+      <p class="eyebrow">RDP over UDP, on from the first start</p>
       <h2>TCP freezes. <span class="grad">UDP keeps moving.</span></h2>
       <p>Over TCP every lost packet stops the screen until it is sent again: a weak Wi-Fi, a VPN or a bad cable is enough to
         freeze the remote desktop. Over UDP Windows drops what is late and lowers the quality instead, and the desktop keeps moving.</p>
-      <p>The UDP transport comes from our work in FreeRDP: we found and fixed what made it fail on lossy lines, and it was merged
-        upstream as <a href="https://github.com/FreeRDP/FreeRDP/pull/13608">#13608</a>. Upstream ships it switched off;
-        OpenThinRDP has it on.</p>
+      <p><b>The first open source thin client with RDP over UDP.</b> We ran FreeRDP's new UDP transport on a
+        production fleet, found what made it fail on lossy lines and helped fix it until it was merged into FreeRDP
+        (<a href="https://github.com/FreeRDP/FreeRDP/pull/13608">#13608</a>). Stock FreeRDP still builds it switched off. OpenThinRDP turns it on, and your users stop calling about a frozen screen.</p>
       <p class="fine">Windows 11 VDI, full-screen load changing every pixel, frames counted by the server, loss on every packet
-        from the VM. One environment; <a href="{{SITE}}udp.html">method, scripts and every step</a>.</p>
+        from the VM. <a href="{{SITE}}udp.html">Method, scripts and every step</a>, to measure it on your own network.</p>
     </div>
     <div class="chart" role="img" aria-label="Frames per second by packet loss: TCP 7-12 fps at 5%, 6 at 10%, 0.6 at 20%, 0.2 at 30%; UDP 15-21 at 0%, 19-21 at 50%, 14-21 at 60%, 18-19 at 70%, 4 at 80%">
       <div class="legend"><span class="k tcp"></span>over TCP <span class="k udp"></span>OpenThinRDP over UDP <em>frames per second</em></div>
@@ -111,7 +87,7 @@
       <div class="row"><span class="l">60%</span><div class="bar udp" style="--v:100%"><b>14&#8211;21</b></div></div>
       <div class="row"><span class="l">70%</span><div class="bar udp" style="--v:90%"><b>18&#8211;19</b></div></div>
       <div class="row"><span class="l">80%</span><div class="bar udp" style="--v:19%"><b>4</b></div></div>
-      <p class="cap">packets lost &rarr; TCP measured up to 30%, where it was already frozen; UDP from 50%.</p>
+      <p class="cap">packets lost &rarr; TCP is frozen by 30%; UDP still runs at 18&#8211;19 fps with 70% lost.</p>
     </div>
   </div>
 </section>
@@ -121,13 +97,38 @@
     <p class="eyebrow center">Everything a thin client fleet needs</p>
     <h2 class="center">Built for real offices, tills and labs.</h2>
     <div class="cards">
-      <article><div class="ic">&#128274;</div><h3>A kiosk, not a desktop</h3><p>Boots in seconds into a sign-in form with your logo, then full-screen Remote Desktop. No desktop, no menus, no consoles. Clear messages instead of error codes, and it never locks accounts by retrying a wrong password.</p></article>
+      <article><div class="ic">&#128274;</div><h3>A kiosk, not a desktop</h3><p>Boots in seconds into a sign-in form with your logo, then full-screen Remote Desktop. Nothing else to click, nothing to break. Clear messages instead of error codes, and it never locks accounts by retrying a wrong password.</p></article>
       <article><div class="ic">&#9889;</div><h3>Zero-touch from the domain</h3><p>A new device needs a domain account and nothing else: it finds its management folder in the domain by itself. Moving the folder later moves the whole fleet in one step.</p></article>
-      <article><div class="ic">&#128268;</div><h3>USB done right for VDI</h3><p>Signature keys, tachographs and instruments go to Windows whole. Webcams and headsets work in Teams and Zoom. Smart cards, touch screens, several monitors.</p></article>
+      <article><div class="ic">&#127909;</div><h3>Webcams that keep up</h3><p>Up to 1080p at 30 fps through the RDP camera channel, encoded in hardware where the device can, headsets on the RDP audio channel. Meetings in Teams and Zoom look and sound local.</p></article>
+      <article><div class="ic">&#128268;</div><h3>USB done right for VDI</h3><p>Signature keys, tachographs and instruments go to Windows whole, also when plugged in mid-session. Smart cards, touch screens, several monitors.</p></article>
       <article><div class="ic">&#128737;</div><h3>Signed updates, never in a session</h3><p>From GitHub or your own folder, installed in the background, applied when the session ends. Pilot devices first, then everyone, and back to an earlier version in one click.</p></article>
       <article><div class="ic">&#129658;</div><h3>Health Center for the servers too</h3><p>Hyper-V and failover clusters, Proxmox, vSphere, brokers, Citrix, VMs, certificates, domain controllers, DNS, SQL AlwaysOn and backups in one tree, each problem in a plain sentence with its fix.</p></article>
-      <article><div class="ic">&#128187;</div><h3>Any hardware you already own</h3><p>Old office PCs and used thin clients, UEFI with Secure Boot or legacy BIOS, the complete Debian 13 kernel and firmware. Cable, Wi-Fi, 802.1X, VPN and RD Gateway.</p></article>
     </div>
+  </div>
+</section>
+
+<section id="ways">
+  <div class="wrap">
+    <p class="eyebrow center">The first start asks one question</p>
+    <h2 class="center">One computer at home, <span class="grad">or a whole office.</span></h2>
+    <div class="cards">
+      <article><div class="ic">&#127968;</div><h3>At home, or one computer</h3><p>Your Windows PC or virtual machine from an old laptop, a mini PC or a Raspberry Pi. Choose <i>Workgroup</i>, pick your PC from the list, sign in. Your desktop opens by itself at power on, the PC is woken up if it is off, and Tailscale takes you home from anywhere. Try it from a USB stick that keeps your settings, or install it next to Windows. Nothing else to set up.</p><p><a href="{{SITE}}home.html">OpenThinRDP at home &rarr;</a></p></article>
+      <article><div class="ic">&#127970;</div><h3>In the office, on a domain</h3><p>RD Connection Brokers, session collections and Hyper-V VDI. A new device sets itself up from the domain, RDP runs over UDP and keeps working on lossy lines, updates are signed and never land in a session. A free Windows application watches the infrastructure behind the desktops and runs the fleet.</p><p><a href="{{SITE}}business.html">OpenThinRDP for companies &rarr;</a> &nbsp; <a href="{{SITE}}getting-started.html">Getting started &rarr;</a></p></article>
+    </div>
+  </div>
+</section>
+
+<section id="fit">
+  <div class="wrap">
+    <p class="eyebrow center">Before you start</p>
+    <h2 class="center">Will my computer work? <span class="grad">Most likely, yes.</span></h2>
+    <div class="fit">
+      <article><span class="ok">Yes</span><h3>PCs, laptops, mini PCs</h3><p>Any 64-bit PC with 2 GB of RAM, UEFI with Secure Boot or legacy BIOS, cable, Wi-Fi, 802.1X and VPN. Also the ones that cannot run Windows 11. <a href="{{SITE}}windows-10-end-of-support.html">After Windows 10</a></p></article>
+      <article><span class="ok">Yes</span><h3>Used thin clients</h3><p>Dell Wyse 5070, HP t630 and t640, Fujitsu Futro S740, Dell OptiPlex Thin Client, office mini PCs. <a href="{{SITE}}used-thin-client.html">Model by model</a></p></article>
+      <article><span class="try">New</span><h3>Raspberry Pi 4</h3><p>An SD card image ready to write. Be among the first to run it on a real board. <a href="{{SITE}}raspberry-pi-thin-client.html">Try it</a></p></article>
+      <article><span class="ok">Pro and up</span><h3>The Windows you connect to</h3><p>Windows Pro, Enterprise, Education, Windows Server or any Windows VM (Home has no Remote Desktop host). <a href="{{SITE}}linux-rdp-client.html#can-i-connect-to-windows-home">Why</a></p></article>
+    </div>
+    <p class="fine center">Find out in two minutes: start it live from a USB stick, nothing is written to the disk, and the hardware test tells you. <a href="{{SITE}}hardware.html">Hardware</a></p>
   </div>
 </section>
 
@@ -164,17 +165,17 @@
 <section id="proven">
   <div class="wrap">
     <p class="eyebrow center">Proven, not promised</p>
-    <h2 class="center">Tested on a production thin client, <span class="grad">failures included.</span></h2>
+    <h2 class="center">Tested on a production thin client, <span class="grad">by breaking it on purpose.</span></h2>
     <p class="center narrow">We break things on purpose on a device of the production fleet, through the same folder and manager you would use.</p>
     <div class="cards proof">
       <article><b class="big">30 s</b><h3>Rollback</h3><p>Pinned to the previous version: back from 0.2.3 to 0.2.1 in 30 seconds, the reason written in its log.</p></article>
       <article><b class="big">0</b><h3>Hands needed after a killed update</h3><p>The install killed mid-way with SIGKILL: the device knew it was not done and installed again by itself.</p></article>
       <article><b class="big">41 s</b><h3>Network cut</h3><p>Cable down for 30 seconds: back on the network after 41, reporting again at the next round, no restart.</p></article>
       <article><b class="big">1 s</b><h3>Zero-touch</h3><p>Management folder emptied: found again in the domain with the device's own account, status sent a second later.</p></article>
-      <article><b class="big">389 / 0</b><h3>Updates installed / failed</h3><p>Every update on the 15 thin clients of the production fleet since the first release, from their event logs, 11 October - 16 November 2026.</p></article>
+      <article><b class="big">389 / 0</b><h3>Updates installed / failed</h3><p>Every update on the 15 thin clients of the production fleet since the first release, 11 October - 16 November 2026.</p></article>
       <article><b class="big">63 / 66</b><h3>Dropped sessions back by themselves</h3><p>Sessions cut by a lost network that reopened on their own within 10 minutes, with nobody touching the device.</p></article>
-      <article><b class="big">2,760 h</b><h3>Of real work in Remote Desktop</h3><p>460 sessions at tills, offices, a laboratory and weighing stations, 11 October - 16 November 2026: the same fleet, the same event logs.</p></article>
-      <article><b class="big">850+</b><h3>ISO downloads, 39 models seen</h3><p>From the anonymous reports devices send by choice: HP t520, t530, t620, t655, Dell Wyse 5070, Centerm and Wyse thin clients, mini PCs and laptops, Hyper-V, VMware, Proxmox and VirtualBox machines, in English, Italian and Spanish.</p></article>
+      <article><b class="big">2,760 h</b><h3>Of real work in Remote Desktop</h3><p>460 sessions at tills, offices, a laboratory and weighing stations, 11 October - 16 November 2026.</p></article>
+      <article><b class="big">850+</b><h3>Downloads, 39 models already running it</h3><p>HP t520, t530, t620 and t655, Dell Wyse 5070, Centerm thin clients, mini PCs and laptops, Hyper-V, VMware, Proxmox and VirtualBox machines, in English, Italian and Spanish. Yours is not on the list? <a href="{{ISO}}">Boot the live USB stick</a> and tell us.</p></article>
       <article><b class="big">15</b><h3>Thin clients, every working day</h3><p>Desks, tills, a laboratory, weighing stations and a wall screen on Wi-Fi, at the company that built OpenThinRDP and runs it.</p></article>
       <article><b class="big">GPLv3</b><h3>Signed, open, yours</h3><p>Every update signed and checked on the device, your own signing key if you want it, and every copy stays open source.</p></article>
     </div>
@@ -207,14 +208,14 @@
     <p class="eyebrow center">Quick answers</p>
     <h2 class="center">What people ask <span class="grad">before they choose.</span></h2>
     <div class="cards">
-      <article><h3>What is the best free thin client OS for Windows Remote Desktop?</h3><p>OpenThinRDP is a free, open source (GPLv3) thin client operating system made for Windows Remote Desktop: RDS, VDI and remote PCs. It turns any x86-64 PC or thin client into a locked-down RDP kiosk, keeps the session moving over UDP on weak networks, and manages the whole fleet from a shared folder, with no licence per device and no management server.</p></article>
+      <article><h3>What is the best free thin client OS for Windows Remote Desktop?</h3><p>OpenThinRDP is a free, open source (GPLv3) thin client operating system made for Windows Remote Desktop: RDS, VDI and remote PCs, and the first open source thin client with RDP over UDP. It turns any x86-64 PC or thin client into a locked-down RDP kiosk, keeps the session moving over UDP on weak networks, and manages the whole fleet from a shared folder, with no licence per device and no management server.</p></article>
       <article><h3>Is there a free alternative to Dell Wyse ThinOS or IGEL OS?</h3><p>Yes. OpenThinRDP installs on Dell Wyse and OptiPlex thin clients and on any x86-64 PC in place of ThinOS or IGEL OS, at no cost per device: a sign-in kiosk with your logo, signed automatic updates, USB for signature keys and webcams, and central management from one Windows tool.</p></article>
       <article><h3>Can I turn an old PC into a thin client?</h3><p>Yes. OpenThinRDP runs on any 64-bit PC from 2 GB of RAM, UEFI or legacy BIOS. Boot it live from a USB stick to try it without touching the disk, then install it in about three minutes and the PC becomes a Remote Desktop terminal.</p></article>
       <article><h3>Does it work with Proxmox, VMware, Nutanix or the cloud?</h3><p>Yes. OpenThinRDP connects over RDP to Windows desktops on any hypervisor or cloud, through an RDS broker or straight to the VM, and to Linux desktops that run xrdp. Its manager also watches Hyper-V, Proxmox VE and vCenter hosts.</p></article>
       <article><h3>What OS can I put on a used Dell Wyse 5070, HP t630 or Futro S740?</h3><p>OpenThinRDP, installed from a USB stick: any 64-bit x86 thin client with 2 GB of RAM and 8 GB of storage runs it, with the complete Debian 13 drivers and no licence per device. <a href="{{SITE}}used-thin-client.html">Model by model</a>.</p></article>
       <article><h3>What can I do with a PC that cannot run Windows 11?</h3><p>Turn it into a terminal for a Windows that is up to date: your newer PC at home, or a server or virtual desktop at work. The old PC gets a small system that updates itself; programs and data stay on the up-to-date computer. <a href="{{SITE}}windows-10-end-of-support.html">Windows 10 end of support</a>.</p></article>
-      <article><h3>Can I Remote Desktop into Windows Home?</h3><p>No, from any client: Windows Home cannot be connected to. Windows Pro, Enterprise, Education, Windows Server and most Windows virtual machines can. <a href="{{SITE}}linux-rdp-client.html">Remote Desktop from Linux</a>.</p></article>
-      <article><h3>Why is Remote Desktop slow or laggy on Wi-Fi or a VPN?</h3><p>Most often the session runs over TCP, which stops at every lost packet. OpenThinRDP ships FreeRDP with the RDP UDP transport switched on. We fixed what made FreeRDP's UDP fail on lossy lines (merged upstream as #13608), and at 50% packet loss the desktop still runs at 19&#8211;21 frames per second, where TCP is frozen.</p></article>
+      <article><h3>Can I Remote Desktop into Windows Home?</h3><p>Windows Home has no Remote Desktop host, whatever the client. Windows Pro, Enterprise, Education, Windows Server and most Windows virtual machines do, and Home upgrades to Pro in minutes. <a href="{{SITE}}linux-rdp-client.html">Remote Desktop from Linux</a>.</p></article>
+      <article><h3>Why is Remote Desktop slow or laggy on Wi-Fi or a VPN?</h3><p>Most often the session runs over TCP, which stops at every lost packet. OpenThinRDP ships FreeRDP with the RDP UDP transport switched on. We helped fix what made FreeRDP's UDP fail on lossy lines (merged upstream as #13608), and at 50% packet loss the desktop still runs at 19&#8211;21 frames per second, where TCP is frozen.</p></article>
       <article><h3>Is it ready for production?</h3><p>It runs every working day on the 15 thin clients of the company that built it: 389 updates installed and none failed since the first release, dropped sessions back by themselves. <a href="{{SITE}}maturity.html">Area by area</a>, what is proven and what comes next.</p></article>
     </div>
   </div>
@@ -222,8 +223,8 @@
 
 <section class="final">
   <div class="wrap center">
-    <h2>Give your old PCs a second life.</h2>
-    <p class="narrow center">Try OpenThinRDP live on one device today. If it works for you, it works for the whole fleet, for free.</p>
+    <h2>See the difference on your own network.</h2>
+    <p class="narrow center">Boot it live on one device today, on the worst Wi-Fi you have. If it works there, it works for the whole fleet, for free.</p>
     <div class="ctas center"><a class="btn" href="{{ISO}}">&#11015; Download the ISO</a>
       <a class="btn btn-ghost" href="https://github.com/OpenThinRdp/openthinrdp">Star it on GitHub</a></div>
   </div>

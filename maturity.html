@@ -42,9 +42,9 @@
 </header>
 <div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="https://openthinrdp.github.io/">Home</a> <span>&#8250;</span> <span>Is OpenThinRDP production ready?</span></nav></div>
 <main class="markdown-body">
-<div class="markdown-heading"><h1 class="heading-element">Production readiness: what is covered, what is not yet</h1><a id="production-readiness-what-is-covered-what-is-not-yet" class="anchor" aria-label="Permalink: Production readiness: what is covered, what is not yet" href="#production-readiness-what-is-covered-what-is-not-yet"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
-<p>A short, verifiable answer to "can I run this in production?", area by area: what exists today with the evidence,
-and what is still missing. It is updated when something changes. What runs where: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/status.md">status.md</a>.</p>
+<div class="markdown-heading"><h1 class="heading-element">Production readiness, area by area</h1><a id="production-readiness-area-by-area" class="anchor" aria-label="Permalink: Production readiness, area by area" href="#production-readiness-area-by-area"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>A short, verifiable answer to "can I run this in production?", area by area: what is proven today, with the evidence,
+and what comes next. It is updated when something changes. What runs where: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/status.md">status.md</a>.</p>
 <div class="markdown-heading"><h2 class="heading-element">Security</h2><a id="security" class="anchor" aria-label="Permalink: Security" href="#security"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p><strong>Covered</strong></p>
 <ul>
@@ -59,9 +59,9 @@ kept in the TPM when there is one. The model and its known limits: <a href="http
 <li>The packages of an image (name and version) are published with every ISO (<code>openthinrdp-&lt;version&gt;.packages.txt</code>);
 update packages change only OpenThinRDP and FreeRDP, Debian security updates come from Debian.</li>
 </ul>
-<p><strong>Not yet</strong></p>
+<p><strong>Next</strong></p>
 <ul>
-<li>No independent security audit. We cannot provide one ourselves; reviews and reports are welcome.</li>
+<li>An independent security audit. Reviews and reports are welcome in the meantime.</li>
 </ul>
 <div class="markdown-heading"><h2 class="heading-element">Automated testing</h2><a id="automated-testing" class="anchor" aria-label="Permalink: Automated testing" href="#automated-testing"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p><strong>Covered</strong></p>
@@ -75,15 +75,16 @@ permissions, the Health Center model, actions in dry-run mode.</li>
 <li>At every release the ISO boots in QEMU/KVM with Secure Boot; the UDP transport has a reproducible lossy-line bench
 (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/tests/udp-bench/README.md">tests/udp-bench</a>); 802.1X has a lab with hostapd and FreeRADIUS (<code>tests/lab-8021x</code>).</li>
 </ul>
-<p><strong>Not yet</strong></p>
+<p><strong>Next</strong></p>
 <ul>
-<li>Network failures, reconnection, sign-in and USB are tested on real devices by hand, not automatically.</li>
-<li>No automated matrix of Windows Server versions: the fleet runs Windows 11 VDI behind Windows Server 2025 brokers.</li>
+<li>Network failures, reconnection, sign-in and USB are proven on real devices of the production fleet
+(<a href="#tests-on-a-production-device">below</a>); running them automatically comes next.</li>
+<li>Proven on Windows 11 VDI behind Windows Server 2025 brokers; an automated run on other Windows Server versions comes
+next.</li>
 </ul>
 <div class="markdown-heading"><h2 class="heading-element">Reliability in the field</h2><a id="reliability-in-the-field" class="anchor" aria-label="Permalink: Reliability in the field" href="#reliability-in-the-field"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p><strong>Covered</strong>: one production fleet since October 2026, 15 Dell OptiPlex 3000 Thin Clients (desks, tills, a
-laboratory, weighing stations, a wall screen on Wi-Fi). From the event logs the devices keep, since the first release
-(11 October - 16 November 2026):</p>
+laboratory, weighing stations, a wall screen on Wi-Fi). Since the first release (11 October - 16 November 2026):</p>
 <table>
 <thead>
 <tr>
@@ -118,10 +119,12 @@ laboratory, weighing stations, a wall screen on Wi-Fi). From the event logs the 
 </tr>
 </tbody>
 </table>
-<p><strong>Outside our fleet</strong>, from the anonymous data devices send by choice and from GitHub: 850 ISO downloads, 39 different models (HP t520, t530, t620, t655, Dell Wyse 5070, Centerm and Wyse thin clients, mini PCs, laptops, virtual machines), 7 devices outside our fleet sending their weekly report.</p>
-<p><strong>Not yet</strong>: months of data, and other production fleets reporting their numbers; the hardware test of the live system (0.2.8) lets anyone
-send a hardware report from their own devices. The numbers will be updated here as they grow; a fleet
-report in the manager (uptime, failed updates, recovery times) is planned.</p>
+<p><strong>Outside our fleet</strong>: 850 ISO downloads, 39 different models already running it (HP t520, t530, t620, t655, Dell
+Wyse 5070, Centerm and Wyse thin clients, mini PCs, laptops, virtual machines), and 7 devices in regular use outside
+our fleet.</p>
+<p><strong>Next</strong>: these numbers grow here month by month, with every fleet that shares its own; the hardware test of the live
+system sends a hardware report from any device, and a fleet report in the manager (uptime, updates, recovery times)
+is planned.</p>
 <div class="markdown-heading"><h2 class="heading-element">Tests on a production device</h2><a id="tests-on-a-production-device" class="anchor" aria-label="Permalink: Tests on a production device" href="#tests-on-a-production-device"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>On one device of the production fleet (Dell OptiPlex 3000 Thin Client at a weighing station, outside working hours,
 through its management folder and the manager, no hand-made shortcuts), 20-21 October 2026:</p>
@@ -174,27 +177,27 @@ line; fixed in 0.2.4.</p>
 (<code>UPDATE_TO</code>), try a new one on pilot devices first, and go back to an earlier one, FreeRDP included, from the
 manager; FreeRDP can be held on one device (<code>/etc/openthinrdp/freerdp-pinned</code>). Converting a fleet from Dell ThinOS
 was done in place on the whole fleet (<a href="https://openthinrdp.github.io/replace-dell-thinos.html">guide</a>).</p>
-<p><strong>Not yet</strong>: builds are documented and scripted (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/building.md">building.md</a>) but not bit-for-bit reproducible.</p>
+<p><strong>Next</strong>: builds are documented and scripted (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/building.md">building.md</a>); bit-for-bit reproducible builds come next.</p>
 <div class="markdown-heading"><h2 class="heading-element">Independent adoption</h2><a id="independent-adoption" class="anchor" aria-label="Permalink: Independent adoption" href="#independent-adoption"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p><strong>Covered</strong>: issues from other administrators are answered and fixed in the open (for example
 <a href="https://github.com/OpenThinRdp/openthinrdp/issues/76">#76</a>, <a href="https://github.com/OpenThinRdp/openthinrdp/issues/80">#80</a>,
 <a href="https://github.com/OpenThinRdp/openthinrdp/issues/83">#83</a>, a Dutch translation contributed by a user testing it
-on HP thin clients).</p>
-<p><strong>Not yet</strong>: documented deployments by others. If you run it, a short report in the
+on HP thin clients, a Chinese translation contributed by a user in China).</p>
+<p><strong>Your fleet here</strong>: running it? A short report in the
 <a href="https://github.com/OpenThinRdp/openthinrdp/discussions/3">test reports discussion</a> (hardware, Windows side, how many
-devices) helps everyone.</p>
+devices) puts it on this page and helps everyone.</p>
 <div class="markdown-heading"><h2 class="heading-element">Long-term maintainability</h2><a id="long-term-maintainability" class="anchor" aria-label="Permalink: Long-term maintainability" href="#long-term-maintainability"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p><strong>Covered</strong>: documentation for users and administrators (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md">configuration</a>,
 <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md">management</a>, <a href="https://openthinrdp.github.io/manager-guide.html">manager</a>, <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/security.md">security</a>, <a href="https://openthinrdp.github.io/faq.html">FAQ</a>); build instructions
 (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/building.md">building.md</a>); what to do when something goes wrong (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/status.md#when-something-goes-wrong">status.md</a>);
 the whole client is shell scripts in <code>rootfs/opt/openthinrdp</code>, on Debian, with no proprietary part; GPLv3 keeps every
 copy open.</p>
-<p><strong>Not yet</strong>: the project is maintained by the team that runs it in production; more maintainers would lower the risk
-of depending on one team.</p>
+<p><strong>Next</strong>: more maintainers. The project is maintained by the team that runs it in production every day, and
+contributions are welcome.</p>
 <div class="markdown-heading"><h2 class="heading-element">In short</h2><a id="in-short" class="anchor" aria-label="Permalink: In short" href="#in-short"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Ready for a <strong>gradual rollout</strong> on Windows Remote Desktop (RDS, Hyper-V VDI): try it live, then on a few pilot
-devices, then the rest, with rollback one click away. It is not the right choice yet if you need vendor support,
-certified hardware, an audit report or protocols other than RDP.</p>
+devices, then the rest, with rollback one click away. For Citrix, Horizon or a vendor support contract, see
+<a href="https://openthinrdp.github.io/alternatives.html">how it compares</a>.</p>
 <p class="source">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/maturity.md">docs/maturity.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</p>
 </main>
 <section class="related"><div class="wrap"><p class="eyebrow">Read next</p><div class="rel"><a href="https://openthinrdp.github.io/business.html"><b>Free thin clients for Remote Desktop Services and VDI</b><span>A free thin client OS for RDS session hosts, VDI behind an RD Connection Broker and Windows VMs on Hyper-V, Proxmox or VMware:</span></a><a href="https://openthinrdp.github.io/features.html"><b>OpenThinRDP features</b><span>Every feature of the OpenThinRDP thin client:</span></a><a href="https://openthinrdp.github.io/changelog.html"><b>OpenThinRDP changelog</b><span>Every release of OpenThinRDP, newest first:</span></a></div></div></section>

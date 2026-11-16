@@ -169,7 +169,7 @@ before). At 70% the first thing to give up is the TCP connection that RDP keeps 
 100 s and not in another run of 150 s.</p>
 <p>On UDP no frame was dropped by the server for network reasons up to 70%. A session opened when the line is
 already bad is set up over UDP too.</p>
-<p><strong>Limits of these numbers:</strong> one environment (Dell OptiPlex 3000 Thin Client, Windows 11 VDI on Hyper-V behind an
+<p><strong>Measure it on your network:</strong> these numbers come from one environment (Dell OptiPlex 3000 Thin Client, Windows 11 VDI on Hyper-V behind an
 RD Connection Broker), one kind of load, loss emulated with netem on the client. The method and the scripts are
 in <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/tests/udp-bench/README.md">tests/udp-bench</a>: numbers from other networks and servers are very welcome.</p>
 <p>Over TCP every lost packet holds up everything behind it until it is resent; over UDP the lost packets are resent

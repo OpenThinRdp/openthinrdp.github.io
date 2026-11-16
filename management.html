@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Managing an OpenThinRDP fleet &#8211; one shared folder, signed updates, remote screen</title>
+<meta name="description" content="One shared folder runs the whole thin client fleet: central settings for every device, a group or one device, your logo, the screen of any device, signed updates with pilot devices and going back, signed configuration, a fleet on its own key.">
+<link rel="canonical" href="https://openthinrdp.github.io/management.html">
+
+<link rel="icon" href="https://openthinrdp.github.io/img/icon.png">
+<link rel="alternate" type="text/plain" href="https://openthinrdp.github.io/llms-full.txt" title="The documentation in one text file">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenThinRDP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Managing an OpenThinRDP fleet &#8211; one shared folder, signed updates, remote screen">
+<meta property="og:description" content="One shared folder runs the whole thin client fleet: central settings for every device, a group or one device, your logo, the screen of any device, signed updates with pilot devices and going back, signed configuration, a fleet on its own key.">
+<meta property="og:url" content="https://openthinrdp.github.io/management.html">
+<meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://openthinrdp.github.io/landing.css">
+<link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://openthinrdp.github.io/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://openthinrdp.github.io/guides.html"},{"@type":"ListItem","position":3,"name":"Managing an OpenThinRDP fleet","item":"https://openthinrdp.github.io/management.html"}]}</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.3.6","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
+ "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
+</script>
+
+</head>
+<body class="doc">
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
+    <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Free manager</a><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
+    <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a>
+    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Free manager</a><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a></nav></details>
+  </div>
+</header>
+<div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="https://openthinrdp.github.io/">Home</a> <span>&#8250;</span> <a href="https://openthinrdp.github.io/guides.html">Guides</a> <span>&#8250;</span> <span>Managing an OpenThinRDP fleet</span></nav></div>
+<main class="markdown-body">
+<div class="markdown-heading"><h1 class="heading-element">Management folder</h1><a id="management-folder" class="anchor" aria-label="Permalink: Management folder" href="#management-folder"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>One SMB share (a folder on any Windows or Samba file server) is the whole management system. Every device
+mounts it every 5 minutes, at boot and at every new event, writes its status and reads settings and updates.</p>
+<pre><code>\\fileserver\thinclients\
+  status\&lt;hostname&gt;.txt        status: KEY=value lines + last errors and events
+  status\&lt;hostname&gt;-events.log event log
+  status\SUMMARY.csv           one line per device (rewritten by the devices)
+  config\common.conf           settings for every device
+  config\&lt;hostname&gt;.conf       settings for one device (wins over common.conf)
+  config\groups\&lt;group&gt;\_group.conf      settings for a group of devices (between common.conf and each device)
+  config\groups\&lt;group&gt;\&lt;hostname&gt;.conf  the file of a device of that group: the folder it is in IS its group;
+                               moving it to another group folder (manager: Group..., or by hand) moves the device
+  config\authorized_keys       SSH public keys of the administrators (optional)
+  config\branding\logo.png, splash.png              logo and background picture for every device (optional)
+  config\branding\&lt;hostname&gt;\logo.png, splash.png   for one device (wins over the common ones)
+  config\backup\, changes.log  written by the Windows manager
+  updates\LATEST.txt(.sig)     signed update index of the newest version, and the packages
+  updates\versions\&lt;version&gt;.txt(.sig)   the index of every version that can be chosen (UPDATE_TO)
+</code></pre>
+<div class="markdown-heading"><h2 class="heading-element">Account</h2><a id="account" class="anchor" aria-label="Permalink: Account" href="#account"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The devices log in with <code>/etc/openthinrdp/smb.cred</code> (root only). Two ways to get it there:</p>
+<ul>
+<li>
+<p><strong>On the device</strong>, also with the downloadable ISO: in the settings dialog, <em>Management folder user</em>
+(<code>user</code>, <code>DOMAIN\user</code> or <code>user@domain</code>; without a domain, <code>DOMAIN</code> is used) and <em>Management folder
+password</em>. The user is a normal setting (<code>MGMT_USER</code>); the password goes only into <code>smb.cred</code>, is never shown
+again, never in the status files, and an empty field keeps the saved one. Central settings can change both
+(<code>MGMT_USER=</code>, <code>MGMT_PASSWORD=</code> in <code>config\common.conf</code> or <code>config\&lt;hostname&gt;.conf</code>), e.g. to rotate it.</p>
+</li>
+<li>
+<p><strong>In your own image</strong>: <code>image/site/smb.cred</code>:</p>
+<pre><code>username=svc-thinclients
+password=...
+domain=EXAMPLE
+</code></pre>
+</li>
+</ul>
+<p>Every device can read this password, so use an account that can do as little as possible: not a member of
+Domain Users, no rights outside this folder, and inside it <strong>write access to <code>status\</code> only</strong>. A device only
+writes its status and events there; settings, branding and updates it only reads. So a stolen device gives
+its holder an account that can fill <code>status\</code> with nonsense, but cannot change the settings of the other
+devices or put anything in <code>updates\</code>.</p>
+<table>
+<thead>
+<tr>
+<th>folder</th>
+<th>devices' account</th>
+<th>administrators</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>the management folder itself</td>
+<td>Read (to list and open the subfolders)</td>
+<td>Full control</td>
+</tr>
+<tr>
+<td><code>status\</code></td>
+<td>Modify</td>
+<td>Full control</td>
+</tr>
+<tr>
+<td>
+<code>config\</code> (with <code>branding\</code>)</td>
+<td>Read</td>
+<td>Full control</td>
+</tr>
+<tr>
+<td><code>updates\</code></td>
+<td>Read</td>
+<td>Full control</td>
+</tr>
+</tbody>
+</table>
+<p>With PowerShell on the file server (example account <code>EXAMPLE\svc-thinclients</code>, folder <code>D:\thinclients</code>):</p>
+<div class="highlight highlight-source-powershell"><pre>icacls D:\thinclients <span class="pl-k">/</span>grant <span class="pl-s"><span class="pl-pds">"</span>EXAMPLE\svc-thinclients:(OI)(CI)RX<span class="pl-pds">"</span></span>
+icacls D:\thinclients\status <span class="pl-k">/</span>grant <span class="pl-s"><span class="pl-pds">"</span>EXAMPLE\svc-thinclients:(OI)(CI)M<span class="pl-pds">"</span></span></pre></div>
+<p>The icacls lines only add rights: whatever the folder inherits stays, and a group such as Users or Domain
+Users with write access inherited from above still lets the devices, or every user, change the settings.
+<strong>Check permissions</strong> in the Windows manager reads the permissions of the folder for the account the devices
+report (<code>MGMT_ACCOUNT</code> in their status, from 0.1.6; older devices: it asks for the account) and lists:</p>
+<ul>
+<li>whether the devices can write in <code>status\</code>;</li>
+<li>every place outside <code>status\</code> they can change (the folder itself, <code>config\</code> and its files, logos,
+<code>updates\</code>), and through which account or group;</li>
+<li>every place outside <code>status\</code> that Everyone, Authenticated Users, Users or Domain Users can change.</li>
+</ul>
+<p>It follows the order of the rules as Windows does (the first rule that allows or denies a right decides it),
+and the groups of the account in the domain, nested ones included. It reads the NTFS permissions only: the
+permissions of the share can only take rights away. Check also from a device that the account cannot list
+anything outside the folder.</p>
+<div class="markdown-heading"><h2 class="heading-element">Central settings</h2><a id="central-settings" class="anchor" aria-label="Permalink: Central settings" href="#central-settings"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Besides the settings, the folder holds what the managers share: <code>config\jobs.conf</code> (the scheduled jobs, read and run
+by the devices: <a href="https://openthinrdp.github.io/manager-guide.html#scheduled-jobs">manager.md</a>), <code>config\changes.log</code> (every change made from a manager),
+and in <code>health\</code> the history of the infrastructure, the experience of the users (<code>experience\</code>, 40 days), the
+required peripherals, the inventory and the group rules. The devices read none of <code>health\</code>; only the managers do.</p>
+<p><code>config\common.conf</code> and <code>config\&lt;hostname&gt;.conf</code> hold the same keys as <a href="https://openthinrdp.github.io/settings.html">configuration.md</a>.
+Files saved on Windows are fine (BOM, CRLF, spaces around <code>=</code>, <code>#</code> and <code>;</code> comments). A device:</p>
+<ul>
+<li>merges common, then its own file, over its current settings;</li>
+<li>validates the result with the same rules as the settings dialog, and applies it only if something changed;</li>
+<li>refuses the whole result if anything is invalid (event "central configuration REJECTED", reported once),
+keeping the previous settings;</li>
+<li>keeps the last good copy when the folder is unreachable;</li>
+<li>does not apply them while a software update is installing (since 0.1.7): the next run does.</li>
+</ul>
+<p>Central values win: a key in the central files is written into the device settings at every run (every 5
+minutes and at boot), so a change made in the settings dialog of a device lasts only until then. Keys that the
+central files do not set stay as set on the device.</p>
+<p>Removing a key from the central files gives it back to the device defaults: the device drops it from its
+settings and follows <code>site.conf</code> or the project defaults again, like a device installed today. If the result
+would not be valid (e.g. removing <code>WEB_URL</code> while <code>WEB_BUTTON=app</code> stays), the key is kept, the event is logged
+once and the release is retried at every run.</p>
+<p>The <a href="https://github.com/OpenThinRdp/openthinrdp-manager">Windows manager</a> (<code>OpenThinRDP-Manager.exe</code>, in the zip of every release) shows the devices, their status and events,
+and edits these files with the same validation, a backup of every file it overwrites and a change log.
+Before saving <code>common.conf</code> it lists the devices that would reject it.</p>
+<p>The window has its pages on the left: <strong>Devices</strong> (the list, and the selected device with its settings, a summary,
+its events and its full report), <strong>Health Center</strong> (with the <strong>Distribution</strong> of the desktops), <strong>Settings</strong> (devices, Health Center, manager, custom checks), <strong>Updates</strong> (see <a href="#pilot-devices-and-going-back">Pilot devices and going back</a>
+and <a href="#the-manager-updates-itself">The manager updates itself</a>), <strong>Vault</strong> (with the SSH keys of the devices) and <strong>History</strong>; the actions on the
+folder are on their pages (refresh on <strong>Devices</strong>, a release from GitHub on <strong>Updates</strong>, open the folder and check its permissions in <strong>Settings &gt; Manager</strong>), and <strong>Lock</strong> is in the bar at the top. In a settings list each row shows
+the value in use on the device, where it comes from (<em>the device itself</em>, <em>common settings</em>, <em>this device</em> for an
+exception) and <em>on its way</em> when a saved value has not reached the device yet (it reads the folder every 5 minutes;
+if it stays, the device has probably rejected the configuration: see its state). The help of the selected setting is
+under the list; the search box finds a setting by name, key or help text.
+It is available in English and Italian: it follows the Windows display language (English for any language
+without a file in <code>lang\</code> of the manager), or <code>-Language en</code> / <code>-Language it</code> chooses one.</p>
+<p>The window opens at 85% of the screen (at least 1440×880, maximized on a smaller screen) and works down to 860×560:
+the columns of every list and grid share the width instead of hiding behind a scroll bar, the rows of buttons wrap,
+and the buttons of the top bar and of the device header keep only their icon (their text in the tooltip) when the
+room is short.</p>
+<p><strong>Starting it.</strong> <code>OpenThinRDP-Manager.exe</code> starts the manager with no console window, and draws the access window at
+once while the manager loads behind it (what is typed goes to the manager through a pipe, never a file or the command
+line). It is not signed with a certificate: Windows SmartScreen or an antivirus that holds back unknown programs may
+ask the first time. Its arguments can live next to it, in <code>&lt;name&gt;.args</code> (one line, e.g.
+<code>-Folder "\\fileserver\thinclients" -Language en</code>), so a shortcut needs none.</p>
+<p>With the manager on a file share, a shortcut to the <code>.exe</code> on the share shows a blank icon: Windows reads the icon
+of a shortcut's program only from a local disk. On each PC that starts the manager, run once from the share:</p>
+<pre><code>\\fileserver\it\manager\OpenThinRDP-Manager.exe -Install -Name "Thin clients" -Folder \\fileserver\thinclients
+</code></pre>
+<p>It copies the <code>.exe</code> to <code>%ProgramData%\OpenThinRDP</code> with a <code>.script</code> file that points to the manager on the share
+(one copy of the manager for everybody), and puts a shortcut with the icon on the desktop. The manager keeps those
+copies up to date by itself. The <code>.cmd</code> and <code>.vbs</code> of the releases before 0.2.23 go to <code>previous\</code>.</p>
+<div class="markdown-heading"><h3 class="heading-element">Diagnostics of a device</h3><a id="diagnostics-of-a-device" class="anchor" aria-label="Permalink: Diagnostics of a device" href="#diagnostics-of-a-device"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>One file with what is needed to understand a problem: the events, the log of the last session (kept also when the
+device was switched off) and of the frozen ones, the status, the journal of this start and of the one before, the
+kernel, the update logs, the network, the hardware, and the settings <strong>without their secrets</strong> (passwords, Wi-Fi
+keys, PIN and private keys are removed; the credential, Wi-Fi and 802.1X files and the keys are never taken). User
+and server names stay in it.</p>
+<ul>
+<li>
+<strong>From the manager</strong>: the power menu of a device, <em>Collect its diagnostics</em>. The device answers at its next report
+(within 5 minutes; at once when SSH is on and the vault open) and the file lands in <code>diag\</code> of the management
+folder. <em>Open its diagnostics</em> shows the newest one in Explorer and, if you want, opens a new issue on GitHub with
+the version filled in: you look at the file and attach it there yourself.</li>
+<li>
+<strong>From the device</strong>: the diagnostics screen (ℹ), <em>Send to the administrator</em>. Without a management folder the file
+stays on the device, in <code>/var/lib/openthinrdp/diag</code>.</li>
+<li>
+<strong>By itself</strong>: when the kiosk ends a frozen session, or the device is switched off with a session open, it
+collects them (at most once an hour) and sends them to <code>diag\</code> at the next report. The header of the device in the
+manager shows when there are some.</li>
+</ul>
+<p>Nothing goes to the project unless you send it.</p>
+<div class="markdown-heading"><h3 class="heading-element">The manager updates itself</h3><a id="the-manager-updates-itself" class="anchor" aria-label="Permalink: The manager updates itself" href="#the-manager-updates-itself"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Since 1.0.0 the manager has releases of its own on <a href="https://github.com/OpenThinRdp/openthinrdp-manager/releases">its repository</a>,
+numbered apart from the devices (up to 0.2.27 it came with each release of the devices, with their number). Each one
+carries <code>openthinrdp-manager-&lt;version&gt;.zip</code>: the manager (<code>OpenThinRDP-Manager.exe</code>, the manager itself sealed in
+<code>OpenThinRDP-Manager.core</code>, the commands it runs on servers in <code>commands\</code> and <code>rds\</code>, its languages), <code>VERSION</code> and
+<code>MANIFEST.txt</code>, the SHA-256 of each file signed with the project key, which the launcher checks before the manager
+starts. Its name and SHA-256 are in the <code>LATEST.txt</code> of that release (<code>version=</code>, <code>manager=</code>, <code>manager_sha256=</code>),
+signed with the project key.</p>
+<ul>
+<li>At every start the manager reads <code>VERSION</code> next to it, and in the background (the window does not wait) the
+<code>LATEST.txt</code> of the latest release of the manager, checked against the project key next to it
+(<code>openthinrdp-release.asc</code>). When it is a newer manager, the top bar shows <em>Manager X available</em>. The latest release
+of the devices (<code>UPDATE_GITHUB</code>) is read apart, for <strong>Release from GitHub</strong>.</li>
+<li>
+<strong>By itself</strong> (on by default; <strong>Updates &gt; This manager</strong>, <em>Update the manager by itself</em>): the check runs at the
+start and every 6 hours, and a newer manager goes in at once with the steps below, when nothing is being edited
+and no other window is open (otherwise it tries again every 10 minutes). It starts again on the same folder with
+the vault still open: the access code passes to the new start in a file protected with DPAPI (this Windows user
+on this PC only), read once and deleted at once, worth 60 seconds.</li>
+<li>
+<strong>Update the manager</strong> (that notice, or <strong>Updates &gt; This manager</strong>) downloads the zip, checks its hash against the
+signed <code>LATEST.txt</code>, checks that it holds the manager and <code>VERSION</code> of that version, copies the files
+it replaces into <code>previous\</code> next to the manager (the copy of the update before goes), puts the new ones in place
+and starts the manager again. <code>vault.otr</code>, the launchers (<code>.exe</code>, <code>.args</code>, <code>.script</code>) and anything else that is not
+in the zip stay as they are. A file in use is renamed to <code>.old</code> and removed at the next start. If anything fails,
+the files of <code>previous\</code> go back.</li>
+<li>The copy that matters is the one the administrators start: on a file share, update it from a PC that can write
+there (the manager says so when it cannot). PCs with a launcher made by <code>-Install</code> start the share copy, so they get
+the new version at their next start. A newer launcher in the release takes the place of the older ones (next to the
+manager and in <code>%ProgramData%\OpenThinRDP</code>) at the next start of the manager on that PC.</li>
+<li>Without the window, from a console or a script: <code>OpenThinRDP-Manager.exe -UpdateManager</code> (exit code 0 =
+updated, 1 = error, 2 = nothing to do).</li>
+<li>A copy without <code>VERSION</code> is a development copy and never updates itself.</li>
+</ul>
+<p>The manager keeps the SSH host keys of the devices by device <strong>name</strong> in its own file
+(<code>%LOCALAPPDATA%\OpenThinRDP\known_hosts</code>, <code>HostKeyAlias</code>), not by address: DHCP may give a device the address
+another device had. A device that presents another key under its name (reinstalled) is reported, and the remote
+screen asks whether to forget the old key.</p>
+<div class="markdown-heading"><h2 class="heading-element">Logo and background picture</h2><a id="logo-and-background-picture" class="anchor" aria-label="Permalink: Logo and background picture" href="#logo-and-background-picture"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><code>logo.png</code> is the logo of the dialogs and of the sign-in form; <code>splash.png</code> is the background picture, shown
+behind the sign-in form on the <code>BG_TOP</code>/<code>BG_BOTTOM</code> gradient. In <code>config\branding\</code> they are for every device,
+in <code>config\branding\&lt;hostname&gt;\</code> for that device only; a device without them uses the ones of its image.
+The manager's <strong>Logo and background...</strong> button (common settings, or a device) takes any picture, scales it
+down and saves it as PNG there; files copied by hand are fine too.</p>
+<p align="center"><a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-branding.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-branding.png" alt="Manager: logo and background" width="60%" style="max-width: 100%;"></a></p>
+<p>The boot screen never changes from here: it always shows the picture and colors of the image (OpenThinRDP's,
+or your own when you build your image with <code>image/site/splash.png</code>). At power on the device shows the boot
+screen, then the background of your site from the sign-in form on.</p>
+<p>A device accepts PNG files only, up to 2 MB, a logo up to 400 x 240 pixels and a background up to 1024 x 640
+(anything else is refused once with an event, and the previous picture stays), and shows them within 5
+minutes. The status file says where each picture comes from: <code>BRANDING=logo=common splash=image</code> (<code>image</code>,
+<code>common</code> or <code>device</code>).</p>
+<div class="markdown-heading"><h2 class="heading-element">Problems across the fleet</h2><a id="problems-across-the-fleet" class="anchor" aria-label="Permalink: Problems across the fleet" href="#problems-across-the-fleet"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Every device sends its event log to <code>status\&lt;hostname&gt;-events.log</code>. The <strong>History</strong> page of the Windows manager
+(since 0.1.7) reads them all together for a period (today, 24 hours, 7 or 30 days) and groups what went wrong:
+sign-in attempts that failed (by the broker really contacted), desktops that did not start, sign-ins refused, sessions dropped (by
+cause: network lost, FreeRDP stuck, error code), sessions taken over, UDP blocked, failed updates, rejected settings.
+A dropped session's event ends with FreeRDP's last error, and the device keeps its FreeRDP log as
+<code>/tmp/kiosk.log.prev</code>. Each line of the tab says how many times, on which devices and for which users, first
+and last time; a line is orange when the same problem hit 3 or more devices, which points at a server or the network rather than at a device. The line at
+the top sums up the problems that touched most devices; selecting a line shows its events. A device keeps the last
+2000 lines of its log, which is weeks for a normal device.</p>
+<div class="markdown-heading"><h2 class="heading-element">SSH keys</h2><a id="ssh-keys" class="anchor" aria-label="Permalink: SSH keys" href="#ssh-keys"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>With <code>SSH=on</code>, the <code>otradmin</code> account accepts only the keys in <code>/etc/openthinrdp/authorized_keys</code>: from the image
+(<code>image/site/authorized_keys</code>) or from <code>config\authorized_keys</code>. Removing <code>config\authorized_keys</code> after it
+was used revokes those keys and brings back the image ones.</p>
+<div class="markdown-heading"><h2 class="heading-element">Vault</h2><a id="vault" class="anchor" aria-label="Permalink: Vault" href="#vault"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Two keys give power over the whole fleet: the SSH key that opens the screen of any device, and the OpenPGP key
+that signs the update packages every device installs. The manager keeps both in <code>vault.otr</code>, next to
+<code>OpenThinRDP-Manager.exe</code>, encrypted with an <strong>access code</strong>:</p>
+<ul>
+<li>At the first start the manager asks for the code (at least 8 characters) and creates the vault, with a new SSH
+key inside (<code>openthinrdp-manager</code>) that it adds to the <strong>SSH keys of the devices</strong> on the Vault page: Save there,
+and the devices take it within 5 minutes. At every later start it asks the code <strong>before anything else</strong> (no folder,
+no device, no window behind it): <strong>Exit</strong> ends the manager, a wrong code can be typed again (after three, each try
+waits longer), and the right one keeps the vault open for the session.</li>
+<li>Every administrator who starts the same copy of the manager (e.g. from a file share only the administrators can
+write) opens the same vault with the same code: nothing to copy from PC to PC. <strong>Change the code...</strong> re-encrypts
+it, and the old code stops working at once.</li>
+<li>The code is not stored anywhere. Keep it where you keep the other passwords of your servers: if it is lost, the
+keys are lost with it (a new SSH key is easy; a lost signing key means a key change, see
+<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/SECURITY.md">SECURITY.md</a>).</li>
+<li>Encryption: PBKDF2-HMAC-SHA256 with 600000 rounds (about 2 seconds to open, on purpose), AES-256-CBC and
+HMAC-SHA256 over the whole file. The secrets stay in memory while the window
+is open; the SSH key is written for <code>ssh.exe</code> only into a folder that just your account and SYSTEM can read
+(<code>%LOCALAPPDATA%\OpenThinRDP\vault-keys</code>), removed when the vault closes.</li>
+</ul>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-vault.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-vault.png" alt="Vault page of the manager: the vault, the SSH key of the manager, the key that signs the updates" width="100%" style="max-width: 100%;"></a></p>
+<p>On the <strong>Vault</strong> page:</p>
+<table>
+<thead>
+<tr>
+<th>Block</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vault</td>
+<td>Open / Close, Change the code</td>
+</tr>
+<tr>
+<td>SSH key of the manager</td>
+<td>Add to the devices (to the SSH keys of the devices below, then Save), Create a new key, Import a private key (e.g. the one used so far: the file stays where it is, delete it yourself)</td>
+</tr>
+<tr>
+<td>Key that signs the updates</td>
+<td>Sign an update (see <a href="#signed-updates">Signed updates</a>), Send to the devices and Create the site key (see <a href="#a-fleet-on-its-own-key">A fleet on its own key</a>), Save the public key (<code>update-key.asc</code>), Import the key: the file of <code>gpg --export-secret-keys --armor &lt;key&gt;</code> from a key without a passphrase; the manager offers to delete that file afterwards.</td>
+</tr>
+<tr>
+<td>SSH keys of the devices</td>
+<td>The public keys <code>otradmin</code> accepts (<code>config\authorized_keys</code>, one per line, # for notes): Save, Undo changes, Add the key of the manager, Add a key from a file</td>
+</tr>
+</tbody>
+</table>
+<p>The page says whether the signing key is the project key (releases for every installation) or one of yours
+(<code>update-key.asc</code> of your image).</p>
+<div class="markdown-heading"><h2 class="heading-element">Remote screen</h2><a id="remote-screen" class="anchor" aria-label="Permalink: Remote screen" href="#remote-screen"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>Remote screen...</strong>, in the header of the selected device, shows its screen in your browser and lets you use it:
+to see what a user sees, or to sign in once to a web page on a screen with no keyboard (the kiosk page keeps the
+sign-in in its profile).</p>
+<p><strong>What it needs</strong></p>
+<ul>
+<li>On the device: <code>SSH=on</code>, the key of the manager among the SSH keys, and <code>REMOTE_SCREEN=on</code> (the default). On
+the Vault page, under <strong>SSH keys of the devices</strong>, <strong>Add the key of the manager</strong> adds it (from the <a href="#vault">vault</a>); then Save, and the
+devices take it within 5 minutes.</li>
+<li>On your PC: the OpenSSH client of Windows 10/11 (<code>ssh.exe</code>, an optional feature that is usually there), the
+vault open with the access code, and a browser. Nothing else is installed. Only the key of the vault is offered
+to the device (<code>ssh -i ... -o IdentitiesOnly=yes</code>): keys in your profile (<code>%USERPROFILE%\.ssh</code>) are not used.</li>
+</ul>
+<p><strong>How it works</strong></p>
+<ol>
+<li>Over SSH, as <code>otradmin</code>, the manager asks the device to start the remote screen (<code>remote-screen.sh start</code>). The
+device starts x11vnc on its screen and the noVNC viewer with a small WebSocket bridge (<code>vncbridge.py</code>), both on
+127.0.0.1 only and as the account that owns the screen, not root, with a one-time password.</li>
+<li>The manager opens an SSH tunnel from a free port of your PC to the viewer and opens your browser on it with that
+password. The screen is reached only through the tunnel: nothing new listens on the network.</li>
+<li>While it is on, the device shows <em>Remote assistance active: an administrator can see this screen</em> in the top
+right corner, and its event log records the start and the end.</li>
+<li>Closing the small window in the manager ends it on the device (<code>remote-screen.sh stop</code>); it also ends by itself
+after 2 hours.</li>
+</ol>
+<p>During a remote session the screen is the Windows desktop the user is working on: tell the user, as the notice does.
+<code>REMOTE_SCREEN=off</code>, for all devices or one, turns it off. <code>REMOTE_CONSENT=ask</code> asks the user first: a question at
+the top of the screen, over the session too, answered with the mouse or the touch screen; refused or unanswered within
+a minute, nothing starts, the event log says which, and the manager tells you. The viewer is noVNC 1.7.0, included unmodified
+(<code>/opt/openthinrdp/novnc</code>, MPL 2.0 and BSD licenses).</p>
+<p><strong>When it does not start</strong> the manager shows why: SSH off on the device, no address reported yet, the vault
+closed or without an SSH key, the key not accepted (Add the key of the manager under SSH keys of the devices on the Vault page, then Save),
+or a device that has not received the version
+with the remote screen yet. A device reinstalled with the same address has a new SSH host key: remove the old one
+with <code>ssh-keygen -R &lt;address&gt;</code>.</p>
+<div class="markdown-heading"><h2 class="heading-element">Signed updates</h2><a id="signed-updates" class="anchor" aria-label="Permalink: Signed updates" href="#signed-updates"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Software updates (kiosk, FreeRDP with UDP, fixes) come from where <code>UPDATE_FROM</code> says:</p>
+<table>
+<thead>
+<tr>
+<th><code>UPDATE_FROM</code></th>
+<th>Source</th>
+<th>Signature accepted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>github</code> (default)</td>
+<td>the latest release of <code>UPDATE_GITHUB</code> (not pre-releases), asked every 3 hours</td>
+<td>the project key only</td>
+</tr>
+<tr>
+<td><code>share</code></td>
+<td>
+<code>updates\</code> in the management folder: you decide when the devices get a version</td>
+<td>the project key, or your own key</td>
+</tr>
+<tr>
+<td><code>off</code></td>
+<td>none</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>The project key is <code>/opt/openthinrdp/keys/openthinrdp-release.asc</code>, in the image and in every update
+(fingerprint <code>8552 734B 5C1B 67D7 C576 F1AB 79B2 3AE6 1CD4 F6AF</code>, see <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/SECURITY.md">SECURITY.md</a>). A
+device installs a package only if <code>LATEST.txt</code> carries a valid signature, the hash of the package matches, and
+the version is newer than the installed one (or than the image, when no update was installed yet), or is the one
+<code>UPDATE_TO</code> asks for (see <a href="#pilot-devices-and-going-back">Pilot devices and going back</a>).
+Installation runs in the background and never interrupts a session: a running kiosk is replaced as soon as the
+session is over.
+Three failed attempts per version at most. The status file shows the source (<code>UPDATE_FROM</code>) and the result.</p>
+<p><strong>A fleet you manage</strong>: set <code>UPDATE_FROM=share</code> in <code>config\common.conf</code>. <strong>Release from GitHub...</strong> in the manager
+copies the latest release into <code>updates\</code> (package first, then signature and index), and into
+<code>updates\versions\&lt;version&gt;.txt</code> (+ <code>.sig</code>) too: every device checks the signature itself. The 3 newest packages
+stay, and any package a device is kept on (<code>UPDATE_TO</code>, below); a package removed takes its <code>versions\</code> index with it.</p>
+<p><strong>Major updates.</strong> We mark in the release the ones that change how a session connects or runs: <strong>Major update</strong> in
+the CHANGELOG, and <code>major=&lt;version&gt;</code> in the signed <code>LATEST.txt</code> of that release and of every later one. A device with
+a management folder (central settings) never installs one by itself, also with <code>UPDATE_FROM=github</code>: only once
+<code>UPDATE_MAJOR</code> is at that version, written by the manager after a second confirmation, in <code>common.conf</code> or in the
+<code>_group.conf</code> of the groups it goes to. Until then its status says so.</p>
+<p><strong>A device without a management folder</strong> (the live system from the USB stick, or an image of its own with
+<code>site.conf</code> only, without central settings) has nobody else to decide: it takes the updates from GitHub and asks on
+its screen, at the sign-in, with the changes of the new version. A normal update installs after 30 seconds without
+an answer; a major update only with a yes. <em>Not now</em> lasts until the next start.</p>
+<div class="markdown-heading"><h3 class="heading-element">Pilot devices and going back</h3><a id="pilot-devices-and-going-back" class="anchor" aria-label="Permalink: Pilot devices and going back" href="#pilot-devices-and-going-back"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><code>UPDATE_TO</code> says which version a device installs: <code>latest</code> (the default, the newest published) or a version such as
+<code>0.2.0</code>, installed also when it is older than the installed one, and kept until the setting changes. In
+<code>common.conf</code> it is the version of every device, in <code>&lt;hostname&gt;.conf</code> of one device. A device kept on a version
+reads <code>updates\versions\&lt;version&gt;.txt</code> and its signature (with <code>UPDATE_FROM=github</code>, the release with tag
+<code>v&lt;version&gt;</code>). Devices with a version that does not know <code>UPDATE_TO</code> ignore it and install the newest. For the
+same reason a device goes back only to <strong>0.2.0 or later</strong>: an older version would bring back an updater that does
+not know <code>UPDATE_TO</code> and goes straight up again. The device refuses it and says so in its status.</p>
+<ul>
+<li>
+<strong>Pilot devices are a group.</strong> <strong>Release from GitHub...</strong> asks: <em>all devices</em>, or <em>only the groups ticked</em> (one
+or more, e.g. a group <em>Pilot</em>). Some groups keeps every other device on the version published now
+(<code>UPDATE_TO=&lt;that version&gt;</code> in <code>common.conf</code>, written before the new release is there; a folder published before
+<code>versions\</code> existed gets its index from the current <code>LATEST.txt</code> first), and the ticked groups take the new one
+(<code>UPDATE_TO=latest</code> in their <code>_group.conf</code>).</li>
+<li>
+<strong>Release to all devices</strong> (page <strong>Updates</strong>) puts <code>common.conf</code> back to <code>UPDATE_TO=latest</code> when the pilots are
+fine. The page shows the newest version, the one all devices are on, the pilot devices, the devices on a version of
+their own and what the devices run now; the status bar too.</li>
+<li>
+<strong>Going back.</strong> <strong>Version for all devices...</strong> (page <strong>Updates</strong>) or <strong>Software version...</strong> of a device chooses
+any version of <code>updates\versions\</code>, newest first. A version that is not there comes from GitHub with <strong>Version from
+GitHub...</strong> (the release with tag <code>v&lt;version&gt;</code>, with the same checks: project signature, hash, signed again with
+the site key when there is one); an older version goes into <code>updates\</code> and <code>updates\versions\</code> without changing
+<code>updates\LATEST.txt</code>.</li>
+</ul>
+<p>Every change goes through the same files as any setting (<code>config\backup\</code>, <code>config\changes.log</code>), and the devices
+apply it within 5 minutes, never during a session.</p>
+<div class="markdown-heading"><h3 class="heading-element">Signed configuration</h3><a id="signed-configuration" class="anchor" aria-label="Permalink: Signed configuration" href="#signed-configuration"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Whoever can write in the management folder can change every device: its settings, its group, the SSH keys. With
+<code>CONFIG_SIGNED=required</code> in <code>common.conf</code> that is no longer enough: the manager signs every file it writes in
+<code>config\</code> (and <code>authorized_keys</code>) with the key of the site in its vault, <code>&lt;file&gt;.sig</code> next to it, and the devices take
+a file only with a valid signature of the site key they have (<code>update-key.asc</code>, the same key as the updates of
+<a href="#a-fleet-on-its-own-key">a fleet on its own key</a>).</p>
+<ul>
+<li>Turning it on signs every file there is; the manager first lists the devices that do not have the site key yet
+(give it to them first: <em>Vault &gt; Send the site key</em>), since they would take nothing more.</li>
+<li>A file without its signature, or changed after it, is not taken: the device keeps its last good settings and says
+so in its events. A missing file does not release its settings either: deleting a file is no way around it.</li>
+<li>With the vault closed, or without the site key, the manager saves nothing in <code>config\</code>.</li>
+<li>Only a signed <code>common.conf</code> switches it off again.</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">A fleet on its own key</h3><a id="a-fleet-on-its-own-key" class="anchor" aria-label="Permalink: A fleet on its own key" href="#a-fleet-on-its-own-key"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>With <code>UPDATE_KEY=any</code> a device on the folder accepts the project key too: whoever held the project key could get a
+package installed, if they could also write into <code>updates\</code>. With <code>UPDATE_KEY=site</code> the devices accept only the key
+of your site, which exists only in the <a href="#vault">vault</a> of your manager: the releases still come from GitHub, but
+nothing reaches the devices unless an administrator with the access code passes it on.</p>
+<ol>
+<li>
+<strong>Vault &gt; Create the site key...</strong>: an Ed25519 key made in the manager, kept only in the vault. <strong>Save the public
+key...</strong> writes its public half, <code>update-key.asc</code> (nothing secret: put it into your image too, if you build one).</li>
+<li>
+<strong>Vault &gt; Send to the devices...</strong>: the public half to every device that is on, over SSH with the key of the
+manager (<code>site-key.sh</code> checks it and logs it). It cannot come through the folder: whoever may write there would
+choose the key. Each device reports it (<strong>Summary &gt; Update signatures</strong>); send it again for the devices that were
+off.</li>
+<li>
+<code>UPDATE_FROM=share</code> and <code>UPDATE_KEY=site</code> in <code>common.conf</code> (a pilot device first, as an exception).</li>
+<li>From then on <strong>Release from GitHub...</strong> checks the project signature, <strong>signs the release again with the site
+key</strong> and publishes it: the new signature replaces the project one. A release whose project signature cannot be
+checked in the manager is never signed again.</li>
+</ol>
+<p>A device without the site key yet (off during step 2, or reinstalled from the ISO) still accepts the project key, so
+it is never left without updates; it reports <code>site key: none</code> until it gets it. If the vault and its code are lost,
+the devices on <code>UPDATE_KEY=site</code> install nothing more from the folder: create a new site key, send it over SSH (step
+2: SSH is enough, the folder is not involved), and they accept the new one.</p>
+<p><strong>Your own packages</strong> (changes of yours, or your site files) need your own key, built into your image as
+<code>/etc/openthinrdp/update-key.asc</code>. Create it once, on a machine you trust, without a passphrase (the vault
+protects it), put it into the <a href="#vault">vault</a> and remove it from gpg:</p>
+<pre><code>gpg --quick-gen-key "Thin client updates &lt;it@example.com&gt;" ed25519 sign never
+gpg --armor --export it@example.com &gt; image/site/update-key.asc
+gpg --armor --export-secret-keys it@example.com &gt; it-signing.asc     # Vault &gt; Import the key..., then delete it
+gpg --delete-secret-keys it@example.com
+</code></pre>
+<p>Build a version without signing it (Linux or WSL), then sign it in the manager:</p>
+<pre><code>management/publish/make-update.sh -v 2026.10.1
+OpenThinRDP-Manager.exe -Sign &lt;path&gt;\out\update-2026.10.1\LATEST.txt
+</code></pre>
+<p><code>-Sign</code> asks only the access code and writes <code>LATEST.txt.sig</code> next to <code>LATEST.txt</code> (also <strong>Vault &gt; Sign an
+update...</strong>). It checks the format of <code>LATEST.txt</code> and, when the package is next to it, its hash; the signature
+is the one <code>gpg --armor --detach-sign</code> would write (Ed25519, SHA-512), checked by <code>sqv</code> on the devices. Then copy
+the package, <code>LATEST.txt.sig</code> and <code>LATEST.txt</code>, in this order, into <code>updates\</code>.</p>
+<p>With the key still in gpg on the build machine, <code>-k</code> signs there and <code>-o</code> publishes at once (Linux, WSL or Git
+Bash with Gpg4win; the folder mounted or reachable as a path):</p>
+<pre><code>management/publish/make-update.sh -v 2026.10.1 -k it@example.com -o /mnt/thinclients
+</code></pre>
+<p><code>-d &lt;folder&gt;</code> adds <code>.deb</code> files (e.g. your own FreeRDP build, installed only when newer); <code>-s image/site</code>
+ships your site files too. To keep FreeRDP as it is on one device, create <code>/etc/openthinrdp/freerdp-pinned</code>
+with the reason inside.</p>
+<p class="source">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md">docs/management.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</p>
+</main>
+<section class="related"><div class="wrap"><p class="eyebrow">Read next</p><div class="rel"><a href="https://openthinrdp.github.io/settings.html"><b>Every OpenThinRDP setting</b><span>Every setting of the OpenThinRDP thin client with its default:</span></a><a href="https://openthinrdp.github.io/manager-guide.html"><b>OpenThinRDP Manager guide</b><span>The complete guide of the OpenThinRDP Manager:</span></a><a href="https://openthinrdp.github.io/guides.html"><b>OpenThinRDP guides</b><span>Every OpenThinRDP guide by what you want to do:</span></a></div></div></section>
+<section class="final"><div class="wrap center"><h2>Try it live. Nothing is installed.</h2><p class="fine">Write the ISO to a USB stick, start a PC from it, sign in to your Windows desktop.</p><div class="ctas center"><a class="btn" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">&#11015; Download the ISO</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/home.html">At home</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/business.html">For companies</a></div></div></section>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div><a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
+      <p>The first open source thin client with RDP over UDP, and a free manager for the servers behind it. GPLv3 &middot; release 0.3.6.</p></div>
+    <div class="foot-cols">
+      <nav aria-label="For you"><b>For you</b><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/windows-10-end-of-support.html">Windows 10 end of support</a><a href="https://openthinrdp.github.io/used-thin-client.html">Used thin clients</a><a href="https://openthinrdp.github.io/old-pc-thin-client.html">Old PC as a thin client</a><a href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">Raspberry Pi</a></nav>
+      <nav aria-label="Product"><b>Product</b><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/udp.html">RDP over UDP</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/linux-rdp-client.html">RDP from Linux</a><a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">Proxmox and VMware</a></nav>
+      <nav aria-label="Manager"><b>Manager</b><a href="https://openthinrdp.github.io/manager.html">The manager</a><a href="https://openthinrdp.github.io/hyper-v-rds-health-check.html">Hyper-V and RDS health check</a><a href="https://openthinrdp.github.io/manager-guide.html">Manager guide</a><a href="https://openthinrdp.github.io/replace-dell-thinos.html">Replace Dell ThinOS</a></nav>
+      <nav aria-label="Resources"><b>Resources</b><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/getting-started.html">Getting started</a><a href="https://openthinrdp.github.io/settings.html">Every setting</a><a href="https://openthinrdp.github.io/management.html">Managing the fleet</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/maturity.html">Production readiness</a><a href="https://openthinrdp.github.io/privacy.html">Privacy</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
+    </div>
+    <p class="fine">Windows and Remote Desktop are trademarks of Microsoft. OpenThinRDP is not affiliated with Microsoft, with openthinclient or with any vendor named here.</p>
+  </div>
+</footer>
+<script data-goatcounter="https://ceschi-ops.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

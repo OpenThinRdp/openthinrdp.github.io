@@ -35,9 +35,9 @@
 <header class="nav">
   <div class="wrap nav-in">
     <a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
-    <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
+    <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Free manager</a><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
     <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a>
-    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a></nav></details>
+    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Free manager</a><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a></nav></details>
   </div>
 </header>
 <div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="https://openthinrdp.github.io/">Home</a> <span>&#8250;</span> <span>Thin client FAQ</span></nav></div>
@@ -158,7 +158,7 @@ Windows directly; a USB printer is passed whole to Windows, like the other USB d
 <p>Windows virtual machines and RDS deployments in Azure work today, through an RD Gateway or a VPN. Azure Virtual
 Desktop and Windows 365 sign in with Microsoft Entra ID through Microsoft's own gateway, which is on the list
 of what comes next
-(<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md#desktops-in-the-cloud">desktops in the cloud</a>).</p>
+(<a href="https://openthinrdp.github.io/settings.html#desktops-in-the-cloud">desktops in the cloud</a>).</p>
 <div class="markdown-heading"><h3 class="heading-element">Does it work with Proxmox, VMware vSphere or Nutanix?</h3><a id="does-it-work-with-proxmox-vmware-vsphere-or-nutanix" class="anchor" aria-label="Permalink: Does it work with Proxmox, VMware vSphere or Nutanix?" href="#does-it-work-with-proxmox-vmware-vsphere-or-nutanix"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Yes. RDP is spoken by Windows inside the VM, so the hypervisor underneath does not matter: Proxmox VE, VMware
 vSphere/ESXi, Nutanix AHV, XCP-ng, KVM or Hyper-V, each device to its own VM or to an RDS farm running there, with
@@ -209,7 +209,7 @@ rollouts. Network boot (PXE) is on the list of what comes next.</p>
 <p>Yes, since 0.2.1: 802.1X on the cable and WPA2/WPA3-Enterprise Wi-Fi, with PEAP (a domain or machine account)
 or EAP-TLS (a certificate from your CA). The RADIUS server is checked against your CA before any password is sent,
 and on a switch without 802.1X the device goes on by itself. Setup with Windows NPS or FreeRADIUS:
-<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md#8021x-and-wi-fi-enterprise">802.1X and Wi-Fi Enterprise</a>.</p>
+<a href="https://openthinrdp.github.io/settings.html#8021x-and-wi-fi-enterprise">802.1X and Wi-Fi Enterprise</a>.</p>
 <div class="markdown-heading"><h3 class="heading-element">Why not just Linux Mint with Remmina?</h3><a id="why-not-just-linux-mint-with-remmina" class="anchor" aria-label="Permalink: Why not just Linux Mint with Remmina?" href="#why-not-just-linux-mint-with-remmina"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The hardware support is the same, but Remmina has no RDP over UDP. A desktop also has to be locked down and set up
 PC by PC, and its updates come without pilot devices or a way back. See
@@ -224,12 +224,12 @@ the domain, and sign in (<a href="https://github.com/OpenThinRdp/openthinrdp/blo
 <footer class="foot">
   <div class="wrap foot-in">
     <div><a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
-      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release 0.3.6.</p></div>
+      <p>The first open source thin client with RDP over UDP, and a free manager for the servers behind it. GPLv3 &middot; release 0.3.6.</p></div>
     <div class="foot-cols">
       <nav aria-label="For you"><b>For you</b><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/windows-10-end-of-support.html">Windows 10 end of support</a><a href="https://openthinrdp.github.io/used-thin-client.html">Used thin clients</a><a href="https://openthinrdp.github.io/old-pc-thin-client.html">Old PC as a thin client</a><a href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">Raspberry Pi</a></nav>
       <nav aria-label="Product"><b>Product</b><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/udp.html">RDP over UDP</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/linux-rdp-client.html">RDP from Linux</a><a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">Proxmox and VMware</a></nav>
       <nav aria-label="Manager"><b>Manager</b><a href="https://openthinrdp.github.io/manager.html">The manager</a><a href="https://openthinrdp.github.io/hyper-v-rds-health-check.html">Hyper-V and RDS health check</a><a href="https://openthinrdp.github.io/manager-guide.html">Manager guide</a><a href="https://openthinrdp.github.io/replace-dell-thinos.html">Replace Dell ThinOS</a></nav>
-      <nav aria-label="Resources"><b>Resources</b><a href="https://openthinrdp.github.io/getting-started.html">Getting started</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/maturity.html">Production readiness</a><a href="https://openthinrdp.github.io/privacy.html">Privacy</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
+      <nav aria-label="Resources"><b>Resources</b><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/getting-started.html">Getting started</a><a href="https://openthinrdp.github.io/settings.html">Every setting</a><a href="https://openthinrdp.github.io/management.html">Managing the fleet</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/maturity.html">Production readiness</a><a href="https://openthinrdp.github.io/privacy.html">Privacy</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
     </div>
     <p class="fine">Windows and Remote Desktop are trademarks of Microsoft. OpenThinRDP is not affiliated with Microsoft, with openthinclient or with any vendor named here.</p>
   </div>

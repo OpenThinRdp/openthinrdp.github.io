@@ -25,7 +25,7 @@ $dash = '&#8211;'   # PowerShell 5.1 reads this file as ANSI: no non-ASCII chara
 # the other language; Faq = FAQPage structured data from its "### question" sections
 $site_pages = @(
   @{ Doc = 'README.md'; Url = ''; Lang = 'en'
-     Title = "OpenThinRDP $dash free Remote Desktop thin client, for one PC at home or a whole office on a domain"
+     Title = "OpenThinRDP $dash the first open source thin client with RDP over UDP"
      Desc = 'OpenThinRDP: free, open source thin client operating system for Microsoft Remote Desktop (RDS and VDI) and Windows VMs on Hyper-V, Proxmox, VMware or any cloud. Debian 13 with FreeRDP and the RDP UDP transport, a kiosk sign-in, central management from a shared folder, signed updates with pilot devices and rollback.' }
   @{ Doc = 'docs/guides/getting-started.md'; Url = 'getting-started.html'; Lang = 'en'
      Title = "Getting started with OpenThinRDP $dash from a USB stick to a managed thin client fleet"
@@ -51,10 +51,10 @@ $site_pages = @(
      Desc = 'A free alternative to IGEL OS, Dell ThinOS, Stratodesk NoTouch, ThinStation and openthinclient for Windows Remote Desktop, and why not just Linux Mint with Remmina: RDP over UDP, a locked kiosk, central management, signed updates with rollback.' }
   @{ Doc = 'docs/hardware.md'; Url = 'hardware.html'; Lang = 'en'
      Title = "Which PCs and thin clients run OpenThinRDP $dash Wyse 5070, HP t630, Futro S740, old PCs"
-     Desc = 'Hardware for OpenThinRDP: any 64-bit x86 PC or thin client, UEFI or legacy BIOS, with the complete Debian 13 kernel and firmware. Tested devices, used thin clients that meet the requirements (Dell Wyse, HP t-series, Fujitsu Futro), firmware settings.' }
+     Desc = 'Hardware for OpenThinRDP: any 64-bit x86 PC or thin client, UEFI or legacy BIOS, with the complete Debian 13 kernel and firmware. Tested devices, 39 models already running it, used thin clients that meet the requirements (Dell Wyse, HP t-series, Fujitsu Futro), firmware settings.' }
   @{ Doc = 'docs/maturity.md'; Url = 'maturity.html'; Lang = 'en'
      Title = "Is OpenThinRDP production ready? $dash security, tests, rollback, field data"
-     Desc = 'Production readiness of OpenThinRDP area by area: security and signed updates, automated tests, tests on a production device (rollback in 30 s, an interrupted update that installs again by itself, network cut, zero-touch), field data and what is still missing.' }
+     Desc = 'Production readiness of OpenThinRDP area by area: security and signed updates, automated tests, tests on a production device (rollback in 30 s, an interrupted update that installs again by itself, network cut, zero-touch), field data and what comes next.' }
   @{ Doc = 'docs/udp.md'; Url = 'udp.html'; Lang = 'en'
      Title = "Remote Desktop slow on Wi-Fi or VPN? RDP over UDP on Linux $dash OpenThinRDP"
      Desc = 'Remote Desktop laggy or freezing on Wi-Fi, a VPN or a busy line? RDP over UDP on Linux with FreeRDP:the UDP transport (MS-RDPEUDP, pull request 13608) built and shipped by OpenThinRDP, what travels over UDP, the fixes we found and the measurements with packet loss against TCP.' }
@@ -75,7 +75,7 @@ $site_pages = @(
      Desc = 'FreeRDP, Remmina or a thin client OS to open Windows from Linux: what each is for, why Remote Desktop is slow from Linux and how RDP over UDP fixes it, Windows Home, two monitors, sound, webcam and USB.' }
   @{ Doc = 'docs/guides/raspberry-pi-thin-client.md'; Url = 'raspberry-pi-thin-client.html'; Lang = 'en'
      Title = "Raspberry Pi as a Remote Desktop thin client for Windows $dash OpenThinRDP"
-     Desc = 'A Raspberry Pi 4 as an RDP thin client for Windows, RDS and VDI: the same OpenThinRDP system as on a PC, its experimental status said plainly, how to try it, and a Pi compared with a used x86 thin client.' }
+     Desc = 'A Raspberry Pi 4 as an RDP thin client for Windows, RDS and VDI: the same OpenThinRDP system as on a PC, a new SD card image ready for its first boards, how to try it, and a Pi compared with a used x86 thin client.' }
   @{ Doc = 'docs/guides/proxmox-vmware-thin-client.md'; Url = 'proxmox-vmware-thin-client.html'; Lang = 'en'
      Title = "Free thin client for Proxmox, VMware and Nutanix VMs $dash OpenThinRDP"
      Desc = 'A free thin client OS for Windows VMs on Proxmox VE, VMware vSphere/ESXi, Nutanix AHV, XCP-ng and KVM, and Linux desktops through xrdp: RDP over UDP, USB, webcams, a whole fleet managed from one window, no licence per device.' }
@@ -91,11 +91,21 @@ $site_pages = @(
   @{ Doc = 'docs/features.md'; Url = 'features.html'; Lang = 'en'
      Title = "OpenThinRDP features $dash RDP over UDP, USB and webcams, kiosk, signed updates, web page screens"
      Desc = 'Every feature of the OpenThinRDP thin client: RDP over UDP with measurements, sign-in kiosk, reconnection, USB, webcams and smart cards, managed from a shared folder, signed updates with rollback, hardware test, screens that only show a web page.' }
+  @{ Doc = 'docs/guides.md'; Url = 'guides.html'; Lang = 'en'
+     Title = "OpenThinRDP guides $dash how to do it, step by step"
+     Desc = 'Every OpenThinRDP guide by what you want to do: get started, set up the remote desktop, USB and webcams, Wi-Fi, VPN, 802.1X with NPS or FreeRADIUS, RD Gateway, a web page screen, the power schedule, central settings, signed updates and the free manager.' }
+  @{ Doc = 'docs/configuration.md'; Url = 'settings.html'; Lang = 'en'
+     Title = "Every OpenThinRDP setting $dash remote desktop, USB, Wi-Fi, VPN, 802.1X, RD Gateway"
+     Desc = 'Every setting of the OpenThinRDP thin client with its default: brokers and collections, RDP over UDP, RD Gateway, USB devices and webcams, Wi-Fi, VPN, 802.1X with Windows NPS or FreeRADIUS, desktops in the cloud, a web page screen, the power schedule, logo and language.' }
+  @{ Doc = 'docs/management.md'; Url = 'management.html'; Lang = 'en'
+     Title = "Managing an OpenThinRDP fleet $dash one shared folder, signed updates, remote screen"
+     Desc = 'One shared folder runs the whole thin client fleet: central settings for every device, a group or one device, your logo, the screen of any device, signed updates with pilot devices and going back, signed configuration, a fleet on its own key.' }
 )
 # where each page sits on the site (the breadcrumb) and the pages offered at its end
 $section = @{ 'home.html' = 'At home'; 'business.html' = 'For companies'; 'getting-started.html' = 'For companies'; 'replace-dell-thinos.html' = 'For companies'
   'proxmox-vmware-thin-client.html' = 'For companies'; 'used-thin-client.html' = 'For companies'; 'old-pc-thin-client.html' = 'For companies'; 'windows-10-end-of-support.html' = 'At home'
-  'linux-rdp-client.html' = 'At home'; 'raspberry-pi-thin-client.html' = 'At home'; 'manager.html' = 'Manager'; 'manager-guide.html' = 'Manager'; 'hyper-v-rds-health-check.html' = 'Manager' }
+  'linux-rdp-client.html' = 'At home'; 'raspberry-pi-thin-client.html' = 'At home'; 'manager.html' = 'Manager'; 'manager-guide.html' = 'Manager'; 'hyper-v-rds-health-check.html' = 'Manager'
+  'settings.html' = 'Guides'; 'management.html' = 'Guides' }
 $related = @{
   'home.html' = 'windows-10-end-of-support.html', 'linux-rdp-client.html', 'raspberry-pi-thin-client.html'
   'business.html' = 'getting-started.html', 'manager.html', 'maturity.html'
@@ -118,9 +128,12 @@ $related = @{
   'hyper-v-rds-health-check.html' = 'manager.html', 'manager-guide.html', 'business.html'
   'privacy.html' = 'maturity.html', 'faq.html', 'features.html'
   'changelog.html' = 'maturity.html', 'features.html', 'faq.html'
+  'guides.html' = 'getting-started.html', 'settings.html', 'management.html'
+  'settings.html' = 'management.html', 'getting-started.html', 'guides.html'
+  'management.html' = 'settings.html', 'manager-guide.html', 'guides.html'
 }
 # the same menu and footer on the home page and on every other page
-$navLinks = '<a href="{0}home.html">At home</a><a href="{0}business.html">For companies</a><a href="{0}manager.html">Manager</a><a href="{0}hardware.html">Hardware</a><a href="{0}features.html">Features</a><a href="{0}faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>' -f $site
+$navLinks = '<a href="{0}home.html">At home</a><a href="{0}business.html">For companies</a><a href="{0}manager.html">Free manager</a><a href="{0}guides.html">Guides</a><a href="{0}features.html">Features</a><a href="{0}faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>' -f $site
 function Get-Nav([string]$iso) {
 @"
 <header class="nav">
@@ -137,12 +150,12 @@ $footHtml = @"
 <footer class="foot">
   <div class="wrap foot-in">
     <div><a class="brand" href="$site"><img src="${site}img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
-      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release $ver.</p></div>
+      <p>The first open source thin client with RDP over UDP, and a free manager for the servers behind it. GPLv3 &middot; release $ver.</p></div>
     <div class="foot-cols">
       <nav aria-label="For you"><b>For you</b><a href="${site}home.html">At home</a><a href="${site}business.html">For companies</a><a href="${site}windows-10-end-of-support.html">Windows 10 end of support</a><a href="${site}used-thin-client.html">Used thin clients</a><a href="${site}old-pc-thin-client.html">Old PC as a thin client</a><a href="${site}raspberry-pi-thin-client.html">Raspberry Pi</a></nav>
       <nav aria-label="Product"><b>Product</b><a href="${site}features.html">Features</a><a href="${site}udp.html">RDP over UDP</a><a href="${site}hardware.html">Hardware</a><a href="${site}alternatives.html">Compare</a><a href="${site}linux-rdp-client.html">RDP from Linux</a><a href="${site}proxmox-vmware-thin-client.html">Proxmox and VMware</a></nav>
       <nav aria-label="Manager"><b>Manager</b><a href="${site}manager.html">The manager</a><a href="${site}hyper-v-rds-health-check.html">Hyper-V and RDS health check</a><a href="${site}manager-guide.html">Manager guide</a><a href="${site}replace-dell-thinos.html">Replace Dell ThinOS</a></nav>
-      <nav aria-label="Resources"><b>Resources</b><a href="${site}getting-started.html">Getting started</a><a href="${site}faq.html">FAQ</a><a href="${site}maturity.html">Production readiness</a><a href="${site}privacy.html">Privacy</a><a href="${site}changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
+      <nav aria-label="Resources"><b>Resources</b><a href="${site}guides.html">Guides</a><a href="${site}getting-started.html">Getting started</a><a href="${site}settings.html">Every setting</a><a href="${site}management.html">Managing the fleet</a><a href="${site}faq.html">FAQ</a><a href="${site}maturity.html">Production readiness</a><a href="${site}privacy.html">Privacy</a><a href="${site}changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
     </div>
     <p class="fine">Windows and Remote Desktop are trademarks of Microsoft. OpenThinRDP is not affiliated with Microsoft, with openthinclient or with any vendor named here.</p>
   </div>
@@ -151,7 +164,7 @@ $footHtml = @"
 $pages = @{}; foreach ($p in $site_pages) { if (-not $p.ContainsKey('Repo')) { $pages[$p.Doc] = $p.Url } }
 $byUrl = @{}; foreach ($p in $site_pages) { $byUrl[$p.Url] = $p }
 # the documents an AI assistant should read whole, in llms-full.txt, in this order
-$fullDocs = 'README.md', 'docs/guides/business.md', 'docs/guides/home.md', 'docs/features.md', 'docs/guides/getting-started.md', 'docs/faq.md', 'docs/alternatives.md', 'docs/hardware.md', 'docs/status.md', 'docs/manager.md',
+$fullDocs = 'README.md', 'docs/guides.md', 'docs/guides/business.md', 'docs/guides/home.md', 'docs/features.md', 'docs/guides/getting-started.md', 'docs/faq.md', 'docs/alternatives.md', 'docs/hardware.md', 'docs/status.md', 'docs/manager.md',
   'docs/guides/replace-dell-thinos.md', 'docs/guides/old-pc-thin-client.md', 'docs/guides/used-thin-client.md', 'docs/guides/windows-10-end-of-support.md',
   'docs/guides/linux-rdp-client.md', 'docs/guides/raspberry-pi-thin-client.md','docs/guides/proxmox-vmware-thin-client.md', 'docs/configuration.md', 'docs/management.md',
   'docs/udp.md', 'docs/security.md', 'docs/privacy.md', 'docs/maturity.md'
@@ -226,7 +239,7 @@ function Build-Page($p) {
   $name = ($p.Title -split ' &#8211; ')[0]
   $crumbs = @(@{ n = 'Home'; u = $site })
   $sec = $section[$p.Url]
-  if ($sec) { $su = $site + @{ 'At home' = 'home.html'; 'For companies' = 'business.html'; 'Manager' = 'manager.html' }[$sec]; if ($su -ne $url) { $crumbs += @{ n = $sec; u = $su } } }
+  if ($sec) { $su = $site + @{ 'At home' = 'home.html'; 'For companies' = 'business.html'; 'Manager' = 'manager.html'; 'Guides' = 'guides.html' }[$sec]; if ($su -ne $url) { $crumbs += @{ n = $sec; u = $su } } }
   $crumbs += @{ n = $name; u = $url }
   $crumbHtml = ($crumbs | Select-Object -SkipLast 1 | ForEach-Object { "<a href=`"$($_.u)`">$($_.n)</a>" }) -join ' <span>&#8250;</span> '
   $crumbHtml = "<nav class=`"crumbs`" aria-label=`"Breadcrumb`">$crumbHtml <span>&#8250;</span> <span>$name</span></nav>"

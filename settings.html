@@ -1,0 +1,895 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Every OpenThinRDP setting &#8211; remote desktop, USB, Wi-Fi, VPN, 802.1X, RD Gateway</title>
+<meta name="description" content="Every setting of the OpenThinRDP thin client with its default: brokers and collections, RDP over UDP, RD Gateway, USB devices and webcams, Wi-Fi, VPN, 802.1X with Windows NPS or FreeRADIUS, desktops in the cloud, a web page screen, the power schedule, logo and language.">
+<link rel="canonical" href="https://openthinrdp.github.io/settings.html">
+
+<link rel="icon" href="https://openthinrdp.github.io/img/icon.png">
+<link rel="alternate" type="text/plain" href="https://openthinrdp.github.io/llms-full.txt" title="The documentation in one text file">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenThinRDP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Every OpenThinRDP setting &#8211; remote desktop, USB, Wi-Fi, VPN, 802.1X, RD Gateway">
+<meta property="og:description" content="Every setting of the OpenThinRDP thin client with its default: brokers and collections, RDP over UDP, RD Gateway, USB devices and webcams, Wi-Fi, VPN, 802.1X with Windows NPS or FreeRADIUS, desktops in the cloud, a web page screen, the power schedule, logo and language.">
+<meta property="og:url" content="https://openthinrdp.github.io/settings.html">
+<meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://openthinrdp.github.io/landing.css">
+<link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://openthinrdp.github.io/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://openthinrdp.github.io/guides.html"},{"@type":"ListItem","position":3,"name":"Every OpenThinRDP setting","item":"https://openthinrdp.github.io/settings.html"}]}</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.3.6","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
+ "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
+</script>
+
+</head>
+<body class="doc">
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
+    <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Free manager</a><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
+    <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a>
+    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Free manager</a><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a></nav></details>
+  </div>
+</header>
+<div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="https://openthinrdp.github.io/">Home</a> <span>&#8250;</span> <a href="https://openthinrdp.github.io/guides.html">Guides</a> <span>&#8250;</span> <span>Every OpenThinRDP setting</span></nav></div>
+<main class="markdown-body">
+<div class="markdown-heading"><h1 class="heading-element">Configuration</h1><a id="configuration" class="anchor" aria-label="Permalink: Configuration" href="#configuration"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Every setting is a <code>KEY=value</code> line. A device reads them in this order, the first file that has the key wins:</p>
+<ol>
+<li>
+<code>/etc/openthinrdp/openthinrdp.conf</code>: this device (settings dialog ⚙, central settings)</li>
+<li>
+<code>/etc/openthinrdp/site.conf</code>: your organization, built into the image from <code>image/site/site.conf</code>
+</li>
+<li>
+<code>/opt/openthinrdp/defaults.conf</code>: project defaults</li>
+</ol>
+<p>An empty value in a higher file clears a lower one on purpose (e.g. <code>TITLE=</code> in the device file).</p>
+<p>The device file is written by the settings dialog <strong>and</strong> by the central settings, and the central settings
+win: in practice the order is <code>config\&lt;hostname&gt;.conf</code> &gt; <code>config\common.conf</code> &gt; settings dialog &gt; <code>site.conf</code> &gt;
+defaults. A key removed from the central files goes back to <code>site.conf</code>/defaults, so all devices stay alike
+(see <a href="https://openthinrdp.github.io/management.html">management.md</a>).
+Values are validated by <code>save-config.sh</code> with the same rules wherever they come from (dialog, central
+settings, manager); invalid central settings are refused as a whole and the previous ones stay.</p>
+<p>The reference with comments is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/rootfs/opt/openthinrdp/defaults.conf"><code>rootfs/opt/openthinrdp/defaults.conf</code></a>.</p>
+<div class="markdown-heading"><h2 class="heading-element">Remote desktop</h2><a id="remote-desktop" class="anchor" aria-label="Permalink: Remote desktop" href="#remote-desktop"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BROKER</code></td>
+<td></td>
+<td>RD Connection Broker, or directly a session host or any Windows PC with Remote Desktop on: name or IP, optionally <code>name:port</code> (a PC behind port forwarding). Empty = the settings dialog opens at start</td>
+</tr>
+<tr>
+<td><code>BROKER_FALLBACK</code></td>
+<td></td>
+<td>other brokers, space separated (<code>name[:port]</code>), tried in turn from the 3rd attempt</td>
+</tr>
+<tr>
+<td><code>DOMAIN</code></td>
+<td></td>
+<td>Windows domain of the users</td>
+</tr>
+<tr>
+<td><code>LOAD_BALANCE_INFO</code></td>
+<td></td>
+<td>RDS collection, as <code>loadbalanceinfo</code> in the .rdp file, e.g. <code>tsv://VMResource.1.VDI</code>
+</td>
+</tr>
+<tr>
+<td><code>DEFAULT_USER</code></td>
+<td></td>
+<td>user name pre-filled in the sign-in form</td>
+</tr>
+<tr>
+<td><code>TRANSPORT</code></td>
+<td><code>auto</code></td>
+<td>
+<code>auto</code> = UDP, TCP when UDP is blocked or fails; <code>udp</code> = UDP only; <code>tcp</code> = TCP only. See <a href="https://openthinrdp.github.io/udp.html">udp.md</a>
+</td>
+</tr>
+<tr>
+<td><code>RDP_AUTH</code></td>
+<td><code>negotiate</code></td>
+<td>
+<code>negotiate</code> = Kerberos, NTLM when Kerberos is not available (<code>DOMAIN</code> must be the full DNS name, e.g. <code>example.local</code>); <code>kerberos</code> = Kerberos only: the sign-in fails instead of falling back to NTLM (for domains that turned NTLM off, and to see a broken Kerberos setup at once); <code>ntlm</code> = NTLM only. Behind an alias shared by several brokers the device connects to one of them by its own name, so that the Kerberos ticket is for the server it talks to</td>
+</tr>
+<tr>
+<td><code>RDP_CERT</code></td>
+<td><code>tofu</code></td>
+<td>
+<code>ignore</code>, <code>tofu</code> (trust on first use) or <code>verify</code>
+</td>
+</tr>
+<tr>
+<td><code>RDP_GATEWAY</code></td>
+<td></td>
+<td>RD Gateway (Remote Desktop Gateway) for devices outside the office: <code>name[:port]</code>, 443 when no port. See <a href="#rd-gateway">RD Gateway</a>
+</td>
+</tr>
+<tr>
+<td><code>RDP_GATEWAY_USE</code></td>
+<td><code>always</code></td>
+<td>
+<code>always</code> = every connection through the gateway; <code>detect</code> = a server on the local network straight, the others through the gateway</td>
+</tr>
+<tr>
+<td><code>RDP_GFX</code></td>
+<td><code>progressive,AVC420:off,AVC444:off</code></td>
+<td>
+<code>/gfx</code> options. Without a GPU on the server this keeps text pixel exact</td>
+</tr>
+<tr>
+<td><code>RDP_KEYBOARD</code></td>
+<td></td>
+<td>keyboard layout id for Windows, e.g. <code>0x00000409</code>. Empty = taken from the X keyboard</td>
+</tr>
+<tr>
+<td><code>MULTIMON</code></td>
+<td><code>auto</code></td>
+<td>
+<code>auto</code> = every monitor when more than one is connected (<code>/multimon</code>), <code>off</code> = only the main one</td>
+</tr>
+<tr>
+<td><code>DISPLAY_RESOLUTION</code></td>
+<td><code>native</code></td>
+<td>
+<code>native</code> = what each monitor prefers, or <code>WIDTHxHEIGHT</code> (e.g. <code>1920x1080</code>) on every monitor that offers it; the others keep their own</td>
+</tr>
+<tr>
+<td><code>DISPLAY_SCALE</code></td>
+<td><code>auto</code></td>
+<td>size of text and buttons on the device, on the web page and in the remote desktop (Windows gets it as its display scale): <code>auto</code> = 200 on a monitor 3200 pixels wide or more (4K), 100 otherwise; or <code>100</code>, <code>125</code>, <code>150</code>, <code>175</code>, <code>200</code>. A <code>/scale</code> option in <code>RDP_EXTRA</code> wins for the remote desktop</td>
+</tr>
+<tr>
+<td><code>RDP_EXTRA</code></td>
+<td></td>
+<td>extra xfreerdp3 options (letters, digits, <code>/:+,._=#-</code> and spaces only)</td>
+</tr>
+<tr>
+<td><code>SESSION_THRESHOLD</code></td>
+<td><code>10</code></td>
+<td>a session that ends within these seconds counts as a failed attempt</td>
+</tr>
+<tr>
+<td><code>SHUTDOWN_SECS</code></td>
+<td><code>10</code></td>
+<td>after the user disconnects, switch off after these seconds (0 = never)</td>
+</tr>
+<tr>
+<td><code>SESSION_BAR</code></td>
+<td><code>off</code></td>
+<td>
+<code>on</code> = FreeRDP's bar at the top of the session, with a button that closes it (as a disconnect from Windows: the session stays open on the computer). Off: the session is left from Windows (Start &gt; user &gt; Disconnect or Sign out)</td>
+</tr>
+<tr>
+<td><code>SESSION_CLOSE_KEY</code></td>
+<td></td>
+<td>a key combination that closes the session the same way, e.g. <code>Ctrl+Alt+Q</code>: Ctrl, Alt or Win (and Shift) with one key, not sent to Windows. Empty = none</td>
+</tr>
+</tbody>
+</table>
+<p>The device switches off only after a deliberate end (disconnect, sign out, VM shut down by an administrator).
+Every other ending (network drop, crash, server restart) reconnects without asking. A session taken over by
+another device shows "Session opened elsewhere" with <em>Resume here</em> instead of reconnecting. When the broker
+answers but the virtual machine refuses the desktop (it is restarting or installing a Windows update), the device
+shows <em>Waiting for Windows</em> with a Cancel button and tries again every 20 s, without counting attempts, for up to
+20 minutes.</p>
+<div class="markdown-heading"><h3 class="heading-element">RD Gateway</h3><a id="rd-gateway" class="anchor" aria-label="Permalink: RD Gateway" href="#rd-gateway"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>A device in a branch office or at home reaches the RDS deployment through its <strong>RD Gateway</strong>, the role that
+carries RDP over HTTPS (port 443), so that nothing but 443 is published on the Internet. Set <code>RDP_GATEWAY</code> to its
+public name, e.g. in <code>config\&lt;hostname&gt;.conf</code> of the devices that are outside, or in <code>common.conf</code> with
+<code>RDP_GATEWAY_USE=detect</code> for devices that move:</p>
+<pre><code>RDP_GATEWAY=rdgateway.example.com
+</code></pre>
+<ul>
+<li>The broker and, after its redirect, the virtual machine are reached through the gateway with the <strong>credentials of
+the session</strong>: the user signs in once. Who may connect, and to which servers, is decided by the policies of the
+gateway (RD CAP and RD RAP).</li>
+<li>
+<strong>TCP through the gateway.</strong> FreeRDP carries no UDP through a gateway (its UDP transport, port 3391, is not
+implemented). With <code>detect</code>, a server reached straight on the local network keeps UDP (since 0.1.15; before, UDP
+was declined as soon as a gateway was set). <code>TRANSPORT=udp</code> is not enforced with a gateway. <code>/network:auto</code> stays:
+the server adapts frame rate and image quality to the line.</li>
+<li>
+<strong>Certificate.</strong> The gateway presents its HTTPS certificate: with <code>RDP_CERT=verify</code> it must be trusted by the device
+(a public certificate, or your CA in the <code>ca/</code> folder of the site files).</li>
+<li>
+<strong>Kerberos</strong> needs the domain controllers: outside the office, with no KDC proxy, use <code>RDP_AUTH=negotiate</code> (NTLM
+when Kerberos cannot be reached) or <code>ntlm</code>.</li>
+<li>The diagnostics of the device (settings, <em>Diagnostics</em>) test the gateway on its port instead of the brokers on
+3389. A session that the server closes with code 1 counts as ended: through a gateway the device cannot ask the
+virtual machine whether it still runs.</li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">USB</h2><a id="usb" class="anchor" aria-label="Permalink: USB" href="#usb"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>USB_MODE</code></td>
+<td><code>all</code></td>
+<td>
+<code>all</code> = every device except keyboard, mouse, touch screen, hub, Bluetooth adapter, network adapter, smart card reader, webcam and USB headset goes to Windows as a whole device (RemoteFX USB redirection). <code>disks</code> = USB sticks stay on the thin client, are mounted there and appear in Windows as redirected drives (<code>\\tsclient</code>), also when plugged in during a session (since 0.1.7). <code>auto</code> = device by device: a device that is only storage (every interface mass storage: a stick, a card reader, a disk) as a drive, as with <code>disks</code>; a device with storage and something else (an instrument with a serial port, a key with its own Windows driver) whole, as with <code>all</code>, so that its driver gets all of it. Plugged in during a session, <code>auto</code> works as <code>disks</code>: FreeRDP's filter sees a class on any interface</td>
+</tr>
+<tr>
+<td><code>USB_REDIRECT</code></td>
+<td></td>
+<td>
+<code>VID:PID</code> list always passed whole, in every mode (smart card readers excepted: they always go through the smart card channel)</td>
+</tr>
+<tr>
+<td><code>USB_LOCAL</code></td>
+<td></td>
+<td>
+<code>VID:PID</code> list never passed whole, in every mode: their storage appears in Windows as a drive (a stick that should be a drive while <code>USB_MODE=all</code>). Wins over <code>USB_REDIRECT</code>. The manager sets it from the peripherals of a device</td>
+</tr>
+<tr>
+<td><code>CAMERA_H264</code></td>
+<td><code>off</code></td>
+<td>
+<code>on</code> = the H.264 a webcam produces itself goes to Windows as it is (no work here, but no frame can be dropped: a late one holds the next); <code>off</code> = the webcam is read in MJPEG and encoded here, where a frame that comes late is dropped and the picture keeps up</td>
+</tr>
+<tr>
+<td><code>CAMERA_HWACCEL</code></td>
+<td><code>on</code></td>
+<td>the webcam encoded on the video engine of the processor (Intel Quick Sync, VA-API); <code>off</code> = on the processor itself. Without a video engine it falls back to the processor</td>
+</tr>
+<tr>
+<td><code>CAMERA_MAX</code></td>
+<td><code>auto</code></td>
+<td>the largest resolution of the webcam offered to Windows, which picks the largest it is offered: <code>auto</code> = 1080p when the video engine encodes H.264, else 720p; <code>720p</code>, <code>1080p</code>, <code>max</code> (the largest of the webcam, 2K and more)</td>
+</tr>
+</tbody>
+</table>
+<p>A USB stick passed whole (<code>USB_MODE=all</code>) gets its drive letter from Windows inside the session of the user it is
+redirected to, as on a physical PC. That letter is not visible to services or to other sessions, so a tool running
+as SYSTEM sees no letter: this is how Windows works, not something to fix by assigning letters.</p>
+<p>Webcams and USB sound devices (headsets, speakerphones) stay on the thin client: the camera goes through the RDP
+camera channel and appears in Windows as "<em>name</em> (redirected)", the microphone and the speaker through the RDP
+audio channels ("Remote Audio"). Passed as whole USB devices they reach Windows as devices of the console session,
+and the apps of the remote session see no microphone at all. When there is no USB microphone the thin client's
+own input is used. A device listed in <code>USB_REDIRECT</code> is still passed whole.</p>
+<div class="markdown-heading"><h2 class="heading-element">Network</h2><a id="network" class="anchor" aria-label="Permalink: Network" href="#network"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NETMODE</code></td>
+<td><code>dhcp</code></td>
+<td>
+<code>dhcp</code> or <code>static</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>IPADDR</code>, <code>NETMASK</code>, <code>GATEWAY</code>
+</td>
+<td></td>
+<td>static address (static mode only)</td>
+</tr>
+<tr>
+<td>
+<code>DNS1</code>, <code>DNS2</code>
+</td>
+<td></td>
+<td>DNS servers; empty = from DHCP. Required with a static address</td>
+</tr>
+<tr>
+<td><code>NTP</code></td>
+<td></td>
+<td>time servers; empty = Debian pool</td>
+</tr>
+<tr>
+<td><code>TIMEZONE</code></td>
+<td></td>
+<td>time zone of the device, as Linux names it (<code>Europe/Amsterdam</code>, <code>Europe/Rome</code>, <code>UTC</code>): the clock, the logs, the power schedule and the time zone of the session. Empty = the one of the image (<code>Etc/UTC</code> in the published ISO, so set it)</td>
+</tr>
+<tr>
+<td><code>REPORT_INTERVAL</code></td>
+<td><code>5</code></td>
+<td>minutes between two reports of the status and readings of the central settings, 2 to 30; each report comes up to a minute later at random. The manager counts a device off after three intervals (15 minutes at least)</td>
+</tr>
+<tr>
+<td><code>HOSTNAME</code></td>
+<td>
+<code>thinclient-</code> + the last 6 digits of the MAC address</td>
+<td>name of the device (the system host name, not stored in the settings file)</td>
+</tr>
+<tr>
+<td><code>WIFI</code></td>
+<td><code>off</code></td>
+<td>
+<code>on</code> = use Wi-Fi when no cable is connected</td>
+</tr>
+<tr>
+<td>
+<code>WIFI_SSID</code>, <code>WIFI_COUNTRY</code>
+</td>
+<td></td>
+<td>network name, regulatory country (two letters)</td>
+</tr>
+<tr>
+<td><code>WIFI_PSK</code></td>
+<td></td>
+<td>password or 64-hex key. Only in central settings or the dialog; stored only in <code>/etc/wpa_supplicant</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>WIFI_SSID_2</code> .. <code>WIFI_SSID_4</code>, <code>WIFI_PSK_2</code> .. <code>WIFI_PSK_4</code>
+</td>
+<td></td>
+<td>up to three more networks (WPA2-Personal) for every device, e.g. two buildings: their keys kept as <code>WIFI_PSK</code>. The device joins whichever is around, the strongest when more are, as well as the networks a user adds from its Wi-Fi page (up to 10, <em>Forget</em> there)</td>
+</tr>
+<tr>
+<td><code>WIFI_SECURITY</code></td>
+<td><code>psk</code></td>
+<td>
+<code>psk</code> = a password (WPA2-Personal, <code>WIFI_PSK</code>); <code>peap</code> or <code>tls</code> = WPA2/WPA3-Enterprise with the 802.1X settings below. See <a href="#8021x-and-wi-fi-enterprise">802.1X and Wi-Fi Enterprise</a>
+</td>
+</tr>
+<tr>
+<td><code>DOT1X</code></td>
+<td><code>off</code></td>
+<td>802.1X on the cable: <code>peap</code> (an account and its password) or <code>tls</code> (a certificate of the device). See <a href="#8021x-and-wi-fi-enterprise">802.1X and Wi-Fi Enterprise</a>
+</td>
+</tr>
+<tr>
+<td><code>EAP_IDENTITY</code></td>
+<td></td>
+<td>the identity: <code>DOMAIN\user</code>, <code>user@domain</code>, <code>host/name.domain</code>. With <code>tls</code>, empty = the common name of the certificate</td>
+</tr>
+<tr>
+<td><code>EAP_ANONYMOUS</code></td>
+<td></td>
+<td>outer identity, sent in clear before the tunnel, e.g. <code>anonymous@example.com</code>. Empty = the identity</td>
+</tr>
+<tr>
+<td><code>EAP_CA</code></td>
+<td><code>system</code></td>
+<td>the authority that signed the certificate of the RADIUS server: <code>system</code> (the system trust store, with the CAs of the site) or the name of a <code>.crt</code> file in <code>/etc/openthinrdp/ca</code>
+</td>
+</tr>
+<tr>
+<td><code>EAP_SERVER_NAME</code></td>
+<td></td>
+<td>name(s) the certificate of the RADIUS server must be for (or a name under them), space separated. Always set it</td>
+</tr>
+<tr>
+<td><code>EAP_PASSWORD</code></td>
+<td></td>
+<td>the PEAP password. Only in the dialog, the central settings or sent by the manager; stored only as a secret of the device</td>
+</tr>
+<tr>
+<td><code>VPN</code></td>
+<td><code>off</code></td>
+<td>
+<code>wireguard</code> or <code>openvpn</code>: the device's own VPN, for devices outside the office. See <a href="#vpn">VPN</a>
+</td>
+</tr>
+<tr>
+<td>
+<code>VPN_SERVER</code>, <code>VPN_SERVER_KEY</code>
+</td>
+<td></td>
+<td>WireGuard: the server, <code>name[:port]</code> (51820 when no port), and its public key</td>
+</tr>
+<tr>
+<td><code>VPN_ADDRESS</code></td>
+<td></td>
+<td>WireGuard: the address of this device in the tunnel with its prefix, e.g. <code>10.8.0.15/24</code>. One per device: ignored in <code>common.conf</code>
+</td>
+</tr>
+<tr>
+<td><code>VPN_ROUTES</code></td>
+<td></td>
+<td>networks of the office through the tunnel (CIDR, space separated); empty = all the traffic (WireGuard). With OpenVPN, added to the routes the server pushes</td>
+</tr>
+<tr>
+<td><code>VPN_DNS</code></td>
+<td></td>
+<td>DNS servers of the office, in front of the others while the tunnel is up. Empty: WireGuard keeps the DNS it has, OpenVPN takes the ones the server pushes</td>
+</tr>
+</tbody>
+</table>
+<div class="markdown-heading"><h3 class="heading-element">VPN</h3><a id="vpn" class="anchor" aria-label="Permalink: VPN" href="#vpn"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The other way for a device outside the office: its own tunnel to the office network, WireGuard or OpenVPN. Through
+it go the broker, the management folder (status, central configuration, updates) and the DNS of the office, so the
+device works as it does inside. Compared with the <a href="#rd-gateway">RD Gateway</a>: no gateway server to publish, and inside
+WireGuard the session <strong>keeps UDP</strong>; a VPN server is needed instead, often the firewall of the office.</p>
+<p><strong>WireGuard</strong>, set in the manager or in the configuration files:</p>
+<pre><code># config\common.conf
+VPN=wireguard
+VPN_SERVER=vpn.example.com
+VPN_SERVER_KEY=&lt;public key of the server&gt;
+VPN_ROUTES=192.168.0.0/23
+VPN_DNS=192.168.1.10
+
+# config\&lt;hostname&gt;.conf
+VPN_ADDRESS=10.8.0.15/24
+</code></pre>
+<ul>
+<li>The <strong>private key is made on the device</strong> at the first start with <code>VPN=wireguard</code> and never leaves it (a secret,
+in the TPM when there is one). Its public key is in the status report (<code>VPN_PUBLIC_KEY</code>); in the manager, the
+Summary of the device shows it, and a double click or Ctrl+C on that row copies the <code>[Peer]</code> block to add on the
+server (the public key and <code>AllowedIPs</code> = the address of the device /32). Until the server knows it, the state
+says <em>no answer from the server yet</em>.</li>
+<li>
+<code>VPN_ROUTES</code> empty sends <strong>all the traffic</strong> through the tunnel: the server itself stays on the local way, the
+default route of the local network stays and is used again as soon as the tunnel goes.</li>
+<li>A server name is resolved again when the tunnel stays silent for 3 minutes (a dynamic address). The tunnel sends a
+keepalive every 25 s, so that a NAT router at home keeps it open.</li>
+</ul>
+<p><strong>OpenVPN</strong>: <code>VPN=openvpn</code>, and the profile of the device (the <code>.ovpn</code> file the VPN provider or the firewall gives)
+sent from the manager with <strong>VPN profile...</strong> (device header, shown when <code>VPN=openvpn</code>), with the user and password
+when the profile asks for them (<code>auth-user-pass</code>).</p>
+<ul>
+<li>Profile and password go <strong>over SSH</strong> with the key of the vault (<code>SSH=on</code> on the device) and are secrets of the
+device: they never go through the management folder, which every device can read, and never on a command line.
+The profile is refused when it would run commands or write files (<code>script-security</code>, <code>up</code>/<code>down</code>, <code>plugin</code>,
+<code>management</code>, <code>log</code>...): the scripts that run are the device's own.</li>
+<li>The tunnel restarts by itself when it drops. A <strong>password the server refuses</strong> is tried again only after an hour
+(or as soon as the manager sends new credentials): retried every few seconds, it would lock a domain account.</li>
+<li>DNS servers pushed by the server (<code>dhcp-option DNS</code>) are used unless <code>VPN_DNS</code> names others.</li>
+</ul>
+<p>The state of the VPN is in the report (<code>VPN=</code>), in the manager (Summary, Network) and in the diagnostics of the
+device. Events: <em>VPN: ...</em> in the event log.</p>
+<div class="markdown-heading"><h3 class="heading-element">802.1X and Wi-Fi Enterprise</h3><a id="8021x-and-wi-fi-enterprise" class="anchor" aria-label="Permalink: 802.1X and Wi-Fi Enterprise" href="#8021x-and-wi-fi-enterprise"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Corporate networks often admit nothing on a switch port that has not authenticated with <strong>802.1X</strong>, and enterprise
+Wi-Fi uses <strong>WPA2/WPA3-Enterprise</strong>, the same protocol over the air. The device does both with <code>wpa_supplicant</code>:</p>
+<ul>
+<li>
+<code>DOT1X=peap</code> or <code>tls</code>: 802.1X on every wired adapter (<code>dot1x.sh</code>, one <code>openthinrdp-dot1x@&lt;adapter&gt;</code> service each,
+<code>wpa_supplicant -D wired</code>).</li>
+<li>
+<code>WIFI_SECURITY=peap</code> or <code>tls</code>: the Wi-Fi network of <code>WIFI_SSID</code> as WPA2- or WPA3-Enterprise.</li>
+<li>
+<strong>One block of EAP settings serves both</strong>: the same account (PEAP) or the same certificate (EAP-TLS) on the cable
+and on the Wi-Fi, as a Windows PC uses the same credentials for both. A network that wants a different identity on
+each is rare enough not to double every setting.</li>
+</ul>
+<p>Two methods, the ones Windows NPS and FreeRADIUS offer for domain devices:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>PEAP (<code>peap</code>)</th>
+<th>EAP-TLS (<code>tls</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Who authenticates</td>
+<td>an account and its password (PEAP-MSCHAPv2)</td>
+<td>a certificate of the device and its private key</td>
+</tr>
+<tr>
+<td>Where the secret comes from</td>
+<td>the settings dialog (<em>802.1X password</em>), <code>EAP_PASSWORD</code> in the central settings, or the manager (<strong>802.1X...</strong>, over SSH)</td>
+<td>the manager (<strong>802.1X...</strong>, over SSH): a <code>.pfx</code> as Windows exports it, or a PEM certificate and its key</td>
+</tr>
+<tr>
+<td>Identity</td>
+<td>
+<code>EAP_IDENTITY</code>, e.g. <code>EXAMPLE\svc-thin-8021x</code>
+</td>
+<td>
+<code>EAP_IDENTITY</code>, or empty = the common name of the certificate</td>
+</tr>
+</tbody>
+</table>
+<pre><code># config\common.conf: every device on 802.1X ports with one service account (PEAP)
+DOT1X=peap
+EAP_IDENTITY=EXAMPLE\svc-thin-8021x
+EAP_ANONYMOUS=anonymous@example.com
+EAP_CA=corp-root.crt
+EAP_SERVER_NAME=nps.example.com
+</code></pre>
+<p><strong>The server is always checked.</strong> The device sends nothing secret before the RADIUS server has shown a certificate
+signed by <code>EAP_CA</code> and made out to <code>EAP_SERVER_NAME</code> (or a name under it, <code>domain_suffix_match</code>); a server that fails
+either check is refused (<em>certificate of the server not accepted: ...</em>) and the password never leaves the device.
+<code>EAP_CA=system</code> trusts the system store, which holds the public authorities <strong>and</strong> the authorities of your site
+(<code>ca/*.crt</code> of the site files, <code>/etc/openthinrdp/ca</code>); a file name (e.g. <code>corp-root.crt</code>, from that folder) trusts that
+authority only. <strong>Set <code>EAP_SERVER_NAME</code> always</strong>: without it any server with a certificate of <code>EAP_CA</code>, with <code>system</code>
+any server with a public certificate, would get the password; the status of the device says so with a WARNING, and the
+manager notes it when the settings are saved.</p>
+<p><strong>On the cable</strong>, in the order things happen:</p>
+<ol>
+<li>The adapter comes up (boot, cable plugged in, settings changed): its supplicant starts <strong>before</strong> the address is
+asked (a <code>pre-up</code> of the adapter), and DHCP (or the static address) waits for the authentication, 40 s at most.</li>
+<li>
+<strong>Authenticated</strong>: the port is open, DHCP goes on. When the port was authenticated after the address was already
+asked (a supplicant restarted, a switch that answered late), the address is asked again (<code>dhcpcd -n</code>): a switch may
+put an authenticated device in another VLAN than before.</li>
+<li>
+<strong>Refused</strong>: DHCP goes on too, for the network the switch gives a refused device (a guest or restricted VLAN, or
+none). The reason is in the state: <em>password refused by the server</em>, <em>certificate of the server not accepted:
+Domain suffix mismatch (...)</em>, <em>refused by the server (certificate, account or network policy)</em>.
+A <strong>PEAP password the server refuses is not tried again for an hour</strong>, or until a new one arrives (dialog, central
+settings, manager): switches ask again every minute, and a domain account would be locked.</li>
+<li>
+<strong>No authenticator</strong>: a port that does not answer 802.1X at all (a switch without it, a desk at home) gets the
+network without it after 15 s, and the state says <em>no authenticator: DHCP without 802.1X</em>. A device set up for
+802.1X works on any switch; the supplicant keeps listening, and a switch that starts 802.1X later is answered.</li>
+<li>
+<strong>Cable out and in</strong>: authenticated again (an EAPOL-Start of its own after 2 and 8 s, when the switch does not ask
+first), then the address again.</li>
+</ol>
+<p>Missing pieces are no error of the settings (the password or the certificate come later, from the manager): the state
+says <em>incomplete: no password</em> or <em>no client certificate</em>, and the network works without 802.1X meanwhile.</p>
+<p><strong>Secrets.</strong> The PEAP password and the private key of the certificate are secrets of the device, kept like the Wi-Fi
+key: in the TPM when there is one (<code>TPM_SECRETS</code>), otherwise in root-only files; never in the settings files, never in
+the status. The manager sends them with <strong>802.1X...</strong> in the header of a device (shown with <code>DOT1X</code> or an enterprise
+Wi-Fi), over SSH with the key of the vault (<code>SSH=on</code>), on standard input: never through the management folder, which
+every device can read. A certificate is checked twice, in the manager (the password of a <code>.pfx</code>, its private key, the
+dates, the use for client authentication) and on the device with openssl (the key belongs to the certificate, not
+expired); the key is kept <strong>decrypted</strong>, its password nowhere. <code>EAP_PASSWORD</code> in <code>common.conf</code> works too (compared by
+its hash, applied once), but every device that reads the file can read it: per device, prefer the manager.</p>
+<p><strong>Getting there the first time.</strong> A device on a port that admits nothing without 802.1X has no network until it is set
+up: type the PEAP settings in its settings dialog (section <em>802.1X</em>), or set it up first on a port without 802.1X, or
+one with MAC authentication bypass or a guest VLAN that reaches the management folder. EAP-TLS needs the network once
+anyway, for the manager to send the certificate.</p>
+<p><strong>State and troubleshooting.</strong> The report has <code>DOT1X=</code> (adapter by adapter: <em>authenticated (PEAP, server ...)</em>,
+<em>failed: ...</em>, <em>no authenticator</em>, <em>incomplete: ...</em>, <em>no link</em>, or <code>off</code>), shown in the manager (Summary, Network) and
+in the diagnostics of the device; <code>WIFI_STATUS</code> says <em>(802.1X PEAP)</em> or what is missing. Events: <em>802.1X: authenticated
+on eth0 (...)</em>, <em>802.1X: failed on eth0: ...</em>, <em>802.1X: no authenticator on eth0 ...</em>. Everything the supplicant says:
+<code>journalctl -u openthinrdp-dot1x@eth0</code> (SSH).</p>
+<p><strong>Wi-Fi Enterprise</strong> joins WPA2-Enterprise and WPA3-Enterprise networks (<code>WPA-EAP</code> and <code>WPA-EAP-SHA256</code>, protected
+management frames when the access point offers or requires them), with the same EAP settings and the same checks of
+the server. Not supported: WPA3-Enterprise 192-bit (Suite B), and WPA3-Personal (SAE) for <code>psk</code> networks. On Wi-Fi the
+supplicant's own back-off applies to a refused password (10 s, then longer), not the hour of the cable.</p>
+<div class="markdown-heading"><h4 class="heading-element">Windows NPS: PEAP with domain accounts</h4><a id="windows-nps-peap-with-domain-accounts" class="anchor" aria-label="Permalink: Windows NPS: PEAP with domain accounts" href="#windows-nps-peap-with-domain-accounts"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>Install the <em>Network Policy and Access Services</em> role and register the NPS server in Active Directory.</li>
+<li>
+<strong>Server certificate.</strong> NPS needs a certificate for its name, e.g. <code>nps.example.com</code>, from your AD CS (the <em>RAS and
+IAS Server</em> template, autoenrollment for the NPS server), or any CA. Export the root CA as Base-64 (<code>.cer</code>), put it
+in the site files as <code>ca/corp-root.crt</code> (image or update package), and set <code>EAP_CA=corp-root.crt</code> (or <code>system</code>) and
+<code>EAP_SERVER_NAME=nps.example.com</code>.</li>
+<li>
+<strong>RADIUS clients</strong>: the switches (and Wi-Fi controllers) with their address and shared secret.</li>
+<li>
+<strong>Network policy</strong>: conditions <em>Windows Groups</em> = a group of the accounts the devices use, <em>NAS Port Type</em> =
+Ethernet (and Wireless - IEEE 802.11); constraints, <em>Authentication Methods</em>: <strong>Microsoft: Protected EAP (PEAP)</strong>,
+edited to use the server certificate above, with <em>Secured password (EAP-MSCHAP v2)</em> inside. Leave the other methods
+off. A refused device: the reason is in the NPS log (Event Viewer, <em>Network Policy Server</em>).</li>
+<li>The device: <code>DOT1X=peap</code>, <code>EAP_IDENTITY=EXAMPLE\account</code> (a user account: a thin client has no domain computer
+password to use), its password with the manager or the dialog.</li>
+</ol>
+<div class="markdown-heading"><h4 class="heading-element">Windows NPS: EAP-TLS with certificates from AD CS</h4><a id="windows-nps-eap-tls-with-certificates-from-ad-cs" class="anchor" aria-label="Permalink: Windows NPS: EAP-TLS with certificates from AD CS" href="#windows-nps-eap-tls-with-certificates-from-ad-cs"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>A <strong>certificate template</strong> for the devices: duplicate <em>Workstation Authentication</em> (or <em>User</em>), Enhanced Key Usage
+<em>Client Authentication</em>, <em>Allow private key to be exported</em>, subject from the request or built from Active Directory.
+Issue one certificate per device, e.g. for a computer account created for it, subject <code>CN=host/thin1.example.com</code>
+(and that name as DNS name in the subject alternative name), and export it with its private key as <code>.pfx</code>.</li>
+<li>NPS maps the certificate to an account in Active Directory. With the <em>strong certificate mapping</em> that Windows
+enforces (KB5014754), give the certificate the security identifier of the account (issued by an enterprise CA for
+that account) or map it explicitly on the account (<code>altSecurityIdentities</code>), otherwise the mapping, and the
+authentication, may fail.</li>
+<li>
+<strong>Network policy</strong> as for PEAP, with the authentication method <strong>Microsoft: Smart Card or other certificate</strong> (its
+server certificate as above).</li>
+<li>The device: <code>DOT1X=tls</code>, <code>EAP_IDENTITY</code> empty (the common name of the certificate: <code>host/thin1.example.com</code>), and the
+<code>.pfx</code> with <strong>802.1X...</strong> in the manager.</li>
+</ol>
+<div class="markdown-heading"><h4 class="heading-element">FreeRADIUS</h4><a id="freeradius" class="anchor" aria-label="Permalink: FreeRADIUS" href="#freeradius"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<pre><code># clients.conf: each switch or Wi-Fi controller
+client switches { ipaddr = 192.0.2.0/24  secret = &lt;shared secret&gt; }
+
+# mods-available/eap, tls-config tls-common: the server certificate, and the CA of the device certificates (EAP-TLS)
+private_key_file = ${certdir}/nps.example.com.key
+certificate_file = ${certdir}/nps.example.com.crt
+ca_file = ${cadir}/corp-root.crt
+
+# mods-config/files/authorize: a local account for PEAP (or the mschap module with ntlm_auth for domain accounts)
+svc-thin-8021x Cleartext-Password := "..."
+</code></pre>
+<p>PEAP-MSCHAPv2 and EAP-TLS are enabled in the default <code>eap</code> module; its first proposal (MD5) is declined by the device,
+which asks for PEAP or TLS as set. The switch is a plain 802.1X authenticator with the FreeRADIUS server as its RADIUS
+server.</p>
+<p>Tested against hostapd (802.1X authenticator on a wired link, and a WPA2/WPA3-Enterprise access point on virtual
+radios) with its own EAP server and with FreeRADIUS 3.2: PEAP and EAP-TLS, a wrong password (one try, then the hour),
+a server of another CA or another name, no authenticator, the cable out and in.</p>
+<div class="markdown-heading"><h3 class="heading-element">Desktops in the cloud</h3><a id="desktops-in-the-cloud" class="anchor" aria-label="Permalink: Desktops in the cloud" href="#desktops-in-the-cloud"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>OpenThinRDP connects with RDP to any Windows it can reach, wherever it runs. An RDS deployment (broker, session
+hosts or a VDI collection) or single Windows virtual machines in <strong>Azure, AWS, Google Cloud</strong> or with any other
+provider are set up as on premises: <code>BROKER</code> is the broker or the machine, <code>LOAD_BALANCE_INFO</code> the collection.</p>
+<ul>
+<li>
+<strong>How the devices reach it:</strong> through the deployment's <a href="#rd-gateway">RD Gateway</a> (HTTPS, the usual way to publish
+RDS in the cloud), through a <a href="#vpn">VPN</a> to the cloud network (the device's own WireGuard or OpenVPN, or the
+site-to-site VPN of the office), or straight to a public address (not recommended: Remote Desktop open to the
+Internet).</li>
+<li>
+<strong>UDP</strong> works straight and through a VPN, as on premises: the firewall of the cloud network (security group, NSG)
+must let UDP 3389 in, besides TCP 3389. Through an RD Gateway the session uses TCP.</li>
+<li>
+<strong>Sign-in</strong> with the domain accounts of the deployment (Active Directory in the cloud, or a managed domain such as
+Microsoft Entra Domain Services), Kerberos or NTLM as on premises. Kerberos needs the domain controllers, so from
+outside with no VPN use <code>RDP_AUTH=negotiate</code> or <code>ntlm</code>.</li>
+<li>
+<strong>Management folder:</strong> an SMB share the devices can reach, usually on a file server through the VPN. Devices without
+a management folder work too, set up on the device (settings dialog) and updated from GitHub.</li>
+<li>
+<strong>Azure Virtual Desktop and Windows 365</strong> sign in with Microsoft Entra ID through Microsoft's own gateway and
+broker: they are on the list of what comes next. Services with their own protocol (Citrix, Omnissa Horizon, Amazon
+WorkSpaces) are not RDP.</li>
+</ul>
+<p>It is the same RDP as on premises, where OpenThinRDP runs in production every day. Running it in the cloud? Tell us
+how it goes in the <a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a>.</p>
+<div class="markdown-heading"><h2 class="heading-element">Management</h2><a id="management" class="anchor" aria-label="Permalink: Management" href="#management"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MGMT_SHARE</code></td>
+<td></td>
+<td>management folder, e.g. <code>\\fileserver\thinclients</code>, see <a href="https://openthinrdp.github.io/management.html">management.md</a>; empty with a domain account (<code>MGMT_USER</code>): the folder the manager names for that account in the domain (<a href="https://openthinrdp.github.io/manager-guide.html#settings--manager-language-and-local-copy">manager.md</a>)</td>
+</tr>
+<tr>
+<td><code>MGMT_USER</code></td>
+<td></td>
+<td>account of the management folder: <code>user</code>, <code>DOMAIN\user</code> or <code>user@domain</code>. Empty = <code>smb.cred</code> of the image</td>
+</tr>
+<tr>
+<td><code>MGMT_PASSWORD</code></td>
+<td></td>
+<td>its password. Only in central settings or the dialog; stored only in <code>/etc/openthinrdp/smb.cred</code>
+</td>
+</tr>
+<tr>
+<td><code>SECURITY_UPDATES</code></td>
+<td><code>on</code></td>
+<td>Debian security updates, never FreeRDP, never a reboot</td>
+</tr>
+<tr>
+<td><code>ANON_STATS</code></td>
+<td><code>full</code></td>
+<td>anonymous data for the project: <code>full</code> = once a week what the device is, how it is set up and used and how fast it runs, and what went wrong as soon as it happens; <code>errors</code> = only what went wrong, as soon as it happens; <code>off</code> = nothing. Never names, addresses, users, servers or log text. A new device asks at its first start. <code>on</code> (before 0.3.3) = <code>full</code>. See <a href="https://openthinrdp.github.io/privacy.html">privacy.md</a>
+</td>
+</tr>
+<tr>
+<td><code>TPM_SECRETS</code></td>
+<td><code>on</code></td>
+<td>with a TPM 2.0: folder password, Wi-Fi key, SSH host keys, VPN and 802.1X secrets kept encrypted in it (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/security.md">security.md</a>); <code>off</code> = root-only files, and back out of the TPM at the next start</td>
+</tr>
+<tr>
+<td><code>UPDATE_FROM</code></td>
+<td><code>github</code></td>
+<td>OpenThinRDP software updates: <code>github</code> (signed releases, checked every 3 hours), <code>share</code> (<code>updates\</code> of the management folder) or <code>off</code>, see <a href="https://openthinrdp.github.io/management.html#signed-updates">management.md</a>
+</td>
+</tr>
+<tr>
+<td><code>UPDATE_GITHUB</code></td>
+<td><code>OpenThinRdp/openthinrdp</code></td>
+<td>repository of the releases, <code>owner/repository</code> (for a fork)</td>
+</tr>
+<tr>
+<td><code>UPDATE_KEY</code></td>
+<td><code>any</code></td>
+<td>signature an update from the management folder needs: <code>any</code> (project key or site key) or <code>site</code> (only the site key, once the device has it), see <a href="https://openthinrdp.github.io/management.html#a-fleet-on-its-own-key">management.md</a>
+</td>
+</tr>
+<tr>
+<td><code>CONFIG_SIGNED</code></td>
+<td><code>off</code></td>
+<td>
+<code>required</code> = the device takes the files of the management folder (<code>config</code>, the group and its own file, <code>authorized_keys</code>) only with the signature of the site key the manager writes next to each; a file without it, or a missing one, leaves the last good settings. Set it in a signed <code>common.conf</code>: once set, only a signed file switches it off. See <a href="https://openthinrdp.github.io/management.html#signed-configuration">management.md</a>
+</td>
+</tr>
+<tr>
+<td><code>UPDATE_TO</code></td>
+<td><code>latest</code></td>
+<td>
+<code>latest</code> = the newest version published; a version (e.g. <code>0.2.0</code>) = exactly that one, also an older one (going back, FreeRDP included), and nothing newer until it changes. A pilot group: the current version in <code>common.conf</code>, <code>latest</code> for the pilot devices. Going back works to 0.2.0 or later. See <a href="https://openthinrdp.github.io/management.html#signed-updates">management.md</a>
+</td>
+</tr>
+<tr>
+<td><code>UPDATE_HOURS</code></td>
+<td></td>
+<td>
+<code>from-to</code>, e.g. <code>02-05</code> (also across midnight: <code>22-06</code>): an update installs only in those hours, downloaded before; empty = any time. Devices with a management folder only; a scheduled update job of the manager installs at once</td>
+</tr>
+<tr>
+<td><code>SSH</code></td>
+<td><code>off</code></td>
+<td>
+<code>on</code> = SSH for the <code>otradmin</code> account, key login only</td>
+</tr>
+<tr>
+<td><code>REMOTE_SCREEN</code></td>
+<td><code>on</code></td>
+<td>
+<code>off</code> = no remote screen from the manager (<a href="https://openthinrdp.github.io/management.html#remote-screen">management.md</a>); it needs <code>SSH=on</code>
+</td>
+</tr>
+<tr>
+<td><code>REMOTE_CONSENT</code></td>
+<td><code>off</code></td>
+<td>
+<code>ask</code> = the device asks its user before the remote screen starts; without <em>Allow</em> within a minute it does not start</td>
+</tr>
+</tbody>
+</table>
+<div class="markdown-heading"><h2 class="heading-element">Web button and kiosk page</h2><a id="web-button-and-kiosk-page" class="anchor" aria-label="Permalink: Web button and kiosk page" href="#web-button-and-kiosk-page"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WEB_BUTTON</code></td>
+<td><code>none</code></td>
+<td>
+<code>app</code> (only <code>WEB_URL</code> and <code>WEB_ALLOW</code>), <code>browser</code> (free browsing), <code>kiosk</code> (page full screen at power on)</td>
+</tr>
+<tr>
+<td><code>WEB_LABEL</code></td>
+<td><code>Web</code></td>
+<td>button label</td>
+</tr>
+<tr>
+<td><code>WEB_URL</code></td>
+<td></td>
+<td>web address for <code>app</code> and <code>browser</code>
+</td>
+</tr>
+<tr>
+<td><code>WEB_ALLOW</code></td>
+<td></td>
+<td>other sites allowed in <code>app</code> mode (URL prefixes)</td>
+</tr>
+<tr>
+<td><code>KIOSK_URL</code></td>
+<td></td>
+<td>the kiosk page. The sign-in form shows for 5 s first: touching anything keeps it</td>
+</tr>
+<tr>
+<td><code>KIOSK_RELOAD_MIN</code></td>
+<td><code>10</code></td>
+<td>reload the page every N minutes when idle (0 = never)</td>
+</tr>
+</tbody>
+</table>
+<div class="markdown-heading"><h2 class="heading-element">Power schedule</h2><a id="power-schedule" class="anchor" aria-label="Permalink: Power schedule" href="#power-schedule"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POWER_ON_TIME</code></td>
+<td></td>
+<td>
+<code>hh:mm</code>, RTC wake alarm (firmware support needed, see <a href="https://openthinrdp.github.io/hardware.html">hardware.md</a>)</td>
+</tr>
+<tr>
+<td><code>POWER_OFF_TIME</code></td>
+<td></td>
+<td>
+<code>hh:mm</code>, with a 60 s warning that can be cancelled; waits for an open session to end. With both times set, a device that starts outside its hours (the power came back, see <em>AC Recovery</em> in <a href="https://openthinrdp.github.io/hardware.html">hardware.md</a>) gets the same warning and switches off</td>
+</tr>
+<tr>
+<td><code>POWER_ON_DAYS</code></td>
+<td><code>1234567</code></td>
+<td>1 = Monday ... 7 = Sunday</td>
+</tr>
+</tbody>
+</table>
+<div class="markdown-heading"><h2 class="heading-element">Look and language</h2><a id="look-and-language" class="anchor" aria-label="Permalink: Look and language" href="#look-and-language"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LANGUAGE</code></td>
+<td><code>en</code></td>
+<td>
+<code>en</code>, <code>it</code>, <code>nl</code>, <code>zh</code> (Simplified Chinese; any file in <code>/opt/openthinrdp/lang/</code>). A translation that misses a string falls back to English. The Chinese font is in every image (<code>fonts-wqy-microhei</code>)</td>
+</tr>
+<tr>
+<td><code>KEYBOARD</code></td>
+<td><code>us</code></td>
+<td>X11 layout, e.g. <code>us</code>, <code>it</code>, <code>de</code>, <code>cn</code>. <code>cn</code> is a US keyboard with Chinese labels (the Chinese input method runs inside the Windows session). The text installer always gets <code>us</code> as its console keymap</td>
+</tr>
+<tr>
+<td><code>TITLE</code></td>
+<td><code>Remote desktop</code></td>
+<td>window titles</td>
+</tr>
+<tr>
+<td><code>LOGO</code></td>
+<td><code>/opt/openthinrdp/branding/logo.png</code></td>
+<td>logo in the dialogs. A logo in the management folder wins, see <a href="https://openthinrdp.github.io/management.html#logo-and-background-picture">management.md</a>
+</td>
+</tr>
+<tr>
+<td>
+<code>BG_TOP</code>, <code>BG_BOTTOM</code>
+</td>
+<td>
+<code>#1b2733</code>, <code>#000000</code>
+</td>
+<td>background gradient (boot splash and behind the form)</td>
+</tr>
+<tr>
+<td><code>SUPPORT_TEXT</code></td>
+<td></td>
+<td>extra line in error messages, e.g. "Call the IT desk, ext. 123"</td>
+</tr>
+<tr>
+<td><code>SETTINGS_PIN_SHA256</code></td>
+<td></td>
+<td>protects the settings dialog. Set it from the manager, which stores <code>pbkdf2-sha256:&lt;iterations&gt;:&lt;salt&gt;:&lt;key&gt;</code> (salted PBKDF2-SHA256); by hand: <code>python3 -c 'import hashlib,os,sys; s=os.urandom(16); print("pbkdf2-sha256:600000:"+s.hex()+":"+hashlib.pbkdf2_hmac("sha256",sys.argv[1].encode(),s,600000).hex())' 123456</code>. The plain SHA-256 of 0.1.4 and earlier still works. Never shown in the status files</td>
+</tr>
+</tbody>
+</table>
+<p><code>HOSTNAME</code>, <code>DEFAULT_USER</code>, <code>NETMODE</code> and <code>IPADDR</code> identify a device: in central settings they are accepted
+only in <code>config\&lt;hostname&gt;.conf</code>, never in <code>config\common.conf</code>.</p>
+<p class="source">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md">docs/configuration.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</p>
+</main>
+<section class="related"><div class="wrap"><p class="eyebrow">Read next</p><div class="rel"><a href="https://openthinrdp.github.io/management.html"><b>Managing an OpenThinRDP fleet</b><span>One shared folder runs the whole thin client fleet:</span></a><a href="https://openthinrdp.github.io/getting-started.html"><b>Getting started with OpenThinRDP</b><span>Step by step:</span></a><a href="https://openthinrdp.github.io/guides.html"><b>OpenThinRDP guides</b><span>Every OpenThinRDP guide by what you want to do:</span></a></div></div></section>
+<section class="final"><div class="wrap center"><h2>Try it live. Nothing is installed.</h2><p class="fine">Write the ISO to a USB stick, start a PC from it, sign in to your Windows desktop.</p><div class="ctas center"><a class="btn" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">&#11015; Download the ISO</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/home.html">At home</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/business.html">For companies</a></div></div></section>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div><a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
+      <p>The first open source thin client with RDP over UDP, and a free manager for the servers behind it. GPLv3 &middot; release 0.3.6.</p></div>
+    <div class="foot-cols">
+      <nav aria-label="For you"><b>For you</b><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/windows-10-end-of-support.html">Windows 10 end of support</a><a href="https://openthinrdp.github.io/used-thin-client.html">Used thin clients</a><a href="https://openthinrdp.github.io/old-pc-thin-client.html">Old PC as a thin client</a><a href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">Raspberry Pi</a></nav>
+      <nav aria-label="Product"><b>Product</b><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/udp.html">RDP over UDP</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/linux-rdp-client.html">RDP from Linux</a><a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">Proxmox and VMware</a></nav>
+      <nav aria-label="Manager"><b>Manager</b><a href="https://openthinrdp.github.io/manager.html">The manager</a><a href="https://openthinrdp.github.io/hyper-v-rds-health-check.html">Hyper-V and RDS health check</a><a href="https://openthinrdp.github.io/manager-guide.html">Manager guide</a><a href="https://openthinrdp.github.io/replace-dell-thinos.html">Replace Dell ThinOS</a></nav>
+      <nav aria-label="Resources"><b>Resources</b><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/getting-started.html">Getting started</a><a href="https://openthinrdp.github.io/settings.html">Every setting</a><a href="https://openthinrdp.github.io/management.html">Managing the fleet</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/maturity.html">Production readiness</a><a href="https://openthinrdp.github.io/privacy.html">Privacy</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
+    </div>
+    <p class="fine">Windows and Remote Desktop are trademarks of Microsoft. OpenThinRDP is not affiliated with Microsoft, with openthinclient or with any vendor named here.</p>
+  </div>
+</footer>
+<script data-goatcounter="https://ceschi-ops.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

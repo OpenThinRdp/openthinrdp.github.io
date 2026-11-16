@@ -20,3 +20,6 @@ https://openthinrdp.github.io/privacy.html
 https://openthinrdp.github.io/changelog.html
 https://openthinrdp.github.io/business.html
 https://openthinrdp.github.io/features.html
+https://openthinrdp.github.io/guides.html
+https://openthinrdp.github.io/settings.html
+https://openthinrdp.github.io/management.html

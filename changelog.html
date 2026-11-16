@@ -35,9 +35,9 @@
 <header class="nav">
   <div class="wrap nav-in">
     <a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
-    <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
+    <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Free manager</a><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
     <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a>
-    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a></nav></details>
+    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Free manager</a><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a></nav></details>
   </div>
 </header>
 <div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="https://openthinrdp.github.io/">Home</a> <span>&#8250;</span> <span>OpenThinRDP changelog</span></nav></div>
@@ -896,7 +896,7 @@ manager sends them over SSH (<strong>802.1X...</strong>), never through the mana
 <li>DHCP waits for the authentication. On a switch with no 802.1X at all the device goes on after 15 s and says so.</li>
 <li>A password the server refuses is not tried again for an hour, so a domain account is not locked.</li>
 <li>Tested against hostapd and FreeRADIUS (cable, and Wi-Fi on virtual radios). Setup notes for Windows NPS:
-<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md#8021x-and-wi-fi-enterprise">docs/configuration.md</a>.</li>
+<a href="https://openthinrdp.github.io/settings.html#8021x-and-wi-fi-enterprise">docs/configuration.md</a>.</li>
 </ul>
 </li>
 <li>
@@ -960,7 +960,7 @@ keeps the replaced files in <code>previous\</code>, never touches <code>vault.ot
 everything when something fails, and restarts. <code>OpenThinRDP-Manager.cmd -UpdateManager</code> does it without a window.</li>
 <li>
 <strong>Desktops in the cloud</strong> (<a href="https://github.com/OpenThinRdp/openthinrdp/issues/52">#52</a>): the README and
-<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md#desktops-in-the-cloud">docs/configuration.md</a> say what works with RDS or Windows virtual
+<a href="https://openthinrdp.github.io/settings.html#desktops-in-the-cloud">docs/configuration.md</a> say what works with RDS or Windows virtual
 machines in Azure, AWS or any cloud (through the RD Gateway or a VPN, UDP through a VPN), and that Azure Virtual
 Desktop and Windows 365 are not supported yet.</li>
 </ul>
@@ -1142,7 +1142,7 @@ fail while the connection closes behind it (it named a smart card channel after 
 <li>
 <strong>Manager: Problems tab.</strong> The event logs of all devices read together for a period and grouped: failed sign-in
 attempts by broker, dropped sessions by cause, refused sign-ins, sessions taken over, failed updates. The same
-problem on 3 or more devices is highlighted (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#problems-across-the-fleet">management.md</a>).</li>
+problem on 3 or more devices is highlighted (<a href="https://openthinrdp.github.io/management.html#problems-across-the-fleet">management.md</a>).</li>
 <li>
 <strong><code>USB_MODE=disks</code> keeps USB sticks on the thin client also when they are plugged in during a session.</strong> The
 class filter did not include storage, so FreeRDP took a stick plugged in mid-session as a whole USB device and
@@ -1181,7 +1181,7 @@ and the device keeps two ways to sign in instead of one.</li>
 <li>
 <strong>Manager: Check permissions.</strong> Lists what the devices' account can change in the management folder
 besides <code>status\</code>, through which group, and what every user can change there
-(<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#account">management.md</a>).</li>
+(<a href="https://openthinrdp.github.io/management.html#account">management.md</a>).</li>
 <li>Devices report the account of the management folder (<code>MGMT_ACCOUNT</code>, never the password).</li>
 <li>
 <code>SUMMARY.csv</code> moves into <code>status\</code>, so the devices need write access there only.</li>
@@ -1201,7 +1201,7 @@ session now keeps 18-19 frames per second instead of 9-13.</li>
 <li>
 <strong>Settings PIN salted and stretched</strong> (PBKDF2-SHA256, 600,000 iterations) when set from the manager; a PIN
 of 0.1.4 and earlier keeps working.</li>
-<li>Docs: the devices' account needs write access to <code>status\</code> only (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#account">management.md</a>);
+<li>Docs: the devices' account needs write access to <code>status\</code> only (<a href="https://openthinrdp.github.io/management.html#account">management.md</a>);
 replacing or revoking the release key through the update channel (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/SECURITY.md">SECURITY.md</a>).</li>
 <li>FreeRDP gets 20 s instead of 30 to bring a connection up: a broker that accepts the connection and then hangs
 costs this much on every attempt before the next broker is tried. Still above the 15 s a broker took to prepare
@@ -1315,12 +1315,12 @@ installation.</li>
 <footer class="foot">
   <div class="wrap foot-in">
     <div><a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
-      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release 0.3.6.</p></div>
+      <p>The first open source thin client with RDP over UDP, and a free manager for the servers behind it. GPLv3 &middot; release 0.3.6.</p></div>
     <div class="foot-cols">
       <nav aria-label="For you"><b>For you</b><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/windows-10-end-of-support.html">Windows 10 end of support</a><a href="https://openthinrdp.github.io/used-thin-client.html">Used thin clients</a><a href="https://openthinrdp.github.io/old-pc-thin-client.html">Old PC as a thin client</a><a href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">Raspberry Pi</a></nav>
       <nav aria-label="Product"><b>Product</b><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/udp.html">RDP over UDP</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/linux-rdp-client.html">RDP from Linux</a><a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">Proxmox and VMware</a></nav>
       <nav aria-label="Manager"><b>Manager</b><a href="https://openthinrdp.github.io/manager.html">The manager</a><a href="https://openthinrdp.github.io/hyper-v-rds-health-check.html">Hyper-V and RDS health check</a><a href="https://openthinrdp.github.io/manager-guide.html">Manager guide</a><a href="https://openthinrdp.github.io/replace-dell-thinos.html">Replace Dell ThinOS</a></nav>
-      <nav aria-label="Resources"><b>Resources</b><a href="https://openthinrdp.github.io/getting-started.html">Getting started</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/maturity.html">Production readiness</a><a href="https://openthinrdp.github.io/privacy.html">Privacy</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
+      <nav aria-label="Resources"><b>Resources</b><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/getting-started.html">Getting started</a><a href="https://openthinrdp.github.io/settings.html">Every setting</a><a href="https://openthinrdp.github.io/management.html">Managing the fleet</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/maturity.html">Production readiness</a><a href="https://openthinrdp.github.io/privacy.html">Privacy</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
     </div>
     <p class="fine">Windows and Remote Desktop are trademarks of Microsoft. OpenThinRDP is not affiliated with Microsoft, with openthinclient or with any vendor named here.</p>
   </div>

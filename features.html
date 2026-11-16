@@ -35,9 +35,9 @@
 <header class="nav">
   <div class="wrap nav-in">
     <a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
-    <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
+    <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Free manager</a><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
     <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a>
-    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a></nav></details>
+    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Free manager</a><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a></nav></details>
   </div>
 </header>
 <div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="https://openthinrdp.github.io/">Home</a> <span>&#8250;</span> <span>OpenThinRDP features</span></nav></div>
@@ -145,7 +145,7 @@ A session taken over by another device shows "Session opened elsewhere" with <em
 USB devices, also when plugged in during the session. <strong>Webcams that keep up in meetings</strong>: up to 1080p at 30 fps
 through the RDP camera channel, encoded on the video engine of the processor where there is one, and a late frame
 is dropped so the picture never falls behind; the microphone goes through the RDP audio channel, so Teams, Zoom and
-the browser in the session see both (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md">camera settings</a>). Keyboards, mice,
+the browser in the session see both (<a href="https://openthinrdp.github.io/settings.html">camera settings</a>). Keyboards, mice,
 touch screens, hubs and network adapters stay local; smart card readers go through the smart card channel.
 Touch screens work as touch in Windows. With <code>USB_MODE=disks</code> USB sticks stay on the thin client and appear in
 Windows as drives; with <code>USB_MODE=auto</code> the thin client decides device by device: a stick as a drive, a device
@@ -157,7 +157,7 @@ for all devices or one, and the <strong>remote screen</strong> of any device (<a
 <strong>Signed updates</strong> that never interrupt a session: from GitHub releases (checked every 3 hours, installed in
 the background, applied when the session is over), or from your folder when you decide.
 <strong>Try a version on a few devices first</strong>, and <strong>go back</strong> to an earlier one when something breaks
-(<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md#management"><code>UPDATE_TO</code></a>): FreeRDP goes back with it.
+(<a href="https://openthinrdp.github.io/settings.html#management"><code>UPDATE_TO</code></a>): FreeRDP goes back with it.
 Debian security updates install by themselves.</li>
 <li>
 <strong>Settings dialog on the device</strong> (optionally behind a PIN): broker or PC, network (DHCP, static, Wi-Fi),
@@ -206,7 +206,7 @@ on cable or Wi-Fi; status and events of every screen are in the management folde
 <li>Someone at the screen can still reach the sign-in form: it shows for 5 seconds before the page, and
 Ctrl+Shift+W closes the page. The settings can be locked with a PIN.</li>
 </ul>
-<p>Settings: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md#web-button-and-kiosk-page">docs/configuration.md</a>.</p>
+<p>Settings: <a href="https://openthinrdp.github.io/settings.html#web-button-and-kiosk-page">docs/configuration.md</a>.</p>
 <div class="markdown-heading"><h2 class="heading-element">Why it is built this way</h2><a id="why-it-is-built-this-way" class="anchor" aria-label="Permalink: Why it is built this way" href="#why-it-is-built-this-way"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p><strong>Why FreeRDP comes with OpenThinRDP releases.</strong> Debian security updates install by themselves; FreeRDP comes with
 OpenThinRDP. First, the image ships its own FreeRDP build with UDP, which Debian's packages would replace with a
@@ -231,12 +231,12 @@ that you can read: the whole client side is a few shell scripts in <code>rootfs/
 <footer class="foot">
   <div class="wrap foot-in">
     <div><a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
-      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release 0.3.6.</p></div>
+      <p>The first open source thin client with RDP over UDP, and a free manager for the servers behind it. GPLv3 &middot; release 0.3.6.</p></div>
     <div class="foot-cols">
       <nav aria-label="For you"><b>For you</b><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/windows-10-end-of-support.html">Windows 10 end of support</a><a href="https://openthinrdp.github.io/used-thin-client.html">Used thin clients</a><a href="https://openthinrdp.github.io/old-pc-thin-client.html">Old PC as a thin client</a><a href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">Raspberry Pi</a></nav>
       <nav aria-label="Product"><b>Product</b><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/udp.html">RDP over UDP</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/linux-rdp-client.html">RDP from Linux</a><a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">Proxmox and VMware</a></nav>
       <nav aria-label="Manager"><b>Manager</b><a href="https://openthinrdp.github.io/manager.html">The manager</a><a href="https://openthinrdp.github.io/hyper-v-rds-health-check.html">Hyper-V and RDS health check</a><a href="https://openthinrdp.github.io/manager-guide.html">Manager guide</a><a href="https://openthinrdp.github.io/replace-dell-thinos.html">Replace Dell ThinOS</a></nav>
-      <nav aria-label="Resources"><b>Resources</b><a href="https://openthinrdp.github.io/getting-started.html">Getting started</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/maturity.html">Production readiness</a><a href="https://openthinrdp.github.io/privacy.html">Privacy</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
+      <nav aria-label="Resources"><b>Resources</b><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/getting-started.html">Getting started</a><a href="https://openthinrdp.github.io/settings.html">Every setting</a><a href="https://openthinrdp.github.io/management.html">Managing the fleet</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/maturity.html">Production readiness</a><a href="https://openthinrdp.github.io/privacy.html">Privacy</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
     </div>
     <p class="fine">Windows and Remote Desktop are trademarks of Microsoft. OpenThinRDP is not affiliated with Microsoft, with openthinclient or with any vendor named here.</p>
   </div>

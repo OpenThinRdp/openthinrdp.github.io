@@ -35,9 +35,9 @@
 <header class="nav">
   <div class="wrap nav-in">
     <a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
-    <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
+    <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Free manager</a><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
     <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a>
-    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Manager</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a></nav></details>
+    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Free manager</a><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.6">Download 0.3.6</a></nav></details>
   </div>
 </header>
 <div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="https://openthinrdp.github.io/">Home</a> <span>&#8250;</span> <a href="https://openthinrdp.github.io/manager.html">Manager</a> <span>&#8250;</span> <span>OpenThinRDP Manager guide</span></nav></div>
@@ -81,7 +81,7 @@ release of OpenThinRDP). Free for any use, closed: <a href="https://github.com/O
 <div class="markdown-heading"><h2 class="heading-element">What you need</h2><a id="what-you-need" class="anchor" aria-label="Permalink: What you need" href="#what-you-need"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <ul>
 <li>A <strong>shared folder</strong> (SMB) that the devices can read and write their status to: <code>\\fileserver\thinclients</code>. How
-to create it, its account and its permissions: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#account">management.md</a>.</li>
+to create it, its account and its permissions: <a href="https://openthinrdp.github.io/management.html#account">management.md</a>.</li>
 <li>A <strong>Windows 10 or 11 PC</strong> of an administrator, with PowerShell 5.1 (it is part of Windows). For the remote screen,
 also the OpenSSH client of Windows (<code>ssh.exe</code>, usually there) and a browser.</li>
 <li>
@@ -196,7 +196,7 @@ common settings it lists the devices that would refuse them. Every save keeps a 
 <p align="center">
 <a target="_blank" rel="noopener noreferrer" href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/screenshots/manager-common.png"><img src="https://raw.githubusercontent.com/OpenThinRdp/openthinrdp/main/docs/screenshots/manager-common.png" alt="Common settings: every setting with its value and the help of the selected one" width="100%" style="max-width: 100%;"></a>
 </p>
-<p>All the settings: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/configuration.md">configuration.md</a>.</p>
+<p>All the settings: <a href="https://openthinrdp.github.io/settings.html">configuration.md</a>.</p>
 <div class="markdown-heading"><h2 class="heading-element">Updates: a few devices first, then all, and back when something breaks</h2><a id="updates-a-few-devices-first-then-all-and-back-when-something-breaks" class="anchor" aria-label="Permalink: Updates: a few devices first, then all, and back when something breaks" href="#updates-a-few-devices-first-then-all-and-back-when-something-breaks"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The <strong>Updates</strong> page shows the newest version in the folder, the version all devices are on, the pilot devices,
 the devices kept on a version of their own, the versions you can choose, and what the devices run now.</p>
@@ -276,7 +276,7 @@ installs one by itself, also when it updates straight from GitHub: only once the
 device. <strong>Release from GitHub...</strong> says so above the notes and asks a second time, <em>No</em> by default, before it goes
 to all devices or to the groups ticked; then it writes <code>UPDATE_MAJOR</code> in <code>common.conf</code> or in their <code>_group.conf</code>.
 <strong>Release to all devices</strong> and <strong>Version for all devices...</strong> ask the same before the rest of the fleet gets it.
-A device without a management folder asks on its own screen instead (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#signed-updates">management.md</a>).</p>
+A device without a management folder asks on its own screen instead (<a href="https://openthinrdp.github.io/management.html#signed-updates">management.md</a>).</p>
 <div class="markdown-heading"><h3 class="heading-element">Release it to the whole fleet</h3><a id="release-it-to-the-whole-fleet" class="anchor" aria-label="Permalink: Release it to the whole fleet" href="#release-it-to-the-whole-fleet"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>When the pilot group is fine: <strong>Updates &gt; Release to all devices</strong>. <code>common.conf</code> goes back to <code>UPDATE_TO=latest</code>
 and every device takes the new version within 5 minutes, each one when its session is over.</p>
@@ -301,7 +301,7 @@ devices first.</li>
 <li>With <code>UPDATE_FROM=github</code> (no management folder for updates) the same setting works: the devices fetch the release
 <code>v&lt;version&gt;</code> from GitHub.</li>
 <li>Every published version keeps its signed index in <code>updates\versions\</code>; the newest 3 packages stay in the folder,
-plus every version a device is kept on. Details: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#pilot-devices-and-going-back">management.md</a>.</li>
+plus every version a device is kept on. Details: <a href="https://openthinrdp.github.io/management.html#pilot-devices-and-going-back">management.md</a>.</li>
 </ul>
 <div class="markdown-heading"><h2 class="heading-element">Remote screen</h2><a id="remote-screen" class="anchor" aria-label="Permalink: Remote screen" href="#remote-screen"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p><strong>Remote screen</strong>, in the header of a device, shows its screen in your browser and lets you use it: to see what a
@@ -314,7 +314,7 @@ the network, and nothing is installed on your PC. The device shows <em>Remote as
 records it in its events; it ends when you close the small window, or by itself after 2 hours. <code>REMOTE_SCREEN=off</code>
 turns it off. With <code>REMOTE_CONSENT=ask</code> the device first asks its user, at the top of the screen and over the session
 too; without <em>Allow</em> within a minute it does not start, and the manager says so. How it works:
-<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#remote-screen">management.md</a>.</p>
+<a href="https://openthinrdp.github.io/management.html#remote-screen">management.md</a>.</p>
 <div class="markdown-heading"><h2 class="heading-element">History: problems across the fleet, and every change</h2><a id="history-problems-across-the-fleet-and-every-change" class="anchor" aria-label="Permalink: History: problems across the fleet, and every change" href="#history-problems-across-the-fleet-and-every-change"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The <strong>History</strong> page reads the event logs of every device together, for today, 24 hours, 7 or 30 days, and groups
 what went wrong: failed sign-ins (by broker), desktops that did not start, sessions dropped (by cause), sessions
@@ -912,7 +912,7 @@ one per line, with <strong>Save</strong>, <strong>Undo changes</strong>, <strong
 <p><strong>A fleet on its own key.</strong> With <code>UPDATE_KEY=site</code> your devices accept only updates signed by the key of your site,
 which exists only in your vault. The manager checks each GitHub release (project signature and hash) and signs it
 again with your key: a stolen project key installs nothing on your fleet. Set it up step by step:
-<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#a-fleet-on-its-own-key">management.md</a>.</p>
+<a href="https://openthinrdp.github.io/management.html#a-fleet-on-its-own-key">management.md</a>.</p>
 <div class="markdown-heading"><h2 class="heading-element">Logo, background, SSH keys, permissions</h2><a id="logo-background-ssh-keys-permissions" class="anchor" aria-label="Permalink: Logo, background, SSH keys, permissions" href="#logo-background-ssh-keys-permissions"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <ul>
 <li>
@@ -936,7 +936,7 @@ replaces in <code>previous\</code>, and starts again. Your <code>vault.otr</code
 manager stay as they are; if anything fails, the previous files come back.</p>
 <p>Update the copy the administrators start (on a share, from a PC that can write there): everybody who starts it gets
 the new version. The <strong>Updates</strong> page shows the manager's version and has <strong>Check again</strong>. Details:
-<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#the-manager-updates-itself">management.md</a>.</p>
+<a href="https://openthinrdp.github.io/management.html#the-manager-updates-itself">management.md</a>.</p>
 <div class="markdown-heading"><h3 class="heading-element">Files as the release signed them</h3><a id="files-as-the-release-signed-them" class="anchor" aria-label="Permalink: Files as the release signed them" href="#files-as-the-release-signed-them"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Whoever can write in the folder of the manager could change it to work on your servers with your credentials. From
 0.2.23 the manager of a release carries <code>MANIFEST.txt</code>, the SHA-256 of each of its files, signed with the project
@@ -1007,7 +1007,7 @@ COPY)</em>: what is changed there stays there and does not reach the file server
 <li>
 <code>OpenThinRDP-Manager.exe</code> starts it: the access window at once, the manager loading behind it.
 <code>OpenThinRDP-Manager.exe -Install [-Name &lt;name&gt;] [-Folder &lt;folder&gt;] [-Language en|it]</code> puts a copy on this PC with a
-shortcut on the desktop, that starts the manager on the share (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#central-settings">details</a>). An
+shortcut on the desktop, that starts the manager on the share (<a href="https://openthinrdp.github.io/management.html#central-settings">details</a>). An
 update brings a newer launcher in place of the older ones by itself; the <code>.cmd</code> and <code>.vbs</code> of the releases before
 0.2.23 go.</li>
 <li>
@@ -1015,7 +1015,7 @@ update brings a newer launcher in place of the older ones by itself; the <code>.
 the Windows display language).</li>
 <li>
 <code>OpenThinRDP-Manager.exe -Sign &lt;folder&gt;\LATEST.txt</code>: signs an update package you built with <code>make-update.sh</code>, with
-the key in the vault (<a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md#signed-updates">Signed updates</a>).</li>
+the key in the vault (<a href="https://openthinrdp.github.io/management.html#signed-updates">Signed updates</a>).</li>
 <li>
 <code>OpenThinRDP-Manager.exe -UpdateManager</code>: updates the manager without a window (exit code 0 = updated, 1 = error,
 2 = nothing to do).</li>
@@ -1026,7 +1026,7 @@ and gives back its exit code and its output, for Task Scheduler and scripts.</li
 <li>The manager is free for any use, closed, under <a href="https://github.com/OpenThinRdp/openthinrdp-manager/blob/main/LICENSE.md">its own license</a>; its releases and issues
 are on <a href="https://github.com/OpenThinRdp/openthinrdp-manager">its project</a>.</li>
 </ul>
-<p>What is in the folder, file by file, and how the devices use it: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/management.md">management.md</a>.</p>
+<p>What is in the folder, file by file, and how the devices use it: <a href="https://openthinrdp.github.io/management.html">management.md</a>.</p>
 <p class="source">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/manager.md">docs/manager.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</p>
 </main>
 <section class="related"><div class="wrap"><p class="eyebrow">Read next</p><div class="rel"><a href="https://openthinrdp.github.io/manager.html"><b>Free Hyper-V, Proxmox and Remote Desktop health check</b><span>Find what is broken in your Hyper-V cluster, Proxmox, vSphere, Remote Desktop, Citrix, Veeam and certificates before your users call.</span></a><a href="https://openthinrdp.github.io/hyper-v-rds-health-check.html"><b>Free Hyper-V cluster and Remote Desktop health check</b><span>A free health check for Hyper-V hosts, failover clusters and S2D, Remote Desktop Services brokers and session hosts, Active Directory, SQL AlwaysOn...</span></a><a href="https://openthinrdp.github.io/getting-started.html"><b>Getting started with OpenThinRDP</b><span>Step by step:</span></a></div></div></section>
@@ -1034,12 +1034,12 @@ are on <a href="https://github.com/OpenThinRdp/openthinrdp-manager">its project<
 <footer class="foot">
   <div class="wrap foot-in">
     <div><a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
-      <p>The free thin client OS for Windows Remote Desktop: one PC at home, or a whole office on a domain. GPLv3 &middot; release 0.3.6.</p></div>
+      <p>The first open source thin client with RDP over UDP, and a free manager for the servers behind it. GPLv3 &middot; release 0.3.6.</p></div>
     <div class="foot-cols">
       <nav aria-label="For you"><b>For you</b><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/windows-10-end-of-support.html">Windows 10 end of support</a><a href="https://openthinrdp.github.io/used-thin-client.html">Used thin clients</a><a href="https://openthinrdp.github.io/old-pc-thin-client.html">Old PC as a thin client</a><a href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">Raspberry Pi</a></nav>
       <nav aria-label="Product"><b>Product</b><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/udp.html">RDP over UDP</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/linux-rdp-client.html">RDP from Linux</a><a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">Proxmox and VMware</a></nav>
       <nav aria-label="Manager"><b>Manager</b><a href="https://openthinrdp.github.io/manager.html">The manager</a><a href="https://openthinrdp.github.io/hyper-v-rds-health-check.html">Hyper-V and RDS health check</a><a href="https://openthinrdp.github.io/manager-guide.html">Manager guide</a><a href="https://openthinrdp.github.io/replace-dell-thinos.html">Replace Dell ThinOS</a></nav>
-      <nav aria-label="Resources"><b>Resources</b><a href="https://openthinrdp.github.io/getting-started.html">Getting started</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/maturity.html">Production readiness</a><a href="https://openthinrdp.github.io/privacy.html">Privacy</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
+      <nav aria-label="Resources"><b>Resources</b><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/getting-started.html">Getting started</a><a href="https://openthinrdp.github.io/settings.html">Every setting</a><a href="https://openthinrdp.github.io/management.html">Managing the fleet</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/maturity.html">Production readiness</a><a href="https://openthinrdp.github.io/privacy.html">Privacy</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
     </div>
     <p class="fine">Windows and Remote Desktop are trademarks of Microsoft. OpenThinRDP is not affiliated with Microsoft, with openthinclient or with any vendor named here.</p>
   </div>

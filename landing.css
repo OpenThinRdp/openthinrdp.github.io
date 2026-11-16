@@ -48,6 +48,7 @@ section { padding: 96px 0; }
   radial-gradient(600px 400px at 10% 90%, rgba(34, 195, 255, .12), transparent 70%); overflow: hidden; }
 .hero-in { display: grid; grid-template-columns: 1fr 1.2fr; gap: 48px; align-items: center; }
 .hero-shot { position: relative; }
+.hero-logo { display: block; width: 300px; max-width: 70%; height: auto; margin: 0 0 18px -8px; }
 .window { background: #0f1830; border: 1px solid #263556; border-radius: 14px; overflow: hidden;
   box-shadow: 0 30px 80px rgba(0, 0, 0, .55), 0 0 0 1px rgba(34, 195, 255, .08); transform: perspective(1400px) rotateY(-6deg); }
 .dots { display: flex; gap: 7px; padding: 10px 12px; background: #121c35; }

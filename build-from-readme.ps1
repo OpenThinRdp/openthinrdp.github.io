@@ -212,6 +212,8 @@ function Build-Page($p) {
   $body = [regex]::Replace($body, 'href="(?!https?:|#|mailto:)([^"#]*)(#[^"]*)?"', {
     param($m) $r = Resolve-RepoPath $dir $m.Groups[1].Value; $a = $m.Groups[2].Value
     if ($pages.ContainsKey($r)) { 'href="' + $site + $pages[$r] + $a + '"' } else { 'href="' + "$blob/$r$a" + '"' } })
+  # ?from=readme... marks the visits a README sends from GitHub (count.js): inside the site the tag must go
+  $body = [regex]::Replace($body, '(href="https://openthinrdp\.github\.io/[^"?#]*)\?from=[^"#]*', '$1')
   $body = [regex]::Replace($body, 'src="(?!https?:|data:)([^"]+)"', { param($m) 'src="' + "$raw/" + (Resolve-RepoPath $dir $m.Groups[1].Value) + '"' })
   # the API gives the headings no id (GitHub's own page adds them with a script): the same ids as on GitHub, so
   # that #anchors inside the page and from other pages work

@@ -295,7 +295,7 @@ $body
 $relHtml
 <section class="final"><div class="wrap center">$cta</div></section>
 $footHtml
-<script data-goatcounter="https://ceschi-ops.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script async src="/count.js"></script>
 </body>
 </html>
 "@

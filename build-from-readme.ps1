@@ -378,7 +378,11 @@ $urls = foreach ($p in $site_pages) {
   "  <url><loc>$site$($p.Url)</loc>$x<lastmod>$(Get-DocDate $p)</lastmod><priority>$pr</priority></url>"
 }
 $urls += "  <url><loc>${site}llms-full.txt</loc><lastmod>$today</lastmod><priority>0.3</priority></url>"
-[IO.File]::WriteAllText((Join-Path $here 'sitemap.xml'), "<?xml version=`"1.0`" encoding=`"UTF-8`"?>`n<urlset xmlns=`"http://www.sitemaps.org/schemas/sitemap/0.9`" xmlns:xhtml=`"http://www.w3.org/1999/xhtml`">`n" + ($urls -join "`n") + "`n</urlset>`n", $utf8)
+$sm = "<?xml version=`"1.0`" encoding=`"UTF-8`"?>`n<urlset xmlns=`"http://www.sitemaps.org/schemas/sitemap/0.9`" xmlns:xhtml=`"http://www.w3.org/1999/xhtml`">`n" + ($urls -join "`n") + "`n</urlset>`n"
+[IO.File]::WriteAllText((Join-Path $here 'sitemap.xml'), $sm, $utf8)
+# the same under a second name: Search Console kept "Couldn't fetch" on sitemap.xml for weeks (a first failure it never
+# tries again); a sitemap submitted under a new name is fetched anew (24/11/2026). Both named in robots.txt
+[IO.File]::WriteAllText((Join-Path $here 'sitemap-pages.xml'), $sm, $utf8)
 'sitemap.xml written'
 # sitemap.txt too, the same pages one per line: Google often cannot fetch the sitemap.xml of a site on GitHub Pages
 # (Couldn't fetch, for weeks), and a plain text sitemap was read where the XML one was not (29/10/2026)

@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Can't connect to your Windows PC with Remote Desktop? Step by step &#8211; OpenThinRDP</title>
+<meta name="description" content="Remote Desktop to your Windows PC does not connect: the name is not found, nothing answers, Remote Desktop is off or Windows Home, away from home, a Microsoft account and the Windows Hello PIN. Each case and how to fix it.">
+<link rel="canonical" href="https://openthinrdp.github.io/cant-connect.html">
+
+<link rel="icon" href="https://openthinrdp.github.io/img/icon.png">
+<link rel="alternate" type="text/plain" href="https://openthinrdp.github.io/llms-full.txt" title="The documentation in one text file">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenThinRDP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Can't connect to your Windows PC with Remote Desktop? Step by step &#8211; OpenThinRDP">
+<meta property="og:description" content="Remote Desktop to your Windows PC does not connect: the name is not found, nothing answers, Remote Desktop is off or Windows Home, away from home, a Microsoft account and the Windows Hello PIN. Each case and how to fix it.">
+<meta property="og:url" content="https://openthinrdp.github.io/cant-connect.html">
+<meta property="og:image" content="https://openthinrdp.github.io/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://openthinrdp.github.io/landing.css">
+<link rel="stylesheet" href="https://openthinrdp.github.io/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://openthinrdp.github.io/"},{"@type":"ListItem","position":2,"name":"At home","item":"https://openthinrdp.github.io/home.html"},{"@type":"ListItem","position":3,"name":"Can\u0027t connect to your Windows PC with Remote Desktop? Step by step","item":"https://openthinrdp.github.io/cant-connect.html"}]}</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenThinRDP","applicationCategory":"OperatingSystem",
+ "operatingSystem":"Debian 13 (Linux)","softwareVersion":"0.3.7","license":"https://github.com/OpenThinRdp/openthinrdp/blob/main/LICENSE",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"url":"https://openthinrdp.github.io/",
+ "downloadUrl":"https://github.com/OpenThinRdp/openthinrdp/releases/latest","codeRepository":"https://github.com/OpenThinRdp/openthinrdp"}
+</script>
+
+</head>
+<body class="doc">
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="32" height="32"><span>OpenThin<b>RDP</b></span></a>
+    <nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Free manager</a><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a></nav>
+    <a class="btn btn-sm" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.7">Download 0.3.7</a>
+    <details class="menu"><summary aria-label="Menu">&#9776;</summary><nav aria-label="Main"><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/manager.html">Free manager</a><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a><a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.7">Download 0.3.7</a></nav></details>
+  </div>
+</header>
+<div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="https://openthinrdp.github.io/">Home</a> <span>&#8250;</span> <a href="https://openthinrdp.github.io/home.html">At home</a> <span>&#8250;</span> <span>Can't connect to your Windows PC with Remote Desktop? Step by step</span></nav></div>
+<main class="markdown-body">
+<div class="markdown-heading"><h1 class="heading-element">Can't connect? Remote Desktop to your Windows PC, step by step</h1><a id="cant-connect-remote-desktop-to-your-windows-pc-step-by-step" class="anchor" aria-label="Permalink: Can't connect? Remote Desktop to your Windows PC, step by step" href="#cant-connect-remote-desktop-to-your-windows-pc-step-by-step"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>OpenThinRDP checks why it cannot reach your PC and tells you on its screen; the QR code there brings you here, to the
+same case. Almost always the cause is on the Windows PC, and it takes a minute to fix.</p>
+<p><strong>The easiest way: <a href="https://openthinrdp.github.io/pc.html">Prepare the PC</a>.</strong> Download it on the Windows PC and open it: it checks Remote
+Desktop, the firewall, your account, sleep and the address, fixes what it can with one button, and shows in large type
+what to type on the device. Nothing to install.</p>
+<p>Or by hand, case by case:</p>
+<ul>
+<li><a href="#name">The name is not found</a></li>
+<li><a href="#not-answering">Nothing answers at that address</a></li>
+<li><a href="#remote-desktop-off">The PC answers, but Remote Desktop does not</a></li>
+<li><a href="#outside">Away from home: another network</a></li>
+<li><a href="#password">User name or password not valid</a></li>
+<li><a href="#other">Remote Desktop answers, but the connection ends</a></li>
+</ul>
+<p><a id="name"></a></p>
+<div class="markdown-heading"><h2 class="heading-element">The name is not found</h2><a id="the-name-is-not-found" class="anchor" aria-label="Permalink: The name is not found" href="#the-name-is-not-found"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>At home the names of Windows PCs (<code>DESKTOP-4F7Q2</code>) are often not known to the network: your router does not tell them
+to the other devices. Use the IP address of the PC instead.</p>
+<ol>
+<li>On the PC open <em>Settings › Network &amp; internet › Properties</em> of the connection in use, or type <code>ipconfig</code> in a
+Command Prompt, and copy the <strong>IPv4 address</strong>, for example <code>192.168.1.20</code>.</li>
+<li>On the device: <strong>Change the address</strong>, and type it as <em>Remote computer</em>.</li>
+<li>Give the PC a fixed address in your router (<em>DHCP reservation</em>, under LAN or DHCP in its settings), so it does not
+change after a restart of the router.</li>
+</ol>
+<p><a id="not-answering"></a></p>
+<div class="markdown-heading"><h2 class="heading-element">Nothing answers at that address</h2><a id="nothing-answers-at-that-address" class="anchor" aria-label="Permalink: Nothing answers at that address" href="#nothing-answers-at-that-address"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The device asked the network who has that address, and nobody answered.</p>
+<ol>
+<li>
+<strong>The PC is on and awake.</strong> Sleep and hibernation take it off the network: move the mouse or press a key on it. To
+keep it reachable, <em>Settings › System › Power › Sleep</em> to <em>Never</em> when plugged in, or let OpenThinRDP wake it: it
+learns the network card of the PC at the first sign-in and switches it on by itself (Wake-on-LAN).</li>
+<li>
+<strong>The address is still the right one.</strong> It can change when the router restarts: <code>ipconfig</code> on the PC again.</li>
+<li>
+<strong>The PC and the device are on the same network</strong>: the same router, or the same Wi-Fi. A guest Wi-Fi keeps its
+devices apart from the others.</li>
+</ol>
+<p><a id="remote-desktop-off"></a></p>
+<div class="markdown-heading"><h2 class="heading-element">The PC answers, but Remote Desktop does not</h2><a id="the-pc-answers-but-remote-desktop-does-not" class="anchor" aria-label="Permalink: The PC answers, but Remote Desktop does not" href="#the-pc-answers-but-remote-desktop-does-not"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The PC is there, but nothing answers on the port of Remote Desktop (3389).</p>
+<ol>
+<li>
+<strong>Turn Remote Desktop on</strong>: <em>Settings › System › Remote Desktop › On</em>. Windows also opens its firewall for it.</li>
+<li>
+<strong>Windows Home cannot receive Remote Desktop.</strong> <em>Settings › System › About</em> shows the edition: Pro, Enterprise or
+Education are needed. Home can be upgraded to Pro in <em>Settings › System › Activation</em>.</li>
+<li>
+<strong>Already on?</strong> A firewall or an antivirus of its own on the PC (Norton, McAfee, Kaspersky, ESET...) may block the
+port: allow <em>Remote Desktop</em> or port 3389 in it. If the port was changed on the PC, type it after the address:
+<code>192.168.1.20:3390</code>.</li>
+</ol>
+<p><a id="outside"></a></p>
+<div class="markdown-heading"><h2 class="heading-element">Away from home: another network</h2><a id="away-from-home-another-network" class="anchor" aria-label="Permalink: Away from home: another network" href="#away-from-home-another-network"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>From outside your home the PC cannot be reached from the internet as it is, and it should not be: opening port 3389
+on the router exposes it to the whole internet.</p>
+<ol>
+<li>
+<strong>Use Tailscale</strong>, free for personal use: install it on the PC, turn it on in the settings of the device, open the
+link it shows on your phone and sign in with the same account. The device then reaches the PC from anywhere, no
+port opened. See <a href="https://openthinrdp.github.io/home.html">OpenThinRDP at home</a>.</li>
+<li>The PC is on, awake, and Remote Desktop is on.</li>
+<li>The address is the right one: with Tailscale, the address the Tailscale app shows for the PC (<code>100.x.y.z</code>).</li>
+</ol>
+<p><a id="password"></a></p>
+<div class="markdown-heading"><h2 class="heading-element">User name or password not valid</h2><a id="user-name-or-password-not-valid" class="anchor" aria-label="Permalink: User name or password not valid" href="#user-name-or-password-not-valid"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>
+<strong>A Microsoft account</strong> (you sign in to Windows with an email): type the email and <strong>its password</strong>. The PIN, the
+face or the fingerprint of Windows Hello are not accepted by Remote Desktop.</li>
+<li>
+<strong>Windows 11</strong>: <em>Settings › Accounts › Sign-in options</em>, turn off <em>For improved security, only allow Windows Hello
+sign-in for Microsoft accounts on this device</em>. With it on, Remote Desktop refuses every password.</li>
+<li>
+<strong>Sign in to the PC once with the password</strong> (not the PIN), then try again: Windows checks a Microsoft account
+password only after it has seen it once.</li>
+<li>
+<strong>A local account</strong>: the user name on the PC and its password. An account without a password cannot sign in with
+Remote Desktop: set one in <em>Settings › Accounts › Sign-in options › Password</em>.</li>
+<li>Not an administrator of the PC? It has to be in the group <em>Remote Desktop Users</em>:
+<em>Settings › System › Remote Desktop › Remote Desktop users</em>.</li>
+</ol>
+<p><a href="https://openthinrdp.github.io/pc.html">Prepare the PC</a> does 2 and 5 for you, and tells you which account to type.</p>
+<p><a id="other"></a></p>
+<div class="markdown-heading"><h2 class="heading-element">Remote Desktop answers, but the connection ends</h2><a id="remote-desktop-answers-but-the-connection-ends" class="anchor" aria-label="Permalink: Remote Desktop answers, but the connection ends" href="#remote-desktop-answers-but-the-connection-ends"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>
+<strong>Try again in a minute</strong>: a PC that has just woken up or restarted needs a moment before it accepts a session.</li>
+<li>
+<strong>Sign in to the PC once with its password</strong>, then try again.</li>
+<li>
+<strong>Restart the PC</strong> if Windows has installed updates.</li>
+<li>Still not? Ask in the <a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a>, with the message the
+device shows and the error number in it: we answer.</li>
+</ol>
+<p class="source">This page is <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/guides/cant-connect.md">docs/guides/cant-connect.md</a> as published on <a href="https://github.com/OpenThinRdp/openthinrdp">GitHub</a>, where the documentation, the releases and the discussions are.</p>
+</main>
+<section class="related"><div class="wrap"><p class="eyebrow">Read next</p><div class="rel"><a href="https://openthinrdp.github.io/pc.html"><b>Prepare the PC</b><span>A free program for the Windows PC you want to reach from OpenThinRDP:</span></a><a href="https://openthinrdp.github.io/home.html"><b>OpenThinRDP at home</b><span>Free and open source:</span></a><a href="https://openthinrdp.github.io/faq.html"><b>Thin client FAQ</b><span>Free alternative to IGEL OS or Dell ThinOS?</span></a></div></div></section>
+<section class="final"><div class="wrap center"><h2>Try it live. Nothing is installed.</h2><p class="fine">Write the ISO to a USB stick, start a PC from it, sign in to your Windows desktop.</p><div class="ctas center"><a class="btn" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.7">&#11015; Download the ISO</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/home.html">At home</a><a class="btn btn-ghost" href="https://openthinrdp.github.io/business.html">For companies</a></div></div></section>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div><a class="brand" href="https://openthinrdp.github.io/"><img src="https://openthinrdp.github.io/img/icon.png" alt="" width="24" height="24"><span>OpenThin<b>RDP</b></span></a>
+      <p>The first open source thin client with RDP over UDP, and a free manager for the servers behind it. GPLv3 &middot; release 0.3.7.</p></div>
+    <div class="foot-cols">
+      <nav aria-label="For you"><b>For you</b><a href="https://openthinrdp.github.io/home.html">At home</a><a href="https://openthinrdp.github.io/business.html">For companies</a><a href="https://openthinrdp.github.io/windows-10-end-of-support.html">Windows 10 end of support</a><a href="https://openthinrdp.github.io/used-thin-client.html">Used thin clients</a><a href="https://openthinrdp.github.io/old-pc-thin-client.html">Old PC as a thin client</a><a href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">Raspberry Pi</a></nav>
+      <nav aria-label="Product"><b>Product</b><a href="https://openthinrdp.github.io/features.html">Features</a><a href="https://openthinrdp.github.io/udp.html">RDP over UDP</a><a href="https://openthinrdp.github.io/hardware.html">Hardware</a><a href="https://openthinrdp.github.io/alternatives.html">Compare</a><a href="https://openthinrdp.github.io/linux-rdp-client.html">RDP from Linux</a><a href="https://openthinrdp.github.io/proxmox-vmware-thin-client.html">Proxmox and VMware</a></nav>
+      <nav aria-label="Manager"><b>Manager</b><a href="https://openthinrdp.github.io/manager.html">The manager</a><a href="https://openthinrdp.github.io/hyper-v-rds-health-check.html">Hyper-V and RDS health check</a><a href="https://openthinrdp.github.io/manager-guide.html">Manager guide</a><a href="https://openthinrdp.github.io/replace-dell-thinos.html">Replace Dell ThinOS</a></nav>
+      <nav aria-label="Resources"><b>Resources</b><a href="https://openthinrdp.github.io/guides.html">Guides</a><a href="https://openthinrdp.github.io/getting-started.html">Getting started</a><a href="https://openthinrdp.github.io/settings.html">Every setting</a><a href="https://openthinrdp.github.io/management.html">Managing the fleet</a><a href="https://openthinrdp.github.io/faq.html">FAQ</a><a href="https://openthinrdp.github.io/maturity.html">Production readiness</a><a href="https://openthinrdp.github.io/privacy.html">Privacy</a><a href="https://openthinrdp.github.io/changelog.html">Changelog</a><a href="https://github.com/OpenThinRdp/openthinrdp/discussions">Discussions</a></nav>
+    </div>
+    <p class="fine">Windows and Remote Desktop are trademarks of Microsoft. OpenThinRDP is not affiliated with Microsoft, with openthinclient or with any vendor named here.</p>
+  </div>
+</footer>
+<script async src="/count.js"></script>
+</body>
+</html>

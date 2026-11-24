@@ -33,6 +33,14 @@ $site_pages = @(
   @{ Doc = 'docs/guides/home.md'; Url = 'home.html'; Lang = 'en'
      Title = "OpenThinRDP at home $dash an old laptop as a Remote Desktop terminal for your Windows PC"
      Desc = 'Free and open source: sign in to your Windows PC or virtual machine from an old laptop, a mini PC or a Raspberry Pi, at home or from outside with Tailscale. No domain, no server: choose Workgroup and fill in two fields.' }
+  # the help to connect (0.3.7): the QR codes of the devices open it at its cases (#name, #remote-desktop-off...)
+  @{ Doc = 'docs/guides/cant-connect.md'; Url = 'cant-connect.html'; Lang = 'en'
+     Title = "Can't connect to your Windows PC with Remote Desktop? Step by step $dash OpenThinRDP"
+     Desc = 'Remote Desktop to your Windows PC does not connect: the name is not found, nothing answers, Remote Desktop is off or Windows Home, away from home, a Microsoft account and the Windows Hello PIN. Each case and how to fix it.' }
+  # Prepare the PC: the short address the devices show (openthinrdp.github.io/pc)
+  @{ Doc = 'docs/guides/pc-setup.md'; Url = 'pc.html'; Lang = 'en'
+     Title = "Prepare the PC $dash turn on Remote Desktop in one click, free"
+     Desc = 'A free program for the Windows PC you want to reach from OpenThinRDP: it checks Remote Desktop, the firewall, your account, the Windows Hello option and sleep, fixes them with one button and shows what to type on the device.' }
   # the page that sells the manager: the page of its own project (Repo), its questions as FAQPage
   @{ Doc = 'README.md'; Repo = 'OpenThinRdp/openthinrdp-manager'; Url = 'manager.html'; Lang = 'en'; Faq = $true
      Title = "Free Hyper-V, Proxmox and Remote Desktop health check $dash OpenThinRDP Manager"
@@ -105,9 +113,11 @@ $site_pages = @(
 $section = @{ 'home.html' = 'At home'; 'business.html' = 'For companies'; 'getting-started.html' = 'For companies'; 'replace-dell-thinos.html' = 'For companies'
   'proxmox-vmware-thin-client.html' = 'For companies'; 'used-thin-client.html' = 'For companies'; 'old-pc-thin-client.html' = 'For companies'; 'windows-10-end-of-support.html' = 'At home'
   'linux-rdp-client.html' = 'At home'; 'raspberry-pi-thin-client.html' = 'At home'; 'manager.html' = 'Manager'; 'manager-guide.html' = 'Manager'; 'hyper-v-rds-health-check.html' = 'Manager'
-  'settings.html' = 'Guides'; 'management.html' = 'Guides' }
+  'settings.html' = 'Guides'; 'management.html' = 'Guides'; 'cant-connect.html' = 'At home'; 'pc.html' = 'At home' }
 $related = @{
-  'home.html' = 'windows-10-end-of-support.html', 'linux-rdp-client.html', 'raspberry-pi-thin-client.html'
+  'home.html' = 'pc.html', 'cant-connect.html', 'windows-10-end-of-support.html'
+  'cant-connect.html' = 'pc.html', 'home.html', 'faq.html'
+  'pc.html' = 'cant-connect.html', 'home.html', 'privacy.html'
   'business.html' = 'getting-started.html', 'manager.html', 'maturity.html'
   'getting-started.html' = 'business.html', 'manager-guide.html', 'hardware.html'
   'used-thin-client.html' = 'hardware.html', 'replace-dell-thinos.html', 'old-pc-thin-client.html'

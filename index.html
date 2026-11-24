@@ -137,7 +137,7 @@
     <p class="eyebrow center">The first start asks one question</p>
     <h2 class="center">One computer at home, <span class="grad">or a whole office.</span></h2>
     <div class="cards">
-      <article><div class="ic">&#127968;</div><h3>At home, or one computer</h3><p>Your Windows PC or virtual machine from an old laptop, a mini PC or a Raspberry Pi. Choose <i>Workgroup</i>, pick your PC from the list, sign in. Your desktop opens by itself at power on, the PC is woken up if it is off, and Tailscale takes you home from anywhere. Try it from a USB stick that keeps your settings, or install it next to Windows. Nothing else to set up.</p><p><a href="https://openthinrdp.github.io/home.html">OpenThinRDP at home &rarr;</a></p></article>
+      <article><div class="ic">&#127968;</div><h3>At home, or one computer</h3><p>Your Windows PC or virtual machine from an old laptop, a mini PC or a Raspberry Pi. Choose <i>Workgroup</i>, pick your PC from the list, sign in. Your desktop opens by itself at power on, the PC is woken up if it is off, and Tailscale takes you home from anywhere. Try it from a USB stick that keeps your settings, or install it next to Windows. On the PC, <a href="https://openthinrdp.github.io/pc.html">Prepare the PC</a> turns on Remote Desktop in one click.</p><p><a href="https://openthinrdp.github.io/home.html">OpenThinRDP at home &rarr;</a></p></article>
       <article><div class="ic">&#127970;</div><h3>In the office, on a domain</h3><p>RD Connection Brokers, session collections and Hyper-V VDI. A new device sets itself up from the domain, RDP runs over UDP and keeps working on lossy lines, updates are signed and never land in a session. A free Windows application watches the infrastructure behind the desktops and runs the fleet.</p><p><a href="https://openthinrdp.github.io/business.html">OpenThinRDP for companies &rarr;</a> &nbsp; <a href="https://openthinrdp.github.io/getting-started.html">Getting started &rarr;</a></p></article>
     </div>
   </div>
@@ -151,7 +151,7 @@
       <article><span class="ok">Yes</span><h3>PCs, laptops, mini PCs</h3><p>Any 64-bit PC with 2 GB of RAM, UEFI with Secure Boot or legacy BIOS, cable, Wi-Fi, 802.1X and VPN. Also the ones that cannot run Windows 11. <a href="https://openthinrdp.github.io/windows-10-end-of-support.html">After Windows 10</a></p></article>
       <article><span class="ok">Yes</span><h3>Used thin clients</h3><p>Dell Wyse 5070, HP t630 and t640, Fujitsu Futro S740, Dell OptiPlex Thin Client, office mini PCs. <a href="https://openthinrdp.github.io/used-thin-client.html">Model by model</a></p></article>
       <article><span class="try">New</span><h3>Raspberry Pi 4</h3><p>An SD card image ready to write. Be among the first to run it on a real board. <a href="https://openthinrdp.github.io/raspberry-pi-thin-client.html">Try it</a></p></article>
-      <article><span class="ok">Pro and up</span><h3>The Windows you connect to</h3><p>Windows Pro, Enterprise, Education, Windows Server or any Windows VM (Home has no Remote Desktop host). <a href="https://openthinrdp.github.io/linux-rdp-client.html#can-i-connect-to-windows-home">Why</a></p></article>
+      <article><span class="ok">Pro and up</span><h3>The Windows you connect to</h3><p>Windows Pro, Enterprise, Education, Windows Server or any Windows VM (Home has no Remote Desktop host). <a href="https://openthinrdp.github.io/linux-rdp-client.html#can-i-connect-to-windows-home">Why</a> &middot; <a href="https://openthinrdp.github.io/pc.html">Prepare the PC</a> checks and turns it on.</p></article>
     </div>
     <p class="fine center">Find out in two minutes: start it live from a USB stick, nothing is written to the disk, and the hardware test tells you. <a href="https://openthinrdp.github.io/hardware.html">Hardware</a></p>
   </div>
@@ -163,7 +163,7 @@
     <h2 class="center">From USB stick to Windows desktop in five minutes.</h2>
     <ol class="steps">
       <li><b>1</b><h3>Download and boot</h3><p>Write the ISO to a USB stick and boot any PC from it. The live system never writes to the disk.</p></li>
-      <li><b>2</b><h3>Sign in</h3><p>Set the broker (or a Windows PC) and the domain, and sign in to your desktop. That's the test.</p></li>
+      <li><b>2</b><h3>Sign in</h3><p>Set the broker (or a Windows PC) and the domain, and sign in to your desktop. That's the test. Not connecting? The device tells you why: <a href="https://openthinrdp.github.io/cant-connect.html">Can't connect?</a></p></li>
       <li><b>3</b><h3>Install and manage</h3><p>Like it? Choose Install, about three minutes. Then name the folder in the domain and every new device sets itself up.</p></li>
     </ol>
     <p class="center"><a class="btn" href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.7">&#11015; Download OpenThinRDP 0.3.7</a> &nbsp; <a class="btn btn-ghost" href="https://openthinrdp.github.io/getting-started.html">The step by step guide &rarr;</a></p>
@@ -180,10 +180,10 @@
       <article><b class="big">0</b><h3>Hands needed after a killed update</h3><p>The install killed mid-way with SIGKILL: the device knew it was not done and installed again by itself.</p></article>
       <article><b class="big">41 s</b><h3>Network cut</h3><p>Cable down for 30 seconds: back on the network after 41, reporting again at the next round, no restart.</p></article>
       <article><b class="big">1 s</b><h3>Zero-touch</h3><p>Management folder emptied: found again in the domain with the device's own account, status sent a second later.</p></article>
-      <article><b class="big">389 / 0</b><h3>Updates installed / failed</h3><p>Every update on the 15 thin clients of the production fleet since the first release, 11 October - 16 November 2026.</p></article>
+      <article><b class="big">399 / 0</b><h3>Updates installed / failed</h3><p>Every update on the 15 thin clients of the production fleet since the first release, 11 October - 24 November 2026.</p></article>
       <article><b class="big">63 / 66</b><h3>Dropped sessions back by themselves</h3><p>Sessions cut by a lost network that reopened on their own within 10 minutes, with nobody touching the device.</p></article>
-      <article><b class="big">2,760 h</b><h3>Of real work in Remote Desktop</h3><p>460 sessions at tills, offices, a laboratory and weighing stations, 11 October - 16 November 2026.</p></article>
-      <article><b class="big">850+</b><h3>Downloads, 39 models already running it</h3><p>HP t520, t530, t620 and t655, Dell Wyse 5070, Centerm thin clients, mini PCs and laptops, Hyper-V, VMware, Proxmox and VirtualBox machines, in English, Italian and Spanish. Yours is not on the list? <a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.7">Boot the live USB stick</a> and tell us.</p></article>
+      <article><b class="big">3,657 h</b><h3>Of real work in Remote Desktop</h3><p>537 sessions at tills, offices, a laboratory and weighing stations, 11 October - 24 November 2026.</p></article>
+      <article><b class="big">960+</b><h3>Downloads, 40+ models already running it</h3><p>HP t520, t530, t620 and t655, IGEL M340C, Dell Wyse 5070, Centerm thin clients, mini PCs and laptops, Hyper-V, VMware, Proxmox and VirtualBox machines, in English, Italian and Spanish. Yours is not on the list? <a href="https://github.com/OpenThinRdp/openthinrdp/releases/tag/v0.3.7">Boot the live USB stick</a> and tell us.</p></article>
       <article><b class="big">15</b><h3>Thin clients, every working day</h3><p>Desks, tills, a laboratory, weighing stations and a wall screen on Wi-Fi, at the company that built OpenThinRDP and runs it.</p></article>
       <article><b class="big">GPLv3</b><h3>Signed, open, yours</h3><p>Every update signed and checked on the device, your own signing key if you want it, and every copy stays open source.</p></article>
     </div>

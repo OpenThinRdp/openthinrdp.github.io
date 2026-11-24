@@ -8,6 +8,13 @@ on:
   schedule:
     - cron: "*/15 * * * *"
   workflow_dispatch:
+  # the designed home page and the build itself live here: a change to them rebuilds at once
+  push:
+    branches: [main]
+    paths:
+      - landing.html
+      - landing.css
+      - build-from-readme.ps1
 
 permissions:
   contents: write
@@ -36,7 +43,7 @@ jobs:
           if [ "$age" -lt 360 ] && [ "$now" != "$(cat .built-from 2>/dev/null)" ]; then
             echo "the last change is $age s old: next round"; echo "build=no" >> "$GITHUB_OUTPUT"; exit 0
           fi
-          if [ "$now" = "$(cat .built-from 2>/dev/null)" ] && [ "${{ github.event_name }}" != workflow_dispatch ]; then
+          if [ "$now" = "$(cat .built-from 2>/dev/null)" ] && [ "${{ github.event_name }}" = schedule ]; then
             echo "build=no" >> "$GITHUB_OUTPUT"
           else
             echo "build=yes" >> "$GITHUB_OUTPUT"; printf '%s\n' "$now" > .built-from

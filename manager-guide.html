@@ -849,18 +849,16 @@ asks (default <em>No</em>).</li>
 <p>They are kept in the management folder, <code>config\health-checks\&lt;id&gt;.json</code>, <code>&lt;id&gt;.check.ps1</code> and <code>&lt;id&gt;.repair.ps1</code>, so
 everyone who opens the folder runs them, with their own rights on the servers: the Health Center says it in red when
 someone other than the administrators can write in that folder. Two examples:</p>
-<pre lang="powershell"><code># 1. Print spooler running (where: servers; repair: Start-Service Spooler, not risky)
-$s = Get-Service Spooler -ErrorAction SilentlyContinue
-if (-not $s) { @{ State = 'ok'; Text = 'not installed' } }
-elseif ($s.Status -eq 'Running') { @{ State = 'ok'; Text = 'running' } }
-else { @{ State = 'error'; Text = "Spooler is $($s.Status)" } }
-</code></pre>
-<pre lang="powershell"><code># 2. A web application answers its health page (where: the name of its server)
-try {
-  $r = Invoke-WebRequest -Uri 'https://localhost:5001/healthz' -UseBasicParsing -TimeoutSec 10
-  if ($r.StatusCode -eq 200) { @{ State = 'ok'; Text = 'answers' } } else { @{ State = 'warn'; Text = "HTTP $($r.StatusCode)" } }
-} catch { @{ State = 'error'; Text = $_.Exception.Message } }
-</code></pre>
+<div class="highlight highlight-source-powershell"><pre><span class="pl-c"><span class="pl-c">#</span> 1. Print spooler running (where: servers; repair: Start-Service Spooler, not risky)</span>
+<span class="pl-smi">$s</span> <span class="pl-k">=</span> <span class="pl-c1">Get-Service</span> Spooler <span class="pl-k">-</span>ErrorAction SilentlyContinue
+<span class="pl-k">if</span> (<span class="pl-k">-not</span> <span class="pl-smi">$s</span>) { <span class="pl-k">@</span>{ <span class="pl-smi">State</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>ok<span class="pl-pds">'</span></span>; <span class="pl-smi">Text</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>not installed<span class="pl-pds">'</span></span> } }
+<span class="pl-k">elseif</span> (<span class="pl-smi">$s<span class="pl-smi">.Status</span></span> <span class="pl-k">-eq</span> <span class="pl-s"><span class="pl-pds">'</span>Running<span class="pl-pds">'</span></span>) { <span class="pl-k">@</span>{ <span class="pl-smi">State</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>ok<span class="pl-pds">'</span></span>; <span class="pl-smi">Text</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>running<span class="pl-pds">'</span></span> } }
+<span class="pl-k">else</span> { <span class="pl-k">@</span>{ <span class="pl-smi">State</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>error<span class="pl-pds">'</span></span>; <span class="pl-smi">Text</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Spooler is <span class="pl-k"><span class="pl-pse">$</span></span><span class="pl-pse">(</span><span class="pl-smi">$s<span class="pl-smi">.Status</span></span><span class="pl-pse">)</span><span class="pl-pds">"</span></span> } }</pre></div>
+<div class="highlight highlight-source-powershell"><pre><span class="pl-c"><span class="pl-c">#</span> 2. A web application answers its health page (where: the name of its server)</span>
+<span class="pl-k">try</span> {
+  <span class="pl-smi">$r</span> <span class="pl-k">=</span> <span class="pl-c1">Invoke-WebRequest</span> <span class="pl-k">-</span>Uri <span class="pl-s"><span class="pl-pds">'</span>https://localhost:5001/healthz<span class="pl-pds">'</span></span> <span class="pl-k">-</span>UseBasicParsing <span class="pl-k">-</span>TimeoutSec <span class="pl-c1">10</span>
+  <span class="pl-k">if</span> (<span class="pl-smi">$r<span class="pl-smi">.StatusCode</span></span> <span class="pl-k">-eq</span> <span class="pl-c1">200</span>) { <span class="pl-k">@</span>{ <span class="pl-smi">State</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>ok<span class="pl-pds">'</span></span>; <span class="pl-smi">Text</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>answers<span class="pl-pds">'</span></span> } } <span class="pl-k">else</span> { <span class="pl-k">@</span>{ <span class="pl-smi">State</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>warn<span class="pl-pds">'</span></span>; <span class="pl-smi">Text</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>HTTP <span class="pl-k"><span class="pl-pse">$</span></span><span class="pl-pse">(</span><span class="pl-smi">$r<span class="pl-smi">.StatusCode</span></span><span class="pl-pse">)</span><span class="pl-pds">"</span></span> } }
+} <span class="pl-k">catch</span> { <span class="pl-k">@</span>{ <span class="pl-smi">State</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>error<span class="pl-pds">'</span></span>; <span class="pl-smi">Text</span> <span class="pl-k">=</span> <span class="pl-c1">$_<span class="pl-smi">.Exception.Message</span></span> } }</pre></div>
 <p>Which check of the original runbook script is where: <a href="https://github.com/OpenThinRdp/openthinrdp/blob/main/docs/health-center-coverage.md">health-center-coverage.md</a>.</p>
 <p>The manager runs as an account that administers the servers, with <strong>WinRM</strong> (5985) to the hosts, DCs, brokers and SQL
 replicas, NTP (UDP 123) from them to the PDC emulator, and a login on every SQL replica (Windows authentication). The

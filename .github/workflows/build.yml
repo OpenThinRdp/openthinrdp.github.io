@@ -1,0 +1,62 @@
+name: build
+
+# The website rebuilds itself (24/11/2026): every 15 minutes it looks whether the documents of OpenThinRDP (README,
+# docs, CHANGELOG on main) or a release of OpenThinRDP or of its manager changed since the last build. If so it runs
+# build-from-readme.ps1 as by hand, publishes the pages and tells IndexNow (Bing, Yandex...) which ones changed.
+# Nothing to do = a few seconds. Also by hand: Actions > build > Run workflow.
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Anything new since the last build?
+        id: new
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          now="$(gh api repos/OpenThinRdp/openthinrdp/commits/main --jq .sha) $(gh api repos/OpenThinRdp/openthinrdp/releases/latest --jq .tag_name) $(gh api repos/OpenThinRdp/openthinrdp-manager/commits/main --jq .sha) $(gh api repos/OpenThinRdp/openthinrdp-manager/releases/latest --jq .tag_name)"
+          echo "now:  $now"; echo "last: $(cat .built-from 2>/dev/null)"
+          if [ "$now" = "$(cat .built-from 2>/dev/null)" ] && [ "${{ github.event_name }}" != workflow_dispatch ]; then
+            echo "build=no" >> "$GITHUB_OUTPUT"
+          else
+            echo "build=yes" >> "$GITHUB_OUTPUT"; printf '%s\n' "$now" > .built-from
+          fi
+
+      - name: Build the pages
+        if: steps.new.outputs.build == 'yes'
+        shell: powershell
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File build-from-readme.ps1
+
+      - name: Publish, and tell IndexNow what changed
+        if: steps.new.outputs.build == 'yes'
+        shell: bash
+        run: |
+          git config user.name "Ceschi-ops"
+          git config user.email "203820048+Ceschi-ops@users.noreply.github.com"
+          git add -A
+          changed=$(git diff --cached --name-only -- '*.html' | grep -v '^404.html$' || true)
+          if git diff --cached --quiet; then echo "no change in the pages"; exit 0; fi
+          git commit -q -m "Rebuilt from the documents and releases ($(date -u +%Y-%m-%d))"
+          git push -q
+          [ -n "$changed" ] || exit 0
+          urls=$(printf '%s\n' $changed | sed 's#^index.html$##; s#^#https://openthinrdp.github.io/#' | awk 'BEGIN{printf "["} {printf "%s\"%s\"", (NR>1?",":""), $0} END{printf ",\"https://openthinrdp.github.io/sitemap.xml\"]"}')
+          echo "IndexNow: $urls"
+          curl -s -o /dev/null -w 'IndexNow %{http_code}\n' -X POST https://api.indexnow.org/indexnow \
+            -H 'Content-Type: application/json; charset=utf-8' \
+            -d "{\"host\":\"openthinrdp.github.io\",\"key\":\"a2f57a1c0211f2a80d6b455ecdffcf26\",\"urlList\":$urls}"

@@ -9,6 +9,7 @@ $ErrorActionPreference = 'Stop'
 [Console]::OutputEncoding = [Text.Encoding]::UTF8
 $utf8 = New-Object Text.UTF8Encoding $false
 $gh = 'C:\Program Files\GitHub CLI\gh.exe'
+if (-not (Test-Path -LiteralPath $gh)) { $gh = 'gh' }   # the GitHub runner of .github/workflows/build.yml: gh on the PATH
 $repo = 'OpenThinRdp/openthinrdp'; $blob = "https://github.com/$repo/blob/main"; $raw = "https://raw.githubusercontent.com/$repo/main"
 $site = 'https://openthinrdp.github.io/'
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path

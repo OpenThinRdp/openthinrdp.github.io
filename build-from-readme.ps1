@@ -365,7 +365,11 @@ foreach ($d in $fullDocs) { $full += "`n`n---`n`n<!-- $blob/$d -->`n`n" + (Get-D
 function Get-DocDate($p) {
   $r = if ($p.ContainsKey('Repo')) { $p.Repo } else { 'OpenThinRdp/openthinrdp' }
   $d = try { [string](& $gh api "repos/$r/commits?path=$($p.Doc)&per_page=1" --jq '.[0].commit.committer.date') } catch { '' }
-  if ($d -match '^\d{4}-\d\d-\d\d') { $Matches[0] } else { $today }
+  $d = if ($d -match '^\d{4}-\d\d-\d\d') { $Matches[0] } else { $today }
+  # the home page shows the download of the latest release: it changes with every release, not only with README.md
+  if ($p.Url -eq '') { $rd = try { [string](& $gh api "repos/$repo/releases/latest" --jq '.published_at') } catch { '' }
+    if ($rd -match '^\d{4}-\d\d-\d\d' -and $Matches[0] -gt $d) { $d = $Matches[0] } }
+  $d
 }
 $urls = foreach ($p in $site_pages) {
   $pr = if ($p.Url -eq '' -or $p.Url -eq 'manager.html') { '1.0' } else { '0.8' }

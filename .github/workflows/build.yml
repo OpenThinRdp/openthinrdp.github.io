@@ -30,6 +30,12 @@ jobs:
         run: |
           now="$(gh api repos/OpenThinRdp/openthinrdp/commits/main --jq .sha) $(gh api repos/OpenThinRdp/openthinrdp/releases/latest --jq .tag_name) $(gh api repos/OpenThinRdp/openthinrdp-manager/commits/main --jq .sha) $(gh api repos/OpenThinRdp/openthinrdp-manager/releases/latest --jq .tag_name)"
           echo "now:  $now"; echo "last: $(cat .built-from 2>/dev/null)"
+          # a change younger than 6 minutes waits for the next round: GitHub serves the old copy of a file for a few
+          # minutes after a push, and the first build of 24/11 read the README of before
+          age=$(( $(date +%s) - $(date -d "$(gh api repos/OpenThinRdp/openthinrdp/commits/main --jq .commit.committer.date)" +%s) ))
+          if [ "$age" -lt 360 ] && [ "$now" != "$(cat .built-from 2>/dev/null)" ]; then
+            echo "the last change is $age s old: next round"; echo "build=no" >> "$GITHUB_OUTPUT"; exit 0
+          fi
           if [ "$now" = "$(cat .built-from 2>/dev/null)" ] && [ "${{ github.event_name }}" != workflow_dispatch ]; then
             echo "build=no" >> "$GITHUB_OUTPUT"
           else
